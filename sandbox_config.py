@@ -6,6 +6,6 @@ sandbox. This and nothing else.
 Author: AMK, Dec 27, 2010"""
 import os
 
-DISPLAY_NAME = "coursereview-ceasarb" # IE, pennapps.com/display_name
+DISPLAY_NAME = "pcrsite-ceasarb" # IE, pennapps.com/display_name
 DEV_ROOT = "/home/ceasarb/ceasarb_dev" # root of all apps you're working on
-STUDYSPACES_APP_ROOT = os.path.join(DEV_ROOT, "coursereview")
+PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcrsite")

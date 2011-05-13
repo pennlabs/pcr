@@ -6,18 +6,17 @@
 </head>
 
 <body>
-    <div id="sidebar">
-        {% block sidebar %}
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog/">Blog</a></li>
-        </ul>
-        {% endblock %}
-    </div>
-
-    <div id="content">
-        {% block content %}{% endblock %}
-    </div>
+    <h1>Penn Course Review</h1>
+    <p>Home</p>
+    <p>Browse</p>
+    <p>About</p>
+    <p>FAQ</p>
+    <p>Search Box Here</p>
+    {% block content %}
+    {% endblock content %}
+    {% block classes %}
+      <p>Text</p>      
+    {% endblock classes %}
 </body>
 </html>
 
