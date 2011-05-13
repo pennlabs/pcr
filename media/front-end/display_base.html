@@ -1,22 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css" />
-    <title>{% block title %}My amazing site{% endblock %}</title>
+	<link rel="stylesheet" href="media/front-end/css/960_12_col.css" />
+	<link rel="stylesheet" href="media/front-end/css/reset.css" />
+	<link rel="stylesheet" href="media/front-end/css/text.css" />		
+	
+	<title>{% block title %}Penn Course Review{% endblock %}</title>	
 </head>
 
 <body>
-    <h1>Penn Course Review</h1>
-    <p>Home</p>
-    <p>Browse</p>
-    <p>About</p>
-    <p>FAQ</p>
-    <p>Search Box Here</p>
-    {% block content %}
-    {% endblock content %}
-    {% block classes %}
-      <p>Text</p>      
-    {% endblock classes %}
+	<div class="container_12">
+		<div id="header-section" class="grid_12">
+			<div class="grid_5 alpha">
+				Penn Course Review
+			</div>
+			<div class="grid_4">
+				Home | Browse | About | FAQ
+			</div>
+			<div class="grid_3 omega"><input id="search" type="text" value="search"/></div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		
+		<div id="overview-section" class="grid_12">
+			<div id="overview-info" class="grid_7 suffix_1 alpha">
+				info here
+			</div>
+			<div id="overview-scores" class="grid_4 omega">
+				scores
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		
+		<div id="details-section" class="grid_12">
+			tables go here
+		</div>
+		<div class="clear"></div>
+		
+	
+	
+	
+	</div>
 </body>
 </html>
-
