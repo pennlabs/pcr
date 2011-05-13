@@ -1,10 +1,9 @@
-{% extends "base.html" %}
+{% extends "display_base.html" %}
 
-{% block title %}My amazing blog{% endblock %}
+{% block title %}ECON 001{% endblock %}
 
-{% block content %}
-{% for entry in blog_entries %}
-    <h2>{{ entry.title }}</h2>
-    <p>{{ entry.body }}</p>
-{% endfor %}
+{% block info %}
+<h1>ECON 001</h1>
+<h2>Introduction to Microeconomics</h2>
+<p>Introduction to economics analysis and its application.</p>
 {% endblock %}

@@ -24,17 +24,48 @@
 		
 		<div id="overview-section" class="grid_12">
 			<div id="overview-info" class="grid_7 suffix_1 alpha">
-				info here
+          {% block info %}
+          info goes here.
+          {% endblock %}
 			</div>
+      {% block scores %}
 			<div id="overview-scores" class="grid_4 omega">
-				scores
+				<div id="recent" class="grid_1 alpha">
+          Recent
+        </div>
+        <div id="recent_course" class="grid_1 score">
+          3.5
+        </div>
+        <div id="recent_instructor" class="grid_1 score">
+          2.9
+        </div>
+        <div id="recent_difficulty" class="grid_1 omega score">
+          2.1
+        </div>
+        <div class="clear"></div>
+        <div id="average" class="grid_1 alpha">
+          Average
+        </div>
+        <div id="average_course" class="grid_1 score">
+          3.0
+        </div>
+        <div id="average_instructor" class="grid_1 score">
+          2.5
+        </div>
+        <div id="average_difficulty" class="grid_1 omega score">
+          2.0
+        </div>
+        <div class="clear"></div>
 			</div>
 			<div class="clear"></div>
+      {% endblock %}
 		</div>
 		<div class="clear"></div>
 		
 		<div id="details-section" class="grid_12">
-			tables go here
+			{% block tables %}
+          tables go here
+      {% endblock %}
 		</div>
 		<div class="clear"></div>
 		
