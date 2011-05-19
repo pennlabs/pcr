@@ -1,77 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" href="media/front-end/css/960_12_col.css" />
-	<link rel="stylesheet" href="media/front-end/css/reset.css" />
-	<link rel="stylesheet" href="media/front-end/css/text.css" />		
+	<link rel="stylesheet" href="css/960_12_col.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/base.css" />
+	<link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
 	
 	<title>{% block title %}Penn Course Review{% endblock %}</title>	
 </head>
 
 <body>
-	<div class="container_12">
-		<div id="header-section" class="grid_12">
-			<div class="grid_5 alpha">
-				Penn Course Review
+	<div id="header"><div id="header-bg">
+		<div class="container_12">
+			<div id="title" class="grid_4 suffix_2"></div>
+			<div id="linkbar" class="grid_3">
+				<a href="">Home</a>
+				&nbsp;|&nbsp;
+				<a href="">About</a>
+				&nbsp;|&nbsp;
+				<a href="">Browse</a>
+				&nbsp;|&nbsp;
+				<a href="">FAQs</a>
 			</div>
-			<div class="grid_4">
-				Home | Browse | About | FAQ
-			</div>
-			<div class="grid_3 omega"><input id="search" type="text" value="search"/></div>
-			<div class="clear"></div>
-		</div>
-		<div class="clear"></div>
-		
-		<div id="overview-section" class="grid_12">
-			<div id="overview-info" class="grid_7 suffix_1 alpha">
-          {% block info %}
-          info goes here.
-          {% endblock %}
-			</div>
-      {% block scores %}
-			<div id="overview-scores" class="grid_4 omega">
-				<div id="recent" class="grid_1 alpha">
-          Recent
-        </div>
-        <div id="recent_course" class="grid_1 score">
-          3.5
-        </div>
-        <div id="recent_instructor" class="grid_1 score">
-          2.9
-        </div>
-        <div id="recent_difficulty" class="grid_1 omega score">
-          2.1
-        </div>
-        <div class="clear"></div>
-        <div id="average" class="grid_1 alpha">
-          Average
-        </div>
-        <div id="average_course" class="grid_1 score">
-          3.0
-        </div>
-        <div id="average_instructor" class="grid_1 score">
-          2.5
-        </div>
-        <div id="average_difficulty" class="grid_1 omega score">
-          2.0
-        </div>
-        <div class="clear"></div>
+			<div id="searchbar" class="grid_3">
+				<input type="text" value="search..." />
+				<input type="button" />
 			</div>
 			<div class="clear"></div>
-      {% endblock %}
 		</div>
-		<div class="clear"></div>
-		
-		<div id="details-section" class="grid_12">
-			{% block tables %}
-          tables go here
-      {% endblock %}
+	</div></div>
+	
+	<div id="overview"><div id="overview-bg">
+		<div id="overview-inner" class="container_12">
+			<div id="overview-info" class="grid_7 suffix_1">
+					<!--{% block info %}-->
+					<p class="title">ECON 001</p>
+					<p class="subtitle">Introduction to Microeconomics</p>
+					<p class="desc">Introduction to economic analysis and its application. Theory of supply and demand, costs and revenues of the firm under perfect competition, monopoly and oligopoly, pricing of factors of production, income distribution, and theory of international trade. Econ 1 deals primarily with microeconomics.</p>
+					<!--{% endblock %}-->
+			</div>
+			<!--{% block scoreboxs %}-->
+			<div id="overview-score" class="grid_4">
+				<div class="grid_1 alpha scoredesc">
+					<p class="title">Recent</p>
+					<p class="subtitle">Fall 2010 <br>5 sections</p>
+				</div>
+				<div class="grid_1 scorebox">
+					<p class="num">3.5</p>
+					<p class="desc">course</p>
+				</div>
+				<div class="grid_1 scorebox">
+					<p class="num">3.1</p>
+					<p class="desc">instructor</p>
+				</div>
+				<div class="grid_1 omega scorebox">
+					<p class="num">2.9</p>
+					<p class="desc">difficulty</p>
+				</div>
+				<div class="clear"></div>
+				<div class="grid_1 alpha scoredesc">
+					<p class="title">Recent</p>
+					<p class="subtitle">80 sections</p>
+				</div>
+				<div class="grid_1 scorebox">
+					<p class="num">3.5</p>
+					<p class="desc">course</p>
+				</div>
+				<div class="grid_1 scorebox">
+					<p class="num">3.1</p>
+					<p class="desc">instructor</p>
+				</div>
+				<div class="grid_1 omega scorebox">
+					<p class="num">2.9</p>
+					<p class="desc">difficulty</p>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+			<!--{% endblock %}-->
 		</div>
-		<div class="clear"></div>
-		
+	</div></div>
 	
-	
-	
+	<div id="details">
+		<div class="container_12">
+			<div class="grid_4 suffix_4">
+				View:&nbsp;
+				<a href="">Average</a>
+				&nbsp;|&nbsp;
+				<a href="">Recent</a>
+			</div>
+			<div style="text-align:right" class="grid_4">
+				<a href="">Choose Columns</a>
+			</div>
+			<div id="details-section" class="grid_12">			
+				<!--{% block tables %}-->
+						
+				<!--{% endblock %}-->
+			</div>
+			<div class="clear"></div>
+		</div>
 	</div>
+		
 </body>
 </html>
