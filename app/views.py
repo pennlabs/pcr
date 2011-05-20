@@ -6,13 +6,13 @@ def index(request):
   return render_to_response('index.html')
 
 def instructor(request):
-  return render_to_response('display_instr.html')
+  return render_to_response('display-instr.html')
 
 def course(request):
-  return render_to_response('display_course.html')
+  return render_to_response('display-course.html')
 
 def department(request):
-  return render_to_response('display_dept.html')
+  return render_to_response('display-dept.html')
 
 def browse(request):
   return render_to_response('browse.html')

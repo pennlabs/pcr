@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+	Penn Course Review - 
+{% endblock %}
+
+
+{% block header %}
+	<div id="linkbar" class="grid_3">
+		<a href="">Home</a>
+		&nbsp;|&nbsp;
+		<a href="">About</a>
+		&nbsp;|&nbsp;
+		<a href="">Browse</a>
+		&nbsp;|&nbsp;
+		<a href="">FAQs</a>
+	</div>
+	<div id="searchbar" class="grid_3">
+		<input type="text" value="search..." />
+		<input type="button" />
+	</div>
+{% endblock %}
+	
+	
+{% block banner %}
+	<div id="banner-info" class="grid_7 suffix_1">
+		{% block info %}
+		<p class="title">ECON 001</p>
+		<p class="subtitle">Introduction to Microeconomics</p>
+		<p class="desc">Introduction to economic analysis and its application. Theory of supply and demand, costs and revenues of the firm under perfect competition, monopoly and oligopoly, pricing of factors of production, income distribution, and theory of international trade. Econ 1 deals primarily with microeconomics.</p>
+		{% endblock %}
+	</div>	
+	<div id="banner-score" class="grid_4">
+		{% block scoreboxes %}
+		<div class="grid_1 alpha scoredesc">
+			<p class="title">Recent</p>
+			<p class="subtitle">Fall 2010 <br>5 sections</p>
+		</div>
+		<div class="grid_1 scorebox">
+			<p class="num">3.5</p>
+			<p class="desc">course</p>
+		</div>
+		<div class="grid_1 scorebox">
+			<p class="num">3.1</p>
+			<p class="desc">instructor</p>
+		</div>
+		<div class="grid_1 omega scorebox">
+			<p class="num">2.9</p>
+			<p class="desc">difficulty</p>
+		</div>
+		<div class="clear"></div>
+		<div class="grid_1 alpha scoredesc">
+			<p class="title">Average</p>
+			<p class="subtitle">80 sections</p>
+		</div>
+		<div class="grid_1 scorebox">
+			<p class="num">3.5</p>
+			<p class="desc">course</p>
+		</div>
+		<div class="grid_1 scorebox">
+			<p class="num">3.1</p>
+			<p class="desc">instructor</p>
+		</div>
+		<div class="grid_1 omega scorebox">
+			<p class="num">2.9</p>
+			<p class="desc">difficulty</p>
+		</div>
+		<div class="clear"></div>
+		{% endblock %}
+	</div>
+	<div class="clear"></div>	
+{% endblock %}
+
+
+{% block content %}
+	<div id="content-settings" class="grid_12">
+		<div class="grid_4 suffix_4 alpha">
+			View:&nbsp;
+			<a href="">Average</a>
+			&nbsp;|&nbsp;
+			<a href="">Recent</a>
+		</div>
+		<div style="text-align:right" class="grid_4 omega">
+			<a href="">Choose Columns</a>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div id="content-section" class="grid_12">			
+		{% block tables %}
+		<table id="content-data" width="100%">  
+			<thead>  
+				<tr>  
+					<th scope="col">Instructor</th>
+					<th scope="col">Course</th>
+					<th scope="col">Instructor</th>
+					<th scope="col">Difficulty</th>
+					<th scope="col">Readings</th>
+					<th scope="col">Learned</th>
+					<th scope="col">Workload</th>
+				</tr>  
+			</thead>
+			<tbody>
+				<tr>
+					<td>Spiegel</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+				</tr> 
+				<tr>
+					<td>Spiegel</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+				</tr> 
+				<tr>
+					<td>Spiegel</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+				</tr> 
+				<tr>
+					<td>Spiegel</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+				</tr> 
+				<tr>
+					<td>Spiegel</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+					<td>3.9</td>
+				</tr> 
+			</tbody> 
+		</table>
+		{% endblock %}
+	</div>
+	<div class="clear"></div>
+{% endblock %}
