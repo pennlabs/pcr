@@ -1,29 +1,12 @@
-ï»¿{% extends "base.html" %}
+{% extends "base.html" %}
 
 
 {% block title %}
 	Penn Course Review - 
 {% endblock %}
-
-
-{% block header %}
-	<div id="linkbar" class="grid_3">
-		<a href="">Home</a>
-		&nbsp;|&nbsp;
-		<a href="">About</a>
-		&nbsp;|&nbsp;
-		<a href="">Browse</a>
-		&nbsp;|&nbsp;
-		<a href="">FAQs</a>
-	</div>
-	<div id="searchbar" class="grid_3">
-		<input type="text" value="search..." />
-		<input type="button" />
-	</div>
-{% endblock %}
 	
 	
-{% block banner %}
+{% block banner-content %}
 	<div id="banner-info" class="grid_7 suffix_1">
 		{% block info %}
 		<p class="title">ECON 001</p>
@@ -33,47 +16,49 @@
 	</div>	
 	<div id="banner-score" class="grid_4">
 		{% block scoreboxes %}
-		<div class="grid_1 alpha scoredesc">
-			<p class="title">Recent</p>
-			<p class="subtitle">Fall 2010 <br>5 sections</p>
+		<div class="grid_4 alpha omega scoreboxrow">
+			<div class="grid_1 alpha scoredesc">
+				<p class="title">Recent</p>
+				<p class="subtitle">Fall 2010 <br>5 sections</p>
+			</div>
+			<div class="grid_1 scorebox">
+				<p class="num">3.5</p>
+				<p class="desc">course</p>
+			</div>
+			<div class="grid_1 scorebox">
+				<p class="num">3.1</p>
+				<p class="desc">instructor</p>
+			</div>
+			<div class="grid_1 omega scorebox">
+				<p class="num">2.9</p>
+				<p class="desc">difficulty</p>
+			</div>
 		</div>
-		<div class="grid_1 scorebox">
-			<p class="num">3.5</p>
-			<p class="desc">course</p>
+		<div class="grid_4 alpha omega scoreboxrow">
+			<div class="grid_1 alpha scoredesc">
+				<p class="title">Average</p>
+				<p class="subtitle">80 sections</p>
+			</div>
+			<div class="grid_1 scorebox">
+				<p class="num">3.5</p>
+				<p class="desc">course</p>
+			</div>
+			<div class="grid_1 scorebox">
+				<p class="num">3.1</p>
+				<p class="desc">instructor</p>
+			</div>
+			<div class="grid_1 omega scorebox">
+				<p class="num">2.9</p>
+				<p class="desc">difficulty</p>
+			</div>
 		</div>
-		<div class="grid_1 scorebox">
-			<p class="num">3.1</p>
-			<p class="desc">instructor</p>
-		</div>
-		<div class="grid_1 omega scorebox">
-			<p class="num">2.9</p>
-			<p class="desc">difficulty</p>
-		</div>
-		<div class="clear"></div>
-		<div class="grid_1 alpha scoredesc">
-			<p class="title">Average</p>
-			<p class="subtitle">80 sections</p>
-		</div>
-		<div class="grid_1 scorebox">
-			<p class="num">3.5</p>
-			<p class="desc">course</p>
-		</div>
-		<div class="grid_1 scorebox">
-			<p class="num">3.1</p>
-			<p class="desc">instructor</p>
-		</div>
-		<div class="grid_1 omega scorebox">
-			<p class="num">2.9</p>
-			<p class="desc">difficulty</p>
-		</div>
-		<div class="clear"></div>
 		{% endblock %}
 	</div>
 	<div class="clear"></div>	
 {% endblock %}
 
 
-{% block content %}
+{% block content-content %}
 	<div id="content-settings" class="grid_12">
 		<div class="grid_4 suffix_4 alpha">
 			View:&nbsp;
@@ -88,7 +73,7 @@
 	<div class="clear"></div>
 	<div id="content-section" class="grid_12">			
 		{% block tables %}
-		<table id="content-data" width="100%">  
+		<table id="content-data">  
 			<thead>  
 				<tr>  
 					<th scope="col">Instructor</th>

@@ -1,28 +1,33 @@
 {% extends "base.html" %}
 
+{% block htmlheader-links %}
+	<link rel="stylesheet" href="media/front-end/css/index.css" />
+{% endblock %}
+
+
 
 {% block title %}
 	{{ block.super }}
 {% endblock %}
 
 
-{% block header %}
-	<div id="linkbar" class="prefix_3 grid_3">
-		<a href="">Home</a>
-		&nbsp;|&nbsp;
-		<a href="">About</a>
-		&nbsp;|&nbsp;
-		<a href="">Browse</a>
-		&nbsp;|&nbsp;
-		<a href="">FAQs</a>
-	</div>
+{% block header-content %}
 {% endblock %}
-	
-	
-{% block banner %}
-	<div id="banner-search">
+
+
+{% block banner-content %}
+	<div id="index-search" class="grid_6 prefix_3 suffix_3">
+		<img id="index-title" src="media/front-end/image/indextitle.png" alt="Penn Course Review">
+		<div id="index-searchbar">
+			<input type="text" value="" />
+			<input type="submit" value="" />
+			<div class="clear"></div>
+		</div>
+		<p id="index-subtitle">
+			Search for a class, a professor, or a department.  E.g., ECON, Siegal, ECON001
+		</p>
 	</div>
-	<div class="clear"></div>	
+	<div class="clear"></div>
 {% endblock %}
 
 

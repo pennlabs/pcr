@@ -4,7 +4,6 @@
 	<link rel="stylesheet" href="css/960_12_col.css" />
 	<link rel="stylesheet" href="css/reset.css" />
 	<link rel="stylesheet" href="css/base.css" />
-	<link href='http://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
 	
 	<title>Penn Course Review</title>
 </head>
@@ -24,7 +23,7 @@
 			</div>
 			<div id="searchbar" class="grid_3">
 				<input type="text" value="search..." />
-				<input type="button" />
+				<input type="submit" value="" />
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -41,40 +40,42 @@
 			</div>
 			<!--{% block scoreboxes %}-->
 			<div id="banner-score" class="grid_4">
-				<div class="grid_1 alpha scoredesc">
-					<p class="title">Recent</p>
-					<p class="subtitle">Fall 2010 <br>5 sections</p>
+				<div class="grid_4 alpha omega scoreboxrow">
+					<div class="grid_1 alpha scoredesc">
+						<p class="title">Recent</p>
+						<p class="subtitle">Fall 2010 <br>5 sections</p>
+					</div>
+					<div class="grid_1 scorebox">
+						<p class="num">3.5</p>
+						<p class="desc">course</p>
+					</div>
+					<div class="grid_1 scorebox">
+						<p class="num">3.1</p>
+						<p class="desc">instructor</p>
+					</div>
+					<div class="grid_1 omega scorebox">
+						<p class="num">2.9</p>
+						<p class="desc">difficulty</p>
+					</div>
 				</div>
-				<div class="grid_1 scorebox">
-					<p class="num">3.5</p>
-					<p class="desc">course</p>
+				<div class="grid_4 alpha omega scoreboxrow">
+					<div class="grid_1 alpha scoredesc">
+						<p class="title">Average</p>
+						<p class="subtitle">80 sections</p>
+					</div>
+					<div class="grid_1 scorebox">
+						<p class="num">3.5</p>
+						<p class="desc">course</p>
+					</div>
+					<div class="grid_1 scorebox">
+						<p class="num">3.1</p>
+						<p class="desc">instructor</p>
+					</div>
+					<div class="grid_1 omega scorebox">
+						<p class="num">2.9</p>
+						<p class="desc">difficulty</p>
+					</div>
 				</div>
-				<div class="grid_1 scorebox">
-					<p class="num">3.1</p>
-					<p class="desc">instructor</p>
-				</div>
-				<div class="grid_1 omega scorebox">
-					<p class="num">2.9</p>
-					<p class="desc">difficulty</p>
-				</div>
-				<div class="clear"></div>
-				<div class="grid_1 alpha scoredesc">
-					<p class="title">Average</p>
-					<p class="subtitle">80 sections</p>
-				</div>
-				<div class="grid_1 scorebox">
-					<p class="num">3.5</p>
-					<p class="desc">course</p>
-				</div>
-				<div class="grid_1 scorebox">
-					<p class="num">3.1</p>
-					<p class="desc">instructor</p>
-				</div>
-				<div class="grid_1 omega scorebox">
-					<p class="num">2.9</p>
-					<p class="desc">difficulty</p>
-				</div>
-				<div class="clear"></div>
 			</div>
 			<div class="clear"></div>
 			<!--{% endblock %}-->
@@ -97,7 +98,7 @@
 			<div class="clear"></div>
 			<div id="content-section" class="grid_12">			
 				<!--{% block tables %}-->
-				<table id="content-data" width="100%">  
+				<table id="content-data">  
 					<thead>  
 						<tr>  
 							<th scope="col">Instructor</th>
@@ -174,7 +175,7 @@
 			<a href="">FAQs</a>
 			
 			<p id="copyright">
-				Copyright © 2011
+				Copyright &copy; 2011
 				<strong>PennApps Labs</strong>
 			</p>
 		</div>

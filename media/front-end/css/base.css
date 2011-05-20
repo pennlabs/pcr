@@ -21,7 +21,7 @@ input {
 }
 
 #header {
-	background:url(../image/headerbg.png) repeat-x;
+	background:url(../image/headerbg.png) repeat-x bottom;
 	height:60px;	
 	color:#FFF;
 }
@@ -40,30 +40,31 @@ input {
 #linkbar {
 	margin-top:23px;
 }
-#searchbar {
-	
-}
 #searchbar{	
 	background:#FFF;
 	margin-top:18px;
-	width:214px;
+	width:218px;
 	border: 1px solid #000040;
-	padding: 2px;
 }
-#searchbar input[type=text] {
-	width:192px;
+#searchbar input[type=text] {	
+	width:193px;
+	height:16px;
+	
 	border-right:1px solid #c2c2c2;
+	padding-right: 2px;
+	margin: 2px 0px 2px 2px;
+	
 	float:left;
-	padding: 2px 0px;
 }
-#searchbar input[type=button] {
-	background:url(../image/searchbutton.png) 1px -1px;
+#searchbar input[type=submit] {
+	background:url(../image/searchbutton.png) no-repeat;
 	border:0;
 	width:20px;
+	height:20px;
 	float:left;
 	cursor:pointer;
 }
-#searchbar input[type=button]:hover {
+#searchbar input[type=submit]:hover {
 	background-image:url(../image/searchbutton-over.png);
 }
 
@@ -74,10 +75,9 @@ input {
 	background:url(../image/headershadow.png) repeat-x;
 }
 #banner-inner {
-	padding-bottom:30px;
+	padding:30px 0;
 }
 #banner-info {
-	padding-top:30px;
 }
 #banner-info .title {
 	font-family:"Times New Roman", Times, serif;
@@ -92,12 +92,16 @@ input {
 	margin-bottom:10px;
 }
 #banner-score {
-	padding-top:10px;
+}
+.scoreboxrow {
+	padding-bottom:20px;
+}
+.scoreboxrow:last-child {
+	padding-bottom:0;
 }
 .scoredesc {
 	padding-top:12px;
 	font-size:10px;	
-	margin-top:20px;
 }
 .scoredesc .title {
 	color:#000;
@@ -108,7 +112,6 @@ input {
 .scorebox {
 	background:#FFF;
 	height:60px;
-	margin-top:20px;
 	
 	text-align:center;
 }
@@ -135,6 +138,7 @@ input {
 	padding-top:15px;
 }
 #content-data {	
+	width:100%;
 }
 #content-data th {	
 	border-bottom: 2px solid #000080;
