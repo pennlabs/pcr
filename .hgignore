@@ -1,0 +1,5 @@
+syntax: glob
+*.pyc
+sandbox_config.py
+availability_cron/passworddbpath.txt
+

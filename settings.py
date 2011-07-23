@@ -4,7 +4,8 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-from sandbox_config import * # may override DEBUG
+#May override DEBUG
+from sandbox_config import DISPLAY_NAME, DEV_ROOT, APP_ROOT
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
