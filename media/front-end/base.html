@@ -12,7 +12,7 @@
 	{% block htmlheader-js %}{% endblock %}
 	
 </head>
-
+{% load templates %}
 <body>
 	{% block header-div %}
 		<div id="header"><div id="header-bg">
@@ -20,14 +20,8 @@
 				{% block header-content %}
 				<div id="title" class="grid_4 suffix_2"></div>
 				<div id="linkbar" class="grid_3">
-					<a href="">Home</a>
-					&nbsp;|&nbsp;
-					<a href="">About</a>
-					&nbsp;|&nbsp;
-					<a href="">Browse</a>
-					&nbsp;|&nbsp;
-					<a href="">FAQs</a>
-				</div>
+				  {% links %}
+        </div>
 				<div id="searchbar" class="grid_3">
 					<input type="text" value="search..." />
 					<input type="submit" value="" />
@@ -56,14 +50,7 @@
 	
 	<div id="footer">
 		<div id="footer-inner" class="container_12">
-			<a href="">Home</a>
-			&nbsp;|&nbsp;
-			<a href="">About</a>
-			&nbsp;|&nbsp;
-			<a href="">Browse</a>
-			&nbsp;|&nbsp;
-			<a href="">FAQs</a>
-			
+      {% links %}
 			<p id="copyright">
 				Copyright &copy; 2011
 				<strong>PennApps Labs</strong>

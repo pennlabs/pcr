@@ -5,7 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 #May override DEBUG
-from sandbox_config import DISPLAY_NAME, DEV_ROOT, APP_ROOT
+from sandbox_config import DISPLAY_NAME, DEV_ROOT, PCRSITE_APP_ROOT
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
