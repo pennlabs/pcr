@@ -1,0 +1,21 @@
+<div id="content-section" class="grid_{{table.width}}">
+  <table id="content-data">
+    <thead>
+      <tr>
+        {% for cell in table.head %}
+        <th scope="col">{{cell}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table.body %}
+      <tr>
+        {% for cell in row %}
+        <td>{{cell}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+

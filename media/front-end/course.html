@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load scorecard_tag %}
+{% load table %}
+
+{% block title %}
+	Penn Course Review - 
+{% endblock %}
+	
+	
+{% block banner-content %}
+	<div id="banner-info" class="grid_7 suffix_1">
+		{% block info %}
+		<p class="title">{{course.number}}</p>
+		<p class="subtitle">{{course.title}}</p>
+		<p class="desc">{{course.description}}</p>
+		{% endblock %}
+	</div>	
+  {% scorecard_widget %}
+  <div class="clear"></div>	
+{% endblock %}
+
+
+{% block content-content %}
+	<div id="content-settings" class="grid_12">
+		<div class="grid_4 suffix_4 alpha">
+			View:&nbsp;
+			<a href="">Average</a>
+			&nbsp;|&nbsp;
+			<a href="">Recent</a>
+		</div>
+		<div style="text-align:right" class="grid_4 omega">
+			<a href="">Choose Columns</a>
+		</div>
+	</div>
+	<div class="clear"></div>
+	{% table 12 score_table %}
+  <div class="clear"></div>
+{% endblock %}
