@@ -19,10 +19,10 @@ def instructor(request):
   email = 'marcus@cis.upenn.edu'
   instructor = Instructor(name, title, address, phone, email)
 
-  field_names = ['Class', 'Course', 'Instructor', 'Difficulty']
+  field_names = ['id', 'Class', 'Course', 'Instructor', 'Difficulty', 'Sections']
   Row = namedtuple('Row', field_names)
-  row1 = Row('CIS 110', 3, 5, 3)
-  row2 = Row('CIS 121', 3, 6, 4)
+  row1 = Row(1, 'CIS 110', 3, 5, 3, getSectionsTable())
+  row2 = Row(2, 'CIS 121', 3, 6, 4, getSectionsTable())
   score_table = Table(field_names, [row1, row2], 12)
   
   sb_course = ScoreBox('Course', 8)
@@ -96,3 +96,11 @@ def faq(request):
 
 def about(request):
   return render_to_response('about.html')
+
+# Helper function to get sections table
+def getSectionsTable():
+  field_names = ['Semester', 'Section', 'Course', 'Instructor', 'Difficulty']
+  Row = namedtuple('Row', field_names)
+  row1 = Row('fall2010', '001', 3, 6, 4)  
+  row2 = Row('spring2009', '001', 3, 5, 3)
+  return Table(field_names, [row1, row2], 12) 
