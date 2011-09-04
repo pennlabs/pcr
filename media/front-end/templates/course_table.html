@@ -1,23 +1,24 @@
+{% load table %}
+
 <div id="content-section" class="grid_{{table.width}}">
   <table id="content-data">
     <thead>
       <tr>
         {% for cell in table.head|slice:"1:-1" %}
-        <th scope="col">{{cell}}</th>
+        <th scope="col" class="column_{{cell}}">{{cell}}</th>
         {% endfor %}
       </tr>
     </thead>
     <tbody>
       {% for row in table.body %}
-      {{row}}
       <tr>
         {% for cell in row|slice:"1:-1" %}
-        <td>{{cell}}</td>
+        <td class="column_{{cell.0}}">{{cell.1}}</td>
         {% endfor %}
-	<td><a href="#" onclick="show_section({{row|first}})" id="row_toggle_{{row|first}}">Expand</a></td>
+	<td><a href="#" onclick="show_section({{row.0.1}})" id="row_toggle_{{row.0.1}}">Expand</a></td>
       </tr>
-      <tr style="display: none;" id="row_{{row|first}}">
-        <td colspan="12">{{row|last}}</td>
+      <tr style="display: none;" id="row_{{row.0.1}}">
+        <td colspan="12">{% section_table 12 row|last|last %}</td>
       </tr>
       {% endfor %}
     </tbody>
