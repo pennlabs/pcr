@@ -11,11 +11,11 @@
 {% block banner-content %}
 	<div id="banner-info" class="grid_7 suffix_1">
 		{% block info %}
-		<p class="name">{{instructor.name}}</p>
-		<p class="title">{{instructor.title}}</p>
-		<p class="address">{{instructor.address}}</p>
-    <p class="phone">{{instructor.phone}}</p>
-    <p class="email">{{instructor.email}}</p>
+		<p class="title">{{instructor.name}}</p>
+		<p class="subtitle">{{instructor.title}}</p>
+		<p class="desc">{{instructor.address}}</p>
+    <p class="desc">{{instructor.phone}}</p>
+    <p class="desc">{{instructor.email}}</p>
 		{% endblock %}
 	</div>	
   {% scorecard_widget %}
