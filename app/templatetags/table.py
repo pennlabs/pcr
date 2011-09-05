@@ -10,13 +10,21 @@ register = template.Library()
 class Table(object):
   def __init__(self, head, body, width):
     self.head = head
-    self.body = body
+    self.body = [zip(head, row) for row in body]
     self.width = width
 
 @tag(register, [Variable(), Variable()])
-def table(context, width, table):
+def course_table(context, width, table):
   '''Create a table.'''
   new_context = {
     'table': table
   }
-  return render_to_string('templates/table.html', new_context)
+  return render_to_string('templates/course_table.html', new_context)
+
+@tag(register, [Variable(), Variable()])
+def section_table(context, width, table):
+  '''Create a table.'''
+  new_context = {
+    'table': table
+  }
+  return render_to_string('templates/section_table.html', new_context)

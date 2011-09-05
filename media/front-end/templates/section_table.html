@@ -1,9 +1,11 @@
-<div id="content-section" class="grid_{{table.width}}">
-  <table id="content-data">
+{% load table %}
+
+<div class="grid_{{table.width}} section_table">
+  <table>
     <thead>
       <tr>
         {% for cell in table.head %}
-        <th scope="col">{{cell}}</th>
+        <th scope="col" class="column_{{cell}}">{{cell}}</th>
         {% endfor %}
       </tr>
     </thead>
@@ -11,7 +13,7 @@
       {% for row in table.body %}
       <tr>
         {% for cell in row %}
-        <td>{{cell}}</td>
+        <td class="column_{{cell.0}}">{{cell.1}}</td>
         {% endfor %}
       </tr>
       {% endfor %}
