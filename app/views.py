@@ -92,7 +92,7 @@ def browse(request):
   return render_to_response('browse.html')
 
 def faq(request):
-  return render_to_response('FAQ.html')
+  return render_to_response('faq.html')
 
 def about(request):
   return render_to_response('about.html')
