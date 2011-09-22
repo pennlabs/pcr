@@ -1,4 +1,5 @@
-window.show_section = (row_id) -> 
-  row = $("#row_#{row_id}").toggle()
-  $("#row_toggle_#{row_id}").html(
-    if row.is(":visible") then "Hide" else "Expand")
+window.toggle_row = (row_id) ->
+  $("#row_hidden_#{row_id}").toggle()  
+  
+window.toggle_choose_cols = () ->
+  $("#choose-cols").toggle()

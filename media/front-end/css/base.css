@@ -20,6 +20,13 @@ input {
 	font-size:12px;
 }
 
+.shadow {
+	-moz-box-shadow: 		0px 2px 10px #808080;
+  -webkit-box-shadow: 0px 2px 10px #808080;
+  box-shadow: 				0px 2px 10px #808080;
+
+}
+
 #header {
 	background:url(../image/headerbg.png) repeat-x bottom;
 	height:60px;	
@@ -137,22 +144,56 @@ input {
 #content-section {
 	padding-top:15px;
 }
-#content-data {	
+
+#course-table {	
 	width:100%;
 }
-#content-data th {	
+#course-table th {	
 	border-bottom: 2px solid #000080;
 	font-weight:bold;
 	color:#000080;
 	padding:10px 5px;
 }
-#content-data td {	
+#course-table td {	
 	border-bottom: 1px solid #CCC;
 	color:#9999cc;
+	color:#636363;
 	padding:10px 5px;
+	width:1%;
 }
-#content-data tr:hover td {	
-	color:#000080;
+#course-table tr.row_display td {
+	cursor:pointer;
+}
+#course-table tr.row_display:hover td {
+	background-color:#f2f2f9;
+	color:#000000;
+}
+#course-table tr.row_hidden {
+	display: none;
+}
+#course-table td.td_hidden {
+	padding: 10px 0px 20px 30px;
+}
+#course-table .toggle_button {
+	width:9px;
+	height:9px;
+	background:url(../image/togglebutton.png) top left;
+}
+#section-table {
+	width: 100%;
+}
+#section-table th, #section-table td {
+	padding:5px 2px;
+	font-size: 10px;
+	border-bottom-color: #CCC;
+	color:#636363;
+}
+#section-table tr:last-child td{
+	border-bottom: 0px;
+}
+#section-table tr:hover td {
+	background-color:#f2f2f9;
+	color:#000000;
 }
 
 #footer {
@@ -169,3 +210,43 @@ input {
 	margin-top:5px;
 	color:#636363;
 }
+
+#choose-cols {
+	position:absolute;
+	top:75px;
+	display:none;
+}
+#choose-cols-inner {
+	background-color:#FFF;
+}
+#choose-cols-content {	
+	border: 10px solid #CCC;	
+	padding:15px;
+}
+#choose-cols-content p {
+	margin-bottom:10px;
+}
+#choose-cols-content h1 {
+	font-size:18px;
+	color:#000080;
+	margin-bottom:15px;
+}
+#choose-cols-content h2 {
+	font-size:12px;
+	color:#636363;
+	margin-top:15px;
+	margin-bottom:10px;
+}
+#choose-cols-content input[type=button] {
+	float:left;
+	width:85px;
+	padding: 5px 0 5px 0;	
+	border: 1px solid #636363;
+	color:#636363;
+	margin-right: 15px;
+	margin-top:15px;
+	cursor:pointer;
+}
+#choose-cols-content input[type=button]:hover {
+	border-color:#000080;
+	color:#000080;

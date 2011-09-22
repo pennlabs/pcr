@@ -1,23 +1,20 @@
 {% load table %}
 
-<div class="grid_{{table.width}} section_table">
-  <table>
-    <thead>
-      <tr>
-        {% for cell in table.head %}
-        <th scope="col" class="column_{{cell}}">{{cell}}</th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in table.body %}
-      <tr>
-        {% for cell in row %}
-        <td class="column_{{cell.0}}">{{cell.1}}</td>
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
+<table id="section-table">
+	<thead>
+		<tr>
+			{% for cell in table.head %}
+			<th scope="col" class="column_{{cell}}">{{cell}}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in table.body %}
+		<tr>
+			{% for cell in row %}
+			<td class="col_{{cell.0}}">{{cell.1}}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

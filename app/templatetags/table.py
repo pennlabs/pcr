@@ -8,10 +8,9 @@ from templatetag_sugar.register import tag
 register = template.Library()
 
 class Table(object):
-  def __init__(self, head, body, width):
+  def __init__(self, head, body):
     self.head = head
     self.body = [zip(head, row) for row in body]
-    self.width = width
 
 @tag(register, [Variable(), Variable()])
 def course_table(context, width, table):

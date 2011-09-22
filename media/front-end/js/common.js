@@ -1,7 +1,8 @@
 (function() {
-  window.show_section = function(row_id) {
-    var row;
-    row = $("#row_" + row_id).toggle();
-    return $("#row_toggle_" + row_id).html(row.is(":visible") ? "Hide" : "Expand");
+  window.toggle_row = function(row_id) {
+    return $("#row_hidden_" + row_id).toggle();
+  };
+  window.toggle_choose_cols = function() {
+    return $("#choose-cols").toggle();
   };
 }).call(this);

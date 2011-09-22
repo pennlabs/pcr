@@ -2,9 +2,10 @@
 
 {% load scorecard_tag %}
 {% load table %}
+{% load templates %}
 
 {% block title %}
-	Penn Course Review - 
+	Penn Course Review - {{instructor.name}}
 {% endblock %}
 	
 	
@@ -24,18 +25,10 @@
 
 
 {% block content-content %}
-	<div id="content-settings" class="grid_12">
-		<div class="grid_4 suffix_4 alpha">
-			View:&nbsp;
-			<a href="">Average</a>
-			&nbsp;|&nbsp;
-			<a href="">Recent</a>
-		</div>
-		<div style="text-align:right" class="grid_4 omega">
-			<a href="">Choose Columns</a>
-		</div>
-	</div>
-	<div class="clear"></div>
+	{% choose_cols_box %}
+	{% content_settings %}
+	<div id="content-section" class="grid_12">
 	{% course_table 12 score_table %}
+	</div>
   <div class="clear"></div>
 {% endblock %}
