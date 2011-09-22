@@ -32,7 +32,7 @@
 	font-size:14px;
 }
 #index-searchbar input[type=submit] {
-	background:url(../image/searchbuttonlg.png) no-repeat;
+	background:url(../image/searchbuttonlg.png) 0 0 no-repeat;
 	border:0;
 	width:30px;
 	height:30px;
@@ -40,7 +40,7 @@
 	cursor:pointer;
 }
 #index-searchbar input[type=submit]:hover {
-	background-image:url(../image/searchbuttonlg-over.png);
+	background-position:0px -30px;
 }
 
 #index-subtitle {
