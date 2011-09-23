@@ -5,7 +5,7 @@ window.toggle_choose_cols = () ->
   $("#choose-cols").toggle()
 
 window.submit_choose_cols = () ->
-# TODO: more efficient method please???
+# TODO: more efficient method please? list comprehension? I'm no python master
   str = ""
   for i in [0..10]
     str +=
