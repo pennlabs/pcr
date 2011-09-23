@@ -27,10 +27,9 @@ input {
 }
 
 .shadow {
+	box-shadow: 				0px 2px 10px #808080;
 	-moz-box-shadow: 		0px 2px 10px #808080;
-  -webkit-box-shadow: 0px 2px 10px #808080;
-  box-shadow: 				0px 2px 10px #808080;
-
+  -webkit-box-shadow: 0px 2px 10px #808080;  
 }
 
 #header {
@@ -222,12 +221,12 @@ input {
 	top:75px;
 	display:none;
 }
-#choose-cols-inner {
-	background-color:#FFF;
+#choose-cols-inner {	
 }
-#choose-cols-content {	
-	border: 10px solid #CCC;	
+#choose-cols-content {
+	background-color:#FFF;
 	padding:15px;
+	border: 10px solid #CCC;
 }
 #choose-cols-content p {
 	margin-bottom:10px;
