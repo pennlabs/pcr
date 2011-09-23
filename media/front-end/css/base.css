@@ -9,10 +9,16 @@ body {
 a {
 	color:#636363;
 	text-decoration:none;
+	cursor:pointer;
 }
 a:hover {
 	color:#000000;
 	border-bottom: 1px solid #000;
+}
+a.disabled {
+	color:#000000;
+	border-bottom: 0px;
+	cursor:default;
 }
 
 input {
