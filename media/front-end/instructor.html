@@ -1,34 +1,19 @@
-{% extends "base.html" %}
+{% extends "item_base.html" %}
 
-{% load scorecard_tag %}
 {% load table %}
-{% load templates %}
 
 {% block title %}
 	Penn Course Review - {{instructor.name}}
 {% endblock %}
-	
-	
-{% block banner-content %}
-	<div id="banner-info" class="grid_7 suffix_1">
-		{% block info %}
-		<p class="title">{{instructor.name}}</p>
-		<p class="subtitle">{{instructor.title}}</p>
-		<p class="desc">{{instructor.address}}</p>
-    <p class="desc">{{instructor.phone}}</p>
-    <p class="desc">{{instructor.email}}</p>
-		{% endblock %}
-	</div>	
-  {% scorecard_widget %}
-  <div class="clear"></div>	
+
+{% block info %}
+<p class="title">{{instructor.name}}</p>
+<p class="subtitle">{{instructor.title}}</p>
+<p class="desc">{{instructor.address}}</p>
+<p class="desc">{{instructor.phone}}</p>
+<p class="desc">{{instructor.email}}</p>
 {% endblock %}
 
-
-{% block content-content %}
-	{% choose_cols_box %}
-	{% content_settings %}
-	<div id="content-section" class="grid_12">
+{% block content-section %}
 	{% course_table 12 score_table %}
-	</div>
-  <div class="clear"></div>
 {% endblock %}

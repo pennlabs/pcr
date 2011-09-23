@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load scorecard_tag %}
+{% load templates %}
+
+{% block htmlheader-js %}
+    <script src="media/front-end/js/common.js"></script>
+{% endblock %}	
+	
+{% block banner-content %}
+	<div id="banner-info" class="grid_7 suffix_1">
+		{% block info %}{% endblock %}
+	</div>	
+  {% scorecard_widget %}
+  <div class="clear"></div>	
+{% endblock %}
+
+{% block content-content %}
+	{% choose_cols_box %}
+	{% content_settings %}
+	<div id="content-section" class="grid_12">
+		{% block content-section %}
+		{% endblock %}
+	</div>
+  <div class="clear"></div>
+{% endblock %}

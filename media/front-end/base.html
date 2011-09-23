@@ -7,13 +7,12 @@
 	
 	{% block htmlheader-links %}{% endblock %}
 	
-	<title>{% block title %}Penn Course Review{% endblock %}</title>
-	
-	{% block htmlheader-js %}{% endblock %}
+	<title>{% block title %}Penn Course Review{% endblock %}</title>	
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-	<script src="media/front-end/js/modernizr.custom.js"></script>
-	<script src="media/front-end/js/common.js"></script>
+	<script src="media/front-end/js/modernizr.custom.js"></script>	
+  
+  {% block htmlheader-js %}{% endblock %}
 	
 </head>
 {% load templates %}
