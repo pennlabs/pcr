@@ -8,12 +8,18 @@ from django.template import Context, loader, RequestContext
 
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
+
 from helper import getSectionsTable, build_course, build_history, build_section
 from api import pcr
 
 
+RATING_STRINGS = ('Course Quality', 'Instructor Quality', 'Difficulty')
+RATING_FIELDS = ('course', 'instructor', 'difficulty')
+
+
 def index(request):
   return render_to_response('index.html')
+
 
 def instructor(request, id):
   raw_instructor = pcr('instructor', id)
@@ -53,8 +59,6 @@ def instructor(request, id):
 
   return render_to_response('instructor.html', context)
 
-RATING_STRINGS = ('Course Quality', 'Instructor Quality', 'Difficulty')
-RATING_FIELDS = ('course', 'instructor', 'difficulty')
 
 COURSE_OUTER = ('id', 'Professor') + RATING_STRINGS + ('sections',)
 COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',) 
@@ -76,14 +80,18 @@ def course(request, course_id):
   instructor_id = {}
   for raw_course in raw_coursehistory["courses"]:
     semester = raw_course['semester']
-    raw_sections = pcr('course', raw_course["id"], "sections")['values']
+    course_id = raw_course['id']
+    raw_sections = pcr('course', course_id, "sections")['values']
     for raw_section in raw_sections:
-      raw_reviews = pcr('course', raw_course['id'], 'section', raw_section['sectionnum'], 'reviews')
+      sectionnum = raw_section['sectionnum']
+      raw_reviews = pcr('course', course_id, 'section', sectionnum, 'reviews')['values']
       raw_instructors = raw_section['instructors']
+
+      #TODO Change this to not be static
       if raw_instructors is None:
         raw_instructors = [{'id': 1, 'name': 'Speigal'}]
-      for raw_instructor, raw_review in zip(raw_instructors, raw_reviews['values']):
-        #TODO Change this to not be static
+
+      for raw_instructor, raw_review in zip(raw_instructors, raw_reviews):
         name = raw_instructor['name']
         instructor_id[name] = raw_instructor['id']
         raw_ratings = raw_review['ratings']
@@ -94,8 +102,10 @@ def course(request, course_id):
   table_body = []
   for instructor in instructors:
     sections = []
-    course_avg, instructor_avg, difficulty_avg = 0.0, 0.0, 0.0
-    for section in instructors[instructor]:
+    isections = instructors[instructor]
+    #average
+    avgs = course_avg, instructor_avg, difficulty_avg = 0, 0, 0
+    for section in isections:
       semester = section['Semester']
       rcourse = section['Course Quality']
       rinstructor = section['Instructor Quality']
@@ -104,11 +114,19 @@ def course(request, course_id):
       instructor_avg += float(rinstructor)
       difficulty_avg += float(rdifficulty)
       sections.append((semester, rcourse, rinstructor, rdifficulty))
-    course_avg /= len(sections)
-    instructor_avg /= len(sections)
-    difficulty_avg /= len(sections)
+    for avg in avgs:
+      avg /= len(sections)
+    #recent
+    recent = isections[-1]
+    course_rec = float(recent['Course Quality'])
+    instructor_rec = float(recent['Instructor Quality'])
+    difficulty_rec = float(recent['Difficulty'])
     sections_table = Table(COURSE_INNER, COURSE_INNER_HIDDEN, sections)
-    table_body.append([instructor_id[instructor], instructor, course_avg, instructor_avg, difficulty_avg, sections_table])
+    table_body.append([instructor_id[instructor], instructor,
+      (course_avg, course_rec),
+      (instructor_avg, instructor_rec),
+      (difficulty_avg, difficulty_rec),
+      sections_table])
 
   score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN, table_body)
 
@@ -171,16 +189,26 @@ def course(request, course_id):
   })
   return render_to_response('course.html', context)
 
+DEPARTMENT_OUTER = ('Course',) + RATING_STRINGS
+DEPARTMENT_OUTER_HIDDEN = ('course',) + RATING_FIELDS
 
 def department(request, id):
+  raw_depts = pcr('depts')['values']
+
+  #hacky solution
+  for raw_dept in raw_depts:
+    if raw_dept['id'] == id:
+      name = raw_dept['name']
+      break
+
   raw_department = pcr('dept', id)
   department = {
       'code': id,
-      'name': raw_department['name']
+      'name': name
     }
 
   histories = map(build_history, raw_department['histories'])
-  score_table = Table(field_names, histories)
+  score_table = Table(DEPARTMENT_OUTER, DEPARTMENT_OUTER_HIDDEN, histories)
 
   context = {
     'department': department,
