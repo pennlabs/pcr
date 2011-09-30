@@ -102,6 +102,7 @@ def course(request, course_id):
         instructors[name].append(review)
 
   table_body = []
+  id = 0
   for instructor in instructors:
     sections = []
     isections = instructors[instructor]
@@ -125,7 +126,8 @@ def course(request, course_id):
     instructor_rec = float(recent['rInstructorQuality'])
     difficulty_rec = float(recent['rDifficulty'])
     sections_table = Table(COURSE_INNER, COURSE_INNER_HIDDEN, sections)
-    table_body.append([instructor_id[instructor], instructor,
+    id += 1
+    table_body.append([id, instructor,
       (course_avg, course_rec),
       (instructor_avg, instructor_rec),
       (difficulty_avg, difficulty_rec),
