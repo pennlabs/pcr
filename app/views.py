@@ -1,4 +1,6 @@
-from collections import namedtuple
+from __future__ import division
+from collections import defaultdict, namedtuple
+from itertools import groupby
 
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -6,36 +8,41 @@ from django.template import Context, loader, RequestContext
 
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
-from coursereview import Department, Course, Instructor
+from helper import getSectionsTable, build_course, build_history, build_section
+from api import pcr
+
 
 def index(request):
   return render_to_response('index.html')
 
-def instructor(request):
-  name = 'Mitch Marcus'
-  title = 'Professor of Computational Linguistics'
-  address = '503 Levine'
-  phone = '267-702-5780'
-  email = 'marcus@cis.upenn.edu'
-  instructor = Instructor(name, title, address, phone, email)
+def instructor(request, id):
+  raw_instructor = pcr('instructor', id)
+  instructor = {
+    'name': raw_instructor['name'],
+    'title': raw_instructor['title'],
+    'address': raw_instructor['address'],
+    'phone': raw_instructor['phone'],
+    'email': raw_instructor['email'] 
+  }
 
-  field_names = ['id', 'Class', 'Course', 'Instructor', 'Difficulty', 'Sections']
-  Row = namedtuple('Row', field_names)
-  row1 = Row(1, 'CIS 110', 3.2, 3.5, 3.3, getSectionsTable())
-  row2 = Row(2, 'CIS 120', 3.1, 2.6, 2.4, getSectionsTable())
-  row3 = Row(3, 'CIS 121', 3.0, 2.4, 3.4, getSectionsTable())
-  score_table = Table(field_names, [row1, row2, row3])
+  #Don't forget about getSectionsTable()
+  #row3 = Row(3, 'CIS 121', 3.0, 2.4, 3.4, getSectionsTable())
+  
+  #probably want to reimplement Table...
+  score_table = Table(COURSE, map(build_course, raw_instructor['courses']))
   
   sb_course = ScoreBox('Course', 3.05)
   sb_instructor = ScoreBox('Instructor', 2.8)
   sb_difficulty = ScoreBox('Difficulty', 3.2)
   boxes = [sb_course, sb_instructor, sb_difficulty]
   sb_row1 = ScoreBoxRow('Average', '80 sections', boxes)
+
   sb_course = ScoreBox('Course', 2.4)
   sb_instructor = ScoreBox('Instructor', 3.3)
   sb_difficulty = ScoreBox('Difficulty', 3.5)
   boxes = [sb_course, sb_instructor, sb_difficulty]
   sb_row2 = ScoreBoxRow('Recent', 'Fall 2008', boxes)
+
   scorecard = ScoreCard([sb_row1, sb_row2])
 
   context = RequestContext(request, {
@@ -46,30 +53,116 @@ def instructor(request):
 
   return render_to_response('instructor.html', context)
 
-def course(request):
+RATING_STRINGS = ('Course Quality', 'Instructor Quality', 'Difficulty')
+RATING_FIELDS = ('course', 'instructor', 'difficulty')
 
-  field_names = ['professor', 'course', 'instructor', 'difficulty']
-  Row = namedtuple('Row', field_names)
-  row1 = Row('Taskar', 3, 5, 4)
-  row2 = Row('Marcus', 5, 2, 9)
-  score_table = Table(field_names, [row1, row2])
+COURSE_OUTER = ('id', 'Professor') + RATING_STRINGS + ('sections',)
+COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',) 
 
-  number = 'CIS 520'
-  title = 'Machine Learning'
-  description = 'This course covers the foundations of machine learning.'
-  course = Course(number, title, description)
+COURSE_INNER = ('Semester',) + RATING_STRINGS
+COURSE_INNER_HIDDEN =  ('semester',) + RATING_FIELDS
 
-  sb_course     = ScoreBox('Course', 3.0)
-  sb_instructor = ScoreBox('Instructor', 2.8)
-  sb_difficulty = ScoreBox('Difficulty', 3.2)
+def course(request, course_id):
+  raw_coursehistory = pcr('coursehistory', course_id)
+  course = {
+    'title': raw_coursehistory['name'],
+    'subtitle': None,
+    'description': None
+  }
+  
+  #Get sections here
+  #group by instructor
+  instructors = defaultdict(list)
+  instructor_id = {}
+  for raw_course in raw_coursehistory["courses"]:
+    semester = raw_course['semester']
+    raw_sections = pcr('course', raw_course["id"], "sections")['values']
+    for raw_section in raw_sections:
+      raw_reviews = pcr('course', raw_course['id'], 'section', raw_section['sectionnum'], 'reviews')
+      raw_instructors = raw_section['instructors']
+      if raw_instructors is None:
+        raw_instructors = [{'id': 1, 'name': 'Speigal'}]
+      for raw_instructor, raw_review in zip(raw_instructors, raw_reviews['values']):
+        #TODO Change this to not be static
+        name = raw_instructor['name']
+        instructor_id[name] = raw_instructor['id']
+        raw_ratings = raw_review['ratings']
+        review = dict([(attr, raw_ratings[attr]) for attr in RATING_STRINGS])
+        review['Semester'] = semester
+        instructors[name].append(review)
+
+  table_body = []
+  for instructor in instructors:
+    sections = []
+    course_avg, instructor_avg, difficulty_avg = 0.0, 0.0, 0.0
+    for section in instructors[instructor]:
+      semester = section['Semester']
+      rcourse = section['Course Quality']
+      rinstructor = section['Instructor Quality']
+      rdifficulty = section['Difficulty']
+      course_avg += float(rcourse)
+      instructor_avg += float(rinstructor)
+      difficulty_avg += float(rdifficulty)
+      sections.append((semester, rcourse, rinstructor, rdifficulty))
+    course_avg /= len(sections)
+    instructor_avg /= len(sections)
+    difficulty_avg /= len(sections)
+    sections_table = Table(COURSE_INNER, COURSE_INNER_HIDDEN, sections)
+    table_body.append([instructor_id[instructor], instructor, course_avg, instructor_avg, difficulty_avg, sections_table])
+
+  score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN, table_body)
+
+  #Average
+  raw_reviews = pcr('coursehistory', course_id, 'reviews')['values']
+  #unfortunately, I need to count since some reviews are blank
+  course_quality, instructor_quality, difficulty = 0.0, 0.0, 0.0
+  completed_reviews = 0
+  for raw_review in raw_reviews:
+    ratings = raw_review['ratings']
+    try:
+      course_quality += float(ratings["Course Quality"])
+      instructor_quality += float(ratings["Instructor Quality"])
+      try:
+        difficulty += float(ratings["Difficulty"])
+      except KeyError:
+        #some forms don't actually have difficulty
+        #check out coursehistory/1207 for example. Not sure what to do
+        difficulty = -1
+      completed_reviews += 1
+    except KeyError:
+      #some ratings are an empty dict
+      #check out coursehistory/1200 for example.
+      continue
+  course_quality /= completed_reviews
+  instructor_quality /= completed_reviews
+  try:
+    difficulty /= completed_reviews
+  except:
+    pass
+
+  sb_course     = ScoreBox('Course', course_quality)
+  sb_instructor = ScoreBox('Instructor', instructor_quality)
+  sb_difficulty = ScoreBox('Difficulty', difficulty)
+  boxes         = (sb_course, sb_instructor, sb_difficulty)
+  average       = ScoreBoxRow('Average', '%s sections' % completed_reviews, boxes)
+
+  #Recent
+  recent_ratings = raw_reviews[-1]['ratings']
+  r_course_quality = recent_ratings["Course Quality"]
+  r_instructor_quality = recent_ratings["Instructor Quality"]
+  try:
+    r_difficulty = recent_ratings["Difficulty"]
+  except:
+    r_difficulty = -1
+  r_semester = raw_coursehistory["courses"][-1]["semester"]
+
+  sb_course     = ScoreBox('Course', r_course_quality)
+  sb_instructor = ScoreBox('Instructor', r_instructor_quality)
+  sb_difficulty = ScoreBox('Difficulty', r_difficulty)
   boxes         = [sb_course, sb_instructor, sb_difficulty]
-  sb_row1       = ScoreBoxRow('Average', '80 sections', boxes)
-  sb_course     = ScoreBox('Course', 2.4)
-  sb_instructor = ScoreBox('Instructor', 3.3)
-  sb_difficulty = ScoreBox('Difficulty', 3.5)
-  boxes         = [sb_course, sb_instructor, sb_difficulty]
-  sb_row2       = ScoreBoxRow('Recent', 'Fall 2008', boxes)
-  scorecard     = ScoreCard([sb_row1, sb_row2])
+  recent        = ScoreBoxRow('Recent', r_semester, boxes)
+
+  scorecard     = ScoreCard([average, recent])
 
   context = RequestContext(request, {
     'course': course,
@@ -78,19 +171,16 @@ def course(request):
   })
   return render_to_response('course.html', context)
 
-def department(request):
 
-  code = 'CIS'
-  name = 'Computer and Information Science'
+def department(request, id):
+  raw_department = pcr('dept', id)
+  department = {
+      'code': id,
+      'name': raw_department['name']
+    }
 
-  field_names = ['Class', 'Course', 'Instructor', 'Difficulty']
-  Row = namedtuple('Row', field_names)
-  row1 = Row('CIS 110', 2.45, 2.55, 2.43)
-  row2 = Row('CIS 120', 1.11, 2.34, 3.41)
-  row3 = Row('CIS 121', 3.42, 1.12, 2.36)
-  score_table = Table(field_names, [row1, row2, row3])
-
-  department = Department(code, name)
+  histories = map(build_history, raw_department['histories'])
+  score_table = Table(field_names, histories)
 
   context = {
     'department': department,
@@ -108,10 +198,3 @@ def faq(request):
 def about(request):
   return render_to_response('about.html')
 
-# Helper function to get sections table
-def getSectionsTable():
-  field_names = ['Semester', 'Section', 'Course', 'Instructor', 'Difficulty']
-  Row = namedtuple('Row', field_names)
-  row1 = Row('Fall 2010', '001', 3.0, 3.2, 2.4)  
-  row2 = Row('Spring 2009', '001', 3.1, 2.5, 3.2)
-  return Table(field_names, [row1, row2]) 
