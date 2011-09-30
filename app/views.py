@@ -13,7 +13,7 @@ from helper import getSectionsTable, build_course, build_history, build_section
 from api import pcr
 
 
-RATING_STRINGS = ('Course Quality', 'Instructor Quality', 'Difficulty')
+RATING_STRINGS = ('Course', 'Instructor', 'Difficulty')
 RATING_FIELDS = ('course', 'instructor', 'difficulty')
 
 
@@ -216,12 +216,17 @@ def department(request, id):
     course_avg, instructor_avg, difficulty_avg = 0, 0, 0
     for raw_review in raw_reviews:
       ratings = raw_review['ratings']
-      course_avg += float(ratings['Course Quality'])
-      instructor_avg += float(ratings['Instructor Quality'])
-      difficulty_avg += float(ratings['Difficulty'])
-    course_avg /= len(raw_reviews)
-    instructor_avg /= len(raw_reviews)
-    difficulty_avg /= len(raw_reviews)
+      if ratings:
+        course_avg += float(ratings['Course Quality'])
+        instructor_avg += float(ratings['Instructor Quality'])
+        try:
+          difficulty_avg += float(ratings['Difficulty'])
+        except:
+          pass
+    if raw_reviews:
+      course_avg /= len(raw_reviews)
+      instructor_avg /= len(raw_reviews)
+      difficulty_avg /= len(raw_reviews)
     table_body.append((history_id, course_name, course_avg, instructor_avg, difficulty_avg, ""))
   score_table = Table(DEPARTMENT_OUTER, DEPARTMENT_OUTER_HIDDEN, table_body)
 
