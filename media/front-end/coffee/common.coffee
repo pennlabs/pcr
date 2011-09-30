@@ -41,6 +41,9 @@ window.set_cols = (cols) ->
   $("#course-table td").hide()
   # show default cols
   $("#course-table .col_class_").show()
+  $("#course-table .col_professor").show()
+  $("#course-table .col_semester").show()
+  $("#course-table .td_hidden").show()
   # loop cols
   for i in [0..(cols.length-1)]
     $("#course-table .col_#{cols[i]}").show()

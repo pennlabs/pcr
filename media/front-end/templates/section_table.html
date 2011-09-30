@@ -4,15 +4,16 @@
 	<thead>
 		<tr>
 			{% for cell in table.head %}
-			<th scope="col" class="col_{{cell}}">{{cell}}</th>
+			<th scope="col" class="col_{{cell.0}}">{{cell.1}}</th>
 			{% endfor %}
 		</tr>
 	</thead>
 	<tbody>
 		{% for row in table.body %}
 		<tr>
-			{% for cell in row %}
-			<td class="col_{{cell.0}}">{{cell.1}}</td>
+			<td class="col_{{row.0.0}}">{{row.0.1}}</td>
+			{% for cell in row|slice:"1:" %}
+			<td class="col_{{cell.0}}">{{cell.1|floatformat:2}}</td>
 			{% endfor %}
 		</tr>
 		{% endfor %}
