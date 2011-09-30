@@ -190,26 +190,40 @@ def course(request, course_id):
   })
   return render_to_response('course.html', context)
 
-DEPARTMENT_OUTER = ('Course',) + RATING_STRINGS
-DEPARTMENT_OUTER_HIDDEN = ('course',) + RATING_FIELDS
+DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
+DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
 def department(request, id):
   raw_depts = pcr('depts')['values']
 
-  #hacky solution
+  #hacky solution to get department name
   for raw_dept in raw_depts:
     if raw_dept['id'] == id:
       name = raw_dept['name']
       break
 
-  raw_department = pcr('dept', id)
   department = {
       'code': id,
       'name': name
     }
 
-  histories = map(build_history, raw_department['histories'])
-  score_table = Table(DEPARTMENT_OUTER, DEPARTMENT_OUTER_HIDDEN, histories)
+  table_body = []
+  raw_histories = pcr('dept', id)['histories']
+  for raw_history in raw_histories:
+    history_id = raw_history['id']
+    course_name = raw_history['name']
+    raw_reviews = pcr('coursehistory', history_id, 'reviews')['values']
+    course_avg, instructor_avg, difficulty_avg = 0, 0, 0
+    for raw_review in raw_reviews:
+      ratings = raw_review['ratings']
+      course_avg += float(ratings['Course Quality'])
+      instructor_avg += float(ratings['Instructor Quality'])
+      difficulty_avg += float(ratings['Difficulty'])
+    course_avg /= len(raw_reviews)
+    instructor_avg /= len(raw_reviews)
+    difficulty_avg /= len(raw_reviews)
+    table_body.append((history_id, course_name, course_avg, instructor_avg, difficulty_avg, ""))
+  score_table = Table(DEPARTMENT_OUTER, DEPARTMENT_OUTER_HIDDEN, table_body)
 
   context = {
     'department': department,
