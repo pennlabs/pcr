@@ -1,9 +1,9 @@
 <div id="content-settings" class="grid_12">
-  <div class="grid_4 suffix_4 alpha">
+  <div id="settings-viewmode" class="grid_4 suffix_4 alpha">
     View:&nbsp;
-    <a id="view_average" onclick="toggle_view(0)" class="disabled">Average</a>
+    <a id="view_average" onclick="set_viewmode(0)" class="selected">Average</a>
     &nbsp;|&nbsp;
-    <a id="view_recent" onclick="toggle_view(1)">Recent</a>
+    <a id="view_recent" onclick="set_viewmode(1)">Recent</a>
   </div>
   <div style="text-align:right" class="grid_4 omega">
     <a onclick="toggle_choose_cols()">Choose Columns</a>
