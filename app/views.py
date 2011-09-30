@@ -13,10 +13,10 @@ from helper import getSectionsTable, build_course, build_history, build_section
 from api import pcr
 
 
-RATING_STRINGS = ('Course', 'Instructor', 'Difficulty')
+RATING_STRINGS = ('Course', 'Instructor', 'rDifficulty')
 RATING_FIELDS = ('course', 'instructor', 'difficulty')
 
-RATING_API = ('Course Quality', 'Instructor Quality', 'Difficulty')
+RATING_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 
 
 def index(request):
@@ -41,13 +41,13 @@ def instructor(request, id):
   
   sb_course = ScoreBox('Course', 3.05)
   sb_instructor = ScoreBox('Instructor', 2.8)
-  sb_difficulty = ScoreBox('Difficulty', 3.2)
+  sb_difficulty = ScoreBox('rDifficulty', 3.2)
   boxes = [sb_course, sb_instructor, sb_difficulty]
   sb_row1 = ScoreBoxRow('Average', '80 sections', boxes)
 
   sb_course = ScoreBox('Course', 2.4)
   sb_instructor = ScoreBox('Instructor', 3.3)
-  sb_difficulty = ScoreBox('Difficulty', 3.5)
+  sb_difficulty = ScoreBox('rDifficulty', 3.5)
   boxes = [sb_course, sb_instructor, sb_difficulty]
   sb_row2 = ScoreBoxRow('Recent', 'Fall 2008', boxes)
 
@@ -109,9 +109,9 @@ def course(request, course_id):
     course_avg, instructor_avg, difficulty_avg = 0, 0, 0
     for section in isections:
       semester = section['Semester']
-      rcourse = section['Course Quality']
-      rinstructor = section['Instructor Quality']
-      rdifficulty = section['Difficulty']
+      rcourse = section['rCourseQuality']
+      rinstructor = section['rInstructorQuality']
+      rdifficulty = section['rDifficulty']
       course_avg += float(rcourse)
       instructor_avg += float(rinstructor)
       difficulty_avg += float(rdifficulty)
@@ -121,9 +121,9 @@ def course(request, course_id):
     difficulty_avg /= len(sections)
     #recent
     recent = isections[-1]
-    course_rec = float(recent['Course Quality'])
-    instructor_rec = float(recent['Instructor Quality'])
-    difficulty_rec = float(recent['Difficulty'])
+    course_rec = float(recent['rCourseQuality'])
+    instructor_rec = float(recent['rInstructorQuality'])
+    difficulty_rec = float(recent['rDifficulty'])
     sections_table = Table(COURSE_INNER, COURSE_INNER_HIDDEN, sections)
     table_body.append([instructor_id[instructor], instructor,
       (course_avg, course_rec),
@@ -141,10 +141,10 @@ def course(request, course_id):
   for raw_review in raw_reviews:
     ratings = raw_review['ratings']
     try:
-      course_quality += float(ratings["Course Quality"])
-      instructor_quality += float(ratings["Instructor Quality"])
+      course_quality += float(ratings["rCourseQuality"])
+      instructor_quality += float(ratings["rInstructorQuality"])
       try:
-        difficulty += float(ratings["Difficulty"])
+        difficulty += float(ratings["rDifficulty"])
       except KeyError:
         #some forms don't actually have difficulty
         #check out coursehistory/1207 for example. Not sure what to do
@@ -163,23 +163,23 @@ def course(request, course_id):
 
   sb_course     = ScoreBox('Course', course_quality)
   sb_instructor = ScoreBox('Instructor', instructor_quality)
-  sb_difficulty = ScoreBox('Difficulty', difficulty)
+  sb_difficulty = ScoreBox('rDifficulty', difficulty)
   boxes         = (sb_course, sb_instructor, sb_difficulty)
   average       = ScoreBoxRow('Average', '%s sections' % completed_reviews, boxes)
 
   #Recent
   recent_ratings = raw_reviews[-1]['ratings']
-  r_course_quality = recent_ratings["Course Quality"]
-  r_instructor_quality = recent_ratings["Instructor Quality"]
+  r_course_quality = recent_ratings["rCourseQuality"]
+  r_instructor_quality = recent_ratings["rInstructorQuality"]
   try:
-    r_difficulty = recent_ratings["Difficulty"]
+    r_difficulty = recent_ratings["rDifficulty"]
   except:
     r_difficulty = -1
   r_semester = raw_coursehistory["courses"][-1]["semester"]
 
   sb_course     = ScoreBox('Course', r_course_quality)
   sb_instructor = ScoreBox('Instructor', r_instructor_quality)
-  sb_difficulty = ScoreBox('Difficulty', r_difficulty)
+  sb_difficulty = ScoreBox('rDifficulty', r_difficulty)
   boxes         = [sb_course, sb_instructor, sb_difficulty]
   recent        = ScoreBoxRow('Recent', r_semester, boxes)
 
@@ -219,10 +219,10 @@ def department(request, id):
     for raw_review in raw_reviews:
       ratings = raw_review['ratings']
       if ratings:
-        course_avg += float(ratings['Course Quality'])
-        instructor_avg += float(ratings['Instructor Quality'])
+        course_avg += float(ratings['rCourseQuality'])
+        instructor_avg += float(ratings['rInstructorQuality'])
         try:
-          difficulty_avg += float(ratings['Difficulty'])
+          difficulty_avg += float(ratings['rDifficulty'])
         except:
           pass
     if raw_reviews:
