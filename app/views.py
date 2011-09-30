@@ -13,7 +13,7 @@ from helper import getSectionsTable, build_course, build_history, build_section
 from api import pcr
 
 
-RATING_STRINGS = ('Course', 'Instructor', 'rDifficulty')
+RATING_STRINGS = ('Course', 'Instructor', 'Difficulty')
 RATING_FIELDS = ('course', 'instructor', 'difficulty')
 
 RATING_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
