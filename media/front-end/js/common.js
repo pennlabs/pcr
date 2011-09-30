@@ -29,13 +29,13 @@
   };
   window.set_viewmode = function(view_id) {
     if (("" + view_id) === "0") {
-      $("a#view_average").addClass("disabled");
-      $("a#view_recent").removeClass("disabled");
+      $("a#view_average").addClass("selected");
+      $("a#view_recent").removeClass("selected");
       $(".cell_average").show();
       $(".cell_recent").hide();
     } else {
-      $("a#view_average").removeClass("disabled");
-      $("a#view_recent").addClass("disabled");
+      $("a#view_average").removeClass("selected");
+      $("a#view_recent").addClass("selected");
       $(".cell_average").hide();
       $(".cell_recent").show();
     }

@@ -15,11 +15,6 @@ a:hover {
 	color:#000000;
 	border-bottom: 1px solid #000;
 }
-a.disabled {
-	color:#000000;
-	border-bottom: 0px;
-	cursor:default;
-}
 
 input {
 	font-family:Verdana, Geneva, sans-serif;
@@ -146,6 +141,16 @@ input {
 #content-settings {
 	font-size:10px;
 }
+
+#settings-viewmode {
+	
+}
+#settings-viewmode .selected {
+	color:#000000;
+	border-bottom: 0px;
+	cursor:default;
+}
+
 #content-section {
 	padding-top:15px;
 }
