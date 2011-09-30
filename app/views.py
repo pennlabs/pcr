@@ -16,6 +16,8 @@ from api import pcr
 RATING_STRINGS = ('Course', 'Instructor', 'Difficulty')
 RATING_FIELDS = ('course', 'instructor', 'difficulty')
 
+RATING_API = ('Course Quality', 'Instructor Quality', 'Difficulty')
+
 
 def index(request):
   return render_to_response('index.html')
@@ -95,7 +97,7 @@ def course(request, course_id):
         name = raw_instructor['name']
         instructor_id[name] = raw_instructor['id']
         raw_ratings = raw_review['ratings']
-        review = dict([(attr, raw_ratings[attr]) for attr in RATING_STRINGS])
+        review = dict([(attr, raw_ratings[attr]) for attr in RATING_API])
         review['Semester'] = semester
         instructors[name].append(review)
 
