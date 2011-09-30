@@ -13,7 +13,7 @@
     {% else %}
       <div class="grid_1 scorebox">
     {% endif %}
-        <p class="num">{{scorebox.number}}</p>
+        <p class="num">{{scorebox.number|floatformat:1}}</p>
         <p class="desc">{{scorebox.description}}</p>
       </div>
     {% endfor %}
