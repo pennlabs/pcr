@@ -9,7 +9,7 @@ register = template.Library()
 
 class Table(object):
   def __init__(self, head, fields,  body):
-    self.head = head
+    self.head = zip(fields, head)
     self.body = [zip(fields, row) for row in body]
 
 @tag(register, [Variable()])

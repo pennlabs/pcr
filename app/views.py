@@ -247,4 +247,3 @@ def faq(request):
 
 def about(request):
   return render_to_response('about.html')
-
