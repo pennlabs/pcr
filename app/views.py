@@ -19,12 +19,23 @@ def instructor(request):
   email = 'marcus@cis.upenn.edu'
   instructor = Instructor(name, title, address, phone, email)
 
-  field_names = ['id', 'Class', 'Course', 'Instructor', 'Difficulty', 'Sections']
+  field_names = ['id', 'class_',
+                 'course', 'instructor', 'difficulty',
+                 'communicate', 'stimulate', 'accessibility',
+                 'learned', 'work', 'readings',
+                 'major', 'nonmajor',
+                 'section']
   Row = namedtuple('Row', field_names)
-  row1 = Row(1, 'CIS 110', 3.2, 3.5, 3.3, getSectionsTable())
-  row2 = Row(2, 'CIS 120', 3.1, 2.6, 2.4, getSectionsTable())
-  row3 = Row(3, 'CIS 121', 3.0, 2.4, 3.4, getSectionsTable())
-  score_table = Table(field_names, [row1, row2, row3])
+  row0 = Row('id', 'Class',
+             'Course', 'Instructor', 'Difficulty',
+             'Communicate', 'Stimulate', 'Accessibility',
+             'Amount Learned', 'Amount of Work', 'Quality of Readings',
+             'Recommended to Major', 'Recommended to Non-Major',
+             'Section')
+  row1 = Row(1, 'CIS 110', 3.2, 3.5, 3.3, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, getSectionsTable())
+  row2 = Row(2, 'CIS 120', 3.1, 2.6, 2.4, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, getSectionsTable())
+  row3 = Row(3, 'CIS 121', 3.0, 2.4, 3.4, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, getSectionsTable())
+  score_table = Table(field_names, [row0, row1, row2, row3])
   
   sb_course = ScoreBox('Course', 3.05)
   sb_instructor = ScoreBox('Instructor', 2.8)

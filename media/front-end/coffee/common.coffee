@@ -5,15 +5,24 @@ window.toggle_choose_cols = () ->
   $("#choose-cols").toggle()
 
 window.submit_choose_cols = () ->
-# TODO: more efficient method please? list comprehension? I'm no python master
-  str = ""
-  for i in [0..10]
-    str +=
-    if $("#choose-cols input[name='choosecols#{i}']")
-    .attr('checked')=="checked"
-    then 1 else 0
+  boxes = $("#choose-cols input[type='checkbox']")  
+  result = []
+
+  for i in [0..(boxes.length-1)]
+    if $(boxes[i]).attr("checked")?
+      result.push($(boxes[i]).attr("name"))
+  
+  localStorage["pcr_choosecols"] = result.join()
+  toggle_choose_cols()
+  set_cols(result)
+
+window.cancel_choose_cols = () ->
+  $("#choose-cols input[type=checkbox]").attr("checked",false)
+  
+  cols = localStorage["pcr_choosecols"].split(",")
+  for i in [0..(cols.length-1)]
+    $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
     
-  localStorage["pcr_choosecols"] = str
   toggle_choose_cols()
   
 # 0=average (default), 1=recent
@@ -24,28 +33,36 @@ window.toggle_view = (view_id) ->
   else
     $("a#view_average").removeClass("disabled")
     $("a#view_recent").addClass("disabled")
-  localStorage["pcr_view"] = view_id
+  localStorage["pcr_viewmode"] = view_id
+
+window.set_cols = (cols) ->
+  # hide all cols
+  $("#course-table th").hide()
+  $("#course-table td").hide()
+  # show default cols
+  $("#course-table .col_class_").show()
+  # loop cols
+  for i in [0..(cols.length-1)]
+    $("#course-table .col_#{cols[i]}").show()
   
 ###
 DOCUMENT READY
 ###
 $(document).ready ->
 
-  ### setup view mode ###
-  if not localStorage["pcr_view"]?
-    localStorage["pcr_view"] = "0"
+  ### localStorage setup view mode ###
+  if not localStorage["pcr_viewmode"]?
+    localStorage["pcr_viewmode"] = "0"
   else
-    toggle_view(localStorage["pcr_view"])
+    toggle_view(localStorage["pcr_viewmode"])
   
-  ### setup choose columns ###
-  if localStorage["pcr_choosecols"]?
-    str = localStorage["pcr_choosecols"]
-  
-    for i in [0..10]
-      $("#choose-cols input[name='choosecols#{i}']")
-        .attr('checked', str.charAt(i)=="1")
-  else
-    for i in [0..2]
-      $("#choose-cols input[name='choosecols#{i}']")
-        .attr('checked', true)
-    localStorage["pcr_choosecols"] = "11100000000"
+  ### localStorage setup choose columns ###
+  # check if localStorage key exists, else create default
+  cols = if (localStorage["pcr_choosecols"]?)
+  then localStorage["pcr_choosecols"].split(",")
+  else localStorage["pcr_choosecols"] = "class,difficulty,instructor"
+  # loop cols
+  for i in [0..(cols.length-1)]
+    $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
+    
+  set_cols(cols)

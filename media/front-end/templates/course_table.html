@@ -3,13 +3,13 @@
 <table id="course-table">
 	<thead>
 		<tr>
-			{% for cell in table.head|slice:"1:-1" %}
-			<th scope="col" class="column_{{cell}}">{{cell}}</th>
+			{% for cell in table.body.0|slice:"1:-1" %}
+			<th scope="col" class="col_{{cell.0}}">{{cell.1}}</th>
 			{% endfor %}
 		</tr>
 	</thead>
 	<tbody>
-		{% for row in table.body %}
+		{% for row in table.body|slice:"1:" %}
 		<tr class="row_display" onclick="toggle_row({{row.0.1}})">
 			{% for cell in row|slice:"1:-1" %}
 			<td class="col_{{cell.0}}">{{cell.1}}</td>
