@@ -104,7 +104,7 @@ def course(request, course_id):
     sections = []
     isections = instructors[instructor]
     #average
-    avgs = course_avg, instructor_avg, difficulty_avg = 0, 0, 0
+    course_avg, instructor_avg, difficulty_avg = 0, 0, 0
     for section in isections:
       semester = section['Semester']
       rcourse = section['Course Quality']
@@ -114,8 +114,9 @@ def course(request, course_id):
       instructor_avg += float(rinstructor)
       difficulty_avg += float(rdifficulty)
       sections.append((semester, rcourse, rinstructor, rdifficulty))
-    for avg in avgs:
-      avg /= len(sections)
+    course_avg /= len(sections)
+    instructor_avg /= len(sections)
+    difficulty_avg /= len(sections)
     #recent
     recent = isections[-1]
     course_rec = float(recent['Course Quality'])
