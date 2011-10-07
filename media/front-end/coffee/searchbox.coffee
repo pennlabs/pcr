@@ -27,7 +27,7 @@ window.initSearchbox  = () ->
         $("#searchbox").attr("value", ui.item.title)
         return false
       select: ( event, ui ) ->
-        window.location = ui.item.link
+        window.location = ui.item.url
         return false
       open: () ->
         $(".ui-autocomplete.ui-menu.ui-widget").width(

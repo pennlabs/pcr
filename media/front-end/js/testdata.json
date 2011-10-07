@@ -5,42 +5,42 @@
 			"category": "Courses",
 			"title": "CIS 120",
 			"desc": "Programming Techniques II",
-			"link": "http://www.seas.upenn.edu/~cis120/"
+			"url": "http://www.seas.upenn.edu/~cis120/"
 		},
 		{
 			"label": "CIS 240 CIS240 Computer Architecture",
 			"category": "Courses",
 			"title": "CIS 240",
 			"desc": "Computer Architecture",
-			"link": ""
+			"url": ""
 		},
 		{
 			"label": "CIS 262 CIS262 Languages and Automata",
 			"category": "Courses",
 			"title": "CIS 262",
 			"desc": "Languages and Automata",
-			"link": ""
+			"url": ""
 		},
 		{
 			"label": "Rajeev Alur",
 			"category": "Instructors",
 			"title": "Rajeev Alur",
 			"desc": "CIS",
-			"link": ""
+			"url": ""
 		},
 		{
 			"label": "C.J. Taylor",
 			"category": "Instructors",
 			"title": "C.J. Taylor",
 			"desc": "CSE",
-			"link": ""
+			"url": ""
 		},
 		{
 			"label": "Mitch Marcus",
 			"category": "Instructors",
 			"title": "Mitch Marcus",
 			"desc": "CIS",
-			"link": ""
+			"url": ""
 		}
 	]
 }

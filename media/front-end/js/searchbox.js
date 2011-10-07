@@ -32,7 +32,7 @@
           return false;
         },
         select: function(event, ui) {
-          window.location = ui.item.link;
+          window.location = ui.item.url;
           return false;
         },
         open: function() {
