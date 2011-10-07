@@ -15,12 +15,24 @@ def pcr(*args, **kwargs):
   return json.loads(page.read())['result']
 
 
-def average(items, attr):
+def average(reviews, attr):
+  average = 0.0
+  for review in reviews:
+    try:
+      average += review[attr]
+    except:
+      pass
   try:
-    return sum([item[attr] for item in items]) / len(items)
+    return average / len(reviews)
   except:
     return -1.0
 
+
+def recent(reviews, attr):
+  try:
+    return reviews[-1][attr]
+  except:
+    return 0.0
 
 class Review(dict):
   def __init__(self, raw_review):
@@ -47,22 +59,16 @@ class Instructor(object):
   @property
   def most_recent(self):
     return self.sections[-1]
-
+  
   def recent(self, attr):
-    try:
-      return self.reviews[-1][attr]
-    except:
-      return -1.0
-
-
-  def __hash__(self):
-    return hash(self.id)
+    return recent(self.reviews, attr)
 
 
 class Section(object):
   def __init__(self, raw_section):
     self.raw = raw_section
-    self.sectionum = raw_section['sectionnum']
+    self.id = raw_section['id']
+    self.sectionnum = raw_section['sectionnum']
     self.semester = raw_section['course']['semester']
 
   @property
@@ -119,8 +125,14 @@ class CourseHistory(object):
   def most_recent(self):
     return self.courses[-1]
 
+  def __eq__(self, other):
+    try:
+      return self.name == other.name
+    except:
+      return False
+
   def recent(self, attr):
-    return average(self.most_recent, attr)
+    return recent([review for section in self.most_recent.sections for review in section.reviews], attr)
     
   @property
   def instructors(self):

@@ -33,7 +33,7 @@ def instructor(request, id):
   scorecard = [
       ScoreBoxRow('Average',
         '%s sections' % len(instructor.sections),
-        [ScoreBox(display, average(instructor.sections, attr))
+        [ScoreBox(display, average([review for section in instructor.sections for review in section.reviews], attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)]),
       ScoreBoxRow('Recent',
         instructor.most_recent.semester,
@@ -45,7 +45,7 @@ def instructor(request, id):
   score_table = Table(INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN,
       [[row_id, coursehistory.name] +
 
-      [(average(coursehistory.courses, rating),
+      [(average([review for course in coursehistory.courses for section in course.sections for review in section.reviews], rating),
         coursehistory.recent(rating))
         for rating in RATING_API] +
 
@@ -66,15 +66,15 @@ def instructor(request, id):
 COURSE_OUTER = ('id', 'Professor') + RATING_STRINGS + ('sections',)
 COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',) 
 
-COURSE_INNER = ('Semester',) + RATING_STRINGS
-COURSE_INNER_HIDDEN =  ('semester',) + RATING_FIELDS
+COURSE_INNER = ('Section', 'Semester') + RATING_STRINGS
+COURSE_INNER_HIDDEN =  ('section', 'semester') + RATING_FIELDS
 
 def course(request, coursehistory_id):
   coursehistory = CourseHistory(pcr('coursehistory', coursehistory_id))
 
   scorecard = [
       ScoreBoxRow('Average',
-        '%s sections' % len(coursehistory.sections),
+        '%s sections' % len([section for section in coursehistory.sections if section.course.coursehistory == coursehistory]),
         [ScoreBox(display, average(coursehistory.courses, attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)]),
       ScoreBoxRow('Recent',
@@ -85,12 +85,12 @@ def course(request, coursehistory_id):
   score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN,
       [[row_id, instructor.name] +
       #instructor averages
-      [(average(instructor.sections, rating),
+      [(average([review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews], rating),
         instructor.recent(rating))
         for rating in RATING_API] +
       #hack last cell (scores for each section)
       [Table(COURSE_INNER, COURSE_INNER_HIDDEN,
-        [[section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in instructor.sections]
+        [[section.id, section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in instructor.sections if section.course.coursehistory == coursehistory]
         )]
   for row_id, instructor in enumerate(coursehistory.instructors)])
 
