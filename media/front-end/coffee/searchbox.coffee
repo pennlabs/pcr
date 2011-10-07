@@ -1,3 +1,5 @@
+window.autocomplete_open = ()->
+
 $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
   self = this
   currentCategory = ""
@@ -13,5 +15,16 @@ $ ->
       source: data.items
       delay: 0
       minLength: 0
+      select: ( event, ui ) ->
+        alert(ui.item.label)
+      open: ( event, ui ) ->
+        autocomplete_open()
     ).data("autocomplete")._renderItem = (ul, item) ->
-      $("<li></li>").data("item.autocomplete", item).append("<a><span class='ui-menu-item-title'>" + item.title + "</span><br/><span class='ui-menu-item-desc'>" + item.desc + "</span></a>").appendTo(ul)
+      $("<li></li>")
+      .data("item.autocomplete", item)
+      .append("<a><span class='ui-menu-item-title'>" +
+              item.title +
+              "</span><br/><span class='ui-menu-item-desc'>" +
+              item.desc +
+              "</span></a>")
+      .appendTo(ul)

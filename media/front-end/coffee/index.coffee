@@ -1,0 +1,4 @@
+###
+DOCUMENT READY
+###
+$(document).ready ->

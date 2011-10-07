@@ -48,6 +48,7 @@
     $("#course-table .col_class_").show();
     $("#course-table .col_professor").show();
     $("#course-table .col_semester").show();
+    $("#course-table .col_section").show();
     $("#course-table .td_hidden").show();
     _results = [];
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
@@ -60,17 +61,18 @@
   */
   $(document).ready(function() {
     /* localStorage setup view mode */
-    var cols, i, _ref;
+    var cols, i, _ref, _results;
     if (!(localStorage["pcr_viewmode"] != null)) {
       localStorage["pcr_viewmode"] = "0";
-    } else {
-      set_viewmode(localStorage["pcr_viewmode"]);
     }
+    set_viewmode(localStorage["pcr_viewmode"]);
     /* localStorage setup choose columns */
-    cols = (localStorage["pcr_choosecols"] != null) ? localStorage["pcr_choosecols"].split(",") : localStorage["pcr_choosecols"] = "class,difficulty,instructor";
+    cols = (localStorage["pcr_choosecols"] != null) ? localStorage["pcr_choosecols"].split(",") : localStorage["pcr_choosecols"] = ["course", "instructor", "difficulty"];
+    set_cols(cols);
+    _results = [];
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
-      $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
+      _results.push($("#choose-cols input[name='" + cols[i] + "']").attr("checked", true));
     }
-    return set_cols(cols);
+    return _results;
   });
 }).call(this);

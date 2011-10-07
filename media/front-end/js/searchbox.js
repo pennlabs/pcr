@@ -1,4 +1,5 @@
 (function() {
+  window.autocomplete_open = function() {};
   $.widget("custom.autocomplete", $.ui.autocomplete, {
     _renderMenu: function(ul, items) {
       var currentCategory, self;
@@ -18,7 +19,13 @@
       return $("#searchbox").autocomplete({
         source: data.items,
         delay: 0,
-        minLength: 0
+        minLength: 0,
+        select: function(event, ui) {
+          return alert(ui.item.label);
+        },
+        open: function(event, ui) {
+          return autocomplete_open();
+        }
       }).data("autocomplete")._renderItem = function(ul, item) {
         return $("<li></li>").data("item.autocomplete", item).append("<a><span class='ui-menu-item-title'>" + item.title + "</span><br/><span class='ui-menu-item-desc'>" + item.desc + "</span></a>").appendTo(ul);
       };
