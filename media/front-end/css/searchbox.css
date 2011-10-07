@@ -13,13 +13,13 @@
 }			
 
 .ui-menu-item-title {
-  
+  color: #000;
 }
 .ui-menu-item-desc {
-  color: #999;
+  color: #666;
 }
 .ui-state-hover span {
-  color: #FFF;	/* to cancel #999 */
+  color: #FFF;	/* to cancel colors above */
 }
 
 .ui-autocomplete-category {
