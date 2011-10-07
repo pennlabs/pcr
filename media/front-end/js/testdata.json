@@ -1,0 +1,40 @@
+{
+	"items": [
+		{
+			"label": "CIS 120 Programming Techniques II",
+			"category": "Courses",
+			"title": "CIS 120",
+			"desc": "Programming Techniques II"
+		},
+		{
+			"label": "CIS 240 Computer Architecture",
+			"category": "Courses",
+			"title": "CIS 240",
+			"desc": "Computer Architecture"
+		},
+		{
+			"label": "CIS 262 Languages and Automata",
+			"category": "Courses",
+			"title": "CIS 262",
+			"desc": "Languages and Automata"
+		},
+		{
+			"label": "Rajeev Alur",
+			"category": "Instructors",
+			"title": "Rajeev Alur",
+			"desc": "CIS"
+		},
+		{
+			"label": "C.J. Taylor",
+			"category": "Instructors",
+			"title": "C.J. Taylor",
+			"desc": "CSE"
+		},
+		{
+			"label": "Mitch Marcus",
+			"category": "Instructors",
+			"title": "Mitch Marcus",
+			"desc": "CIS"
+		}
+	]
+}
