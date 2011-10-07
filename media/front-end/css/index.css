@@ -17,6 +17,7 @@
 	background:#FFF;
 	width:458px;
 	border: 1px solid #000040;
+	margin:0;
 	margin-bottom:15px;
 }
 #searchbar input[type=text] {
@@ -43,7 +44,7 @@
 	background-position:0px -30px;
 }
 
-#index-subtitle {
+#subtitle {
 	text-align:center;
 	font-family:"Times New Roman", Times, serif;
 	font-size:14px;
