@@ -1,21 +1,21 @@
 {
 	"items": [
 		{
-			"label": "CIS 120 Programming Techniques II",
+			"label": "CIS 120 CIS120 Programming Techniques II",
 			"category": "Courses",
 			"title": "CIS 120",
 			"desc": "Programming Techniques II",
 			"link": "http://www.seas.upenn.edu/~cis120/"
 		},
 		{
-			"label": "CIS 240 Computer Architecture",
+			"label": "CIS 240 CIS240 Computer Architecture",
 			"category": "Courses",
 			"title": "CIS 240",
 			"desc": "Computer Architecture",
 			"link": ""
 		},
 		{
-			"label": "CIS 262 Languages and Automata",
+			"label": "CIS 262 CIS262 Languages and Automata",
 			"category": "Courses",
 			"title": "CIS 262",
 			"desc": "Languages and Automata",
