@@ -10,14 +10,13 @@ from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
 from helper import getSectionsTable, build_course, build_history, build_section
-from api import pcr
+from api import *
 
 
 RATING_STRINGS = ('Course', 'Instructor', 'Difficulty')
 RATING_FIELDS = ('course', 'instructor', 'difficulty')
 
 RATING_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
-
 
 def index(request):
   return render_to_response('index.html')
@@ -68,129 +67,36 @@ COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',)
 COURSE_INNER = ('Semester',) + RATING_STRINGS
 COURSE_INNER_HIDDEN =  ('semester',) + RATING_FIELDS
 
-def course(request, course_id):
-  raw_coursehistory = pcr('coursehistory', course_id)
-  course = {
-    'title': raw_coursehistory['name'],
-    'subtitle': None,
-    'description': None
-  }
-  
-  #Get sections here
-  #group by instructor
-  instructors = defaultdict(list)
-  instructor_id = {}
-  for raw_course in raw_coursehistory["courses"]:
-    semester = raw_course['semester']
-    course_id = raw_course['id']
-    raw_sections = pcr('course', course_id, "sections")['values']
-    for raw_section in raw_sections:
-      sectionnum = raw_section['sectionnum']
-      raw_reviews = pcr('course', course_id, 'section', sectionnum, 'reviews')['values']
-      raw_instructors = raw_section['instructors']
+def course(request, coursehistory_id):
+  coursehistory = CourseHistory(pcr('coursehistory', coursehistory_id))
 
-      #TODO Change this to not be static
-      if raw_instructors is None:
-        raw_instructors = [{'id': 1, 'name': 'Speigal'}]
+  scorecard = [
+      ScoreBoxRow('Average',
+        '%s sections' % len(coursehistory.sections),
+        [ScoreBox(display, coursehistory.average(attr))
+          for display, attr in zip(RATING_STRINGS, RATING_API)]),
+      ScoreBoxRow('Recent',
+        coursehistory.most_recent.semester,
+        [ScoreBox(display, coursehistory.recent(attr))
+          for display, attr in zip(RATING_STRINGS, RATING_API)])]
 
-      for raw_instructor, raw_review in zip(raw_instructors, raw_reviews):
-        name = raw_instructor['name']
-        instructor_id[name] = raw_instructor['id']
-        raw_ratings = raw_review['ratings']
-        review = dict([(attr, raw_ratings[attr]) for attr in RATING_API])
-        review['Semester'] = semester
-        instructors[name].append(review)
+  score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN,
+      [[row_id, instructor.name] +
+      #instructor averages
+      [(instructor.average(rating),
+        instructor.recent(rating))
+        for rating in RATING_API] +
+      #hack last cell (scores for each section)
+      [Table(COURSE_INNER, COURSE_INNER_HIDDEN,
+        [[section.semester] + [section.average(rating) for rating in RATING_API] for section in instructor.sections]
+        )]
+  for row_id, instructor in enumerate(coursehistory.instructors)])
 
-  table_body = []
-  id = 0
-  for instructor in instructors:
-    sections = []
-    isections = instructors[instructor]
-    #average
-    course_avg, instructor_avg, difficulty_avg = 0, 0, 0
-    for section in isections:
-      semester = section['Semester']
-      rcourse = section['rCourseQuality']
-      rinstructor = section['rInstructorQuality']
-      rdifficulty = section['rDifficulty']
-      course_avg += float(rcourse)
-      instructor_avg += float(rinstructor)
-      difficulty_avg += float(rdifficulty)
-      sections.append((semester, rcourse, rinstructor, rdifficulty))
-    course_avg /= len(sections)
-    instructor_avg /= len(sections)
-    difficulty_avg /= len(sections)
-    #recent
-    recent = isections[-1]
-    course_rec = float(recent['rCourseQuality'])
-    instructor_rec = float(recent['rInstructorQuality'])
-    difficulty_rec = float(recent['rDifficulty'])
-    sections_table = Table(COURSE_INNER, COURSE_INNER_HIDDEN, sections)
-    id += 1
-    table_body.append([id, instructor,
-      (course_avg, course_rec),
-      (instructor_avg, instructor_rec),
-      (difficulty_avg, difficulty_rec),
-      sections_table])
-
-  score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN, table_body)
-
-  #Average
-  raw_reviews = pcr('coursehistory', course_id, 'reviews')['values']
-  #unfortunately, I need to count since some reviews are blank
-  course_quality, instructor_quality, difficulty = 0.0, 0.0, 0.0
-  completed_reviews = 0
-  for raw_review in raw_reviews:
-    ratings = raw_review['ratings']
-    try:
-      course_quality += float(ratings["rCourseQuality"])
-      instructor_quality += float(ratings["rInstructorQuality"])
-      try:
-        difficulty += float(ratings["rDifficulty"])
-      except KeyError:
-        #some forms don't actually have difficulty
-        #check out coursehistory/1207 for example. Not sure what to do
-        difficulty = -1
-      completed_reviews += 1
-    except KeyError:
-      #some ratings are an empty dict
-      #check out coursehistory/1200 for example.
-      continue
-  course_quality /= completed_reviews
-  instructor_quality /= completed_reviews
-  try:
-    difficulty /= completed_reviews
-  except:
-    pass
-
-  sb_course     = ScoreBox('Course', course_quality)
-  sb_instructor = ScoreBox('Instructor', instructor_quality)
-  sb_difficulty = ScoreBox('rDifficulty', difficulty)
-  boxes         = (sb_course, sb_instructor, sb_difficulty)
-  average       = ScoreBoxRow('Average', '%s sections' % completed_reviews, boxes)
-
-  #Recent
-  recent_ratings = raw_reviews[-1]['ratings']
-  r_course_quality = recent_ratings["rCourseQuality"]
-  r_instructor_quality = recent_ratings["rInstructorQuality"]
-  try:
-    r_difficulty = recent_ratings["rDifficulty"]
-  except:
-    r_difficulty = -1
-  r_semester = raw_coursehistory["courses"][-1]["semester"]
-
-  sb_course     = ScoreBox('Course', r_course_quality)
-  sb_instructor = ScoreBox('Instructor', r_instructor_quality)
-  sb_difficulty = ScoreBox('rDifficulty', r_difficulty)
-  boxes         = [sb_course, sb_instructor, sb_difficulty]
-  recent        = ScoreBoxRow('Recent', r_semester, boxes)
-
-  scorecard     = ScoreCard([average, recent])
 
   context = RequestContext(request, {
-    'course': course,
-    'score_table': score_table,
-    'scorecard': scorecard
+    'course': coursehistory,
+    'scorecard': scorecard,
+    'score_table': score_table
   })
   return render_to_response('course.html', context)
 
