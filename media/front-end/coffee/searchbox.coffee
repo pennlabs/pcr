@@ -5,7 +5,7 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
   currentCategory = ""
   $.each items, (index, item) ->
     unless item.category == currentCategory
-      ul.append "<li class='ui-menu-item ui-autocomplete-category'><p>" + item.category + "</p></li>"
+      ul.append "<li class='ui-autocomplete-category'><p>" + item.category + "</p></li>"
       currentCategory = item.category
     self._renderItem(ul, item)
 

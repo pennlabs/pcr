@@ -23,6 +23,14 @@
 }
 
 .ui-autocomplete-category {
+  /* from ui-menu-item */
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  
+  /* custom */
   background-color: #f2f2f9;
   color: #000080;
   font-weight: bold;

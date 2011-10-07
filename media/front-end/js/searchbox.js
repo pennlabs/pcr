@@ -7,7 +7,7 @@
       currentCategory = "";
       return $.each(items, function(index, item) {
         if (item.category !== currentCategory) {
-          ul.append("<li class='ui-menu-item ui-autocomplete-category'><p>" + item.category + "</p></li>");
+          ul.append("<li class='ui-autocomplete-category'><p>" + item.category + "</p></li>");
           currentCategory = item.category;
         }
         return self._renderItem(ul, item);
