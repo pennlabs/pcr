@@ -21,6 +21,11 @@ RATING_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 def index(request):
   return render_to_response('index.html')
 
+INSTRUCTOR_OUTER = ('id', 'Course') + RATING_STRINGS + ('sections',)
+INSTRUCTOR_OUTER_HIDDEN = ('id', 'course') + RATING_FIELDS + ('sections',) 
+
+INSTRUCTOR_INNER = ('Section',) + RATING_STRINGS
+INSTRUCTOR_INNER_HIDDEN =  ('section',) + RATING_FIELDS
 
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
@@ -28,18 +33,31 @@ def instructor(request, id):
   scorecard = [
       ScoreBoxRow('Average',
         '%s sections' % len(instructor.sections),
-        [ScoreBox(display, instructor.average(attr))
+        [ScoreBox(display, average(instructor.sections, attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)]),
       ScoreBoxRow('Recent',
         instructor.most_recent.semester,
         [ScoreBox(display, instructor.recent(attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)])]
   
+  #create a map from coursehistory to sections taught by professor
+  #use average of the sections to create averages / recent
+  score_table = Table(INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN,
+      [[row_id, coursehistory.name] +
+
+      [(average(coursehistory.courses, rating),
+        coursehistory.recent(rating))
+        for rating in RATING_API] +
+
+      [Table(INSTRUCTOR_INNER, INSTRUCTOR_INNER_HIDDEN,
+        [[section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in coursehistory.sections]
+        )]
+  for row_id, coursehistory in enumerate(instructor.coursehistories)])
 
   context = RequestContext(request, {
     'instructor': instructor,
     'scorecard': scorecard,
-    'score_table': None
+    'score_table': score_table
   })
 
   return render_to_response('instructor.html', context)
@@ -57,7 +75,7 @@ def course(request, coursehistory_id):
   scorecard = [
       ScoreBoxRow('Average',
         '%s sections' % len(coursehistory.sections),
-        [ScoreBox(display, coursehistory.average(attr))
+        [ScoreBox(display, average(coursehistory.courses, attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)]),
       ScoreBoxRow('Recent',
         coursehistory.most_recent.semester,
@@ -67,12 +85,12 @@ def course(request, coursehistory_id):
   score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN,
       [[row_id, instructor.name] +
       #instructor averages
-      [(instructor.average(rating),
+      [(average(instructor.sections, rating),
         instructor.recent(rating))
         for rating in RATING_API] +
       #hack last cell (scores for each section)
       [Table(COURSE_INNER, COURSE_INNER_HIDDEN,
-        [[section.semester] + [section.average(rating) for rating in RATING_API] for section in instructor.sections]
+        [[section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in instructor.sections]
         )]
   for row_id, instructor in enumerate(coursehistory.instructors)])
 

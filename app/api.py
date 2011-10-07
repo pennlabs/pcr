@@ -1,3 +1,5 @@
+from __future__ import division
+
 import urllib
 import urllib2
 import json
@@ -13,6 +15,13 @@ def pcr(*args, **kwargs):
   return json.loads(page.read())['result']
 
 
+def average(items, attr):
+  try:
+    return sum([item[attr] for item in items]) / len(items)
+  except:
+    return -1.0
+
+
 class Review(dict):
   def __init__(self, raw_review):
     super(Review, self).__init__([(attr, float(score)) for attr, score in raw_review['ratings'].items()])
@@ -22,8 +31,18 @@ class Instructor(object):
   def __init__(self, raw_instructor):
     self.name = raw_instructor['name']
     self.id = raw_instructor['id']
-    self.reviews = [Review(raw_review) for raw_review in pcr('instructor', self.id, 'reviews')['values']]
-    self.sections = [Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
+
+  @property
+  def reviews(self):
+    return [Review(raw_review) for raw_review in pcr('instructor', self.id, 'reviews')['values']]
+  
+  @property
+  def sections(self):
+    return [Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
+
+  @property
+  def coursehistories(self):
+    return [section.course.coursehistory for section in self.sections]
 
   @property
   def most_recent(self):
@@ -35,11 +54,6 @@ class Instructor(object):
     except:
       return -1.0
 
-  def average(self, attr):
-    try:
-      return sum([review[attr] for review in self.reviews]) / len(self.reviews) + 1
-    except:
-      return -1.0
 
   def __hash__(self):
     return hash(self.id)
@@ -47,23 +61,33 @@ class Instructor(object):
 
 class Section(object):
   def __init__(self, raw_section):
+    self.raw = raw_section
     self.sectionum = raw_section['sectionnum']
     self.semester = raw_section['course']['semester']
-    self.reviews = [Review(raw_review) for raw_review in pcr(*(raw_section['path'].split('/') + ['reviews']))['values']]
 
-  def average(self, attr):
-    try:
-      return sum([review[attr] for review in self.reviews]) / len(self.reviews)
-    except:
-      return -1.0
+  @property
+  def reviews(self):
+    return [Review(raw_review) for raw_review in pcr(*(self.raw['path'].split('/') + ['reviews']))['values']]
+
+  @property
+  def course(self):
+    return Course(pcr('course', self.raw['course']['id']))
 
 
 class Course(object):
   def __init__(self, raw_course):
+    self.raw = raw_course
     self.semester = raw_course['semester']
     self.id = raw_course['id']
     self.aliases = raw_course['aliases']
-    self.instructors = [Instructor(instructor)
+
+  @property
+  def coursehistory(self):
+    return CourseHistory(pcr(*self.raw['history']['path'].split('/')))
+
+  @property
+  def instructors(self):
+    return [Instructor(instructor)
         for instructor in dict([
           (raw_instructor['id'], raw_instructor)
           for raw_section in pcr('course', self.id, "sections")['values']
@@ -73,17 +97,15 @@ class Course(object):
   def sections(self):
     return [section for instructor in self.instructors for section in instructor.sections]
 
-  def average(self, attr):
-    return sum([section.average(attr) for section in self.sections]) / len(self.sections)
-
 
 class CourseHistory(object):
   def __init__(self, raw_coursehistory):
+    self.raw = raw_coursehistory
     self.name  = raw_coursehistory['name']
-    self.courses = [Course(raw_course) for raw_course in raw_coursehistory['courses']]
 
-  def average(self, attr):
-    return sum([course.average(attr) for course in self.courses]) / len(self.courses)
+  @property
+  def courses(self):
+    return [Course(raw_course) for raw_course in self.raw['courses']]
 
   @property
   def subtitle(self):
@@ -98,7 +120,7 @@ class CourseHistory(object):
     return self.courses[-1]
 
   def recent(self, attr):
-    return self.most_recent.average(attr)
+    return average(self.most_recent, attr)
     
   @property
   def instructors(self):
@@ -110,6 +132,6 @@ class CourseHistory(object):
       if instructor:
         unique.add(instructor)
         for o, other in enumerate(instructors):
-          if instructor.id == other.id:
-            instructors[0] = 0
+          if other and instructor.id == other.id:
+            instructors[o] = 0
     return unique
