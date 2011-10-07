@@ -23,39 +23,23 @@ def index(request):
 
 
 def instructor(request, id):
-  raw_instructor = pcr('instructor', id)
-  instructor = {
-    'name': raw_instructor['name'],
-    'title': raw_instructor['title'],
-    'address': raw_instructor['address'],
-    'phone': raw_instructor['phone'],
-    'email': raw_instructor['email'] 
-  }
+  instructor = Instructor(pcr('instructor', id))
 
-  #Don't forget about getSectionsTable()
-  #row3 = Row(3, 'CIS 121', 3.0, 2.4, 3.4, getSectionsTable())
+  scorecard = [
+      ScoreBoxRow('Average',
+        '%s sections' % len(instructor.sections),
+        [ScoreBox(display, instructor.average(attr))
+          for display, attr in zip(RATING_STRINGS, RATING_API)]),
+      ScoreBoxRow('Recent',
+        instructor.most_recent.semester,
+        [ScoreBox(display, instructor.recent(attr))
+          for display, attr in zip(RATING_STRINGS, RATING_API)])]
   
-  #probably want to reimplement Table...
-  score_table = Table(COURSE, map(build_course, raw_instructor['courses']))
-  
-  sb_course = ScoreBox('Course', 3.05)
-  sb_instructor = ScoreBox('Instructor', 2.8)
-  sb_difficulty = ScoreBox('rDifficulty', 3.2)
-  boxes = [sb_course, sb_instructor, sb_difficulty]
-  sb_row1 = ScoreBoxRow('Average', '80 sections', boxes)
-
-  sb_course = ScoreBox('Course', 2.4)
-  sb_instructor = ScoreBox('Instructor', 3.3)
-  sb_difficulty = ScoreBox('rDifficulty', 3.5)
-  boxes = [sb_course, sb_instructor, sb_difficulty]
-  sb_row2 = ScoreBoxRow('Recent', 'Fall 2008', boxes)
-
-  scorecard = ScoreCard([sb_row1, sb_row2])
 
   context = RequestContext(request, {
     'instructor': instructor,
-    'score_table': score_table,
-    'scorecard': scorecard
+    'scorecard': scorecard,
+    'score_table': None
   })
 
   return render_to_response('instructor.html', context)

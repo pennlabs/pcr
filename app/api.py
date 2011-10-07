@@ -25,6 +25,10 @@ class Instructor(object):
     self.reviews = [Review(raw_review) for raw_review in pcr('instructor', self.id, 'reviews')['values']]
     self.sections = [Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
 
+  @property
+  def most_recent(self):
+    return self.sections[-1]
+
   def recent(self, attr):
     try:
       return self.reviews[-1][attr]

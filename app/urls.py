@@ -3,8 +3,8 @@ from django.conf.urls.defaults import *
 from views import *
 
 urlpatterns = patterns('',
-  (r'^instructor/(\w+)$', instructor),
-  (r'^department/(\w{4})$', department),
+  (r'^instructor/(.*)$', instructor),
+  (r'^department/(\w+)$', department),
   (r'^course/(\w+)$', course),
 
   (r'^browse$', browse),
