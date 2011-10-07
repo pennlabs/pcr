@@ -12,6 +12,8 @@ from templatetags.table import Table
 from helper import getSectionsTable, build_course, build_history, build_section
 from api import *
 
+#TODO: Get this and filter stuff out
+CURRENT_SEMESTER = None
 
 RATING_STRINGS = ('Course', 'Instructor', 'Difficulty')
 RATING_FIELDS = ('course', 'instructor', 'difficulty')
@@ -75,11 +77,11 @@ def course(request, coursehistory_id):
   scorecard = [
       ScoreBoxRow('Average',
         '%s sections' % len([section for section in coursehistory.sections if section.course.coursehistory == coursehistory]),
-        [ScoreBox(display, average(coursehistory.courses, attr))
+        [ScoreBox(display, average([review for course in coursehistory.courses for section in course.sections if section.course.coursehistory == coursehistory for review in section.reviews], attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)]),
       ScoreBoxRow('Recent',
         coursehistory.most_recent.semester,
-        [ScoreBox(display, coursehistory.recent(attr))
+        [ScoreBox(display, recent([review for course in coursehistory.courses for section in course.sections if section.course.coursehistory == coursehistory for review in section.reviews], attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)])]
 
   score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN,
