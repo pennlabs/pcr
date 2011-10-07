@@ -1,8 +1,10 @@
-.ui-menu {
+.ui-autocomplete.ui-menu.ui-widget {
   padding: 0px;				
   font-family: Verdana,Geneva,sans-serif;
   font-size: 10px;				
   line-height: 1.5;
+  
+  border:1px solid #000080;
 }
 
 .ui-menu .ui-menu-item a {

@@ -9,17 +9,32 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
       currentCategory = item.category
     self._renderItem(ul, item)
 
-$ ->
-  $.getJSON "http://pennapps.com/pcrsite-nop/media/front-end/js/testdata.json", (data) ->
+window.initSearchbox  = () ->
+  $.getJSON "http://pennapps.com/pcrsite-nop/media/front-end/js/testdata.json",(data) ->
     $("#searchbox").autocomplete(
       source: data.items
       delay: 0
       minLength: 0
+      
+      position:
+        my: "left top"
+        at: "left bottom"
+        collision: "none"
+        of: "#searchbar"
+        offset: "0 -1"
+      
+      focus: ( event, ui ) ->
+        $("#searchbox").attr("value", ui.item.title)
+        return false
       select: ( event, ui ) ->
-        alert(ui.item.label)
-      open: ( event, ui ) ->
-        autocomplete_open()
-    ).data("autocomplete")._renderItem = (ul, item) ->
+        window.location = ui.item.link
+        return false
+      open: () ->
+        $(".ui-autocomplete.ui-menu.ui-widget").width(
+          $("#searchbar").width()
+        )
+    )
+    .data("autocomplete")._renderItem = (ul, item) ->
       $("<li></li>")
       .data("item.autocomplete", item)
       .append("<a><span class='ui-menu-item-title'>" +

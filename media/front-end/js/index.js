@@ -1,5 +1,7 @@
 (function() {
   /*
   DOCUMENT READY
-  */  $(document).ready(function() {});
+  */  $(document).ready(function() {
+    return initSearchbox();
+  });
 }).call(this);

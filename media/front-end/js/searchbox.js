@@ -14,21 +14,33 @@
       });
     }
   });
-  $(function() {
+  window.initSearchbox = function() {
     return $.getJSON("http://pennapps.com/pcrsite-nop/media/front-end/js/testdata.json", function(data) {
       return $("#searchbox").autocomplete({
         source: data.items,
         delay: 0,
         minLength: 0,
-        select: function(event, ui) {
-          return alert(ui.item.label);
+        position: {
+          my: "left top",
+          at: "left bottom",
+          collision: "none",
+          of: "#searchbar",
+          offset: "0 -1"
         },
-        open: function(event, ui) {
-          return autocomplete_open();
+        focus: function(event, ui) {
+          $("#searchbox").attr("value", ui.item.title);
+          return false;
+        },
+        select: function(event, ui) {
+          window.location = ui.item.link;
+          return false;
+        },
+        open: function() {
+          return $(".ui-autocomplete.ui-menu.ui-widget").width($("#searchbar").width());
         }
       }).data("autocomplete")._renderItem = function(ul, item) {
         return $("<li></li>").data("item.autocomplete", item).append("<a><span class='ui-menu-item-title'>" + item.title + "</span><br/><span class='ui-menu-item-desc'>" + item.desc + "</span></a>").appendTo(ul);
       };
     });
-  });
+  };
 }).call(this);

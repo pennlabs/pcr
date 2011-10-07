@@ -1,4 +1,5 @@
 ###
 DOCUMENT READY
 ###
-$(document).ready ->
+$(document).ready ->  
+  initSearchbox()

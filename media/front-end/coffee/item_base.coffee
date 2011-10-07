@@ -57,6 +57,7 @@ window.set_cols = (cols) ->
 DOCUMENT READY
 ###
 $(document).ready ->
+  initSearchbox()
 
   ### localStorage setup view mode ###
   if not localStorage["pcr_viewmode"]?

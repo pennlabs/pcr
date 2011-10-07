@@ -60,8 +60,9 @@
   DOCUMENT READY
   */
   $(document).ready(function() {
-    /* localStorage setup view mode */
     var cols, i, _ref, _results;
+    initSearchbox();
+    /* localStorage setup view mode */
     if (!(localStorage["pcr_viewmode"] != null)) {
       localStorage["pcr_viewmode"] = "0";
     }
