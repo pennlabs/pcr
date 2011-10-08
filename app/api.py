@@ -23,7 +23,7 @@ def average(reviews, attr):
         average += review[attr]
       except:
         pass
-    return average / len(reviews)
+    return round(average / len(reviews), 2)
   else:
     return -1.0
 
@@ -34,7 +34,7 @@ def recent(reviews, attr):
     review = reviews.pop()
     if review:
       try:
-        return review[attr]
+        return round(review[attr], 2)
       except:
         return -1.0
 

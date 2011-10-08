@@ -68,8 +68,8 @@ def instructor(request, id):
 COURSE_OUTER = ('id', 'Professor') + RATING_STRINGS + ('sections',)
 COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',) 
 
-COURSE_INNER = ('Section', 'Semester') + RATING_STRINGS
-COURSE_INNER_HIDDEN =  ('section', 'semester') + RATING_FIELDS
+COURSE_INNER = ('Semester', 'Section') + RATING_STRINGS
+COURSE_INNER_HIDDEN =  ('semester', 'section') + RATING_FIELDS
 
 def course(request, coursehistory_id):
   coursehistory = CourseHistory(pcr('coursehistory', coursehistory_id))
@@ -92,7 +92,7 @@ def course(request, coursehistory_id):
         for rating in RATING_API] +
       #hack last cell (scores for each section)
       [Table(COURSE_INNER, COURSE_INNER_HIDDEN,
-        [[section.id, section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in instructor.sections if section.course.coursehistory == coursehistory]
+        [[section.semester, section.sectionnum] + [average(section.reviews, rating) for rating in RATING_API] for section in instructor.sections if section.course.coursehistory == coursehistory]
         )]
   for row_id, instructor in enumerate(coursehistory.instructors)])
 
