@@ -31,6 +31,10 @@ INSTRUCTOR_INNER_HIDDEN =  ('section',) + RATING_FIELDS
 
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
+  sections = instructor.sections
+  coursehistories = defaultdict(list)
+  for section in sections:
+    coursehistories[section.course.coursehistory.name].append(section)
 
   scorecard = [
       ScoreBoxRow('Average',
@@ -45,16 +49,16 @@ def instructor(request, id):
   #create a map from coursehistory to sections taught by professor
   #use average of the sections to create averages / recent
   score_table = Table(INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN,
-      [[row_id, coursehistory.name] +
+      [[row_id, coursehistory] +
 
-      [(average([review for course in coursehistory.courses for section in course.sections for review in section.reviews], rating),
-        coursehistory.recent(rating))
+      [(average([review for section in coursehistories[coursehistory] for review in section.reviews], rating),
+        recent([review for section in coursehistories[coursehistory] for review in section.reviews], rating))
         for rating in RATING_API] +
 
       [Table(INSTRUCTOR_INNER, INSTRUCTOR_INNER_HIDDEN,
-        [[section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in coursehistory.sections]
+        [[section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in coursehistories[coursehistory]]
         )]
-  for row_id, coursehistory in enumerate(instructor.coursehistories)])
+  for row_id, coursehistory in enumerate(coursehistories)])
 
   context = RequestContext(request, {
     'instructor': instructor,

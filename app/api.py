@@ -54,7 +54,9 @@ class Instructor(object):
   
   @property
   def sections(self):
-    return [Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
+    sections =[Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
+    sections.sort(key=lambda section: section.semester)
+    return sections
 
   @property
   def coursehistories(self):
@@ -91,6 +93,10 @@ class Course(object):
     self.id = raw_course['id']
     self.aliases = [" ".join(alias.split('-')) for alias in raw_course['aliases']]
     self.description = raw_course['description']
+  
+  @property
+  def name(self):
+    return self.aliases[-1]
 
   @property
   def coursehistory(self):
@@ -107,6 +113,9 @@ class Course(object):
   @property
   def sections(self):
     return [section for instructor in self.instructors for section in instructor.sections]
+
+  def __eq__(self, other):
+    return self.id == other.id
 
 
 class CourseHistory(object):
@@ -139,10 +148,7 @@ class CourseHistory(object):
     return self.most_recent.aliases[0]
 
   def __eq__(self, other):
-    try:
-      return self.name == other.name
-    except:
-      return False
+    return self.name == other.name
 
   def recent(self, attr):
     return average([review for section in self.most_recent.sections for review in section.reviews], attr)
