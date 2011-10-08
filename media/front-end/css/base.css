@@ -182,7 +182,7 @@ input {
 	display: none;
 }
 #course-table td.td_hidden {
-	padding: 10px 0px 20px 30px;
+	padding: 10px 0px 20px 15px;
 }
 #course-table .toggle_button {
 	width:9px;
@@ -202,7 +202,7 @@ input {
 	border-bottom: 0px;
 }
 #section-table td.td_hidden {
-	padding: 10px 0px 10px 10px;
+	padding: 10px 10px 10px 10px;
 }
 
 #footer {
