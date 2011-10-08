@@ -89,7 +89,7 @@ class Course(object):
     self.raw = raw_course
     self.semester = raw_course['semester']
     self.id = raw_course['id']
-    self.aliases = raw_course['aliases']
+    self.aliases = [" ".join(alias.split('-')) for alias in raw_course['aliases']]
     self.description = raw_course['description']
 
   @property
@@ -112,7 +112,7 @@ class Course(object):
 class CourseHistory(object):
   def __init__(self, raw_coursehistory):
     self.raw = raw_coursehistory
-    self.name  = raw_coursehistory['name']
+    self.name = raw_coursehistory['name']
 
   @property
   def courses(self):
