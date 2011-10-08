@@ -90,6 +90,7 @@ class Course(object):
     self.semester = raw_course['semester']
     self.id = raw_course['id']
     self.aliases = raw_course['aliases']
+    self.description = raw_course['description']
 
   @property
   def coursehistory(self):
@@ -115,7 +116,7 @@ class CourseHistory(object):
 
   @property
   def courses(self):
-    return [Course(raw_course) for raw_course in self.raw['courses']]
+    return [Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses']]
 
   @property
   def subtitle(self):
@@ -128,6 +129,10 @@ class CourseHistory(object):
   @property
   def most_recent(self):
     return self.courses[-1]
+
+  @property
+  def description(self):
+    return self.most_recent.description
 
   @property
   def number(self):
