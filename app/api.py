@@ -125,6 +125,10 @@ class CourseHistory(object):
   def most_recent(self):
     return self.courses[-1]
 
+  @property
+  def number(self):
+    return self.most_recent.aliases[0]
+
   def __eq__(self, other):
     try:
       return self.name == other.name
@@ -132,7 +136,7 @@ class CourseHistory(object):
       return False
 
   def recent(self, attr):
-    return recent([review for section in self.most_recent.sections for review in section.reviews], attr)
+    return average([review for section in self.most_recent.sections for review in section.reviews], attr)
     
   @property
   def instructors(self):

@@ -75,7 +75,7 @@ def course(request, coursehistory_id):
   scorecard = [
       ScoreBoxRow('Average',
         '%s sections' % len([section for section in coursehistory.sections if section.course.coursehistory == coursehistory]),
-        [ScoreBox(display, average(coursehistory.courses, attr))
+        [ScoreBox(display, average([review for instructor in coursehistory.instructors for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews], attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)]),
       ScoreBoxRow('Recent',
         coursehistory.most_recent.semester,
