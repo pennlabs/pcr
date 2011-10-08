@@ -47,6 +47,7 @@ window.set_cols = (cols) ->
   $("#course-table .col_class_").show()
   $("#course-table .col_professor").show()
   $("#course-table .col_semester").show()
+  $("#course-table .col_section").show()
   $("#course-table .td_hidden").show()
   # loop cols
   for i in [0..(cols.length-1)]
@@ -56,20 +57,21 @@ window.set_cols = (cols) ->
 DOCUMENT READY
 ###
 $(document).ready ->
+  initSearchbox()
 
   ### localStorage setup view mode ###
   if not localStorage["pcr_viewmode"]?
     localStorage["pcr_viewmode"] = "0"
-  else
-    set_viewmode(localStorage["pcr_viewmode"])
+  set_viewmode(localStorage["pcr_viewmode"])
   
   ### localStorage setup choose columns ###
   # check if localStorage key exists, else create default
   cols = if (localStorage["pcr_choosecols"]?)
   then localStorage["pcr_choosecols"].split(",")
-  else localStorage["pcr_choosecols"] = "class,difficulty,instructor"
+  else localStorage["pcr_choosecols"] = ["course","instructor","difficulty"]
+  set_cols(cols)
   # loop cols
   for i in [0..(cols.length-1)]
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
     
-  set_cols(cols)
+  

@@ -1,10 +1,26 @@
 {% extends "base.html" %}
 
 {% block htmlheader-links %}
+	<link type="text/css" href="media/front-end/css/flick/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
+
+	<link rel="stylesheet" href="media/front-end/css/960_12_col.css" />
+	<link rel="stylesheet" href="media/front-end/css/reset.css" />
+	
+	<link rel="stylesheet" href="media/front-end/css/searchbox.css" />	
+	
+	<link rel="stylesheet" href="media/front-end/css/base.css" />	
+	
 	<link rel="stylesheet" href="media/front-end/css/index.css" />
+	
+	
 {% endblock %}
 
 {% block htmlheader-js %}
+	<script type="text/javascript" src="media/front-end/js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="media/front-end/js/modernizr.custom.js"></script>	
+	<script type="text/javascript" src="media/front-end/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="media/front-end/js/searchbox.js"></script>
+	<script type="text/javascript" src="media/front-end/js/index.js"></script>
 {% endblock %}
 
 
@@ -19,14 +35,14 @@
 
 
 {% block banner-content %}
-	<div id="index-search" class="grid_6 prefix_3 suffix_3">
-		<img id="index-title" src="media/front-end/image/indextitle.png" alt="Penn Course Review">
-		<div id="index-searchbar">
-			<input type="text" value="" />
+	<div id="search" class="grid_6 prefix_3 suffix_3">
+		<img id="title" src="media/front-end/image/indextitle.png" alt="Penn Course Review">
+		<div id="searchbar">
+			<input id="searchbox" type="text" value="" />
 			<input type="submit" value="" />
 			<div class="clear"></div>
 		</div>
-		<p id="index-subtitle">
+		<p id="subtitle">
 			Search for a class, a professor, or a department.  E.g., ECON, Siegal, ECON001
 		</p>
 	</div>

@@ -5,21 +5,22 @@
 	height:10px;
 }
 
-#index-search {
+#search {
 	margin:60px 0;
 }
 
-#index-title {
+#title {
 	margin-bottom:25px;
 }
 
-#index-searchbar{	
+#searchbar{	
 	background:#FFF;
 	width:458px;
 	border: 1px solid #000040;
+	margin:0;
 	margin-bottom:15px;
 }
-#index-searchbar input[type=text] {
+#searchbar input[type=text] {
 	width:422px;
 	height:24px;	
 	
@@ -31,7 +32,7 @@
 	
 	font-size:14px;
 }
-#index-searchbar input[type=submit] {
+#searchbar input[type=submit] {
 	background:url(../image/searchbuttonlg.png) 0 0 no-repeat;
 	border:0;
 	width:30px;
@@ -39,11 +40,11 @@
 	float:left;
 	cursor:pointer;
 }
-#index-searchbar input[type=submit]:hover {
+#searchbar input[type=submit]:hover {
 	background-position:0px -30px;
 }
 
-#index-subtitle {
+#subtitle {
 	text-align:center;
 	font-family:"Times New Roman", Times, serif;
 	font-size:14px;
