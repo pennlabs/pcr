@@ -10,7 +10,7 @@
 	</thead>
 	<tbody>
 		{% for row in table.body %}
-		<tr class="row_display" onclick="toggle_row({{row.0.1}})">
+		<tr class="row_display" onclick="$('#row_hidden_{{forloop.counter0}}').toggle()">
 			<td class="col_{{row.1.0}}">{{row.1.1}}</td>
 			{% for cell in row|slice:"2:-1" %}
 			<td class="col_{{cell.0}}">
@@ -19,7 +19,7 @@
 			</td>
 			{% endfor %}
 		</tr>
-		<tr class="row_hidden" id="row_hidden_{{row.0.1}}">
+		<tr class="row_hidden" id="row_hidden_{{forloop.counter0}}">
 			<td class="td_hidden" colspan="20">{% section_table row|last|last %}</td>
 		</tr>
 		{% endfor %}
