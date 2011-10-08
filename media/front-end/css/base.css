@@ -201,9 +201,8 @@ input {
 #section-table tr:last-child td{
 	border-bottom: 0px;
 }
-#section-table tr:hover td {
-	background-color:#f2f2f9;
-	color:#000000;
+#section-table td.td_hidden {
+	padding: 10px 0px 10px 10px;
 }
 
 #footer {
