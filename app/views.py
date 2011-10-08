@@ -88,7 +88,7 @@ def course(request, coursehistory_id):
       [[row_id, instructor.name] +
       #instructor averages
       [(average([review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews], rating),
-        instructor.recent(rating))
+        recent([review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews], rating))
         for rating in RATING_API] +
       #hack last cell (scores for each section)
       [Table(COURSE_INNER, COURSE_INNER_HIDDEN,
