@@ -75,8 +75,8 @@ COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',)
 COURSE_INNER = ('Semester', 'Section') + RATING_STRINGS
 COURSE_INNER_HIDDEN =  ('semester', 'section') + RATING_FIELDS
 
-def course(request, coursehistory_id):
-  coursehistory = CourseHistory(pcr('coursehistory', coursehistory_id))
+def course(request, course):
+  coursehistory = pcr('coursehistory', course)
 
   scorecard = [
       ScoreBoxRow('Average',
