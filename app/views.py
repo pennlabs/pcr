@@ -26,8 +26,8 @@ def index(request):
 INSTRUCTOR_OUTER = ('id', 'Course') + RATING_STRINGS + ('sections',)
 INSTRUCTOR_OUTER_HIDDEN = ('id', 'course') + RATING_FIELDS + ('sections',) 
 
-INSTRUCTOR_INNER = ('Section',) + RATING_STRINGS
-INSTRUCTOR_INNER_HIDDEN =  ('section',) + RATING_FIELDS
+INSTRUCTOR_INNER = ('Semester',) + RATING_STRINGS
+INSTRUCTOR_INNER_HIDDEN =  ('semester',) + RATING_FIELDS
 
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
@@ -43,7 +43,7 @@ def instructor(request, id):
           for display, attr in zip(RATING_STRINGS, RATING_API)]),
       ScoreBoxRow('Recent',
         instructor.most_recent.semester,
-        [ScoreBox(display, instructor.recent(attr))
+        [ScoreBox(display, average([review for review in instructor.sections[-1].reviews], attr))
           for display, attr in zip(RATING_STRINGS, RATING_API)])]
   
   #create a map from coursehistory to sections taught by professor

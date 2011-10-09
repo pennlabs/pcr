@@ -40,7 +40,9 @@ def recent(reviews, attr):
 
 class Review(dict):
   def __init__(self, raw_review):
+    self.raw = raw_review
     super(Review, self).__init__([(attr, float(score)) for attr, score in raw_review['ratings'].items()])
+
 
 
 class Instructor(object):
