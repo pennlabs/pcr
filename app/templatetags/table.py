@@ -20,10 +20,11 @@ def course_table(context, table):
   }
   return render_to_string('templates/course_table.html', new_context)
 
-@tag(register, [Variable()])
-def section_table(context, table):
+@tag(register, [Variable(), Variable()])
+def section_table(context, table, row_id):
   '''Create a table.'''
   new_context = {
-    'table': table
+    'table': table,
+    'row_id': row_id
   }
   return render_to_string('templates/section_table.html', new_context)

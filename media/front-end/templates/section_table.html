@@ -10,12 +10,12 @@
 	</thead>
 	<tbody>
 		{% for row in table.body %}
-		<tr class="row_display" onclick="$('#sec_row_hidden_{{row.0.1}}').toggle()">
+		<tr class="row_display" onclick="$('#row_hidden_{{row_id}} .sec_row_hidden_{{forloop.counter0}}').toggle()">
 			{% for cell in row %}
 			<td class="col_{{cell.0}}">{{cell.1}}</td>
 			{% endfor %}
 		</tr>
-		<tr class="row_hidden" id="sec_row_hidden_{{row.0.1}}">
+		<tr class="row_hidden sec_row_hidden_{{forloop.counter0}}">
 			<td class="td_hidden" colspan="20">
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</td>
