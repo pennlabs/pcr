@@ -165,7 +165,7 @@ def course(request, dept, id):
   context = RequestContext(request, {
     'course': coursehistory,
     'scorecard': scorecard,
-    'score_table': score_table
+    'score_table': score_table,
     'base_dir': '../'
   })
   return render_to_response('course.html', context)
