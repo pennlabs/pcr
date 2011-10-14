@@ -8,6 +8,7 @@ from django.template import Context, loader, RequestContext
 
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
+import json
 
 from helper import getSectionsTable, build_course, build_history, build_section
 from api import *
@@ -19,6 +20,9 @@ RATING_STRINGS = ('Course', 'Instructor', 'Difficulty')
 RATING_FIELDS = ('course', 'instructor', 'difficulty')
 
 RATING_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
+
+def json_response(result_dict):
+  return HttpResponse(content=json.dumps(result_dict))
 
 def index(request):
   return render_to_response('index.html')
@@ -156,6 +160,22 @@ def department(request, id):
   return render_to_response('department.html', context)
 
 def autocomplete_data(request):
+  #1. Hit API up for course-history data, push into nop's desired format
+  courses_from_api = pcr('coursehistories')['values']
+  courses = [{"category": "Courses",
+              "title": course['aliases'][0],
+              "desc": course['name'],
+              "url": "course/%s-%s" % tuple(course['aliases'][0].split(" ")),
+              "keywords": " ".join([sep.join(alias.lower().split(" ")) \
+                            for sep in ['', '-', ' '] for alias in course['aliases']] \
+                        + [course['name'].lower()])
+             } for course in courses_from_api if len(course['aliases']) > 0]
+
+  #2. Hit API up for instructor data, push into nop's desired format
+  instructors=[]
+
+  #3. Respond in JSON
+  return json_response({"courses":courses, "instructors":instructors})
   return HttpResponse("""{
     "courses": [
         {
