@@ -13,6 +13,23 @@
 	margin-bottom:25px;
 }
 
+#search-loading {
+	text-align:center;
+}
+#loading-bar {
+	display:inline-block;
+	margin:10px 0;
+}
+#loading-text {
+	text-align:center;
+	font-family:"Times New Roman", Times, serif;
+	font-size:14px;
+	color:#636363;
+}
+#search-container {
+	display:none;
+}
+
 #searchbar{	
 	background:#FFF;
 	width:458px;

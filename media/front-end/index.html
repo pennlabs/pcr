@@ -2,17 +2,11 @@
 
 {% block htmlheader-links %}
 	<link type="text/css" href="media/front-end/css/flick/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
-
 	<link rel="stylesheet" href="media/front-end/css/960_12_col.css" />
-	<link rel="stylesheet" href="media/front-end/css/reset.css" />
-	
-	<link rel="stylesheet" href="media/front-end/css/searchbox.css" />	
-	
-	<link rel="stylesheet" href="media/front-end/css/base.css" />	
-	
+	<link rel="stylesheet" href="media/front-end/css/reset.css" />	
+	<link rel="stylesheet" href="media/front-end/css/searchbox.css" />		
+	<link rel="stylesheet" href="media/front-end/css/base.css" />		
 	<link rel="stylesheet" href="media/front-end/css/index.css" />
-	
-	
 {% endblock %}
 
 {% block htmlheader-js %}
@@ -37,14 +31,20 @@
 {% block banner-content %}
 	<div id="search" class="grid_6 prefix_3 suffix_3">
 		<img id="title" src="media/front-end/image/indextitle.png" alt="Penn Course Review">
-		<div id="searchbar">
-			<input id="searchbox" type="text" value="" />
-			<input type="submit" value="" />
-			<div class="clear"></div>
+		<div id="search-loading">			
+			<img id="loading-bar" src="media/front-end/image/loadingbar.gif" alt="loading"/>
+			<p id="loading-text">Downloading 26,709 courses, 6,588 instructors, and 47,414 reviews...</p>
 		</div>
-		<p id="subtitle">
-			Search for a class, a professor, or a department.  E.g., ECON, Siegal, ECON001
-		</p>
+		<div id="search-container">
+			<div id="searchbar">
+				<input id="searchbox" type="text" value="" />
+				<input type="submit" value="" />
+				<div class="clear"></div>
+			</div>
+			<p id="subtitle">
+				Search for a class, a professor, or a department.  E.g., ECON, Siegal, ECON001
+			</p>
+		</div>
 	</div>
 	<div class="clear"></div>
 {% endblock %}
@@ -70,7 +70,9 @@
 		<div id="projectby">
 			<p>
 				A project by <br/>
-				<img style="margin-top:-20px;" src="media/front-end/image/pennapps-sm-gray.png" />
+				<a href="http://pennapps.com/labs/">
+					<img style="margin-top:-20px;" src="media/front-end/image/pennapps-sm-gray.png" alt="PennApps Labs" />
+				</a>
 			</p>
 		</div>
 	</div>	

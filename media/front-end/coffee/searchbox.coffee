@@ -5,8 +5,8 @@ regexes_by_priority =
     ((search_term, course) -> RegExp(search_term, 'i').test(course.keywords))
   ],
   Instructors: [
-    ((search_term, instructor) -> RegExp("\\s#{search_term}$", 'i').test(instructor.keywords)),
-    ((search_term, instructor) -> RegExp(search_term, 'i').test(instructor.keywords))
+    ((search_term, instructor) -> RegExp("\\s#{search_term}$", 'i').test(instructor.keywords))
+    ((search_term, instructor) -> RegExp("\\s#{search_term}", 'i').test(instructor.keywords))
   ]
 
 findAutoCompleteMatches = (category, entries, search_str, max) ->
@@ -30,16 +30,19 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
     @_renderItem(ul, item)
 
 # dir - base directory
-window.initSearchbox  = (dir="") ->
-  $.getJSON(dir+"autocomplete_data.json", (data)->
-    
+window.initSearchbox  = (dir="", callback=null) ->
+
+  createSearchbox = (data) ->
+    if not localStorage.pcr_autocomplete_data?
+      localStorage.pcr_autocomplete_data = JSON.stringify(data)
+  
     $("#searchbox").autocomplete(
       delay: 0
       minLength: 1
       
       source: (request, response) ->
-        result = findAutoCompleteMatches('Courses', data.courses, request.term, 5)
-          .concat(findAutoCompleteMatches('Instructors', data.instructors, request.term, 5))
+        result = findAutoCompleteMatches('Courses', data.courses, request.term, 6)
+          .concat(findAutoCompleteMatches('Instructors', data.instructors, request.term, 4))
         response(result)
       
       position:
@@ -71,4 +74,17 @@ window.initSearchbox  = (dir="") ->
               item.desc +
               "</span></a>")
       .appendTo(ul)
-  )
+      
+    # set focus
+    if dir==""
+      $("#searchbox").focus()
+      
+    if callback?
+      callback()
+
+  if localStorage.pcr_autocomplete_data?
+    data = JSON.parse(localStorage.pcr_autocomplete_data)
+    createSearchbox(data)
+  else
+    $.getJSON(dir+"autocomplete_data.json", (data) ->
+      createSearchbox(data))

@@ -2,7 +2,11 @@
   /*
   DOCUMENT READY
   */  $(document).ready(function() {
-    initSearchbox();
-    return $("#searchbox").autocomplete("option", "autoFocus", true);
+    var callback;
+    callback = function() {
+      $("#search-loading").hide();
+      return $("#search-container").fadeIn(1000);
+    };
+    return initSearchbox("", callback);
   });
 }).call(this);
