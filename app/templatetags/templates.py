@@ -5,6 +5,8 @@ from django.template.loader import render_to_string
 from templatetag_sugar.parser import Variable, Optional, Constant, Name
 from templatetag_sugar.register import tag
 
+from prettify import PRETTIFY_REVIEWBITS
+
 register = template.Library()
 
 @tag(register, [])

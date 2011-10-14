@@ -24,6 +24,18 @@ SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
 SCORECARD_FIELDS = ('course', 'instructor', 'difficulty') 
 SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 
+INSTRUCTOR_OUTER = ('id', 'Course') + RATING_STRINGS + ('sections',)
+INSTRUCTOR_OUTER_HIDDEN = ('id', 'course') + RATING_FIELDS + ('sections',) 
+
+INSTRUCTOR_INNER = ('Semester',) + RATING_STRINGS
+INSTRUCTOR_INNER_HIDDEN =  ('semester',) + RATING_FIELDS
+
+COURSE_OUTER = ('id', 'Professor') + RATING_STRINGS + ('sections',)
+COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',) 
+
+COURSE_INNER = ('Semester', 'Section') + RATING_STRINGS
+COURSE_INNER_HIDDEN =  ('semester', 'section') + RATING_FIELDS
+
 
 def build_scorecard(sections):
   '''Build a scorecard for the given sections.'''
@@ -39,12 +51,6 @@ def build_scorecard(sections):
 
 def index(request):
   return render_to_response('index.html')
-
-INSTRUCTOR_OUTER = ('id', 'Course') + RATING_STRINGS + ('sections',)
-INSTRUCTOR_OUTER_HIDDEN = ('id', 'course') + RATING_FIELDS + ('sections',) 
-
-INSTRUCTOR_INNER = ('Semester',) + RATING_STRINGS
-INSTRUCTOR_INNER_HIDDEN =  ('semester',) + RATING_FIELDS
 
 
 def instructor(request, id):
@@ -89,12 +95,6 @@ def instructor(request, id):
 
   return render_to_response('instructor.html', context)
 
-
-COURSE_OUTER = ('id', 'Professor') + RATING_STRINGS + ('sections',)
-COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',) 
-
-COURSE_INNER = ('Semester', 'Section') + RATING_STRINGS
-COURSE_INNER_HIDDEN =  ('semester', 'section') + RATING_FIELDS
 
 def course(request, dept, id):
   coursehistory = CourseHistory(pcr('coursehistory', '%s-%s' % (dept, id)))
