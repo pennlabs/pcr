@@ -20,7 +20,7 @@
       (function(search_term, instructor) {
         return RegExp("\\s" + search_term + "$", 'i').test(instructor.keywords);
       }), (function(search_term, instructor) {
-        return RegExp(search_term, 'i').test(instructor.keywords);
+        return RegExp("\\s" + search_term, 'i').test(instructor.keywords);
       })
     ]
   };
@@ -56,17 +56,24 @@
       }, this));
     }
   });
-  window.initSearchbox = function(dir) {
+  window.initSearchbox = function(dir, callback) {
+    var createSearchbox, data;
     if (dir == null) {
       dir = "";
     }
-    return $.getJSON(dir + "autocomplete_data.json", function(data) {
-      return $("#searchbox").autocomplete({
+    if (callback == null) {
+      callback = null;
+    }
+    createSearchbox = function(data) {
+      if (!(localStorage.pcr_autocomplete_data != null)) {
+        localStorage.pcr_autocomplete_data = JSON.stringify(data);
+      }
+      $("#searchbox").autocomplete({
         delay: 0,
         minLength: 1,
         source: function(request, response) {
           var result;
-          result = findAutoCompleteMatches('Courses', data.courses, request.term, 5).concat(findAutoCompleteMatches('Instructors', data.instructors, request.term, 5));
+          result = findAutoCompleteMatches('Courses', data.courses, request.term, 6).concat(findAutoCompleteMatches('Instructors', data.instructors, request.term, 4));
           return response(result);
         },
         position: {
@@ -90,6 +97,20 @@
       }).data("autocomplete")._renderItem = function(ul, item) {
         return $("<li></li>").data("item.autocomplete", item).append("<a><span class='ui-menu-item-title'>" + item.title + "</span><br/><span class='ui-menu-item-desc'>" + item.desc + "</span></a>").appendTo(ul);
       };
-    });
+      if (dir === "") {
+        $("#searchbox").focus();
+      }
+      if (callback != null) {
+        return callback();
+      }
+    };
+    if (localStorage.pcr_autocomplete_data != null) {
+      data = JSON.parse(localStorage.pcr_autocomplete_data);
+      return createSearchbox(data);
+    } else {
+      return $.getJSON(dir + "autocomplete_data.json", function(data) {
+        return createSearchbox(data);
+      });
+    }
   };
 }).call(this);

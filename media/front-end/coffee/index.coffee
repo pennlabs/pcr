@@ -1,6 +1,8 @@
 ###
 DOCUMENT READY
 ###
-$(document).ready ->  
-  initSearchbox()
-  $("#searchbox").autocomplete("option", "autoFocus", true)
+$(document).ready ->
+  callback = () ->
+    $("#search-loading").hide()
+    $("#search-container").fadeIn(1000)
+  initSearchbox("", callback)
