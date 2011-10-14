@@ -37,7 +37,7 @@
         delay: 0,
         minLength: 1,
         source: function(request, response) {
-          return response(autocompleteFilter(data.courses, request.term, 2).concat(autocompleteFilter(data.instructors, request.term, 2)));
+          return response(autocompleteFilter(data.courses, request.term, 5).concat(autocompleteFilter(data.instructors, request.term, 5)));
         },
         position: {
           my: "left top",

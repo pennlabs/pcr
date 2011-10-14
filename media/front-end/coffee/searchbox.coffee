@@ -28,8 +28,8 @@ window.initSearchbox  = () ->
       
       source: (request, response) ->
         response(
-          autocompleteFilter(data.courses, request.term, 2)
-          .concat(autocompleteFilter(data.instructors, request.term, 2))
+          autocompleteFilter(data.courses, request.term, 5)
+          .concat(autocompleteFilter(data.instructors, request.term, 5))
         )
       
       position:
