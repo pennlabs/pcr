@@ -31,8 +31,11 @@
       });
     }
   });
-  window.initSearchbox = function() {
-    return $.getJSON("autocomplete_data.json", function(data) {
+  window.initSearchbox = function(dir) {
+    if (dir == null) {
+      dir = "";
+    }
+    return $.getJSON(dir + "autocomplete_data.json", function(data) {
       return $("#searchbox").autocomplete({
         delay: 0,
         minLength: 1,
@@ -51,7 +54,7 @@
           return false;
         },
         select: function(event, ui) {
-          window.location = ui.item.url;
+          window.location = dir + ui.item.url;
           return false;
         },
         open: function() {

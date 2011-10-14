@@ -2,6 +2,7 @@
   /*
   DOCUMENT READY
   */  $(document).ready(function() {
-    return initSearchbox();
+    initSearchbox();
+    return $("#searchbox").autocomplete("option", "autoFocus", true);
   });
 }).call(this);

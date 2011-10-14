@@ -7,7 +7,7 @@ window.submit_choose_cols = () ->
 
   for i in [0..(boxes.length-1)]
     if $(boxes[i]).attr("checked")?
-      result.push($(boxes[i]).attr("name"))
+      result.push($(boxes[i]).attr("value"))
   
   localStorage["pcr_choosecols"] = result.join()
   toggle_choose_cols()
@@ -54,7 +54,7 @@ window.set_cols = (cols) ->
 DOCUMENT READY
 ###
 $(document).ready ->
-  initSearchbox()
+  initSearchbox("../")
 
   ### localStorage setup view mode ###
   if not localStorage["pcr_viewmode"]?
@@ -65,7 +65,7 @@ $(document).ready ->
   # check if localStorage key exists, else create default
   cols = if (localStorage["pcr_choosecols"]?)
   then localStorage["pcr_choosecols"].split(",")
-  else localStorage["pcr_choosecols"] = ["course","instructor","difficulty"]
+  else localStorage["pcr_choosecols"] = ["rCourseQuality","rInstructorQuality","rDifficulty"]
   set_cols(cols)
   # loop cols
   for i in [0..(cols.length-1)]

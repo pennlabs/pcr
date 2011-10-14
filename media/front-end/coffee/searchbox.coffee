@@ -19,10 +19,11 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
       currentCategory = item.category
     self._renderItem(ul, item)
 
-window.initSearchbox  = () ->
-  $.getJSON("autocomplete_data.json", (data)->
+# dir - base directory
+window.initSearchbox  = (dir="") ->
+  $.getJSON(dir+"autocomplete_data.json", (data)->
     
-    $("#searchbox").autocomplete(      
+    $("#searchbox").autocomplete(
       delay: 0
       minLength: 1
       
@@ -44,7 +45,7 @@ window.initSearchbox  = () ->
         return false
       
       select: ( event, ui ) ->
-        window.location = ui.item.url
+        window.location = dir+ui.item.url
         return false
       
       open: () ->

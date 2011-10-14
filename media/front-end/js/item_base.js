@@ -8,7 +8,7 @@
     result = [];
     for (i = 0, _ref = boxes.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
       if ($(boxes[i]).attr("checked") != null) {
-        result.push($(boxes[i]).attr("name"));
+        result.push($(boxes[i]).attr("value"));
       }
     }
     localStorage["pcr_choosecols"] = result.join();
@@ -58,14 +58,14 @@
   */
   $(document).ready(function() {
     var cols, i, _ref, _results;
-    initSearchbox();
+    initSearchbox("../");
     /* localStorage setup view mode */
     if (!(localStorage["pcr_viewmode"] != null)) {
       localStorage["pcr_viewmode"] = "0";
     }
     set_viewmode(localStorage["pcr_viewmode"]);
     /* localStorage setup choose columns */
-    cols = (localStorage["pcr_choosecols"] != null) ? localStorage["pcr_choosecols"].split(",") : localStorage["pcr_choosecols"] = ["course", "instructor", "difficulty"];
+    cols = (localStorage["pcr_choosecols"] != null) ? localStorage["pcr_choosecols"].split(",") : localStorage["pcr_choosecols"] = ["rCourseQuality", "rInstructorQuality", "rDifficulty"];
     set_cols(cols);
     _results = [];
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
