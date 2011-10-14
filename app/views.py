@@ -62,18 +62,20 @@ def index(request):
 
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
-  sections = instructor.sections
-  coursehistories = defaultdict(list)
+  coursehistories = {}
+  sections = defaultdict(list)
   for section in sections:
-    coursehistories[section.course.coursehistory].append(section)
+    coursehistory = section.course.coursehistory
+    sections[coursehistory.name].append(section)
+    coursehistories[coursehistory.name] = coursehistory
 
-  scorecard = build_scorecard(sections)
+  scorecard = build_scorecard(instructor.sections)
   #filter columns to include only relevant data
   #in the case that a course form changes over time, get the union of all columns
   strings, fields, columns = tuple(), tuple(), tuple()
   for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
     broke = False
-    for section in sections:
+    for section in instructor.sections:
       for review in section.reviews:
         if column in review:
           strings += (string,)
@@ -87,31 +89,30 @@ def instructor(request, id):
   #create a map from coursehistory to sections taught by professor
   #use average of the sections to create averages / recent
   body = []
-  for row_id, coursehistory in enumerate(coursehistories):
-    section_reviews = section.reviews
-    reviews = [review for section in coursehistories[coursehistory] for review in section_reviews if review]
-
+  for row_id, name in enumerate(sections):
     #build subtable
     section_body = []
-    for section in coursehistories[coursehistory]:
-      row = [section.semester] + [average(section_reviews, column) for column in columns]
+    for section in sections[name]:
+      row = [section.semester] + [average(section.reviews, column) for column in columns]
       section_body.append(row)
     section_table = Table(INSTRUCTOR_INNER + strings, INSTRUCTOR_INNER_HIDDEN + fields, section_body)
+    d = aawasdaweaz
 
     #append row
+    reviews = [review for section in sections[name] for review in section.reviews]
     meta = [(average(reviews, column), recent(reviews, column)) for column in columns]
-    outer_row = tuple([row_id, 'coursehistory/%s' % "-".join(coursehistory.subtitle.split()), coursehistory.name] + meta + [section_table])
+    outer_row = [row_id, 'course/%s' % "-".join(coursehistories[name].subtitle.split()), name] + meta + [section_table]
     body.append(outer_row)
 
   score_table = Table(INSTRUCTOR_OUTER + strings + ('sections',),
       INSTRUCTOR_OUTER_HIDDEN + fields + ('sections',), body)
-  score_body = score_table.body
 
 
   context = RequestContext(request, {
     'instructor': instructor,
     'scorecard': scorecard,
-    'score_table': score_table
+    'score_table': score_table,
+    'base_dir': '../'
   })
 
   return render_to_response('instructor.html', context)
@@ -165,6 +166,7 @@ def course(request, dept, id):
     'course': coursehistory,
     'scorecard': scorecard,
     'score_table': score_table
+    'base_dir': '../'
   })
   return render_to_response('course.html', context)
 
