@@ -143,17 +143,19 @@ def course(request, dept, id):
     section_body = []
     for section in instructor.sections:
       if section.course.coursehistory == coursehistory:
+        section_reviews = section.reviews
         section_body.append(
-            [section.semester, section.sectionnum] + [average(section.reviews, column) for column in columns]
+            [section.semester, section.sectionnum] + [average(section_reviews, column) for column in columns]
             )
     section_table = Table(COURSE_INNER + strings, COURSE_INNER_HIDDEN + fields, section_body)
 
     #append row
+    most_recent = instructor.most_recent
     reviews = [review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews]
     body.append(
         [row_id, 'instructor/%s' % instructor.id, instructor.name] +
 
-        [(average(reviews, column), average(instructor.most_recent.reviews, column)) for column in columns] +
+        [(average(reviews, column), average(most_recent.reviews, column)) for column in columns] +
 
         [section_table]
       )
