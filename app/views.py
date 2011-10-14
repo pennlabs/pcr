@@ -139,19 +139,17 @@ def course(request, dept, id):
 
   body = []
   for row_id, instructor in enumerate(coursehistory.instructors):
-    section_reviews = section.reviews #caching
-    reviews = [review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section_reviews]
-
     #build subtable
     section_body = []
     for section in instructor.sections:
       if section.course.coursehistory == coursehistory:
         section_body.append(
-            [section.semester, section.sectionnum] + [average(section_reviews, column) for column in columns]
+            [section.semester, section.sectionnum] + [average(section.reviews, column) for column in columns]
             )
     section_table = Table(COURSE_INNER + strings, COURSE_INNER_HIDDEN + fields, section_body)
 
     #append row
+    reviews = [review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews]
     body.append(
         [row_id, 'instructor/%s' % instructor.id, instructor.name] +
 
