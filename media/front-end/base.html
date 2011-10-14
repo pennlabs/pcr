@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link type="text/css" href="../media/front-end/css/960_12_col.css" rel="stylesheet" />
-	<link type="text/css" href="../media/front-end/css/reset.css" rel="stylesheet" />
-	<link type="text/css" href="../media/front-end/css/base.css" rel="stylesheet" />
-  <link type="text/css" href="../media/front-end/css/flick/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
+	<link type="text/css" href="{{base_dir}}media/front-end/css/960_12_col.css" rel="stylesheet" />
+	<link type="text/css" href="{{base_dir}}media/front-end/css/reset.css" rel="stylesheet" />
+  <link type="text/css" href="{{base_dir}}media/front-end/css/flick/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+
+  <link type="text/css" href="{{base_dir}}media/front-end/css/base.css" rel="stylesheet" />  
+	<link type="text/css" href="{{base_dir}}media/front-end/css/searchbox.css" rel="stylesheet" />
 	
 	{% block htmlheader-links %}{% endblock %}
 	
 	<title>{% block title %}Penn Course Review{% endblock %}</title>	
 
-	<script type="text/javascript" src="../media/front-end/js/jquery-1.6.2.min.js"></script>
-  <script type="text/javascript" src="../media/front-end/js/modernizr.custom.js"></script>
-  <script type="text/javascript" src="../media/front-end/js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="{{base_dir}}media/front-end/js/modernizr.custom.js"></script>
+  <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery-ui-1.8.16.custom.min.js"></script>
+  
+	<script type="text/javascript" src="{{base_dir}}media/front-end/js/searchbox.js"></script>
   
   {% block htmlheader-js %}{% endblock %}
 	
@@ -25,7 +29,7 @@
 				{% block header-content %}
 				<div id="title" class="grid_4 suffix_2"></div>
 				<div id="linkbar" class="grid_3">
-				  {% links %}
+				  {% links base_dir %}
         </div>
 				<div id="searchbar" class="grid_3">
 					{% searchbar %}
@@ -54,7 +58,7 @@
 	
 	<div id="footer">
 		<div id="footer-inner" class="container_12">
-      {% links %}
+      {% links base_dir %}
 			<p id="copyright">
 				Copyright &copy; 2011
 				<strong>PennApps Labs</strong>
