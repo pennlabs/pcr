@@ -6,7 +6,7 @@ regexes_by_priority =
   ],
   Instructors: [
     ((search_term, instructor) -> RegExp("\\s#{search_term}$", 'i').test(instructor.keywords))
-    ((search_term, instructor) -> RegExp("\\s#{search_term}", 'i').test(instructor.keywords))
+    ((search_term, instructor) -> RegExp("(^|\\s)#{search_term}", 'i').test(instructor.keywords))
   ]
 
 findAutoCompleteMatches = (category, entries, search_str, max) ->
