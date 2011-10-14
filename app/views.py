@@ -34,11 +34,11 @@ INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'course')
 INSTRUCTOR_INNER = ('Semester',)
 INSTRUCTOR_INNER_HIDDEN =  ('semester',)
 
-COURSE_OUTER = ('id', 'Professor') + RATING_STRINGS + ('sections',)
-COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',) 
+COURSE_OUTER = ('id', 'Professor')
+COURSE_OUTER_HIDDEN = ('id', 'professor')
 
-COURSE_INNER = ('Semester', 'Section') + RATING_STRINGS
-COURSE_INNER_HIDDEN =  ('semester', 'section') + RATING_FIELDS
+COURSE_INNER = ('Semester', 'Section')
+COURSE_INNER_HIDDEN =  ('semester', 'section')
 
 DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
 DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
