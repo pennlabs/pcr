@@ -17,26 +17,26 @@ def pcr(*args, **kwargs):
 
 def average(reviews, attr):
   average = 0.0
-  if reviews:
-    for review in reviews:
-      try:
-        average += review[attr]
-      except:
-        pass
-    return round(average / len(reviews), 2)
+  for review in reviews:
+    try:
+      average += review[attr]
+    except:
+      pass
+  average = round(average / len(reviews), 2)
+  if average > 0.0:
+    return average
   else:
     return -1.0
 
 
 def recent(reviews, attr):
   #since review can be empty dicts, we check to make sure we get something we can actually use
-  while reviews:
-    review = reviews.pop()
-    if review:
-      try:
-        return round(review[attr], 2)
-      except:
-        return -1.0
+  for review in reversed(reviews):
+    try:
+      return round(float(review[attr]), 2)
+    except:
+      return -1.0
+  return -1.0
 
 class Review(dict):
   def __init__(self, raw_review):
