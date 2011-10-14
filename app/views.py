@@ -34,8 +34,8 @@ INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'course')
 INSTRUCTOR_INNER = ('Semester',)
 INSTRUCTOR_INNER_HIDDEN =  ('semester',)
 
-COURSE_OUTER = ('id', 'Professor')
-COURSE_OUTER_HIDDEN = ('id', 'professor')
+COURSE_OUTER = ('id', 'link', 'Professor')
+COURSE_OUTER_HIDDEN = ('id', 'link',  'professor')
 
 COURSE_INNER = ('Semester', 'Section')
 COURSE_INNER_HIDDEN =  ('semester', 'section')
@@ -152,7 +152,7 @@ def course(request, dept, id):
 
     #append row
     body.append(
-        [row_id, instructor.name] +
+        [row_id, 'instructor/%s' % instructor.id, instructor.name] +
 
         [(average(reviews, column), recent(reviews, column)) for column in columns] +
 
