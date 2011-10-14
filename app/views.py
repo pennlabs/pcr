@@ -209,7 +209,7 @@ def autocomplete_data(request):
   instructors_from_api = pcr('instructors')['values']  
   instructors=[{"category": "Instructors",
                 "title": instructor['name'],
-                "desc": "teaches " + ", ".join(instructor['departments']),
+                "desc": ", ".join(instructor['departments']),
                 "url": "instructor/" + instructor['id'],
                 "keywords": instructor['name'].lower()
                } for instructor in instructors_from_api 

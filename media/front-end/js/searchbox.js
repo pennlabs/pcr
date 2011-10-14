@@ -1,43 +1,70 @@
 (function() {
-  var autocompleteFilter;
-  autocompleteFilter = function(a, s, n) {
-    var count, i, out, _i, _len;
-    s = s.toLowerCase();
-    out = [];
-    count = 0;
-    for (_i = 0, _len = a.length; _i < _len; _i++) {
-      i = a[_i];
-      if (i.keywords.indexOf(s) !== -1) {
-        out.push(i);
-        count++;
-        if (count >= n) {
-          return out;
+  var findAutoCompleteMatches, regexes_by_priority;
+  var __indexOf = Array.prototype.indexOf || function(item) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (this[i] === item) return i;
+    }
+    return -1;
+  }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  regexes_by_priority = {
+    Courses: [
+      (function(search_term, course) {
+        return RegExp("^" + search_term, 'i').test(course.title);
+      }), (function(search_term, course) {
+        return RegExp("\\s" + search_term, 'i').test(course.keywords);
+      }), (function(search_term, course) {
+        return RegExp(search_term, 'i').test(course.keywords);
+      })
+    ],
+    Instructors: [
+      (function(search_term, instructor) {
+        return RegExp("\\s" + search_term + "$", 'i').test(instructor.keywords);
+      }), (function(search_term, instructor) {
+        return RegExp(search_term, 'i').test(instructor.keywords);
+      })
+    ]
+  };
+  findAutoCompleteMatches = function(category, entries, search_str, max) {
+    var entry, match_test, results, _i, _j, _len, _len2, _ref;
+    results = [];
+    _ref = regexes_by_priority[category];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      match_test = _ref[_i];
+      for (_j = 0, _len2 = entries.length; _j < _len2; _j++) {
+        entry = entries[_j];
+        if (match_test(search_str, entry) && !(__indexOf.call(results, entry) >= 0)) {
+          results.push(entry);
+          if (results.length === max) {
+            return results;
+          }
         }
       }
     }
-    return out;
+    return results;
   };
   $.widget("custom.autocomplete", $.ui.autocomplete, {
     _renderMenu: function(ul, items) {
-      var currentCategory, self;
-      self = this;
+      var currentCategory;
       currentCategory = "";
-      return $.each(items, function(index, item) {
+      return $.each(items, __bind(function(index, item) {
         if (item.category !== currentCategory) {
           ul.append("<li class='ui-autocomplete-category'><p>" + item.category + "</p></li>");
           currentCategory = item.category;
         }
-        return self._renderItem(ul, item);
-      });
+        return this._renderItem(ul, item);
+      }, this));
     }
   });
   window.initSearchbox = function() {
     return $.getJSON("autocomplete_data.json", function(data) {
+      console.log("Finally loaded the autocomplete data");
       return $("#searchbox").autocomplete({
         delay: 0,
         minLength: 1,
         source: function(request, response) {
-          return response(autocompleteFilter(data.courses, request.term, 5).concat(autocompleteFilter(data.instructors, request.term, 5)));
+          var result;
+          result = findAutoCompleteMatches('Courses', data.courses, request.term, 5).concat(findAutoCompleteMatches('Instructors', data.instructors, request.term, 5));
+          return response(result);
         },
         position: {
           my: "left top",
