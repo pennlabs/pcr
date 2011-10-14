@@ -65,7 +65,7 @@ def instructor(request, id):
   sections = instructor.sections
   coursehistories = defaultdict(list)
   for section in sections:
-    coursehistories[section.course.coursehistory.name].append(section)
+    coursehistories[section.course.coursehistory].append(section)
 
   scorecard = build_scorecard(sections)
   #filter columns to include only relevant data
@@ -100,7 +100,7 @@ def instructor(request, id):
 
     #append row
     meta = [(average(reviews, column), recent(reviews, column)) for column in columns]
-    outer_row = tuple([row_id, 'coursehistory/%s' % coursehistory, coursehistory] + meta + [section_table])
+    outer_row = tuple([row_id, 'coursehistory/%s' % "-".join(coursehistory.subtitle.split()), coursehistory.name] + meta + [section_table])
     body.append(outer_row)
 
   score_table = Table(INSTRUCTOR_OUTER + strings + ('sections',),
