@@ -155,6 +155,60 @@ def department(request, id):
 
   return render_to_response('department.html', context)
 
+def autocomplete_data(request):
+  return HttpResponse("""{
+    "courses": [
+        {
+            "category": "Courses",
+            "title": "CIS 120",
+            "desc": "Programming Techniques II",
+            "url": "course/CIS-120",
+            "keywords": "cis 120 cis120 cis-120 programming techniques ii"
+
+        },
+        {
+            "category": "Courses",
+            "title": "CIS 240",
+            "desc": "Computer Architecture",
+            "url": "",
+            "keywords": "cis 240 cis240 cis-240 computer architecture"
+
+        },
+        {            
+            "category": "Courses",
+            "title": "CIS 262",
+            "desc": "Languages and Automata",
+            "url": "",
+            "keywords": "cis 262 cis262 cis-262 languages and automata"
+
+        }
+    ],
+    "instructors": [
+        {
+            "category": "Instructors",
+            "title": "Rajeev Alur",
+            "desc": "CIS",
+            "url": "",
+            "keywords": "rajeev alur"
+        },
+        {
+            "category": "Instructors",
+            "title": "C.J. Taylor",
+            "desc": "CSE",
+            "url": "",
+            "keywords": "c.j. taylor"
+
+        },
+        {            
+            "category": "Instructors",
+            "title": "Mitch Marcus",
+            "desc": "CIS",
+            "url": "",
+            "keywords": "mitch marcus"
+        }
+    ]
+    }""")
+
 def browse(request):
   return render_to_response('browse.html')
 
