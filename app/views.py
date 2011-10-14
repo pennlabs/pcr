@@ -99,7 +99,7 @@ def instructor(request, id):
 
     #append row
     reviews = [review for section in sections[name] for review in section.reviews]
-    meta = [(average(reviews, column), recent(reviews, column)) for column in columns]
+    meta = [(average(reviews, column), average(sections[name][-1].reviews, column)) for column in columns]
     outer_row = [row_id, 'course/%s' % "-".join(coursehistories[name].subtitle.split()), name] + meta + [section_table]
     body.append(outer_row)
 
@@ -154,7 +154,7 @@ def course(request, dept, id):
     body.append(
         [row_id, 'instructor/%s' % instructor.id, instructor.name] +
 
-        [(average(reviews, column), recent(reviews, column)) for column in columns] +
+        [(average(reviews, column), average(instructor.most_recent.reviews, column)) for column in columns] +
 
         [section_table]
       )
