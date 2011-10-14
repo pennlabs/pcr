@@ -30,15 +30,6 @@ def average(reviews, attr):
     return -1.0
 
 
-def recent(reviews, attr):
-  #since review can be empty dicts, we check to make sure we get something we can actually use
-  for review in reversed(reviews):
-    try:
-      return round(float(review[attr]), 2)
-    except:
-      return -1.0
-  return -1.0
-
 class Review(dict):
   def __init__(self, raw_review):
     self.raw = raw_review
