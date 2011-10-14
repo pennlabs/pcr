@@ -21,6 +21,7 @@ findAutoCompleteMatches = (category, entries, search_str, max) ->
   return results
 
 $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
+  self = this
   currentCategory = ""
   $.each items, (index, item) =>
     unless item.category == currentCategory
@@ -28,16 +29,19 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
       currentCategory = item.category
     @_renderItem(ul, item)
 
-window.initSearchbox = ->
-  $.getJSON("autocomplete_data.json", (data) ->
-    console.log "Finally loaded the autocomplete data"
+# dir - base directory
+window.initSearchbox  = (dir="") ->
+  $.getJSON(dir+"autocomplete_data.json", (data)->
+    
     $("#searchbox").autocomplete(
       delay: 0
       minLength: 1
+      
       source: (request, response) ->
         result = findAutoCompleteMatches('Courses', data.courses, request.term, 5)
           .concat(findAutoCompleteMatches('Instructors', data.instructors, request.term, 5))
         response(result)
+      
       position:
         my: "left top"
         at: "left bottom"
@@ -50,14 +54,15 @@ window.initSearchbox = ->
         return false
       
       select: ( event, ui ) ->
-        window.location = ui.item.url
+        window.location = dir+ui.item.url
         return false
       
       open: () ->
         $(".ui-autocomplete.ui-menu.ui-widget").width(
           $("#searchbar").width()
         )
-     ).data("autocomplete")._renderItem = (ul, item) ->
+    )
+    .data("autocomplete")._renderItem = (ul, item) ->
       $("<li></li>")
       .data("item.autocomplete", item)
       .append("<a><span class='ui-menu-item-title'>" +

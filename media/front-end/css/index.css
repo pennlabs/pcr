@@ -63,3 +63,11 @@
 	color:#000080;
 	margin-bottom:15px;
 }
+
+#questions {
+	min-height: 100%;
+}
+
+#projectby {
+	margin-top:40px;
+}

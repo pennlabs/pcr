@@ -22,7 +22,8 @@ def average(reviews, attr):
       average += review[attr]
     except:
       pass
-  average = round(average / len(reviews), 2)
+  if len(reviews) > 0:
+    average = round(average / len(reviews), 2)
   if average > 0.0:
     return average
   else:

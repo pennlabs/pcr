@@ -44,7 +44,8 @@
   };
   $.widget("custom.autocomplete", $.ui.autocomplete, {
     _renderMenu: function(ul, items) {
-      var currentCategory;
+      var currentCategory, self;
+      self = this;
       currentCategory = "";
       return $.each(items, __bind(function(index, item) {
         if (item.category !== currentCategory) {
@@ -55,9 +56,11 @@
       }, this));
     }
   });
-  window.initSearchbox = function() {
-    return $.getJSON("autocomplete_data.json", function(data) {
-      console.log("Finally loaded the autocomplete data");
+  window.initSearchbox = function(dir) {
+    if (dir == null) {
+      dir = "";
+    }
+    return $.getJSON(dir + "autocomplete_data.json", function(data) {
       return $("#searchbox").autocomplete({
         delay: 0,
         minLength: 1,
@@ -78,7 +81,7 @@
           return false;
         },
         select: function(event, ui) {
-          window.location = ui.item.url;
+          window.location = dir + ui.item.url;
           return false;
         },
         open: function() {

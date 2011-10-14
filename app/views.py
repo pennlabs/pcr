@@ -7,18 +7,18 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
 
+from templatetags.prettify import PRETTIFY_REVIEWBITS
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
 from api import *
 from helper import getSectionsTable, build_course, build_history, build_section
-from templatetags.prettify import PRETTIFY_REVIEWBITS
 
 #TODO: Get this and filter stuff out
 CURRENT_SEMESTER = None
 
 RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS.values())
-RATING_FIELDS = tuple(["".join(words.split()) for words in PRETTIFY_REVIEWBITS.values()])
+RATING_FIELDS = tuple(["".join(words.split()) for words in PRETTIFY_REVIEWBITS.keys()])
 RATING_API = tuple(PRETTIFY_REVIEWBITS.keys())
 
 SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
