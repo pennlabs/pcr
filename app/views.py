@@ -100,7 +100,7 @@ def instructor(request, id):
 
     #append row
     meta = [(average(reviews, column), recent(reviews, column)) for column in columns]
-    outer_row = tuple([row_id, 'coursehistory/%s' % self.subtitle, coursehistory] + meta + [section_table])
+    outer_row = tuple([row_id, 'coursehistory/%s' % coursehistory, coursehistory] + meta + [section_table])
     body.append(outer_row)
 
   score_table = Table(INSTRUCTOR_OUTER + strings + ('sections',),
