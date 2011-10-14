@@ -87,6 +87,7 @@ def instructor(request, id):
       )
 
   score_table = Table(INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN, body)
+
   context = RequestContext(request, {
     'instructor': instructor,
     'scorecard': scorecard,
@@ -98,22 +99,33 @@ def instructor(request, id):
 
 def course(request, dept, id):
   coursehistory = CourseHistory(pcr('coursehistory', '%s-%s' % (dept, id)))
-
   sections = [section for section in coursehistory.sections if section.course.coursehistory == coursehistory]
+
   scorecard = build_scorecard(sections)
 
-  score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN,
-      [[row_id, instructor.name] +
-      #instructor averages
-      [(average([review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews], rating),
-        recent([review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews], rating))
-        for rating in RATING_API] +
-      #hack last cell (scores for each section)
-      [Table(COURSE_INNER, COURSE_INNER_HIDDEN,
-        [[section.semester, section.sectionnum] + [average(section.reviews, rating) for rating in RATING_API] for section in instructor.sections if section.course.coursehistory == coursehistory]
-        )]
-  for row_id, instructor in enumerate(coursehistory.instructors)])
+  body = []
+  for row_id, instructor in enumerate(coursehistory.instructors):
+    reviews = [review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews]
 
+    #build subtable
+    section_body = []
+    for section in instructor.sections:
+      if section.course.coursehistory == coursehistory:
+        section_body.append(
+            [section.semester, section.sectionnum] + [average(section.reviews, rating) for rating in RATING_API]
+            )
+    section_table = Table(COURSE_INNER, COURSE_INNER_HIDDEN, section_body)
+
+    #append row
+    body.append(
+        [row_id, instructor.name] +
+
+        [(average(reviews, rating), recent(reviews, rating)) for rating in RATING_API] +
+
+        [section_table]
+      )
+
+  score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN, body)
 
   context = RequestContext(request, {
     'course': coursehistory,

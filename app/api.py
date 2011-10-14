@@ -5,7 +5,7 @@ import urllib2
 import json
 from collections import defaultdict
 
-API = "http://pennapps.com/courses-amk/"
+API = "http://pennapps.com/courses-ceasarb/"
 TOKEN = "pennappsdemo"
 
 def pcr(*args, **kwargs):
