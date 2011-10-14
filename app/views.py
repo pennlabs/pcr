@@ -28,8 +28,8 @@ SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 def json_response(result_dict):
   return HttpResponse(content=json.dumps(result_dict))
 
-INSTRUCTOR_OUTER = ('id', 'Course')
-INSTRUCTOR_OUTER_HIDDEN = ('id', 'course')
+INSTRUCTOR_OUTER = ('id', 'link', 'Course')
+INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'course')
 
 INSTRUCTOR_INNER = ('Semester',)
 INSTRUCTOR_INNER_HIDDEN =  ('semester',)
@@ -100,7 +100,7 @@ def instructor(request, id):
 
     #append row
     meta = [(average(reviews, column), recent(reviews, column)) for column in columns]
-    outer_row = tuple([row_id, coursehistory] + meta + [section_table])
+    outer_row = tuple([row_id, 'coursehistory/%s' % self.subtitle, coursehistory] + meta + [section_table])
     body.append(outer_row)
 
   score_table = Table(INSTRUCTOR_OUTER + strings + ('sections',),
@@ -123,6 +123,20 @@ def course(request, dept, id):
 
   scorecard = build_scorecard(sections)
 
+  strings, fields, columns = tuple(), tuple(), tuple()
+  for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
+    broke = False
+    for section in sections:
+      for review in section.reviews:
+        if column in review:
+          strings += (string,)
+          fields += (field,)
+          columns += (column,)
+          broke = True
+          break
+      if broke:
+        break
+
   body = []
   for row_id, instructor in enumerate(coursehistory.instructors):
     reviews = [review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews]
@@ -132,20 +146,20 @@ def course(request, dept, id):
     for section in instructor.sections:
       if section.course.coursehistory == coursehistory:
         section_body.append(
-            [section.semester, section.sectionnum] + [average(section.reviews, rating) for rating in RATING_API]
+            [section.semester, section.sectionnum] + [average(section.reviews, column) for column in columns]
             )
-    section_table = Table(COURSE_INNER, COURSE_INNER_HIDDEN, section_body)
+    section_table = Table(COURSE_INNER + strings, COURSE_INNER_HIDDEN + fields, section_body)
 
     #append row
     body.append(
         [row_id, instructor.name] +
 
-        [(average(reviews, rating), recent(reviews, rating)) for rating in RATING_API] +
+        [(average(reviews, column), recent(reviews, column)) for column in columns] +
 
         [section_table]
       )
 
-  score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN, body)
+  score_table = Table(COURSE_OUTER + strings + ('section',), COURSE_OUTER_HIDDEN + fields + ('sections',), body)
 
   context = RequestContext(request, {
     'course': coursehistory,
