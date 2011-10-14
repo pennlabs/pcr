@@ -189,39 +189,21 @@ def autocomplete_data(request):
                             for sep in ['', '-', ' '] for alias in course['aliases']] \
                         + [course['name'].lower()])
              } for course in courses_from_api if len(course['aliases']) > 0]
+  #TODO - econ 1 = econ 001 (in terms of aliases)
 
   #2. Hit API up for instructor data, push into nop's desired format
-  instructors=[]
+  instructors_from_api = pcr('instructors')['values']  
+  instructors=[{"category": "Instructors",
+                "title": instructor['name'],
+                "desc": "teaches " + ", ".join(instructor['departments']),
+                "url": "instructors/" + instructor['id'],
+                "keywords": instructor['name'].lower()
+               } for instructor in instructors_from_api 
+                 if 'departments' in instructor]
 
   #3. Respond in JSON
   return json_response({"courses":courses, "instructors":instructors})
-  return HttpResponse("""{
-    "courses": [
-        {
-            "category": "Courses",
-            "title": "CIS 120",
-            "desc": "Programming Techniques II",
-            "url": "course/CIS-120",
-            "keywords": "cis 120 cis120 cis-120 programming techniques ii"
-
-        },
-        {
-            "category": "Courses",
-            "title": "CIS 240",
-            "desc": "Computer Architecture",
-            "url": "",
-            "keywords": "cis 240 cis240 cis-240 computer architecture"
-
-        },
-        {            
-            "category": "Courses",
-            "title": "CIS 262",
-            "desc": "Languages and Automata",
-            "url": "",
-            "keywords": "cis 262 cis262 cis-262 languages and automata"
-
-        }
-    ],
+  """
     "instructors": [
         {
             "category": "Instructors",
@@ -246,7 +228,7 @@ def autocomplete_data(request):
             "keywords": "mitch marcus"
         }
     ]
-    }""")
+    }"""
 
 def browse(request):
   return render_to_response('browse.html')
