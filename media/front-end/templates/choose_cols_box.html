@@ -4,15 +4,20 @@
     
       <h1>Choose Columns to Display</h1>
       
-      {% for i in fields|slice:"1:-1" %}
-      <p><input type="checkbox" name="{{i.0}}" value="{{i.0}}" />{{i.1}}</p>
+      <div style="width:50%; float:right;">
+        {% for i in fields1 %}
+        <p><input type="checkbox" name="{{i.0}}" value="{{i.0}}" /> {{i.1}}</p>
+        {% endfor %}
+      </div>
+      
+      {% for i in fields0 %}
+      <p><input type="checkbox" name="{{i.0}}" value="{{i.0}}" /> {{i.1}}</p>
       {% endfor %}
       
-      <div class="buttons">
+      <div id="buttons">
         <input type="button" value="Submit" onclick="submit_choose_cols()" />
         <input type="button" value="Cancel" onclick="cancel_choose_cols()" />
       </div>
-    
     </div>
   </div>
 </div>

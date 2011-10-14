@@ -255,15 +255,19 @@ input {
 	margin-bottom:10px;
 }
 #choose-cols-content div#buttons {
-}
-#choose-cols-content input[type=button] {
-	width:85px;
-	padding: 5px 0 5px 0;	
-	border: 1px solid #636363;
-	color:#636363;
-	margin: 0px auto;
+	text-align:center;
 	margin-top:15px;
-	cursor:pointer;
+}
+#choose-cols-content input[type="button"] {
+	border: 1px solid #636363;
+	color: #636363;
+	cursor: pointer;
+	padding: 5px 0;
+	width: 85px;
+	
+	display: inline-block;
+  vertical-align: middle;
+	margin:0 5px;
 }
 #choose-cols-content input[type=button]:hover {
 	border-color:#000080;
