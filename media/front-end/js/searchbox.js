@@ -1,5 +1,22 @@
 (function() {
-  window.autocomplete_open = function() {};
+  var autocompleteFilter;
+  autocompleteFilter = function(a, s, n) {
+    var count, i, out, _i, _len;
+    s = s.toLowerCase();
+    out = [];
+    count = 0;
+    for (_i = 0, _len = a.length; _i < _len; _i++) {
+      i = a[_i];
+      if (i.keywords.indexOf(s) !== -1) {
+        out.push(i);
+        count++;
+        if (count >= n) {
+          return out;
+        }
+      }
+    }
+    return out;
+  };
   $.widget("custom.autocomplete", $.ui.autocomplete, {
     _renderMenu: function(ul, items) {
       var currentCategory, self;
@@ -15,11 +32,13 @@
     }
   });
   window.initSearchbox = function() {
-    return $.getJSON("http://pennapps.com/pcrsite-nop/media/front-end/js/testdata.json", function(data) {
+    return $.getJSON("autocomplete_data.json", function(data) {
       return $("#searchbox").autocomplete({
-        source: data.items,
         delay: 0,
-        minLength: 0,
+        minLength: 1,
+        source: function(request, response) {
+          return response(autocompleteFilter(data.courses, request.term, 2).concat(autocompleteFilter(data.instructors, request.term, 2)));
+        },
         position: {
           my: "left top",
           at: "left bottom",

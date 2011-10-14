@@ -1,4 +1,14 @@
-window.autocomplete_open = ()->
+autocompleteFilter = (a, s, n) ->
+  s = s.toLowerCase()
+  out = []
+  count = 0  
+  for i in a
+    if i.keywords.indexOf(s)!=-1
+      out.push(i)
+      count++
+      if count>=n
+        return out
+  return out
 
 $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
   self = this
@@ -10,11 +20,17 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
     self._renderItem(ul, item)
 
 window.initSearchbox  = () ->
-  $.getJSON "http://pennapps.com/pcrsite-nop/media/front-end/js/testdata.json",(data) ->
-    $("#searchbox").autocomplete(
-      source: data.items
+  $.getJSON("autocomplete_data.json", (data)->
+    
+    $("#searchbox").autocomplete(      
       delay: 0
-      minLength: 0
+      minLength: 1
+      
+      source: (request, response) ->
+        response(
+          autocompleteFilter(data.courses, request.term, 2)
+          .concat(autocompleteFilter(data.instructors, request.term, 2))
+        )
       
       position:
         my: "left top"
@@ -26,9 +42,11 @@ window.initSearchbox  = () ->
       focus: ( event, ui ) ->
         $("#searchbox").attr("value", ui.item.title)
         return false
+      
       select: ( event, ui ) ->
         window.location = ui.item.url
         return false
+      
       open: () ->
         $(".ui-autocomplete.ui-menu.ui-widget").width(
           $("#searchbar").width()
@@ -43,3 +61,4 @@ window.initSearchbox  = () ->
               item.desc +
               "</span></a>")
       .appendTo(ul)
+  )
