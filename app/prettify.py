@@ -13,7 +13,7 @@ PRETTIFY_REVIEWBITS = {
   u"rArticulateGoals": "Ability to Articulate Goals",
   u"rSkillEmphasis": "Skill Emphasis",
   u"rHomeworkValuable": "Homework Valuable",
-  u"rExamsConsistent": "Exams Consistent".
+  u"rExamsConsistent": "Exams Consistent",
   u"rAbilitiesChallenged": "Abilities Challenged",
   u"rClassPace": "Class Pace",
   u"rOralSkills": "Oral Skills",

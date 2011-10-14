@@ -9,28 +9,32 @@ from django.template import Context, loader, RequestContext
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
-from helper import getSectionsTable, build_course, build_history, build_section
 from api import *
+from helper import getSectionsTable, build_course, build_history, build_section
+from templatetags.prettify import PRETTIFY_REVIEWBITS
 
 #TODO: Get this and filter stuff out
 CURRENT_SEMESTER = None
 
-RATING_STRINGS = ('Course', 'Instructor', 'Difficulty')
-RATING_FIELDS = ('course', 'instructor', 'difficulty')
+RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS.values())
+RATING_FIELDS = tuple(["".join(words.lower().strip()) for words in PRETTIFY_REVIEWBITS.values()])
+RATING_API = tuple(PRETTIFY_REVIEWBITS.keys())
 
-RATING_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
+SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
+SCORECARD_FIELDS = ('course', 'instructor', 'difficulty') 
+SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 
 
 def build_scorecard(sections):
   '''Build a scorecard for the given sections.'''
   avg = ScoreBoxRow('Average', '%s sections' % len(sections),
-      [ScoreBox(display, average([review for section in sections for review in section .reviews], attr))
-        for display, attr in zip(RATING_STRINGS, RATING_API)])
+      [ScoreBox(display, average([review for section in sections for review in section.reviews], attr))
+        for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
   most_recent = sections[-1]
   recent = ScoreBoxRow('Recent', most_recent.semester,
       [ScoreBox(display, average([review for review in most_recent.reviews], attr))
-        for display, attr in zip(RATING_STRINGS, RATING_API)])
-  return [avg, recent]
+        for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
+  return (avg, recent)
 
 
 def index(request):
@@ -62,7 +66,7 @@ def instructor(request, id):
     #build subtable
     section_body = []
     for section in coursehistories[coursehistory]:
-      sectionbody.append(
+      section_body.append(
           [section.semester] + [average(section_reviews, rating) for rating in RATING_API]
           )
     section_table = Table(INSTRUCTOR_INNER, INSTRUCTOR_INNER_HIDDEN, section_body)
@@ -71,7 +75,7 @@ def instructor(request, id):
     body.append(
         [row_id, coursehistory] +
 
-        [(average(reviews, rating), recent(reivews, rating)) for rating in RATING_API] +
+        [(average(reviews, rating), recent(reviews, rating)) for rating in RATING_API] +
 
         [section_table]
       )
