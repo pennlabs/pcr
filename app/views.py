@@ -54,18 +54,29 @@ def instructor(request, id):
   
   #create a map from coursehistory to sections taught by professor
   #use average of the sections to create averages / recent
-  score_table = Table(INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN,
-      [[row_id, coursehistory] +
+  body = []
+  for row_id, coursehistory in enumerate(coursehistories):
+    section_reviews = section.reviews
+    reviews = [review for section in coursehistories[coursehistory] for review in section_reviews]
 
-      [(average([review for section in coursehistories[coursehistory] for review in section.reviews], rating),
-        recent([review for section in coursehistories[coursehistory] for review in section.reviews], rating))
-        for rating in RATING_API] +
+    #build subtable
+    section_body = []
+    for section in coursehistories[coursehistory]:
+      sectionbody.append(
+          [section.semester] + [average(section_reviews, rating) for rating in RATING_API]
+          )
+    section_table = Table(INSTRUCTOR_INNER, INSTRUCTOR_INNER_HIDDEN, section_body)
 
-      [Table(INSTRUCTOR_INNER, INSTRUCTOR_INNER_HIDDEN,
-        [[section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in coursehistories[coursehistory]]
-        )]
-  for row_id, coursehistory in enumerate(coursehistories)])
+    #append row
+    body.append(
+        [row_id, coursehistory] +
 
+        [(average(reviews, rating), recent(reivews, rating)) for rating in RATING_API] +
+
+        [section_table]
+      )
+
+  score_table = Table(INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN, body)
   context = RequestContext(request, {
     'instructor': instructor,
     'scorecard': scorecard,
