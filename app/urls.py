@@ -14,6 +14,7 @@ urlpatterns = patterns('',
   (r'^faq$', faq),
   (r'^about$', about),
 
+  (r'^autocomplete_data.json$', autocomplete_data),
  
   (r'^$', index),
 )
