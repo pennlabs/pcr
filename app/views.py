@@ -18,7 +18,7 @@ from templatetags.prettify import PRETTIFY_REVIEWBITS
 CURRENT_SEMESTER = None
 
 RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS.values())
-RATING_FIELDS = tuple(["".join(words.lower().split()) for words in PRETTIFY_REVIEWBITS.values()])
+RATING_FIELDS = tuple(["".join(words.split()) for words in PRETTIFY_REVIEWBITS.values()])
 RATING_API = tuple(PRETTIFY_REVIEWBITS.keys())
 
 SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
