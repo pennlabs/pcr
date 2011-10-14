@@ -1,5 +1,6 @@
 from __future__ import division
 from collections import defaultdict, namedtuple
+import json
 from itertools import groupby
 
 from django.shortcuts import get_object_or_404, render_to_response, redirect
@@ -8,7 +9,7 @@ from django.template import Context, loader, RequestContext
 
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
-import json
+
 from api import *
 from helper import getSectionsTable, build_course, build_history, build_section
 from templatetags.prettify import PRETTIFY_REVIEWBITS
@@ -17,7 +18,7 @@ from templatetags.prettify import PRETTIFY_REVIEWBITS
 CURRENT_SEMESTER = None
 
 RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS.values())
-RATING_FIELDS = tuple(["".join(words.lower().strip()) for words in PRETTIFY_REVIEWBITS.values()])
+RATING_FIELDS = tuple(["".join(words.lower().split()) for words in PRETTIFY_REVIEWBITS.values()])
 RATING_API = tuple(PRETTIFY_REVIEWBITS.keys())
 
 SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
@@ -38,6 +39,9 @@ COURSE_OUTER_HIDDEN = ('id', 'professor') + RATING_FIELDS + ('sections',)
 
 COURSE_INNER = ('Semester', 'Section') + RATING_STRINGS
 COURSE_INNER_HIDDEN =  ('semester', 'section') + RATING_FIELDS
+
+DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
+DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
 
 def build_scorecard(sections):
@@ -143,8 +147,6 @@ def course(request, dept, id):
   })
   return render_to_response('course.html', context)
 
-DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
-DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
 def department(request, id):
   raw_depts = pcr('depts')['values']
