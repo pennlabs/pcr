@@ -216,16 +216,19 @@ def department(request, id):
 
 def autocomplete_data(request):
   #1. Hit API up for course-history data, push into nop's desired format
+  def alias_to_code(alias, sep="-"):
+    code, num = alias.split(' ')
+    return "%s%s%03d" % (code, sep, int(num))
   courses_from_api = pcr('coursehistories')['values']
   courses = [{"category": "Courses",
               "title": course['aliases'][0],
               "desc": course['name'],
-              "url": "course/%s-%s" % tuple(course['aliases'][0].split(" ")),
-              "keywords": " ".join([sep.join(alias.lower().split(" ")) \
+              "url": "course/" + alias_to_code(course['aliases'][0]),
+              "keywords": " ".join([alias_to_code(alias.lower(), sep) \
                             for sep in ['', '-', ' '] for alias in course['aliases']] \
                         + [course['name'].lower()])
              } for course in courses_from_api if len(course['aliases']) > 0]
-  #TODO - econ 1 = econ 001 (in terms of aliases)
+  
 
   #2. Hit API up for instructor data, push into nop's desired format
   instructors_from_api = pcr('instructors')['values']  
