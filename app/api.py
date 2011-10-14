@@ -5,7 +5,7 @@ import urllib2
 import json
 from collections import defaultdict
 
-API = "http://pennapps.com/courses-mjc/"
+API = "http://pennapps.com/courses-ceasarb/"
 TOKEN = "pennappsdemo"
 
 def pcr(*args, **kwargs):
@@ -80,6 +80,10 @@ class Section(object):
     self.semester = raw_section['course']['semester']
 
   @property
+  def instructors(self):
+    return [Instructor(raw_instructor) for raw_instructor in self.raw['instructors']]
+
+  @property
   def reviews(self):
     return [Review(raw_review) for raw_review in pcr(*(self.raw['path'].split('/') + ['reviews']))['values']]
 
@@ -106,15 +110,12 @@ class Course(object):
 
   @property
   def instructors(self):
-    return [Instructor(instructor)
-        for instructor in dict([
-          (raw_instructor['id'], raw_instructor)
-          for raw_section in pcr('course', self.id, "sections")['values']
-          for raw_instructor in raw_section['instructors']]).values()]
+    return set([instructor for section in self.sections for instructor in section.instructors])
 
   @property
   def sections(self):
-    return [section for instructor in self.instructors for section in instructor.sections]
+    return set([Section(section) for section in pcr('course', self.id, 'sections')['values']
+        if all([time['type'] == 'LEC' for time in section['meetingtimes']])])
 
   def __eq__(self, other):
     return self.id == other.id
