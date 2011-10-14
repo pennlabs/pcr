@@ -26,7 +26,7 @@ def content_settings(context):
   
 @tag(register, [Variable()])
 def choose_cols_box(context, fields):
-  half = len(fields)/2+1
+  half = len(fields)/2+2
   new_context = {
     'fields0': fields[3:half],
     'fields1': fields[half:-1]
