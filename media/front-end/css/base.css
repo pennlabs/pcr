@@ -161,6 +161,7 @@ input {
 
 #course-table {	
 	width:100%;
+	margin-bottom:15px;
 }
 #course-table th {	
 	border-bottom: 2px solid #000080;
