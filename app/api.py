@@ -14,6 +14,7 @@ def pcr(*args, **kwargs):
   page = urllib2.build_opener().open(path)
   return json.loads(page.read())['result']
 
+ERROR = ''
 
 def average(reviews, attr):
   average = 0.0
@@ -27,7 +28,7 @@ def average(reviews, attr):
   if average > 0.0:
     return average
   else:
-    return -1.0
+    return ERROR
 
 
 class Review(dict):
