@@ -7,6 +7,10 @@ TEMPLATE_DEBUG = DEBUG
 #May override DEBUG
 from sandbox_config import DISPLAY_NAME, DEV_ROOT, PCRSITE_APP_ROOT
 
+# making template path relative to allow for modular development
+# thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -67,12 +71,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+)
+
 
 ROOT_URLCONF = 'pcrsite.urls'
-
-# making template path relative to allow for modular development
-# thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
-PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = (
   os.path.join(PROJECT_PATH, 'media/front-end'),

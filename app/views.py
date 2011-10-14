@@ -9,7 +9,6 @@ from django.template import Context, loader, RequestContext
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 import json
-
 from helper import getSectionsTable, build_course, build_history, build_section
 from api import *
 
@@ -23,6 +22,17 @@ RATING_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 
 def json_response(result_dict):
   return HttpResponse(content=json.dumps(result_dict))
+def build_scorecard(sections):
+  '''Build a scorecard for the given sections.'''
+  avg = ScoreBoxRow('Average', '%s sections' % len(sections),
+      [ScoreBox(display, average([review for section in sections for review in section .reviews], attr))
+        for display, attr in zip(RATING_STRINGS, RATING_API)])
+  most_recent = sections[-1]
+  recent = ScoreBoxRow('Recent', most_recent.semester,
+      [ScoreBox(display, average([review for review in most_recent.reviews], attr))
+        for display, attr in zip(RATING_STRINGS, RATING_API)])
+  return [avg, recent]
+
 
 def index(request):
   return render_to_response('index.html')
@@ -33,6 +43,7 @@ INSTRUCTOR_OUTER_HIDDEN = ('id', 'course') + RATING_FIELDS + ('sections',)
 INSTRUCTOR_INNER = ('Semester',) + RATING_STRINGS
 INSTRUCTOR_INNER_HIDDEN =  ('semester',) + RATING_FIELDS
 
+
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
   sections = instructor.sections
@@ -40,30 +51,33 @@ def instructor(request, id):
   for section in sections:
     coursehistories[section.course.coursehistory.name].append(section)
 
-  scorecard = [
-      ScoreBoxRow('Average',
-        '%s sections' % len(instructor.sections),
-        [ScoreBox(display, average([review for section in instructor.sections for review in section.reviews], attr))
-          for display, attr in zip(RATING_STRINGS, RATING_API)]),
-      ScoreBoxRow('Recent',
-        instructor.most_recent.semester,
-        [ScoreBox(display, average([review for review in instructor.sections[-1].reviews], attr))
-          for display, attr in zip(RATING_STRINGS, RATING_API)])]
+  scorecard = build_scorecard(sections)
   
   #create a map from coursehistory to sections taught by professor
   #use average of the sections to create averages / recent
-  score_table = Table(INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN,
-      [[row_id, coursehistory] +
+  body = []
+  for row_id, coursehistory in enumerate(coursehistories):
+    section_reviews = section.reviews
+    reviews = [review for section in coursehistories[coursehistory] for review in section_reviews]
 
-      [(average([review for section in coursehistories[coursehistory] for review in section.reviews], rating),
-        recent([review for section in coursehistories[coursehistory] for review in section.reviews], rating))
-        for rating in RATING_API] +
+    #build subtable
+    section_body = []
+    for section in coursehistories[coursehistory]:
+      sectionbody.append(
+          [section.semester] + [average(section_reviews, rating) for rating in RATING_API]
+          )
+    section_table = Table(INSTRUCTOR_INNER, INSTRUCTOR_INNER_HIDDEN, section_body)
 
-      [Table(INSTRUCTOR_INNER, INSTRUCTOR_INNER_HIDDEN,
-        [[section.semester] + [average(section.reviews, rating) for rating in RATING_API] for section in coursehistories[coursehistory]]
-        )]
-  for row_id, coursehistory in enumerate(coursehistories)])
+    #append row
+    body.append(
+        [row_id, coursehistory] +
 
+        [(average(reviews, rating), recent(reivews, rating)) for rating in RATING_API] +
+
+        [section_table]
+      )
+
+  score_table = Table(INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN, body)
   context = RequestContext(request, {
     'instructor': instructor,
     'scorecard': scorecard,
@@ -82,15 +96,8 @@ COURSE_INNER_HIDDEN =  ('semester', 'section') + RATING_FIELDS
 def course(request, dept, id):
   coursehistory = CourseHistory(pcr('coursehistory', '%s-%s' % (dept, id)))
 
-  scorecard = [
-      ScoreBoxRow('Average',
-        '%s sections' % len([section for section in coursehistory.sections if section.course.coursehistory == coursehistory]),
-        [ScoreBox(display, average([review for course in coursehistory.courses for section in course.sections if section.course.coursehistory == coursehistory for review in section.reviews], attr))
-          for display, attr in zip(RATING_STRINGS, RATING_API)]),
-      ScoreBoxRow('Recent',
-        coursehistory.most_recent.semester,
-        [ScoreBox(display, recent([review for course in coursehistory.courses for section in course.sections if section.course.coursehistory == coursehistory for review in section.reviews], attr))
-          for display, attr in zip(RATING_STRINGS, RATING_API)])]
+  sections = [section for section in coursehistory.sections if section.course.coursehistory == coursehistory]
+  scorecard = build_scorecard(sections)
 
   score_table = Table(COURSE_OUTER, COURSE_OUTER_HIDDEN,
       [[row_id, instructor.name] +

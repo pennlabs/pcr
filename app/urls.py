@@ -1,6 +1,9 @@
 from django.conf.urls.defaults import *
+from django.contrib import admin
 
 from views import *
+
+
 
 urlpatterns = patterns('',
   (r'^instructor/(.*)$', instructor),
