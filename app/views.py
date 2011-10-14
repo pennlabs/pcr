@@ -210,39 +210,13 @@ def autocomplete_data(request):
   instructors=[{"category": "Instructors",
                 "title": instructor['name'],
                 "desc": "teaches " + ", ".join(instructor['departments']),
-                "url": "instructors/" + instructor['id'],
+                "url": "instructor/" + instructor['id'],
                 "keywords": instructor['name'].lower()
                } for instructor in instructors_from_api 
                  if 'departments' in instructor]
 
   #3. Respond in JSON
   return json_response({"courses":courses, "instructors":instructors})
-  """
-    "instructors": [
-        {
-            "category": "Instructors",
-            "title": "Rajeev Alur",
-            "desc": "CIS",
-            "url": "",
-            "keywords": "rajeev alur"
-        },
-        {
-            "category": "Instructors",
-            "title": "C.J. Taylor",
-            "desc": "CSE",
-            "url": "",
-            "keywords": "c.j. taylor"
-
-        },
-        {            
-            "category": "Instructors",
-            "title": "Mitch Marcus",
-            "desc": "CIS",
-            "url": "",
-            "keywords": "mitch marcus"
-        }
-    ]
-    }"""
 
 def browse(request):
   return render_to_response('browse.html')
