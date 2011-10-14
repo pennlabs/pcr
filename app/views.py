@@ -64,7 +64,7 @@ def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
   coursehistories = {}
   sections = defaultdict(list)
-  for section in sections:
+  for section in instructor.sections:
     coursehistory = section.course.coursehistory
     sections[coursehistory.name].append(section)
     coursehistories[coursehistory.name] = coursehistory
@@ -96,7 +96,6 @@ def instructor(request, id):
       row = [section.semester] + [average(section.reviews, column) for column in columns]
       section_body.append(row)
     section_table = Table(INSTRUCTOR_INNER + strings, INSTRUCTOR_INNER_HIDDEN + fields, section_body)
-    d = aawasdaweaz
 
     #append row
     reviews = [review for section in sections[name] for review in section.reviews]
