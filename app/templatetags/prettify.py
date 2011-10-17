@@ -28,7 +28,7 @@ PRETTIFY_REVIEWBITS = {
 
 ORDER = (
   # general
-  u"rCourseQuality"
+  u"rCourseQuality",
   u"rInstructorQuality",
   u"rDifficulty",
   
@@ -60,7 +60,7 @@ ORDER = (
   u"rNativeAbility",
   u"rClassPace",
   
-  u"rTAQuality"
+  u"rTAQuality",
   
   u"rRecommendMajor",
   u"rRecommendNonMajor"     

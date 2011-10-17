@@ -7,26 +7,22 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
 
-from templatetags.prettify import PRETTIFY_REVIEWBITS
+from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
 from api import *
-from helper import getSectionsTable, build_course, build_history, build_section
 
 #TODO: Get this and filter stuff out
 CURRENT_SEMESTER = None
 
-RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS.values())
-RATING_FIELDS = tuple(["".join(words.split()) for words in PRETTIFY_REVIEWBITS.keys()])
-RATING_API = tuple(PRETTIFY_REVIEWBITS.keys())
+RATING_API = ORDER
+RATING_STRINGS = tuple([PRETTIFY_REVIEWBITS[v] for v in ORDER])
+RATING_FIELDS = tuple(["".join(words.split()) for words in ORDER])
 
 SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
 SCORECARD_FIELDS = ('course', 'instructor', 'difficulty') 
 SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
-
-def json_response(result_dict):
-  return HttpResponse(content=json.dumps(result_dict))
 
 INSTRUCTOR_OUTER = ('id', 'link', 'Course')
 INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'course')
@@ -42,6 +38,9 @@ COURSE_INNER_HIDDEN =  ('semester', 'section')
 
 DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
 DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
+
+def json_response(result_dict):
+  return HttpResponse(content=json.dumps(result_dict))
 
 
 def build_scorecard(sections):
@@ -140,20 +139,21 @@ def course(request, dept, id):
 
   body = []
   for row_id, instructor in enumerate(coursehistory.instructors):
+    instructor_sections = instructor.get_sections(coursehistory) 
+
     #build subtable
     section_body = []
-    for section in instructor.sections:
-      if section.course.coursehistory == coursehistory:
-        section_reviews = section.reviews
-        section_body.append(
-            [section.semester, section.sectionnum]
-            + [average(section_reviews, column) for column in columns]
-            )
+    for section in instructor_sections:
+      section_reviews = section.reviews
+      section_body.append(
+          [section.semester, section.sectionnum]
+          + [average(section_reviews, column) for column in columns]
+          )
     section_table = Table(COURSE_INNER + strings, COURSE_INNER_HIDDEN + fields, section_body)
 
     #append row
-    most_recent = instructor.get_most_recent(coursehistory)
-    reviews = [review for section in instructor.get_sections(coursehistory) for review in section.reviews]
+    most_recent = instructor_sections[-1]
+    reviews = [review for section in instructor_sections for review in section.reviews]
     body.append(
         [row_id, 'instructor/%s' % instructor.id, instructor.name] +
 
@@ -220,11 +220,11 @@ def department(request, id):
 def autocomplete_data(request):
   #1. Hit API up for course-history data, push into nop's desired format
   def alias_to_code(alias, sep="-"):
-    code, num = alias.split('-')
+    code, num = alias.split(' ')
     return "%s%s%03d" % (code, sep, int(num))
   courses_from_api = pcr('coursehistories')['values']
   courses = [{"category": "Courses",
-              "title": alias_to_code(course['aliases'][0], ' '),
+              "title": course['aliases'][0],
               "desc": course['name'],
               "url": "course/" + alias_to_code(course['aliases'][0]),
               "keywords": " ".join([alias_to_code(alias.lower(), sep) \
