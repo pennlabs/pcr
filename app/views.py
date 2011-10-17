@@ -49,6 +49,7 @@ def build_scorecard(sections):
   avg = ScoreBoxRow('Average', '%s sections' % len(sections),
       [ScoreBox(display, average([review for section in sections for review in section.reviews], attr))
         for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
+  sections.sort(key=lambda section: section.semester)
   most_recent = sections[-1]
   recent = ScoreBoxRow('Recent', most_recent.semester,
       [ScoreBox(display, average([review for review in most_recent.reviews], attr))
@@ -145,13 +146,14 @@ def course(request, dept, id):
       if section.course.coursehistory == coursehistory:
         section_reviews = section.reviews
         section_body.append(
-            [section.semester, section.sectionnum] + [average(section_reviews, column) for column in columns]
+            [section.semester, section.sectionnum]
+            + [average(section_reviews, column) for column in columns]
             )
     section_table = Table(COURSE_INNER + strings, COURSE_INNER_HIDDEN + fields, section_body)
 
     #append row
-    most_recent = instructor.most_recent
-    reviews = [review for section in instructor.sections if section.course.coursehistory == coursehistory for review in section.reviews]
+    most_recent = instructor.get_most_recent(coursehistory)
+    reviews = [review for section in instructor.get_sections(coursehistory) for review in section.reviews]
     body.append(
         [row_id, 'instructor/%s' % instructor.id, instructor.name] +
 

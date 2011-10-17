@@ -60,6 +60,14 @@ class Instructor(object):
   @property
   def most_recent(self):
     return self.sections[-1]
+
+  def get_sections(self, coursehistory):
+    sections = [section for section in self.sections if section.course.coursehistory == coursehistory]
+    sections.sort(key=lambda section: section.semester)
+    return sections
+
+  def get_most_recent(self, coursehistory):
+    return self.get_sections(coursehistory)[-1]
   
   def recent(self, attr):
     return recent(self.reviews, attr)
