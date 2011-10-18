@@ -42,8 +42,9 @@
     var i, _ref, _results;
     $("#course-table th").hide();
     $("#course-table td").hide();
+    $("#course-table .col_icon").show();
     $("#course-table .col_course").show();
-    $("#course-table .col_professor").show();
+    $("#course-table .col_instructor").show();
     $("#course-table .col_semester").show();
     $("#course-table .col_section").show();
     $("#course-table .td_hidden").show();

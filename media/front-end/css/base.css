@@ -31,6 +31,12 @@ input {
   -webkit-box-shadow: 0px 2px 10px #808080;  
 }
 
+#wrapper a {	
+	border-bottom: 1px solid #636363;
+}
+#wrapper a:hover {	
+	border-bottom: 1px solid #000;
+}
 #header {
 	background:url(../image/headerbg.png) repeat-x bottom;
 	height:60px;	
@@ -50,6 +56,12 @@ input {
 }
 #linkbar {
 	margin-top:23px;
+}
+#linkbar a {
+	margin: 0px 2px;
+}
+#linkbar a, #linkbar span {
+	display: inline-block;
 }
 #searchbar{	
 	background:#FFF;
@@ -175,6 +187,9 @@ input {
 	color:#636363;
 	padding:10px 5px;
 	width:1%;
+}
+#course-table .col_icon {
+	width:.0001%;
 }
 #course-table tr.row_display td {
 	cursor:pointer;
