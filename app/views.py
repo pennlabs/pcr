@@ -11,7 +11,9 @@ from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
-from api import *
+from api import pcr
+from average import average
+from wrapper import Instructor, CourseHistory
 
 #TODO: Get this and filter stuff out
 CURRENT_SEMESTER = None
