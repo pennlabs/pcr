@@ -171,7 +171,10 @@ def course(request, dept, id):
 
   score_table = Table(COURSE_OUTER + strings + ('section',), COURSE_OUTER_HIDDEN + fields + ('sections',), body)
 
+  aliases = coursehistory.aliases
+  aliases.remove(title)
   context = RequestContext(request, {
+    'aliases': aliases,
     'title': title,
     'course': coursehistory,
     'scorecard': scorecard,

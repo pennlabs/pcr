@@ -8,7 +8,10 @@
 
 {% block info %}
 <p class="title">{{title}}</p>
-<p class="aliases">{{course.aliases}}</p>
+<p class="aliases">
+{% if aliases %}
+Crosslisted as: {% for alias in aliases %} {{alias}},{% endfor %}
+{% endif %}</p>
 <p class="subtitle">{{course.name}}</p>
 <p class="desc">{{course.description}}</p>
 {% endblock %}
