@@ -5,7 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 #May override DEBUG
-from sandbox_config import DISPLAY_NAME, DEV_ROOT, PCRSITE_APP_ROOT
+from sandbox_config import *
 
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
@@ -96,3 +96,9 @@ INSTALLED_APPS = (
     'app',
 )
   
+if DO_STATICGENERATOR:
+    MIDDLEWARE_CLASSES += ('staticgenerator.middleware.StaticGeneratorMiddleware',)
+    # I think WEB_ROOT is staticgenerator-specific
+    WEB_ROOT = os.path.join(PCRSITE_APP_ROOT, "staticgenerator_output") 
+    SERVER_NAME = 'pennapps.com' # not staticgenerator-specific, but that's all that needs it
+    STATIC_GENERATOR_URLS = ('.*',)
