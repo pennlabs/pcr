@@ -58,7 +58,7 @@ def build_scorecard(sections):
   recent = ScoreBoxRow('Recent', prettify_semester(most_recent.semester),
       [ScoreBox(display, average([review for review in most_recent.reviews], attr))
         for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
-  return (avg, recent)
+  return avg, recent
 
 
 def index(request):

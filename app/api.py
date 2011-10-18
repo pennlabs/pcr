@@ -14,7 +14,7 @@ def pcr(*args, **kwargs):
   page = urllib2.build_opener().open(path)
   return json.loads(page.read())['result']
 
-ERROR = ''
+ERROR = u"\u00A0"
 
 TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
 
