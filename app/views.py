@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
 
-from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER
+from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
 from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
@@ -30,8 +30,8 @@ INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'course')
 INSTRUCTOR_INNER = ('Semester',)
 INSTRUCTOR_INNER_HIDDEN =  ('semester',)
 
-COURSE_OUTER = ('id', 'link', 'Professor')
-COURSE_OUTER_HIDDEN = ('id', 'link',  'professor')
+COURSE_OUTER = ('id', 'link', 'Instructor')
+COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor')
 
 COURSE_INNER = ('Semester', 'Section')
 COURSE_INNER_HIDDEN =  ('semester', 'section')
@@ -39,8 +39,13 @@ COURSE_INNER_HIDDEN =  ('semester', 'section')
 DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
 DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
+
 def json_response(result_dict):
   return HttpResponse(content=json.dumps(result_dict))
+
+
+def prettify_semester(semester):
+  return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
 
 
 def build_scorecard(sections):
@@ -50,7 +55,7 @@ def build_scorecard(sections):
         for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
   sections.sort(key=lambda section: section.semester)
   most_recent = sections[-1]
-  recent = ScoreBoxRow('Recent', most_recent.semester,
+  recent = ScoreBoxRow('Recent', prettify_semester(most_recent.semester),
       [ScoreBox(display, average([review for review in most_recent.reviews], attr))
         for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
   return (avg, recent)
@@ -93,7 +98,7 @@ def instructor(request, id):
     #build subtable
     section_body = []
     for section in sections[name]:
-      row = [section.semester] + [average(section.reviews, column) for column in columns]
+      row = [prettify_semester(section.semester)] + [average(section.reviews, column) for column in columns]
       section_body.append(row)
     section_table = Table(INSTRUCTOR_INNER + strings, INSTRUCTOR_INNER_HIDDEN + fields, section_body)
 
@@ -137,21 +142,22 @@ def course(request, dept, id):
       if broke:
         break
 
+  #build course table
   body = []
   for row_id, instructor in enumerate(coursehistory.instructors):
     instructor_sections = instructor.get_sections(coursehistory) 
 
-    #build subtable
+    #build instructor section table
     section_body = []
     for section in instructor_sections:
       section_reviews = section.reviews
       section_body.append(
-          [section.semester, section.sectionnum]
+          [prettify_semester(section.semester), section.sectionnum]
           + [average(section_reviews, column) for column in columns]
           )
     section_table = Table(COURSE_INNER + strings, COURSE_INNER_HIDDEN + fields, section_body)
 
-    #append row
+    #append row to course_table
     most_recent = instructor_sections[-1]
     reviews = [review for section in instructor_sections for review in section.reviews]
     body.append(

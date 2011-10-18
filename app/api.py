@@ -18,14 +18,13 @@ ERROR = ''
 
 def average(reviews, attr):
   average = 0.0
+  valid = 0
   for review in reviews:
-    try:
+    if attr in review:
       average += review[attr]
-    except:
-      pass
-  if len(reviews) > 0:
-    average = round(average / len(reviews), 2)
-  if average > 0.0:
+      valid += 1
+  if valid > 0:
+    average = round(average / valid, 2)
     return average
   else:
     return ERROR
@@ -49,7 +48,7 @@ class Instructor(object):
   
   @property
   def sections(self):
-    sections =[Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
+    sections = [Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
     sections.sort(key=lambda section: section.semester)
     return sections
 
@@ -62,15 +61,15 @@ class Instructor(object):
     return self.sections[-1]
 
   def get_sections(self, coursehistory):
-    sections = [section for section in self.sections if section.course.coursehistory == coursehistory]
+    sections = filter(lambda section: section.course.coursehistory == coursehistory, self.sections)
     sections.sort(key=lambda section: section.semester)
     return sections
-
-  def get_most_recent(self, coursehistory):
-    return self.get_sections(coursehistory)[-1]
   
   def recent(self, attr):
     return recent(self.reviews, attr)
+
+  def __repr__(self):
+    return self.name
 
 
 class Section(object):
@@ -91,6 +90,9 @@ class Section(object):
   @property
   def course(self):
     return Course(pcr('course', self.raw['course']['id']))
+
+  def __repr__(self):
+    return "%s %s" % (self.id, self.semester)
 
 
 class Course(object):
