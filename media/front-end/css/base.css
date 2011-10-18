@@ -59,8 +59,10 @@ input {
 }
 #linkbar a {
 	margin: 0px 2px;
+	border-bottom: none;
 }
-#linkbar a, #linkbar span {
+#linkbar a,
+#linkbar span {
 	display: inline-block;
 }
 #searchbar{	
@@ -114,6 +116,13 @@ input {
 	color:#636363;
 	margin-bottom:10px;
 }
+#banner-info .crosslist {
+	margin-left: 10px;
+	
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#636363;
+}
 #banner-score {
 }
 .scoreboxrow {
@@ -161,7 +170,8 @@ input {
 #settings-viewmode {
 	
 }
-#settings-viewmode .selected {
+#settings-viewmode .selected,
+#settings-viewmode .selected:hover {
 	color:#000000;
 	border-bottom: 0px;
 	cursor:default;
@@ -224,6 +234,39 @@ input {
 #section-table td.td_hidden {
 	padding: 10px 10px 10px 10px;
 }
+#section-table tr.sec_row_hidden {
+	display: none;
+}
+#course-table td div.fold-icon {
+	width:11px;
+	height:11px;
+	background:url(../image/foldbutton.png) 0 0 no-repeat;
+	cursor:pointer;
+}
+#course-table td div.fold-icon:hover {
+	background:url(../image/foldbutton.png) 0 -11px no-repeat;
+}
+#course-table td div.fold-icon.open {
+	background:url(../image/foldbutton.png) -11px 0 no-repeat;
+}
+#course-table td div.fold-icon.open:hover {
+	background:url(../image/foldbutton.png) -11px -11px no-repeat;
+}
+#course-table th div.fold-icon {
+	width:11px;
+	height:11px;
+	background:url(../image/foldbuttonheader.png) 0 0 no-repeat;
+	cursor:pointer;
+}
+#course-table th div.fold-icon:hover {
+	background:url(../image/foldbuttonheader.png) 0 -11px no-repeat;
+}
+#course-table th div.fold-icon.open {
+	background:url(../image/foldbuttonheader.png) -11px 0 no-repeat;
+}
+#course-table th div.fold-icon.open:hover {
+	background:url(../image/foldbuttonheader.png) -11px -11px no-repeat;
+}
 
 #footer {
 	margin:15px 0px;
@@ -241,11 +284,11 @@ input {
 }
 
 #choose-cols {
-	position:absolute;
-	top:75px;
 	display:none;
 }
-#choose-cols-inner {	
+#choose-cols-inner {
+	position:absolute;
+	top:75px;
 }
 #choose-cols-content {
 	background-color:#FFF;

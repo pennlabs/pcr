@@ -1,4 +1,23 @@
 (function() {
+  window.toggle_course_row_all = function() {
+    if ($("th div.fold-icon").hasClass("open")) {
+      $("th div.fold-icon").removeClass("open");
+      $("td div.fold-icon").removeClass("open");
+      return $(".row_hidden").hide();
+    } else {
+      $("th div.fold-icon").addClass("open");
+      $("td div.fold-icon").addClass("open");
+      return $(".row_hidden").show();
+    }
+  };
+  window.toggle_course_row = function(index) {
+    $("#row_hidden_" + index).toggle();
+    if ($("#row_display_" + index + " td div.fold-icon").hasClass("open")) {
+      return $("#row_display_" + index + " td div.fold-icon").removeClass("open");
+    } else {
+      return $("#row_display_" + index + " td div.fold-icon").addClass("open");
+    }
+  };
   window.toggle_choose_cols = function() {
     return $("#choose-cols").toggle();
   };
