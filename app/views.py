@@ -54,11 +54,37 @@ def build_scorecard(sections):
       [ScoreBox(display, average([review for section in sections for review in section.reviews], attr))
         for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
   sections.sort(key=lambda section: section.semester)
-  most_recent = sections[-1]
-  recent = ScoreBoxRow('Recent', prettify_semester(most_recent.semester),
-      [ScoreBox(display, average([review for review in most_recent.reviews], attr))
-        for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
-  return avg, recent
+  most_recent = None
+  for i in range(len(sections)):
+    try:
+      most_recent = sections[-(i+1)]
+      break
+    except:
+      continue
+  if most_recent is None:
+    return (avg,)
+  else:
+    recent = ScoreBoxRow('Recent', prettify_semester(most_recent.semester),
+        [ScoreBox(display, average([review for review in most_recent.reviews], attr))
+          for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
+    return avg, recent
+
+
+def get_relevant_columns(sections):
+  strings, fields, columns = tuple(), tuple(), tuple()
+  for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
+    broke = False
+    for section in sections:
+      for review in section.reviews:
+        if column in review:
+          strings += (string,)
+          fields += (field,)
+          columns += (column,)
+          broke = True
+          break
+      if broke:
+        break
+  return strings, fields, columns
 
 
 def index(request):
@@ -77,19 +103,7 @@ def instructor(request, id):
   scorecard = build_scorecard(instructor.sections)
   #filter columns to include only relevant data
   #in the case that a course form changes over time, get the union of all columns
-  strings, fields, columns = tuple(), tuple(), tuple()
-  for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
-    broke = False
-    for section in instructor.sections:
-      for review in section.reviews:
-        if column in review:
-          strings += (string,)
-          fields += (field,)
-          columns += (column,)
-          broke = True
-          break
-      if broke:
-        break
+  strings, fields, columns = get_relevant_columns(instructor.sections)
   
   #create a map from coursehistory to sections taught by professor
   #use average of the sections to create averages / recent
@@ -129,19 +143,7 @@ def course(request, dept, id):
 
   scorecard = build_scorecard(sections)
 
-  strings, fields, columns = tuple(), tuple(), tuple()
-  for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
-    broke = False
-    for section in sections:
-      for review in section.reviews:
-        if column in review:
-          strings += (string,)
-          fields += (field,)
-          columns += (column,)
-          broke = True
-          break
-      if broke:
-        break
+  strings, fields, columns = get_relevant_columns(sections)
 
   #build course table
   body = []

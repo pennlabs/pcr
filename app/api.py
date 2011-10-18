@@ -5,6 +5,8 @@ import urllib2
 import json
 from collections import defaultdict
 
+CURRENT_SEMESTER = '2011C'
+
 API = "http://pennapps.com/courses-ceasarb/"
 TOKEN = "pennappsdemo"
 
@@ -58,6 +60,8 @@ class Instructor(object):
           if all([time['type'] == type_ for time in raw_section['meetingtimes']])]
       if len(sections) > 0:
         break
+    sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
+    sections.sort(key=lambda section: section.semester)
     return sections
 
   @property
@@ -104,8 +108,6 @@ class Section(object):
 
 
 class Course(object):
-
-
   def __init__(self, raw_course):
     self.raw = raw_course
     self.semester = raw_course['semester']
@@ -133,6 +135,7 @@ class Course(object):
         if all([time['type'] == type_ for time in raw_section['meetingtimes']])]
       if len(sections) > 0:
         break
+    sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
     sections.sort(key=lambda section: section.semester)
     return sections
 
@@ -148,7 +151,7 @@ class CourseHistory(object):
 
   @property
   def courses(self):
-    return [Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses']]
+    return [Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses']] 
 
   @property
   def subtitle(self):
