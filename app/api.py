@@ -16,6 +16,9 @@ def pcr(*args, **kwargs):
 
 ERROR = ''
 
+TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
+
+
 def average(reviews, attr):
   average = 0.0
   valid = 0
@@ -36,7 +39,6 @@ class Review(dict):
     super(Review, self).__init__([(attr, float(score)) for attr, score in raw_review['ratings'].items()])
 
 
-
 class Instructor(object):
   def __init__(self, raw_instructor):
     self.name = raw_instructor['name']
@@ -48,8 +50,12 @@ class Instructor(object):
   
   @property
   def sections(self):
-    sections = [Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
-    sections.sort(key=lambda section: section.semester)
+    raw_sections = pcr('instructor', self.id, 'sections')['values'] 
+    for type_ in TYPE_RANK:
+      sections = [Section(raw_section) for raw_section in raw_sections
+          if all([time['type'] == type_ for time in raw_section['meetingtimes']])]
+      if len(sections) > 0:
+        break
     return sections
 
   @property
@@ -96,6 +102,8 @@ class Section(object):
 
 
 class Course(object):
+
+
   def __init__(self, raw_course):
     self.raw = raw_course
     self.semester = raw_course['semester']
@@ -117,8 +125,14 @@ class Course(object):
 
   @property
   def sections(self):
-    return set([Section(section) for section in pcr('course', self.id, 'sections')['values']
-        if all([time['type'] == 'LEC' for time in section['meetingtimes']])])
+    raw_sections = pcr('course', self.id, 'sections')['values']
+    for type_ in TYPE_RANK:
+      sections = [Section(raw_section) for raw_section in raw_sections
+        if all([time['type'] == type_ for time in raw_section['meetingtimes']])]
+      if len(sections) > 0:
+        break
+    sections.sort(key=lambda section: section.semester)
+    return sections
 
   def __eq__(self, other):
     return self.id == other.id
@@ -172,3 +186,6 @@ class CourseHistory(object):
           if other and instructor.id == other.id:
             instructors[o] = 0
     return unique
+
+  def __repr__(self):
+    return self.name
