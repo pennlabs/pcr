@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
 
 from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
-from templatetags.scorecard_tag import ScoreCard, ScoreBoxRow, ScoreBox
+from templatetags.scorecard_tag import ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
 from api import pcr
