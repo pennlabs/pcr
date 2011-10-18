@@ -110,7 +110,7 @@ def instructor(request, id):
   #create a map from coursehistory to sections taught by professor
   #use average of the sections to create averages / recent
   body = []
-  for row_id, name in enumerate(sections):
+  for row_id, name in enumerate(sorted(sections)):
     #build subtable
     section_body = []
     for section in sections[name]:
@@ -149,7 +149,7 @@ def course(request, dept, id):
 
   #build course table
   body = []
-  for row_id, instructor in enumerate(coursehistory.instructors):
+  for row_id, instructor in enumerate(sorted(coursehistory.instructors, key=lambda instructor: instructor.last_name)):
     instructor_sections = instructor.get_sections(coursehistory) 
 
     #build instructor section table
