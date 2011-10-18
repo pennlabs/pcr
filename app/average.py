@@ -12,10 +12,7 @@ def average(reviews, attr):
       average += review[attr]
       valid += 1
   if valid > 0:
-    average = str(round(average / valid, 2))
-    if len(average) < 4:
-      average += '0' * (4 - len(average))
-    return average
+    return "%.2f" % round(average / valid, 2)
   else:
     return ERROR
 

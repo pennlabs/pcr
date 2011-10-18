@@ -179,7 +179,7 @@ def course(request, dept, id):
   aliases.remove(title)
   context = RequestContext(request, {
     'aliases': aliases,
-    'title': title,
+    'title': "%s %s" % (dept, id),
     'course': coursehistory,
     'scorecard': scorecard,
     'score_table': score_table,
