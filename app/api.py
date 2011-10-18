@@ -5,7 +5,9 @@ import urllib2
 import json
 from collections import defaultdict
 
-API = "http://pennapps.com/courses-amk/"
+CURRENT_SEMESTER = '2011C'
+
+API = "http://pennapps.com/courses-ceasarb/"
 TOKEN = "pennappsdemo"
 
 def pcr(*args, **kwargs):
@@ -14,18 +16,22 @@ def pcr(*args, **kwargs):
   page = urllib2.build_opener().open(path)
   return json.loads(page.read())['result']
 
-ERROR = ''
+ERROR = u"\u00A0"
+
+TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
+
 
 def average(reviews, attr):
   average = 0.0
+  valid = 0
   for review in reviews:
-    try:
+    if attr in review:
       average += review[attr]
-    except:
-      pass
-  if len(reviews) > 0:
-    average = round(average / len(reviews), 2)
-  if average > 0.0:
+      valid += 1
+  if valid > 0:
+    average = str(round(average / valid, 2))
+    if len(average) < 4:
+      average += '0' * (4 - len(average))
     return average
   else:
     return ERROR
@@ -35,7 +41,6 @@ class Review(dict):
   def __init__(self, raw_review):
     self.raw = raw_review
     super(Review, self).__init__([(attr, float(score)) for attr, score in raw_review['ratings'].items()])
-
 
 
 class Instructor(object):
@@ -49,7 +54,13 @@ class Instructor(object):
   
   @property
   def sections(self):
-    sections =[Section(raw_section) for raw_section in pcr('instructor', self.id, 'sections')['values']]
+    raw_sections = pcr('instructor', self.id, 'sections')['values'] 
+    for type_ in TYPE_RANK:
+      sections = [Section(raw_section) for raw_section in raw_sections
+          if all([time['type'] == type_ for time in raw_section['meetingtimes']])]
+      if len(sections) > 0:
+        break
+    sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
     sections.sort(key=lambda section: section.semester)
     return sections
 
@@ -62,15 +73,15 @@ class Instructor(object):
     return self.sections[-1]
 
   def get_sections(self, coursehistory):
-    sections = [section for section in self.sections if section.course.coursehistory == coursehistory]
+    sections = filter(lambda section: section.course.coursehistory == coursehistory, self.sections)
     sections.sort(key=lambda section: section.semester)
     return sections
-
-  def get_most_recent(self, coursehistory):
-    return self.get_sections(coursehistory)[-1]
   
   def recent(self, attr):
     return recent(self.reviews, attr)
+
+  def __repr__(self):
+    return self.name
 
 
 class Section(object):
@@ -91,6 +102,9 @@ class Section(object):
   @property
   def course(self):
     return Course(pcr('course', self.raw['course']['id']))
+
+  def __repr__(self):
+    return "%s %s" % (self.id, self.semester)
 
 
 class Course(object):
@@ -115,8 +129,15 @@ class Course(object):
 
   @property
   def sections(self):
-    return set([Section(section) for section in pcr('course', self.id, 'sections')['values']
-        if all([time['type'] == 'LEC' for time in section['meetingtimes']])])
+    raw_sections = pcr('course', self.id, 'sections')['values']
+    for type_ in TYPE_RANK:
+      sections = [Section(raw_section) for raw_section in raw_sections
+        if all([time['type'] == type_ for time in raw_section['meetingtimes']])]
+      if len(sections) > 0:
+        break
+    sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
+    sections.sort(key=lambda section: section.semester)
+    return sections
 
   def __eq__(self, other):
     return self.id == other.id
@@ -126,14 +147,15 @@ class CourseHistory(object):
   def __init__(self, raw_coursehistory):
     self.raw = raw_coursehistory
     self.name = raw_coursehistory['name']
+    self.aliases = raw_coursehistory['aliases']
 
   @property
   def courses(self):
-    return [Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses']]
+    return [Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses']] 
 
   @property
   def subtitle(self):
-    return self.courses[-1].aliases[0]
+    return self.aliases[0]
 
   @property
   def sections(self):
@@ -170,3 +192,6 @@ class CourseHistory(object):
           if other and instructor.id == other.id:
             instructors[o] = 0
     return unique
+
+  def __repr__(self):
+    return self.name

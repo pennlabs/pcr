@@ -18,12 +18,15 @@
   <div class="clear"></div>	
 {% endblock %}
 
-{% block content-content %}
-	{% choose_cols_box score_table.head %}
+{% block content-content %}	
 	{% content_settings %}
 	<div id="content-section" class="grid_12">
 		{% block content-section %}
 		{% endblock %}
 	</div>
   <div class="clear"></div>
+{% endblock %}
+
+{% block non-wrapper %}
+	{% choose_cols_box score_table.head %}
 {% endblock %}

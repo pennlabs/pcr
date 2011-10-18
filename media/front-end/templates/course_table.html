@@ -11,6 +11,7 @@
 	<tbody>
 		{% for row in table.body %}
 		<tr class="row_display" onclick="$('#row_hidden_{{forloop.counter0}}').toggle()">
+			
 			<td class="col_{{row.2.0}}">
 				<a href="../{{row.1.1}}" onclick="$('#row_hidden_{{forloop.counter0}}').toggle()">{{row.2.1}}</a>
 			</td>

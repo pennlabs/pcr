@@ -11,14 +11,19 @@ register = template.Library()
 
 class ScoreBox(object):
   def __init__(self, description, number):
-    self.number = number
+    self.number = number[:-1] if len(number) > 1 else number
     self.description = description
+
+  def __repr__(self):
+    return "%s %s" % (self.number, self.description)
+
 
 class ScoreBoxRow(list):
   def __init__(self, title, subtitle, boxes):
     super(ScoreBoxRow, self).__init__(boxes)
     self.title = title
     self.subtitle = subtitle
+
 
 class ScoreCard(list):
   pass

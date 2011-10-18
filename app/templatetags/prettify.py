@@ -1,3 +1,11 @@
+
+
+PRETTIFY_SEMESTER = {
+    "A": "Spring",
+    "B": "Summer",
+    "C": "Fall"
+}
+
 PRETTIFY_REVIEWBITS = {
   u"rInstructorQuality": "Instructor Quality",
   u"rCourseQuality": "Course Quality",
