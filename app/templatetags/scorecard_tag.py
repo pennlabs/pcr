@@ -12,7 +12,7 @@ register = template.Library()
 class ScoreBox(object):
   def __init__(self, description, number):
     try:
-      self.number = round(number, 2)
+      self.number = round(number, 1)
     except:
       self.number = number
     self.description = description

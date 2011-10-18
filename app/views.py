@@ -123,7 +123,8 @@ def instructor(request, id):
 
 
 def course(request, dept, id):
-  coursehistory = CourseHistory(pcr('coursehistory', '%s-%s' % (dept, id)))
+  title = '%s-%s' % (dept, id)
+  coursehistory = CourseHistory(pcr('coursehistory', title))
   sections = [section for section in coursehistory.sections if section.course.coursehistory == coursehistory]
 
   scorecard = build_scorecard(sections)
@@ -171,6 +172,7 @@ def course(request, dept, id):
   score_table = Table(COURSE_OUTER + strings + ('section',), COURSE_OUTER_HIDDEN + fields + ('sections',), body)
 
   context = RequestContext(request, {
+    'title': title,
     'course': coursehistory,
     'scorecard': scorecard,
     'score_table': score_table,

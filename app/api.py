@@ -142,6 +142,7 @@ class CourseHistory(object):
   def __init__(self, raw_coursehistory):
     self.raw = raw_coursehistory
     self.name = raw_coursehistory['name']
+    self.aliases = raw_coursehistory['aliases']
 
   @property
   def courses(self):
@@ -149,7 +150,7 @@ class CourseHistory(object):
 
   @property
   def subtitle(self):
-    return self.courses[-1].aliases[0]
+    return self.aliases[0]
 
   @property
   def sections(self):
