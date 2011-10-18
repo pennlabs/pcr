@@ -3,6 +3,9 @@
 <table id="course-table">
 	<thead>
 		<tr>
+			<th scope="col" class="col_icon">
+				<div class="fold-icon" onclick="toggle_course_row_all()"></div>
+			</th>
 			{% for cell in table.head|slice:"2:-1" %}
 			<th scope="col" class="col_{{cell.0}}">{{cell.1}}</th>
 			{% endfor %}
@@ -10,8 +13,10 @@
 	</thead>
 	<tbody>
 		{% for row in table.body %}
-		<tr class="row_display" onclick="$('#row_hidden_{{forloop.counter0}}').toggle()">
-			
+		<tr id="row_display_{{forloop.counter0}}" class="row_display" onclick="toggle_course_row({{forloop.counter0}})">
+			<td class="col_icon">
+				<div class="fold-icon"></div>
+			</td>
 			<td class="col_{{row.2.0}}">
 				<a href="../{{row.1.1}}" onclick="$('#row_hidden_{{forloop.counter0}}').toggle()">{{row.2.1}}</a>
 			</td>

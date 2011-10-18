@@ -1,3 +1,20 @@
+window.toggle_course_row_all = () ->
+  if $("th div.fold-icon").hasClass("open")
+    $("th div.fold-icon").removeClass("open")
+    $("td div.fold-icon").removeClass("open")
+    $(".row_hidden").hide()
+  else
+    $("th div.fold-icon").addClass("open")
+    $("td div.fold-icon").addClass("open")
+    $(".row_hidden").show()
+
+window.toggle_course_row = (index) ->
+  $("#row_hidden_#{index}").toggle()
+  if $("#row_display_#{index} td div.fold-icon").hasClass("open")
+    $("#row_display_#{index} td div.fold-icon").removeClass("open")
+  else
+    $("#row_display_#{index} td div.fold-icon").addClass("open")
+
 window.toggle_choose_cols = () ->
   $("#choose-cols").toggle()
 
