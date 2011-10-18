@@ -72,7 +72,8 @@ window.set_cols = (cols) ->
 DOCUMENT READY
 ###
 $(document).ready ->
-  initSearchbox("../")
+  initSearchbox("../")  
+  # $("#course-table").tablesorter(); 
 
   ### localStorage setup view mode ###
   if not localStorage["pcr_viewmode"]?

@@ -3,15 +3,19 @@
 {% load table %}
 
 {% block title %}
-	Penn Course Review - {{course.number}}
+	Penn Course Review - {{title}}
 {% endblock %}
 
 {% block info %}
-<p class="title">{{title}}</p>
-<p class="aliases">
-{% if aliases %}
-Crosslisted as: {% for alias in aliases %} {{alias}},{% endfor %}
-{% endif %}</p>
+<p class="title">{{title}}
+	<span class="crosslist">
+		{% if aliases %}
+			(Also:
+			<a href="{{aliases.0}}">{{aliases.0}}</a>{% for alias in aliases|slice:"1:" %},
+				<a href="{{alias}}">{{alias}}</a>{% endfor %})
+		{% endif %}
+	</span>
+</p>
 <p class="subtitle">{{course.name}}</p>
 <p class="desc">{{course.description}}</p>
 {% endblock %}
