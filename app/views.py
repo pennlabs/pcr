@@ -220,7 +220,7 @@ def department(request, id):
 def autocomplete_data(request):
   #1. Hit API up for course-history data, push into nop's desired format
   def alias_to_code(alias, sep="-"):
-    code, num = alias.split(' ')
+    code, num = alias.split('-')
     return "%s%s%03d" % (code, sep, int(num))
   courses_from_api = pcr('coursehistories')['values']
   courses = [{"category": "Courses",
