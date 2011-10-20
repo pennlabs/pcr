@@ -26,8 +26,8 @@ SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
 SCORECARD_FIELDS = ('course', 'instructor', 'difficulty') 
 SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 
-INSTRUCTOR_OUTER = ('id', 'link', 'Course', 'Code')
-INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'course', 'code')
+INSTRUCTOR_OUTER = ('id', 'link', 'Code', 'Name')
+INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
 
 INSTRUCTOR_INNER = ('Semester',)
 INSTRUCTOR_INNER_HIDDEN =  ('semester',)
@@ -121,7 +121,7 @@ def instructor(request, id):
     #append row
     reviews = [review for section in sections[name] for review in section.reviews]
     meta = [(average(reviews, column), average(sections[name][-1].reviews, column)) for column in columns]
-    outer_row = [row_id, 'course/%s' % "-".join(coursehistories[name].subtitle.split()), name, coursehistories[name].subtitle] + meta + [section_table]
+    outer_row = [row_id, 'course/%s' % "-".join(coursehistories[name].subtitle.split()), coursehistories[name].subtitle, name] + meta + [section_table]
     body.append(outer_row)
 
   score_table = Table(INSTRUCTOR_OUTER + strings + ('sections',),
@@ -139,6 +139,7 @@ def instructor(request, id):
 
 
 def course(request, dept, id):
+  dept = dept.upper()
   title = '%s-%s' % (dept, id)
   coursehistory = CourseHistory(pcr('coursehistory', title))
   sections = [section for section in coursehistory.sections if section.course.coursehistory == coursehistory]
