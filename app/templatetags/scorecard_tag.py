@@ -12,7 +12,7 @@ register = template.Library()
 class ScoreBox(object):
   def __init__(self, description, number):
     try:
-      self.number = "%.1f" % int(number)
+      self.number = "%.1f" % float(number)
     except:
       self.number = number
     self.description = description

@@ -123,6 +123,7 @@ class Course(object):
 class CourseHistory(object):
   def __init__(self, raw_coursehistory):
     self.raw = raw_coursehistory
+    self.id = raw_coursehistory['id']
     self.name = raw_coursehistory['name']
     self.aliases = raw_coursehistory['aliases']
 
@@ -151,7 +152,7 @@ class CourseHistory(object):
     return self.most_recent.aliases[0]
 
   def __eq__(self, other):
-    return self.name == other.name
+    return self.id == other.id
 
   def recent(self, attr):
     return average([review for section in self.most_recent.sections for review in section.reviews], attr)
