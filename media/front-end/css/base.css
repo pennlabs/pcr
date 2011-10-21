@@ -236,11 +236,15 @@ input {
 #section-table {
 	width: 100%;
 }
-#section-table th, #section-table td {
+#section-table td {
 	padding:5px 5px;
 	font-size: 10px;
 	border-bottom-color: #CCC;
 	color:#636363;
+}
+#section-table .sec_th {
+	border-bottom: 2px solid #CCC;
+	font-weight:bold;
 }
 #section-table tr:last-child td{
 	border-bottom: 0px;

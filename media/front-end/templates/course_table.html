@@ -20,7 +20,7 @@
 				<div class="fold-icon"></div>
 			</td>
 			<td class="col_{{row.2.0}}">
-				<a href="../{{row.1.1}}" onclick="$('#row_hidden_{{forloop.counter0}}').toggle()">{{row.2.1}}</a>
+				<a href="../{{row.1.1}}" onclick="toggle_course_row({{forloop.counter0}})">{{row.2.1}}</a>
 			</td>
 			{% for cell in row|slice:"3:-1" %}
 			<td class="col_{{cell.0}}">
