@@ -38,7 +38,7 @@ class Instructor(object):
       if len(sections) > 0:
         break
     sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
-    sections.sort(key=lambda section: section.semester)
+    sections.sort(key=lambda section: section.semester, reverse=True)
     return sections
 
   @property
@@ -51,7 +51,7 @@ class Instructor(object):
 
   def get_sections(self, coursehistory):
     sections = filter(lambda section: section.course.coursehistory == coursehistory, self.sections)
-    sections.sort(key=lambda section: section.semester)
+    sections.sort(key=lambda section: section.semester, reverse=True)
     return sections
   
   def recent(self, attr):
@@ -113,7 +113,7 @@ class Course(object):
       if len(sections) > 0:
         break
     sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
-    sections.sort(key=lambda section: section.semester)
+    sections.sort(key=lambda section: section.semester, reverse=True)
     return sections
 
   def __eq__(self, other):
