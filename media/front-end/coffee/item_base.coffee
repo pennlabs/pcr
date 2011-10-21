@@ -26,14 +26,14 @@ window.submit_choose_cols = () ->
     if $(boxes[i]).attr("checked")?
       result.push($(boxes[i]).attr("value"))
   
-  localStorage["pcr_choosecols"] = result.join()
+  $.cookie("pcr_choosecols", result.join(), {path: '/'})
   toggle_choose_cols()
   set_cols(result)
 
 window.cancel_choose_cols = () ->
   $("#choose-cols input[type=checkbox]").attr("checked",false)
   
-  cols = localStorage["pcr_choosecols"].split(",")
+  cols = $.cookie("pcr_choosecols").split(",")
   for i in [0..(cols.length-1)]
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
     
@@ -51,7 +51,7 @@ window.set_viewmode = (view_id) ->
     $("a#view_recent").addClass("selected")
     $(".cell_average").hide();
     $(".cell_recent").show();
-  localStorage["pcr_viewmode"] = view_id
+  $.cookie("pcr_viewmode", view_id, {path: '/'})
 
 window.set_cols = (cols) ->
   # hide all cols
@@ -106,16 +106,17 @@ $(document).ready ->
     end_sort_rows()
   )
 
-  ### localStorage setup view mode ###
-  if not localStorage["pcr_viewmode"]?
-    localStorage["pcr_viewmode"] = "0"
-  set_viewmode(localStorage["pcr_viewmode"])
+  ### setup view mode ###
+  if not $.cookie("pcr_viewmode")?
+    $.cookie("pcr_viewmode", "0", {path: '/'})
+  set_viewmode($.cookie("pcr_viewmode"))
   
-  ### localStorage setup choose columns ###
-  # check if localStorage key exists, else create default
-  cols = if (localStorage["pcr_choosecols"]?)
-  then localStorage["pcr_choosecols"].split(",")
-  else localStorage["pcr_choosecols"] = ["rCourseQuality","rInstructorQuality","rDifficulty"]
+  ### setup choose columns ###
+  # check if key exists, else create default
+  
+  if not $.cookie("pcr_choosecols")?    
+    $.cookie("pcr_choosecols", "rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
+  cols = $.cookie("pcr_choosecols").split(",")
   set_cols(cols)
   # loop cols
   for i in [0..(cols.length-1)]

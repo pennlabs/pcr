@@ -30,14 +30,16 @@
         result.push($(boxes[i]).attr("value"));
       }
     }
-    localStorage["pcr_choosecols"] = result.join();
+    $.cookie("pcr_choosecols", result.join(), {
+      path: '/'
+    });
     toggle_choose_cols();
     return set_cols(result);
   };
   window.cancel_choose_cols = function() {
     var cols, i, _ref;
     $("#choose-cols input[type=checkbox]").attr("checked", false);
-    cols = localStorage["pcr_choosecols"].split(",");
+    cols = $.cookie("pcr_choosecols").split(",");
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
     }
@@ -55,7 +57,9 @@
       $(".cell_average").hide();
       $(".cell_recent").show();
     }
-    return localStorage["pcr_viewmode"] = view_id;
+    return $.cookie("pcr_viewmode", view_id, {
+      path: '/'
+    });
   };
   window.set_cols = function(cols) {
     var i, _ref, _results;
@@ -102,13 +106,20 @@
     }).bind("sortEnd", function() {
       return end_sort_rows();
     });
-    /* localStorage setup view mode */
-    if (!(localStorage["pcr_viewmode"] != null)) {
-      localStorage["pcr_viewmode"] = "0";
+    /* setup view mode */
+    if (!($.cookie("pcr_viewmode") != null)) {
+      $.cookie("pcr_viewmode", "0", {
+        path: '/'
+      });
     }
-    set_viewmode(localStorage["pcr_viewmode"]);
-    /* localStorage setup choose columns */
-    cols = (localStorage["pcr_choosecols"] != null) ? localStorage["pcr_choosecols"].split(",") : localStorage["pcr_choosecols"] = ["rCourseQuality", "rInstructorQuality", "rDifficulty"];
+    set_viewmode($.cookie("pcr_viewmode"));
+    /* setup choose columns */
+    if (!($.cookie("pcr_choosecols") != null)) {
+      $.cookie("pcr_choosecols", "rCourseQuality,rInstructorQuality,rDifficulty", {
+        path: '/'
+      });
+    }
+    cols = $.cookie("pcr_choosecols").split(",");
     set_cols(cols);
     _results = [];
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
