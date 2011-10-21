@@ -32,9 +32,7 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
 # dir - base directory
 window.initSearchbox  = (dir="", callback=null) ->
 
-  createSearchbox = (data) ->
-    if not localStorage.pcr_autocomplete_data?
-      localStorage.pcr_autocomplete_data = JSON.stringify(data)
+  $.getJSON(dir+"autocomplete_data.json", (data) ->
   
     $("#searchbox").autocomplete(
       delay: 0
@@ -75,16 +73,10 @@ window.initSearchbox  = (dir="", callback=null) ->
               "</span></a>")
       .appendTo(ul)
       
+    if callback?
+      callback()
+      
     # set focus
     if dir==""
       $("#searchbox").focus()
-      
-    if callback?
-      callback()
-
-  if localStorage.pcr_autocomplete_data?
-    data = JSON.parse(localStorage.pcr_autocomplete_data)
-    createSearchbox(data)
-  else
-    $.getJSON(dir+"autocomplete_data.json", (data) ->
-      createSearchbox(data))
+  )

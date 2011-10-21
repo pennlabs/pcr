@@ -57,17 +57,13 @@
     }
   });
   window.initSearchbox = function(dir, callback) {
-    var createSearchbox, data;
     if (dir == null) {
       dir = "";
     }
     if (callback == null) {
       callback = null;
     }
-    createSearchbox = function(data) {
-      if (!(localStorage.pcr_autocomplete_data != null)) {
-        localStorage.pcr_autocomplete_data = JSON.stringify(data);
-      }
+    return $.getJSON(dir + "autocomplete_data.json", function(data) {
       $("#searchbox").autocomplete({
         delay: 0,
         minLength: 1,
@@ -97,20 +93,12 @@
       }).data("autocomplete")._renderItem = function(ul, item) {
         return $("<li></li>").data("item.autocomplete", item).append("<a><span class='ui-menu-item-title'>" + item.title + "</span><br/><span class='ui-menu-item-desc'>" + item.desc + "</span></a>").appendTo(ul);
       };
-      if (dir === "") {
-        $("#searchbox").focus();
-      }
       if (callback != null) {
-        return callback();
+        callback();
       }
-    };
-    if (localStorage.pcr_autocomplete_data != null) {
-      data = JSON.parse(localStorage.pcr_autocomplete_data);
-      return createSearchbox(data);
-    } else {
-      return $.getJSON(dir + "autocomplete_data.json", function(data) {
-        return createSearchbox(data);
-      });
-    }
+      if (dir === "") {
+        return $("#searchbox").focus();
+      }
+    });
   };
 }).call(this);
