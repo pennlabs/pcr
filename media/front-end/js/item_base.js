@@ -74,7 +74,10 @@
     }
     return _results;
   };
-  window.assign_sorted_rows = function() {
+  window.start_sort_rows = function() {
+    return $("#course-table .row_hidden").appendTo($("div#hidden"));
+  };
+  window.end_sort_rows = function() {
     return $("#course-table .row_display").each(function() {
       var index;
       index = $(this).attr("id").substr(12);
@@ -94,8 +97,10 @@
           sorter: false
         }
       }
+    }).bind("sortStart", function() {
+      return start_sort_rows();
     }).bind("sortEnd", function() {
-      return assign_sorted_rows();
+      return end_sort_rows();
     });
     /* localStorage setup view mode */
     if (!(localStorage["pcr_viewmode"] != null)) {

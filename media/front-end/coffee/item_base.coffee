@@ -68,8 +68,11 @@ window.set_cols = (cols) ->
   # loop cols
   for i in [0..(cols.length-1)]
     $("#course-table .col_#{cols[i]}").show()
-  
-window.assign_sorted_rows = () ->
+
+window.start_sort_rows = () ->
+  $("#course-table .row_hidden").appendTo($("div#hidden"));
+
+window.end_sort_rows = () ->
   $("#course-table .row_display").each(() ->
     index = $(this).attr("id").substr(12)
     $(this).after($("#row_hidden_#{index}"))
@@ -87,8 +90,10 @@ $(document).ready ->
         sorter: false 
       }
     } 
-  }).bind("sortEnd",() -> 
-    assign_sorted_rows()
+  }).bind("sortStart",() -> 
+    start_sort_rows()
+  ).bind("sortEnd",() -> 
+    end_sort_rows()
   )
 
   ### localStorage setup view mode ###
