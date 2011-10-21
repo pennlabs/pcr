@@ -60,6 +60,7 @@ window.set_cols = (cols) ->
   # show default cols
   $("#course-table .col_icon").show()
   $("#course-table .col_course").show()
+  $("#course-table .col_code").show()
   $("#course-table .col_instructor").show()
   $("#course-table .col_semester").show()
   $("#course-table .col_section").show()
@@ -68,12 +69,27 @@ window.set_cols = (cols) ->
   for i in [0..(cols.length-1)]
     $("#course-table .col_#{cols[i]}").show()
   
+window.assign_sorted_rows = () ->
+  $("#course-table .row_display").each(() ->
+    index = $(this).attr("id").substr(12)
+    $(this).after($("#row_hidden_#{index}"))
+  )
+  
 ###
 DOCUMENT READY
 ###
 $(document).ready ->
   initSearchbox("../")  
-  # $("#course-table").tablesorter(); 
+  $("#course-table").tablesorter({
+    sortList: [[1,0]],  # starting sort order
+    headers: {          # disable sort on col 0
+      0: {
+        sorter: false 
+      }
+    } 
+  }).bind("sortEnd",() -> 
+    assign_sorted_rows()
+  )
 
   ### localStorage setup view mode ###
   if not localStorage["pcr_viewmode"]?
