@@ -204,10 +204,10 @@ input {
 	color:#9999cc;
 	color:#636363;
 	padding:10px 5px;
-	width:1%;
+	width:5%;
 }
 #course-table .col_icon {
-	width:.0001%;
+	width:.01%;
 }
 #course-table tr.row_display td {
 	cursor:pointer;
