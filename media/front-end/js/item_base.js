@@ -58,21 +58,25 @@
     return localStorage["pcr_viewmode"] = view_id;
   };
   window.set_cols = function(cols) {
-    var i, _ref, _results;
+    var course_col_count, i, section_col_count, _ref;
     $("#course-table th").hide();
     $("#course-table td").hide();
     $("#course-table .col_icon").show();
-    $("#course-table .col_course").show();
     $("#course-table .col_code").show();
     $("#course-table .col_instructor").show();
     $("#course-table .col_semester").show();
     $("#course-table .col_section").show();
     $("#course-table .td_hidden").show();
-    _results = [];
+    $("#course-table .sec_td_hidden").show();
+    course_col_count = 2;
+    section_col_count = 2;
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
-      _results.push($("#course-table .col_" + cols[i]).show());
+      $("#course-table .col_" + cols[i]).show();
+      course_col_count++;
+      section_col_count++;
     }
-    return _results;
+    $("td.td_hidden").attr("colspan", "" + course_col_count);
+    return $("td.sec_td_hidden").attr("colspan", "" + section_col_count);
   };
   window.start_sort_rows = function() {
     return $("#course-table .row_hidden").appendTo($("div#hidden"));

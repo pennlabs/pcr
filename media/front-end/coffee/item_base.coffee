@@ -59,15 +59,24 @@ window.set_cols = (cols) ->
   $("#course-table td").hide()
   # show default cols
   $("#course-table .col_icon").show()
-  $("#course-table .col_course").show()
   $("#course-table .col_code").show()
   $("#course-table .col_instructor").show()
   $("#course-table .col_semester").show()
   $("#course-table .col_section").show()
   $("#course-table .td_hidden").show()
+  $("#course-table .sec_td_hidden").show()
+  
+  course_col_count = 2
+  section_col_count = 2
+  
   # loop cols
   for i in [0..(cols.length-1)]
     $("#course-table .col_#{cols[i]}").show()
+    course_col_count++
+    section_col_count++
+    
+  $("td.td_hidden").attr("colspan", "#{course_col_count}")
+  $("td.sec_td_hidden").attr("colspan", "#{section_col_count}")
 
 window.start_sort_rows = () ->
   $("#course-table .row_hidden").appendTo($("div#hidden"));
