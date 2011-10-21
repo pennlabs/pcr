@@ -31,6 +31,14 @@ input {
   -webkit-box-shadow: 0px 2px 10px #808080;  
 }
 
+.disable-selection {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
 #wrapper a {	
 	border-bottom: 1px solid #636363;
 }
@@ -219,6 +227,12 @@ input {
 	height:9px;
 	background:url(../image/togglebutton.png) top left;
 }
+#course-table span.course-header {
+	cursor:pointer;
+}
+#course-table span.course-header:hover {
+	border-bottom: 1px solid #000080;
+}
 #section-table {
 	width: 100%;
 }
@@ -234,9 +248,17 @@ input {
 #section-table td.td_hidden {
 	padding: 10px 10px 10px 10px;
 }
+#section-table tr.sec_row_display td {
+	cursor:pointer;
+}
+#section-table tr.sec_row_display:hover td {
+	background-color:#f2f2f9;
+	color:#000000;
+}
 #section-table tr.sec_row_hidden {
 	display: none;
 }
+
 #course-table td div.fold-icon {
 	width:11px;
 	height:11px;
@@ -331,3 +353,8 @@ input {
 #choose-cols-content input[type=button]:hover {
 	border-color:#000080;
 	color:#000080;
+}
+
+div#hidden {
+	display:none;
+}

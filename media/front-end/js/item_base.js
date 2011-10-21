@@ -63,6 +63,7 @@
     $("#course-table td").hide();
     $("#course-table .col_icon").show();
     $("#course-table .col_course").show();
+    $("#course-table .col_code").show();
     $("#course-table .col_instructor").show();
     $("#course-table .col_semester").show();
     $("#course-table .col_section").show();
@@ -73,12 +74,29 @@
     }
     return _results;
   };
+  window.assign_sorted_rows = function() {
+    return $("#course-table .row_display").each(function() {
+      var index;
+      index = $(this).attr("id").substr(12);
+      return $(this).after($("#row_hidden_" + index));
+    });
+  };
   /*
   DOCUMENT READY
   */
   $(document).ready(function() {
     var cols, i, _ref, _results;
     initSearchbox("../");
+    $("#course-table").tablesorter({
+      sortList: [[1, 0]],
+      headers: {
+        0: {
+          sorter: false
+        }
+      }
+    }).bind("sortEnd", function() {
+      return assign_sorted_rows();
+    });
     /* localStorage setup view mode */
     if (!(localStorage["pcr_viewmode"] != null)) {
       localStorage["pcr_viewmode"] = "0";

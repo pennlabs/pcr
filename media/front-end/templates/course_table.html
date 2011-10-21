@@ -1,13 +1,15 @@
 {% load table %}
 
-<table id="course-table">
+<table id="course-table" count="{{table.body|length}}">
 	<thead>
 		<tr>
 			<th scope="col" class="col_icon">
 				<div class="fold-icon" onclick="toggle_course_row_all()"></div>
 			</th>
 			{% for cell in table.head|slice:"2:-1" %}
-			<th scope="col" class="col_{{cell.0}}">{{cell.1}}</th>
+			<th scope="col" class="col_{{cell.0}}">
+				<span class="course-header">{{cell.1}}</span>
+			</th>
 			{% endfor %}
 		</tr>
 	</thead>

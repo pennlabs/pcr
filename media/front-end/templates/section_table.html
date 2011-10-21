@@ -1,6 +1,6 @@
 {% load table %}
 
-<table id="section-table">
+<table id="section-table" count="{{table.body|length}}">
 	<thead>
 		<tr>
 			{% for cell in table.head %}
@@ -10,7 +10,7 @@
 	</thead>
 	<tbody>
 		{% for row in table.body %}
-		<tr class="row_display" onclick="$('#row_hidden_{{row_id}} .sec_row_hidden_{{forloop.counter0}}').toggle()">
+		<tr class="sec_row_display" onclick="$('#row_hidden_{{row_id}} .sec_row_hidden_{{forloop.counter0}}').toggle()">
 			{% for cell in row %}
 			<td class="col_{{cell.0}}">{{cell.1}}</td>
 			{% endfor %}
