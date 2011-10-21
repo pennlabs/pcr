@@ -68,23 +68,11 @@
 	color:#636363;
 }
 
-#content p {
-	line-height:150%;
-	margin-bottom:15px;
-}
-
-#content h1 {
-	font-family:"Times New Roman", Times, serif;
-	font-size:30px;
-	font-weight:normal;
-	color:#000080;
-	margin-bottom:15px;
-}
-
 #questions {
 	min-height: 100%;
 }
 
 #projectby {
-	margin-top:40px;
+	margin-top:35px;
+	margin-bottom:15px;
 }

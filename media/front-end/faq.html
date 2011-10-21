@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<link rel="stylesheet" href="css/960_12_col.css" />
-	<link rel="stylesheet" href="css/reset.css" />
-	<link rel="stylesheet" href="css/base.css" />
-	
-	<title>Penn Course Review</title>
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block htmlheader-links %}
+{% endblock %}
 
-FAQ Page.
+{% block htmlheader-js %}
+{% endblock %}	
 
-</body>
-</html>
+{% block content-content %}	
+	<div id="content-section" class="grid_12">
+		{% block content-section %}
+			<h1>FAQs</h1>
+		{% endblock %}
+	</div>
+  <div class="clear"></div>
+{% endblock %}

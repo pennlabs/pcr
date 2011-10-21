@@ -263,10 +263,19 @@ def autocomplete_data(request):
   return json_response({"courses":courses, "instructors":instructors})
 
 def browse(request):
-  return render_to_response('browse.html')
+  context = {
+    'base_dir': "../"
+  } 
+  return render_to_response('browse.html', context)
 
 def faq(request):
-  return render_to_response('faq.html')
+  context = {
+    'base_dir': "../"
+  } 
+  return render_to_response('faq.html', context)
 
 def about(request):
-  return render_to_response('about.html')
+  context = {
+    'base_dir': "../"
+  } 
+  return render_to_response('about.html', context)
