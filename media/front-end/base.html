@@ -32,14 +32,14 @@
       <div id="header"><div id="header-bg">
         <div class="container_12">
           {% block header-content %}
-          <div id="title" class="grid_4 suffix_2"></div>
-          <div id="linkbar" class="grid_3">
-            {% links base_dir %}
-          </div>
-          <div id="searchbar" class="grid_3">
-            {% searchbar %}
-          </div>
-          <div class="clear"></div>
+            <a href="{{base_dir}}"><div id="title" class="grid_4 suffix_2"></div></a>
+            <div id="linkbar" class="grid_3">
+              {% links base_dir %}
+            </div>
+            <div id="searchbar" class="grid_3">
+              {% searchbar %}
+            </div>
+            <div class="clear"></div>
           {% endblock %}
         </div>
       </div></div>
