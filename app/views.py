@@ -29,8 +29,8 @@ SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 INSTRUCTOR_OUTER = ('id', 'link', 'Code', 'Name')
 INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
 
-INSTRUCTOR_INNER = ('Semester',)
-INSTRUCTOR_INNER_HIDDEN =  ('semester',)
+INSTRUCTOR_INNER = ('Semester', 'Section')
+INSTRUCTOR_INNER_HIDDEN =  ('semester', 'section')
 
 COURSE_OUTER = ('id', 'link', 'Instructor')
 COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor')
@@ -114,7 +114,7 @@ def instructor(request, id):
     #build subtable
     section_body = []
     for section in sections[name]:
-      row = [prettify_semester(section.semester)] + [average(section.reviews, column) for column in columns]
+      row = [prettify_semester(section.semester), section.sectionnum] + [average(section.reviews, column) for column in columns]
       section_body.append(row)
     section_table = Table(INSTRUCTOR_INNER + strings, INSTRUCTOR_INNER_HIDDEN + fields, section_body)
 
