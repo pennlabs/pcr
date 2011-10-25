@@ -12,6 +12,8 @@ class Table(object):
     self.head = zip(fields, head)
     self.body = [zip(fields, row) for row in body]
 
+
+
 @tag(register, [Variable()])
 def course_table(context, table):
   '''Create a table.'''

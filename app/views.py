@@ -7,16 +7,14 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
 
-from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
+from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER, NULL_COMMENT
 from templatetags.scorecard_tag import ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
 from api import pcr
-from average import average
+from average import average, ERROR
 from wrapper import Instructor, CourseHistory
 
-#TODO: Get this and filter stuff out
-CURRENT_SEMESTER = None
 
 RATING_API = ORDER
 RATING_STRINGS = tuple([PRETTIFY_REVIEWBITS[v] for v in ORDER])
@@ -29,18 +27,19 @@ SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 INSTRUCTOR_OUTER = ('id', 'link', 'Code', 'Name')
 INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
 
-INSTRUCTOR_INNER = ('Semester', 'Section')
-INSTRUCTOR_INNER_HIDDEN =  ('semester', 'section')
-
 COURSE_OUTER = ('id', 'link', 'Instructor')
 COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor')
 
-COURSE_INNER = ('Semester', 'Section')
-COURSE_INNER_HIDDEN =  ('semester', 'section')
+TABLE_INNER = ('Semester', 'Section', '# Reviewers', '# Students')
+TABLE_INNER_HIDDEN =  ('semester', 'section', 'reviewers', 'students')
 
+#UNUSED
 DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
 DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
+
+def index(request):
+  return render_to_response('index.html')
 
 def json_response(result_dict):
   return HttpResponse(content=json.dumps(result_dict))
@@ -49,84 +48,113 @@ def json_response(result_dict):
 def prettify_semester(semester):
   return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
 
+def prettify_comments(comments):
+  return comments if comments != 'None' else NULL_COMMENT
 
-def build_scorecard(sections):
+
+def parse_attr(review, attr):
+  try:
+    val = getattr(review, attr)
+  except:
+    return ERROR
+  else:
+    return val
+
+def parse_review(review, attrs):
+  return [parse_attr(review, attr) for attr in attrs]  
+
+
+def build_scorecard(review_tree):
   '''Build a scorecard for the given sections.'''
+  sr_pairs = sum(review_tree.values(), [])
+
+  #average
+  sections, reviews = zip(*sr_pairs)
   avg = ScoreBoxRow('Average', '%s sections' % len(sections),
-      [ScoreBox(display, average([review for section in sections for review in section.reviews], attr))
+      [ScoreBox(display, average(reviews, attr))
         for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
-  sections.sort(key=lambda section: section.semester)
-  most_recent = None
-  for i in range(len(sections)):
-    try:
-      most_recent = sections[-(i+1)]
+
+  #recent
+  for section, review in sorted(sr_pairs, key=lambda sr_pair: sr_pair[0].semester, reverse=True):
+    if review.raw != dict():
+      most_recent, most_recent_review = section, review
       break
-    except:
-      continue
   if most_recent is None:
     return (avg,)
   else:
-    recent = ScoreBoxRow('Recent', prettify_semester(most_recent.semester),
-        [ScoreBox(display, average([review for review in most_recent.reviews], attr))
-          for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
-    return avg, recent
+    parsed = parse_review(most_recent_review, SCORECARD_API)
+    boxes = [ScoreBox(display, attr) for display, attr in zip(SCORECARD_STRINGS, parsed)]
+    recent = ScoreBoxRow('Recent', prettify_semester(most_recent.semester), boxes)
+  return avg, recent
 
 
-def get_relevant_columns(sections):
+def get_relevant_columns(review_tree):
+  '''Filter columns to include only relevant data.
+  In the case that a course form changes over time, get the union of all columns.'''
+  sections, reviews = zip(*sum(review_tree.values(), []))
   strings, fields, columns = tuple(), tuple(), tuple()
   for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
-    broke = False
-    for section in sections:
-      for review in section.reviews:
-        if column in review:
-          strings += (string,)
-          fields += (field,)
-          columns += (column,)
-          broke = True
-          break
-      if broke:
+    for review in reviews:
+      if hasattr(review, column):
+        strings += (string,)
+        fields += (field,)
+        columns += (column,)
         break
   return strings, fields, columns
 
 
-def index(request):
-  return render_to_response('index.html')
+def build_section_table(key, review_tree, strings, fields, columns):
+  section_body = []
+  for section, review in sorted(review_tree[key], key=lambda sr_pair: sr_pair[0].semester, reverse=True):
+    section_body.append(
+        [prettify_semester(section.semester), section.sectionnum, review.num_reviewers, review.num_students]
+        + parse_review(review, columns)
+        )
+  return Table(TABLE_INNER + strings + ('comments',), TABLE_INNER_HIDDEN + fields + ('comments',), section_body)
 
+
+def build_score_table(review_tree, key_map, key_columns, key_fields):
+  strings, fields, columns = get_relevant_columns(review_tree)
+  
+  body = []
+  for row_id, key in enumerate(sorted(review_tree)):
+    sr_pairs = review_tree[key]
+    sections, reviews = zip(*sr_pairs)
+    section_table = build_section_table(key, review_tree, strings, fields, columns)
+
+    #append row
+    sr_pairs.sort(key=lambda pair: pair[0].semester, reverse=True)
+    most_recent, most_recent_review = sr_pairs[-1]
+    body.append(
+        [row_id]
+        + key_map(key)
+        + [(average(reviews, column), parse_attr(most_recent_review, column)) for column in columns]
+        + [section_table])
+
+  return Table(
+      key_columns + strings + ('sections',),
+      key_fields + fields + ('sections',),
+      body
+      )
 
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
   coursehistories = {}
-  sections = defaultdict(list)
+
+  review_tree = defaultdict(list)
   for section in instructor.sections:
     coursehistory = section.course.coursehistory
-    sections[coursehistory.name].append(section)
+    for review in section.reviews:
+      if review.instructor == instructor:
+        review_tree[coursehistory.name].append((section, review))
     coursehistories[coursehistory.name] = coursehistory
 
-  scorecard = build_scorecard(instructor.sections)
-  #filter columns to include only relevant data
-  #in the case that a course form changes over time, get the union of all columns
-  strings, fields, columns = get_relevant_columns(instructor.sections)
-  
-  #create a map from coursehistory to sections taught by professor
-  #use average of the sections to create averages / recent
-  body = []
-  for row_id, name in enumerate(sorted(sections)):
-    #build subtable
-    section_body = []
-    for section in sections[name]:
-      row = [prettify_semester(section.semester), section.sectionnum] + [average(section.reviews, column) for column in columns]
-      section_body.append(row)
-    section_table = Table(INSTRUCTOR_INNER + strings, INSTRUCTOR_INNER_HIDDEN + fields, section_body)
 
-    #append row
-    reviews = [review for section in sections[name] for review in section.reviews]
-    meta = [(average(reviews, column), average(sections[name][-1].reviews, column)) for column in columns]
-    outer_row = [row_id, 'course/%s' % "-".join(coursehistories[name].subtitle.split()), coursehistories[name].subtitle, name] + meta + [section_table]
-    body.append(outer_row)
+  def key_map(key):
+    return ['course/%s' % "-".join(coursehistories[key].subtitle.split()), coursehistories[key].subtitle, key]
 
-  score_table = Table(INSTRUCTOR_OUTER + strings + ('sections',),
-      INSTRUCTOR_OUTER_HIDDEN + fields + ('sections',), body)
-
+  scorecard = build_scorecard(review_tree)
+  score_table = build_score_table(review_tree, key_map, INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN)
 
   context = RequestContext(request, {
     'instructor': instructor,
@@ -142,39 +170,18 @@ def course(request, dept, id):
   dept = dept.upper()
   title = '%s-%s' % (dept, id)
   coursehistory = CourseHistory(pcr('coursehistory', title))
-  sections = [section for section in coursehistory.sections if section.course.coursehistory == coursehistory]
 
-  scorecard = build_scorecard(sections)
+  review_tree = defaultdict(list)
+  for course in coursehistory.courses:
+    for section in course.sections:
+      for review in section.reviews:
+        review_tree[review.instructor].append((section, review))
 
-  strings, fields, columns = get_relevant_columns(sections)
+  def key_map(instructor):
+    return ['instructor/%s' % instructor.id, instructor.name]
 
-  #build course table
-  body = []
-  for row_id, instructor in enumerate(sorted(coursehistory.instructors, key=lambda instructor: instructor.last_name)):
-    instructor_sections = instructor.get_sections(coursehistory) 
-
-    #build instructor section table
-    section_body = []
-    for section in instructor_sections:
-      section_reviews = section.reviews
-      section_body.append(
-          [prettify_semester(section.semester), section.sectionnum]
-          + [average(section_reviews, column) for column in columns]
-          )
-    section_table = Table(COURSE_INNER + strings, COURSE_INNER_HIDDEN + fields, section_body)
-
-    #append row to course_table
-    most_recent = instructor_sections[-1]
-    reviews = [review for section in instructor_sections for review in section.reviews]
-    body.append(
-        [row_id, 'instructor/%s' % instructor.id, instructor.name] +
-
-        [(average(reviews, column), average(most_recent.reviews, column)) for column in columns] +
-
-        [section_table]
-      )
-
-  score_table = Table(COURSE_OUTER + strings + ('section',), COURSE_OUTER_HIDDEN + fields + ('sections',), body)
+  scorecard = build_scorecard(review_tree)
+  score_table = build_score_table(review_tree, key_map, COURSE_OUTER,COURSE_OUTER_HIDDEN)
 
   aliases = coursehistory.aliases
   aliases.remove(title)

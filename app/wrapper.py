@@ -5,15 +5,30 @@ from collections import defaultdict
 from api import pcr
 
 
+#TODO: Make this dynamic
 CURRENT_SEMESTER = '2011C'
 
+#we use this to provide data in the case that a course doesn't have lectures
+#if a course doesn't, it will attempt to show seminar data, else lab data, else recitation data 
 TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
 
 
-class Review(dict):
+class Review(object):
   def __init__(self, raw_review):
     self.raw = raw_review
-    super(Review, self).__init__([(attr, float(score)) for attr, score in raw_review['ratings'].items()])
+    #comments really are just a block of text
+    self.num_reviewers = raw_review['num_reviewers']
+    self.num_students = raw_review['num_students']
+    self.comments = raw_review['comments']
+    for attr, score in raw_review['ratings'].items():
+      setattr(self, attr, float(score))
+
+  @property
+  def instructor(self):
+    return Instructor(self.raw['instructor'])
+
+  def __repr__(self):
+    return "Review(%s, %s)" % (self.raw['section']['id'], self.raw['instructor']['id'])
 
 
 class Instructor(object):
@@ -53,9 +68,15 @@ class Instructor(object):
     sections = filter(lambda section: section.course.coursehistory == coursehistory, self.sections)
     sections.sort(key=lambda section: section.semester, reverse=True)
     return sections
-  
+
   def recent(self, attr):
     return recent(self.reviews, attr)
+
+  def __hash__(self):
+    return hash(self.id)
+
+  def __eq__(self, other):
+    return self.id == other.id
 
   def __repr__(self):
     return self.name
@@ -74,6 +95,8 @@ class Section(object):
 
   @property
   def reviews(self):
+    #while most sections will only have on review, it's possible that a section  has multiple
+    #professors, in which case it will have multiple reviews
     return [Review(raw_review) for raw_review in pcr(*(self.raw['path'].split('/') + ['reviews']))['values']]
 
   @property
@@ -81,7 +104,7 @@ class Section(object):
     return Course(pcr('course', self.raw['course']['id']))
 
   def __repr__(self):
-    return "%s %s" % (self.id, self.semester)
+    return "Section(%s %s)" % (self.id, self.semester)
 
 
 class Course(object):
@@ -134,10 +157,6 @@ class CourseHistory(object):
   @property
   def subtitle(self):
     return self.aliases[0]
-
-  @property
-  def sections(self):
-    return [section for instructor in self.instructors for section in instructor.sections]
 
   @property
   def most_recent(self):
