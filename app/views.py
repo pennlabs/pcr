@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
 
-from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
+from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER, NULL_COMMENT
 from templatetags.scorecard_tag import ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
@@ -47,12 +47,6 @@ def json_response(result_dict):
 
 def prettify_semester(semester):
   return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
-
-def parse_comment(review):
-  if review.comments is None:
-    return None # no need for NULL_COMMENT
-  else:
-    return review.comments
 
 def parse_attr(review, attr):
   try:
@@ -111,7 +105,7 @@ def build_section_table(key, review_tree, strings, fields, columns):
     section_body.append(
         [prettify_semester(section.semester), section.sectionnum, review.num_reviewers, review.num_students]
         + parse_review(review, columns)
-        + [parse_comment(review)]
+        + [review.comments]
         )
   return Table(TABLE_INNER + strings + ('comments',), TABLE_INNER_HIDDEN + fields + ('comments',), section_body)
 
