@@ -264,45 +264,49 @@ input {
 	padding: 10px 10px 10px 10px;
 }
 #section-table tr.sec_row_display td {
-	cursor:pointer;
+	/*cursor:pointer;*/
 }
 #section-table tr.sec_row_display:hover td {
+	/*
 	background-color:#f2f2f9;
-	color:#000000;
+	color:#000000;*/
 }
 #section-table tr.sec_row_hidden {
 	display: none;
 }
 
-#course-table td div.fold-icon {
+#course-table div.fold-icon,
+#course-table div.comment-icon {
 	width:11px;
 	height:11px;
-	background:url(../image/foldbutton.png) 0 0 no-repeat;
+	background-position: 0 0;
 	cursor:pointer;
 }
-#course-table td div.fold-icon:hover {
-	background:url(../image/foldbutton.png) 0 -11px no-repeat;
+#course-table div.fold-icon {
+	background:url(../image/foldbutton.png) no-repeat;
 }
-#course-table td div.fold-icon.open {
-	background:url(../image/foldbutton.png) -11px 0 no-repeat;
+#course-table div.fold-icon:hover {
+	background-position: 0 -11px;
 }
-#course-table td div.fold-icon.open:hover {
-	background:url(../image/foldbutton.png) -11px -11px no-repeat;
+#course-table div.fold-icon.open {
+	background-position: -11px 0;
+}
+#course-table div.fold-icon.open:hover {
+	background-position: -11px -11px;
 }
 #course-table th div.fold-icon {
+	background:url(../image/foldbuttonheader.png) no-repeat;
+}
+#section-table div.comment-icon {
+	background:url(../image/commentbutton.png) 0 0 no-repeat;
+}
+#section-table div.comment-icon:hover {
+	background-position: 0 -11px;
+}
+#section-table .sec_th div {
+	background:url(../image/commenticon.png) 0 0 no-repeat;
 	width:11px;
 	height:11px;
-	background:url(../image/foldbuttonheader.png) 0 0 no-repeat;
-	cursor:pointer;
-}
-#course-table th div.fold-icon:hover {
-	background:url(../image/foldbuttonheader.png) 0 -11px no-repeat;
-}
-#course-table th div.fold-icon.open {
-	background:url(../image/foldbuttonheader.png) -11px 0 no-repeat;
-}
-#course-table th div.fold-icon.open:hover {
-	background:url(../image/foldbuttonheader.png) -11px -11px no-repeat;
 }
 
 #footer {
