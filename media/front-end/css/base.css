@@ -131,6 +131,9 @@ input {
 	font-size:12px;
 	color:#636363;
 }
+#banner-info p.desc {
+	line-height:150%;
+}
 #banner-score {
 }
 .scoreboxrow {
@@ -274,6 +277,10 @@ input {
 }
 #section-table tr.sec_row_hidden {
 	display: none;
+}
+#section-table .sec_td_hidden p{
+	line-height:150%;
+	margin-bottom:0px;
 }
 
 #course-table div.fold-icon,
