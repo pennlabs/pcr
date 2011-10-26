@@ -48,14 +48,11 @@ def json_response(result_dict):
 def prettify_semester(semester):
   return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
 
-def prettify_comments(comments):
-  return comments if comments != 'None' else NULL_COMMENT
-
 def parse_comment(review):
-  if review.comments != '':
-    return review.comments
-  else:
+  if review.comments is None:
     return NULL_COMMENT
+  else:
+    return review.comments
 
 def parse_attr(review, attr):
   try:
@@ -145,19 +142,16 @@ def build_score_table(review_tree, key_map, key_columns, key_fields):
 
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
-  coursehistories = {}
 
   review_tree = defaultdict(list)
   for section in instructor.sections:
     coursehistory = section.course.coursehistory
     for review in section.reviews:
-      if review.instructor == instructor:
-        review_tree[coursehistory.name].append((section, review))
-    coursehistories[coursehistory.name] = coursehistory
+      review_tree[coursehistory].append((section, review))
 
 
   def key_map(key):
-    return ['course/%s' % "-".join(coursehistories[key].subtitle.split()), coursehistories[key].subtitle, key]
+    return ['course/%s' % "-".join(key.subtitle.split()), key.subtitle, key.name]
 
   scorecard = build_scorecard(review_tree)
   score_table = build_score_table(review_tree, key_map, INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN)
@@ -179,6 +173,8 @@ def course(request, dept, id):
 
   review_tree = defaultdict(list)
   for course in coursehistory.courses:
+    if not hasattr(coursehistory, 'description') and course.description:
+      coursehistory.description = course.description
     for section in course.sections:
       for review in section.reviews:
         review_tree[review.instructor].append((section, review))

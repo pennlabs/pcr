@@ -48,8 +48,7 @@ class Instructor(object):
   def sections(self):
     raw_sections = pcr('instructor', self.id, 'sections')['values'] 
     for type_ in TYPE_RANK:
-      sections = [Section(raw_section) for raw_section in raw_sections
-          if all([time['type'] == type_ for time in raw_section['meetingtimes']])]
+      sections = [Section(raw_section) for raw_section in raw_sections]
       if len(sections) > 0:
         break
     sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
@@ -131,8 +130,7 @@ class Course(object):
   def sections(self):
     raw_sections = pcr('course', self.id, 'sections')['values']
     for type_ in TYPE_RANK:
-      sections = [Section(raw_section) for raw_section in raw_sections
-        if all([time['type'] == type_ for time in raw_section['meetingtimes']])]
+      sections = [Section(raw_section) for raw_section in raw_sections]
       if len(sections) > 0:
         break
     sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
@@ -158,18 +156,6 @@ class CourseHistory(object):
   def subtitle(self):
     return self.aliases[0]
 
-  @property
-  def most_recent(self):
-    return self.courses[-1]
-
-  @property
-  def description(self):
-    return self.most_recent.description
-
-  @property
-  def number(self):
-    return self.most_recent.aliases[0]
-
   def __eq__(self, other):
     return self.id == other.id
 
@@ -189,6 +175,9 @@ class CourseHistory(object):
           if other and instructor.id == other.id:
             instructors[o] = 0
     return unique
+  
+  def __hash__(self):
+    return hash(self.id)
 
   def __repr__(self):
     return self.name
