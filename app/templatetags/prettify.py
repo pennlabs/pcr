@@ -1,3 +1,5 @@
+
+
 PRETTIFY_SEMESTER = {
     "A": "Spring",
     "B": "Summer",
