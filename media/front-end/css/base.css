@@ -224,14 +224,15 @@ input {
 	cursor:pointer;
 }
 #course-table tr.row_display:hover td {
-	background-color:#f2f2f9;
+	background-color:#eeefff;
 	color:#000000;
 }
 #course-table tr.row_hidden {
 	display: none;
 }
 #course-table td.td_hidden {
-	padding: 10px 0px 20px 15px;
+	padding: 10px 10px 15px 10px;
+	background:#fffeee;
 }
 #course-table .toggle_button {
 	width:9px;
