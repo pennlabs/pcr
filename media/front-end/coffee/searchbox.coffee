@@ -75,8 +75,4 @@ window.initSearchbox  = (dir="", callback=null) ->
       
     if callback?
       callback()
-      
-    # set focus
-    if dir==""
-      $("#searchbox").focus()
   )

@@ -94,10 +94,7 @@
         return $("<li></li>").data("item.autocomplete", item).append("<a><span class='ui-menu-item-title'>" + item.title + "</span><br/><span class='ui-menu-item-desc'>" + item.desc + "</span></a>").appendTo(ul);
       };
       if (callback != null) {
-        callback();
-      }
-      if (dir === "") {
-        return $("#searchbox").focus();
+        return callback();
       }
     });
   };
