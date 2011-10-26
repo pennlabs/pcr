@@ -48,12 +48,6 @@ def json_response(result_dict):
 def prettify_semester(semester):
   return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
 
-def parse_comment(review):
-  if review.comments is None:
-    return NULL_COMMENT
-  else:
-    return review.comments
-
 def parse_attr(review, attr):
   try:
     val = getattr(review, attr)
@@ -111,7 +105,7 @@ def build_section_table(key, review_tree, strings, fields, columns):
     section_body.append(
         [prettify_semester(section.semester), section.sectionnum, review.num_reviewers, review.num_students]
         + parse_review(review, columns)
-        + [parse_comment(review)]
+        + [review.comments]
         )
   return Table(TABLE_INNER + strings + ('comments',), TABLE_INNER_HIDDEN + fields + ('comments',), section_body)
 
