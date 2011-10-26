@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
 
-from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER, NULL_COMMENT
+from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
 from templatetags.scorecard_tag import ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
@@ -50,7 +50,7 @@ def prettify_semester(semester):
 
 def parse_comment(review):
   if review.comments is None:
-    return NULL_COMMENT
+    return None # no need for NULL_COMMENT
   else:
     return review.comments
 

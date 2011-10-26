@@ -1,6 +1,3 @@
-NULL_COMMENT = 'No comments for this section.'
-
-
 PRETTIFY_SEMESTER = {
     "A": "Spring",
     "B": "Summer",

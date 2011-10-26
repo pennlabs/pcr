@@ -231,7 +231,7 @@ input {
 	display: none;
 }
 #course-table td.td_hidden {
-	padding: 10px 10px 15px 10px;
+	padding: 10px 10px 10px 10px;
 	background:#fffeee;
 }
 #course-table .toggle_button {
