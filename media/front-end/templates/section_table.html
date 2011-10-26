@@ -29,7 +29,7 @@
 		{% if row|last|last %}
 		<tr class="sec_row_hidden sec_row_hidden_{{forloop.counter0}}">
 			<td class="sec_td_hidden" colspan="50">
-				<p>{{row|last|last}}</p>
+				<p>{{row|last|last|safe}}</p>
 			</td>
 		</tr>
 		{% endif %}
