@@ -30,8 +30,8 @@ INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
 COURSE_OUTER = ('id', 'link', 'Instructor')
 COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor')
 
-TABLE_INNER = ('Semester', 'Section', '# Reviewers', '# Students')
-TABLE_INNER_HIDDEN =  ('semester', 'section', 'reviewers', 'students')
+TABLE_INNER = ('Semester', 'Section')
+TABLE_INNER_HIDDEN =  ('semester', 'section')
 
 #UNUSED
 DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
@@ -103,11 +103,12 @@ def build_section_table(key, review_tree, strings, fields, columns):
   section_body = []
   for section, review in sorted(review_tree[key], key=lambda sr_pair: sr_pair[0].semester, reverse=True):
     section_body.append(
-        [prettify_semester(section.semester), section.sectionnum, review.num_reviewers, review.num_students]
+        [prettify_semester(section.semester), section.sectionnum] 
         + parse_review(review, columns)
         + [review.comments]
+        + ["%s/%s" % (review.num_reviewers, review.num_students)]
         )
-  return Table(TABLE_INNER + strings + ('comments',), TABLE_INNER_HIDDEN + fields + ('comments',), section_body)
+  return Table(TABLE_INNER + strings + ('Returned', 'comments',), TABLE_INNER_HIDDEN + fields + ('reviewers', 'comments',), section_body)
 
 
 def build_score_table(review_tree, key_map, key_columns, key_fields):
