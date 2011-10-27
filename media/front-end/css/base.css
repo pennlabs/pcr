@@ -64,6 +64,7 @@ input {
 }
 #linkbar {
 	margin-top:23px;
+	text-align:right;
 }
 #linkbar a {
 	margin: 0px 2px;
@@ -319,6 +320,9 @@ input {
 
 #footer {
 	margin:15px 0px;
+}
+#footer a {
+	border:none;
 }
 #footer-inner {
 	border-top: 1px solid #000080;
