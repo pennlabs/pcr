@@ -63,6 +63,7 @@ window.set_cols = (cols) ->
   $("#course-table .col_instructor").show()
   $("#course-table .col_semester").show()
   $("#course-table .col_section").show()
+  $("#course-table .col_returned").show()
   $("#course-table .td_hidden").show()
   $("#course-table .sec_td_hidden").show()
   
