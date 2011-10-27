@@ -108,7 +108,7 @@ def build_section_table(key, review_tree, strings, fields, columns):
         + [review.comments]
         + ["%s/%s" % (review.num_reviewers, review.num_students)]
         )
-  return Table(TABLE_INNER + strings + ('Returned', 'comments',), TABLE_INNER_HIDDEN + fields + ('reviewers', 'comments',), section_body)
+  return Table(TABLE_INNER + strings + ('Returned', 'comments',), TABLE_INNER_HIDDEN + fields + ('returned', 'comments',), section_body)
 
 
 def build_score_table(review_tree, key_map, key_columns, key_fields):
