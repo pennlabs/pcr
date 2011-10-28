@@ -67,7 +67,6 @@
     $("#course-table td").hide();
     $("#course-table .col_icon").show();
     $("#course-table .col_code").show();
-    $("#course-table .col_name").show();
     $("#course-table .col_instructor").show();
     $("#course-table .col_semester").show();
     $("#course-table .col_section").show();
@@ -117,7 +116,7 @@
     set_viewmode($.cookie("pcr_viewmode"));
     /* setup choose columns */
     if (!($.cookie("pcr_choosecols") != null)) {
-      $.cookie("pcr_choosecols", "rCourseQuality,rInstructorQuality,rDifficulty", {
+      $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {
         path: '/'
       });
     }

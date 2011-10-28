@@ -26,9 +26,9 @@ def content_settings(context):
   
 @tag(register, [Variable()])
 def choose_cols_box(context, fields):
-  half = len(fields)/2+2
+  half = (len(fields)-3)/2+3
   new_context = {
-    'fields0': fields[4:half] if 'instructor' in context else fields[3:half],
+    'fields0': fields[3:half],
     'fields1': fields[half:-1]
   }
   return render_to_string('templates/choose_cols_box.html', new_context)

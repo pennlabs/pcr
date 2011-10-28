@@ -60,7 +60,6 @@ window.set_cols = (cols) ->
   # show default cols
   $("#course-table .col_icon").show()
   $("#course-table .col_code").show()
-  $("#course-table .col_name").show()
   $("#course-table .col_instructor").show()
   $("#course-table .col_semester").show()
   $("#course-table .col_section").show()
@@ -117,7 +116,7 @@ $(document).ready ->
   # check if key exists, else create default
   
   if not $.cookie("pcr_choosecols")?    
-    $.cookie("pcr_choosecols", "rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
+    $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
   cols = $.cookie("pcr_choosecols").split(",")
   set_cols(cols)
   # loop cols
