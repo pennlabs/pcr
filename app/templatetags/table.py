@@ -18,7 +18,8 @@ class Table(object):
 def course_table(context, table):
   '''Create a table.'''
   new_context = {
-    'table': table
+    'table': table,
+    'instructor': context['instructor'] if 'instructor' in context else None
   }
   return render_to_string('templates/course_table.html', new_context)
 

@@ -9,10 +9,10 @@ from prettify import PRETTIFY_REVIEWBITS
 
 register = template.Library()
 
-@tag(register, [Variable()])
-def links(context, base_dir):
+@tag(register, [])
+def links(context):
   new_context = {
-    'base_dir': base_dir
+    'base_dir': context['base_dir']
   }
   return render_to_string('templates/links.html', new_context)
   
@@ -28,7 +28,7 @@ def content_settings(context):
 def choose_cols_box(context, fields):
   half = len(fields)/2+2
   new_context = {
-    'fields0': fields[3:half],
+    'fields0': fields[4:half] if 'instructor' in context else fields[3:half],
     'fields1': fields[half:-1]
   }
   return render_to_string('templates/choose_cols_box.html', new_context)
