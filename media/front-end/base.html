@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
 	<link rel="shortcut icon" href="{{base_dir}}media/front-end/image/favicon.ico">
 	<link type="text/css" href="{{base_dir}}media/front-end/css/960_12_col.css" rel="stylesheet" />
 	<link type="text/css" href="{{base_dir}}media/front-end/css/reset.css" rel="stylesheet" />
@@ -29,6 +30,18 @@
   }
   </style>
   <![endif]-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-21029575-4']);
+    _gaq.push(['_trackPageview']);
+  
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();  
+  </script>
 	
 </head>
 {% load templates %}
@@ -71,6 +84,9 @@
       <div id="footer-inner" class="container_12">
         {% links base_dir %}
         <p id="copyright">
+          <!--[if IE 8]>
+          <span style="color:#CC0000;">Best viewed in Chrome or Firefox. </span>
+          <![endif]-->
           Copyright &copy; 2011
           <a href="http://pennapps.com/labs/">
             <strong>PennApps Labs</strong>
