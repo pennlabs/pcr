@@ -228,6 +228,11 @@ input {
 #course-table .col_icon {
 	width:.01%;
 }
+#course-table .col_semester,
+#course-table .col_section,
+#course-table .col_responses {
+	width:2%;
+}
 #course-table tr.row_display td {
 	cursor:pointer;
 }
