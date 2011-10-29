@@ -12,7 +12,7 @@ register = template.Library()
 @tag(register, [])
 def links(context):
   new_context = {
-    'base_dir': context['base_dir']
+    'base_dir': context['base_dir'] if 'base_dir' in context else ""
   }
   return render_to_string('templates/links.html', new_context)
   
