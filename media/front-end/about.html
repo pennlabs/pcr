@@ -1,16 +1,8 @@
-{% extends "base.html" %}
-
-{% block htmlheader-links %}
-{% endblock %}
-
-{% block htmlheader-js %}
-{% endblock %}
+{% extends "nobanner_base.html" %}
 
 {% block htmlheader-style %}
+	{{ block.super }}
 	<style>
-		#content {
-			background-position: 0 -2px;
-		}
 		#staff span.title {
 			color:#636363;
 			font-style:italic;
@@ -18,11 +10,7 @@
 	</style>
 {% endblock %}
 
-{% block banner-div %}
-{% endblock %}
-
 {% block content-content %}
-	<div class="clear" style="margin-top:15px"></div>
 	<div class="grid_8">
 		<h1>About</h1>
 		<p>The Penn Course Review is a student-run publication that provides numerical ratings and written reviews for undergraduate courses taught at the University of Pennsylvania. PCR has a long history of being a valuable and influential guide for course selection and is currently leading an effort to increase the number of written course reviews offered.</p>

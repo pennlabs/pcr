@@ -1,20 +1,7 @@
-{% extends "base.html" %}
-
-{% block htmlheader-links %}
-{% endblock %}
-
-{% block htmlheader-js %}
-{% endblock %}
+{% extends "nobanner_base.html" %}
 
 {% block htmlheader-style %}
-	<style>
-		#content {
-			background-position: 0 -2px;
-		}
-		#content h1 {
-			margin-bottom:25px;
-		}
-		
+	<style>		
 		#faqs p.question {
 			color: #000080;
 			font-weight: bold;
@@ -43,11 +30,7 @@
 	</style>
 {% endblock %}
 
-{% block banner-div %}
-{% endblock %}
-
 {% block content-content %}
-	<div class="clear" style="margin-top:15px"></div>
 	<div id="faqs" class="grid_8">
 		<h1>Frequently Asked Questions</h1>
 		<div id="faq0">
