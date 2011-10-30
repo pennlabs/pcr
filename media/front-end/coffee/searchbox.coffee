@@ -33,16 +33,18 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
 window.initSearchbox  = (dir="", callback=null) ->
 
   $.getJSON(dir+"autocomplete_data.json", (data) ->
-  
+    #put the data in the right order (cis 120 before cis 500)
+    sort_by_title = (first, second) -> if first.title > second.title then 1 else -1
+    instructors = data.instructors.sort(sort_by_title)
+    courses = data.courses.sort(sort_by_title)
+
     $("#searchbox").autocomplete(
       delay: 0
       minLength: 1
-      
       source: (request, response) ->
-        result = findAutoCompleteMatches('Courses', data.courses, request.term, 6)
-          .concat(findAutoCompleteMatches('Instructors', data.instructors, request.term, 4))
+        result = findAutoCompleteMatches('Courses', courses, request.term, 6)
+          .concat(findAutoCompleteMatches('Instructors', instructors, request.term, 4))
         response(result)
-      
       position:
         my: "left top"
         at: "left bottom"
