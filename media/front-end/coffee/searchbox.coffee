@@ -29,6 +29,8 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
       currentCategory = item.category
     @_renderItem(ul, item)
 
+window.curritem = null
+
 # dir - base directory
 window.initSearchbox  = (dir="", callback=null) ->
 
@@ -37,6 +39,8 @@ window.initSearchbox  = (dir="", callback=null) ->
     $("#searchbox").autocomplete(
       delay: 0
       minLength: 1
+      
+      autoFocus: true
       
       source: (request, response) ->
         result = findAutoCompleteMatches('Courses', data.courses, request.term, 6)
@@ -51,14 +55,14 @@ window.initSearchbox  = (dir="", callback=null) ->
         offset: "0 -1"
       
       focus: ( event, ui ) ->
-        $("#searchbox").attr("value", ui.item.title)
+        #$("#searchbox").attr("value", ui.item.title)
         return false
       
       select: ( event, ui ) ->
         window.location = dir+ui.item.url
         return false
       
-      open: () ->
+      open: ( event, ui ) ->
         $(".ui-autocomplete.ui-menu.ui-widget").width(
           $("#searchbar").width()
         )
@@ -73,6 +77,12 @@ window.initSearchbox  = (dir="", callback=null) ->
               "</span></a>")
       .appendTo(ul)
       
+    #enter key
+    #$('#searchbox').keypress((e)->
+    #  if(e.which == 13)
+    #    alert("hit enter")
+    #)
+    
     if callback?
       callback()
   )
