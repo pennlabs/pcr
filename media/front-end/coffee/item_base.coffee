@@ -123,4 +123,6 @@ $(document).ready ->
   for i in [0..(cols.length-1)]
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
     
-  
+  # auto-expand if there's only one item in course-table
+  if $("#course-table").attr("count") == "1"
+    toggle_course_row_all()

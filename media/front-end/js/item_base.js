@@ -93,7 +93,7 @@
   DOCUMENT READY
   */
   $(document).ready(function() {
-    var cols, i, _ref, _results;
+    var cols, i, _ref;
     initSearchbox("../");
     $("#course-table").tablesorter({
       sortList: [[1, 0]],
@@ -122,10 +122,11 @@
     }
     cols = $.cookie("pcr_choosecols").split(",");
     set_cols(cols);
-    _results = [];
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
-      _results.push($("#choose-cols input[name='" + cols[i] + "']").attr("checked", true));
+      $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
     }
-    return _results;
+    if ($("#course-table").attr("count") === "1") {
+      return toggle_course_row_all();
+    }
   });
 }).call(this);
