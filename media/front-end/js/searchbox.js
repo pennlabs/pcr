@@ -65,13 +65,23 @@
       callback = null;
     }
     return $.getJSON(dir + "autocomplete_data.json", function(data) {
+      var courses, instructors, sort_by_title;
+      sort_by_title = function(first, second) {
+        if (first.title > second.title) {
+          return 1;
+        } else {
+          return -1;
+        }
+      };
+      instructors = data.instructors.sort(sort_by_title);
+      courses = data.courses.sort(sort_by_title);
       $("#searchbox").autocomplete({
         delay: 0,
         minLength: 1,
         autoFocus: true,
         source: function(request, response) {
           var result;
-          result = findAutoCompleteMatches('Courses', data.courses, request.term, 6).concat(findAutoCompleteMatches('Instructors', data.instructors, request.term, 4));
+          result = findAutoCompleteMatches('Courses', courses, request.term, 6).concat(findAutoCompleteMatches('Instructors', instructors, request.term, 4));
           return response(result);
         },
         position: {
