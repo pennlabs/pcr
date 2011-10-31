@@ -87,6 +87,7 @@ class Section(object):
     self.id = raw_section['id']
     self.sectionnum = raw_section['sectionnum']
     self.semester = raw_section['course']['semester']
+    self.name = raw_section['name']
 
   @property
   def instructors(self):

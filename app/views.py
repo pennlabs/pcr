@@ -30,8 +30,8 @@ INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
 COURSE_OUTER = ('id', 'link', 'Instructor')
 COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor')
 
-TABLE_INNER = ('Semester', 'Section', 'Responses')
-TABLE_INNER_HIDDEN =  ('semester', 'section', 'responses')
+TABLE_INNER = ('Semester', 'Name', 'Section', 'Responses')
+TABLE_INNER_HIDDEN =  ('semester', 'name', 'section', 'responses') # not sure of difference?
 
 #UNUSED
 DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
@@ -103,7 +103,7 @@ def build_section_table(key, review_tree, strings, fields, columns):
   section_body = []
   for section, review in sorted(review_tree[key], key=lambda sr_pair: sr_pair[0].semester, reverse=True):
     section_body.append(
-        [prettify_semester(section.semester), section.sectionnum, "%s/%s" % (review.num_reviewers, review.num_students)] 
+        [prettify_semester(section.semester), section.name, section.sectionnum, "%s/%s" % (review.num_reviewers, review.num_students)]
         + parse_review(review, columns)
         + [review.comments] 
         )
