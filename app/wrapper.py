@@ -117,7 +117,11 @@ class Course(object):
   
   @property
   def name(self):
-    return self.aliases[-1]
+    names = set([section.name for section in self.sections])
+    if len(names) == 1:
+      return self.sections[-1].name
+    else:
+      return 'Various'
 
   @property
   def coursehistory(self):
