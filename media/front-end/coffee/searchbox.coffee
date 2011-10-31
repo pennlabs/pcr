@@ -29,22 +29,29 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
       currentCategory = item.category
     @_renderItem(ul, item)
 
+window.curritem = null
+
 # dir - base directory
 window.initSearchbox  = (dir="", callback=null) ->
 
   $.getJSON(dir+"autocomplete_data.json", (data) ->
     #put the data in the right order (cis 120 before cis 500)
-    sort_by_title = (first, second) -> if first.title > second.title then 1 else -1
+    sort_by_title = (first, second) ->
+      if first.title > second.title then 1 else -1
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
 
     $("#searchbox").autocomplete(
       delay: 0
       minLength: 1
+      
+      autoFocus: true
+      
       source: (request, response) ->
         result = findAutoCompleteMatches('Courses', courses, request.term, 6)
           .concat(findAutoCompleteMatches('Instructors', instructors, request.term, 4))
         response(result)
+        
       position:
         my: "left top"
         at: "left bottom"
@@ -53,14 +60,14 @@ window.initSearchbox  = (dir="", callback=null) ->
         offset: "0 -1"
       
       focus: ( event, ui ) ->
-        $("#searchbox").attr("value", ui.item.title)
+        #$("#searchbox").attr("value", ui.item.title)
         return false
       
       select: ( event, ui ) ->
         window.location = dir+ui.item.url
         return false
       
-      open: () ->
+      open: ( event, ui ) ->
         $(".ui-autocomplete.ui-menu.ui-widget").width(
           $("#searchbar").width()
         )
@@ -75,6 +82,12 @@ window.initSearchbox  = (dir="", callback=null) ->
               "</span></a>")
       .appendTo(ul)
       
+    #enter key
+    #$('#searchbox').keypress((e)->
+    #  if(e.which == 13)
+    #    alert("hit enter")
+    #)
+    
     if callback?
       callback()
   )

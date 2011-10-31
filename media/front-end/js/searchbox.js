@@ -56,6 +56,7 @@
       }, this));
     }
   });
+  window.curritem = null;
   window.initSearchbox = function(dir, callback) {
     if (dir == null) {
       dir = "";
@@ -77,6 +78,7 @@
       $("#searchbox").autocomplete({
         delay: 0,
         minLength: 1,
+        autoFocus: true,
         source: function(request, response) {
           var result;
           result = findAutoCompleteMatches('Courses', courses, request.term, 6).concat(findAutoCompleteMatches('Instructors', instructors, request.term, 4));
@@ -90,14 +92,13 @@
           offset: "0 -1"
         },
         focus: function(event, ui) {
-          $("#searchbox").attr("value", ui.item.title);
           return false;
         },
         select: function(event, ui) {
           window.location = dir + ui.item.url;
           return false;
         },
-        open: function() {
+        open: function(event, ui) {
           return $(".ui-autocomplete.ui-menu.ui-widget").width($("#searchbar").width());
         }
       }).data("autocomplete")._renderItem = function(ul, item) {
