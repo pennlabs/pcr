@@ -1,5 +1,13 @@
 {% extends "nobanner_base.html" %}
 
+{% block htmlheader-js %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			initSearchbox("../");
+		});
+	</script>
+{% endblock %}
+
 {% block htmlheader-style %}
 	<style>
 		#content h1 {
