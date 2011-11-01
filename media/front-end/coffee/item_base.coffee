@@ -44,13 +44,13 @@ window.set_viewmode = (view_id) ->
   if "#{view_id}" == "0"
     $("a#view_average").addClass("selected")
     $("a#view_recent").removeClass("selected")
-    $(".cell_average").show();
-    $(".cell_recent").hide();
+    $(".cell_average").show()
+    $(".cell_recent").hide()
   else
     $("a#view_average").removeClass("selected")
     $("a#view_recent").addClass("selected")
-    $(".cell_average").hide();
-    $(".cell_recent").show();
+    $(".cell_average").hide()
+    $(".cell_recent").show()
   $.cookie("pcr_viewmode", view_id, {path: '/'})
 
 window.set_cols = (cols) ->

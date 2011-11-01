@@ -28,7 +28,6 @@ class Review(object):
   def __repr__(self):
     return "Review(%s, %s)" % (self.raw['section']['id'], self.raw['instructor']['id'])
 
-
 class Instructor(object):
   def __init__(self, raw_instructor):
     self.name = raw_instructor['name']
@@ -77,7 +76,6 @@ class Instructor(object):
 
   def __repr__(self):
     return self.name
-
 
 class Section(object):
   def __init__(self, raw_section):
@@ -189,7 +187,7 @@ class CourseHistory(object):
     return self.id == other.id
 
   def recent(self, attr):
-    return average([review for section in self.most_recent.sections for review in section.reviews], attr)
+    return 4.0#average([review for section in self.most_recent.sections for review in section.reviews], attr)
     
   @property
   def instructors(self):

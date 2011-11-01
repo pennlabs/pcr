@@ -118,8 +118,8 @@ def build_score_table(review_tree, key_map, key_columns, key_fields):
     sections, reviews = zip(*sr_pairs)
     section_table = build_section_table(key, review_tree, strings, fields, columns)
 
-    #append row
-    sr_pairs.sort(key=lambda pair: pair[0].semester, reverse=True)
+    #append row 
+    sr_pairs.sort(key=lambda pair: pair[0].semester, reverse=False)
     most_recent, most_recent_review = sr_pairs[-1]
     body.append(
         [row_id]
