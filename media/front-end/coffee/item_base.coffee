@@ -52,6 +52,9 @@ window.set_viewmode = (view_id) ->
     $(".cell_average").hide()
     $(".cell_recent").show()
   $.cookie("pcr_viewmode", view_id, {path: '/'})
+  $('#course-table').trigger('update')
+
+window.viewmode = -> $.cookie('pcr_viewmode')
 
 window.set_cols = (cols) ->
   # hide all cols
@@ -88,7 +91,7 @@ window.end_sort_rows = () ->
     index = $(this).attr("id").substr(12)
     $(this).after($("#row_hidden_#{index}"))
   )
-  
+
 ###
 DOCUMENT READY
 ###
@@ -100,7 +103,11 @@ $(document).ready ->
       0: {
         sorter: false
       }
-    }
+    },
+    textExtraction: (node) ->
+      #sort by average or recent depending on user's preference
+      element = if node.children.length < 2 then node else node.children[viewmode()]
+      return element.innerHTML
   }).bind("sortStart",() ->
     start_sort_rows()
   ).bind("sortEnd",() ->
