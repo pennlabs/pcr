@@ -140,7 +140,8 @@ def instructor(request, id):
   for section in instructor.sections:
     coursehistory = section.course.coursehistory
     for review in section.reviews:
-      review_tree[coursehistory].append((section, review))
+      if review.instructor == instructor:
+        review_tree[coursehistory].append((section, review))
 
   def key_map(key):
     # returns [link, course code, name]
