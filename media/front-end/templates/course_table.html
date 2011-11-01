@@ -32,7 +32,8 @@
 				</td>
 				{% endfor %}
 			{% else %}
-				{% for cell in row|slice:"3:-1" %}
+				<td class="col_{{row.3.0}}">{{row.3.1}}</td>
+				{% for cell in row|slice:"4:-1" %}
 				<td class="col_{{cell.0}}">
 					<span class="cell_average">{{cell.1.0|floatformat:2}}</span>
 					<span class="cell_recent">{{cell.1.1|floatformat:2}}</span>

@@ -27,8 +27,8 @@ SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 INSTRUCTOR_OUTER = ('id', 'link', 'Code', 'Name')
 INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
 
-COURSE_OUTER = ('id', 'link', 'Instructor')
-COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor')
+COURSE_OUTER = ('id', 'link', 'Instructor', 'Name')
+COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor', 'name')
 
 TABLE_INNER = ('Semester', 'Name', 'Section', 'Responses')
 TABLE_INNER_HIDDEN =  ('semester', 'name', 'section', 'responses') # not sure of difference?
@@ -147,11 +147,7 @@ def instructor(request, id):
     # returns [link, course code, name]
     sections = [sr[0] for sr in review_tree[key]]
     names = set([section.name for section in sections])
-    if len(names) == 1:
-      name = sections[-1].name
-    else:
-      name = 'Various'
-
+    name = names.pop() if len(names) == 1 else 'Various'
     return ['course/%s' % "-".join(key.code.split()), key.code, name]
 
   scorecard = build_scorecard(review_tree)
@@ -178,10 +174,13 @@ def course(request, dept, id):
         review_tree[review.instructor].append((section, review))
 
   def key_map(instructor):
-    return ['instructor/%s' % instructor.id, instructor.name]
+    sections = [sr[0] for sr in review_tree[instructor]]
+    names = set([section.name for section in sections])
+    name = names.pop() if len(names) == 1 else 'Various'
+    return ['instructor/%s' % instructor.id, instructor.name, name]
 
   scorecard = build_scorecard(review_tree)
-  score_table = build_score_table(review_tree, key_map, COURSE_OUTER,COURSE_OUTER_HIDDEN)
+  score_table = build_score_table(review_tree, key_map, COURSE_OUTER, COURSE_OUTER_HIDDEN)
 
   aliases = coursehistory.aliases
   aliases.remove(title)
