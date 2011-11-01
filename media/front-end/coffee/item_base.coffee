@@ -107,7 +107,7 @@ $(document).ready ->
     textExtraction: (node) ->
       #sort by average or recent depending on user's preference
       element = if node.children.length < 2 then node else node.children[viewmode()]
-      return element.innerHTML
+      return element?.innerHTML
   }).bind("sortStart",() ->
     start_sort_rows()
   ).bind("sortEnd",() ->

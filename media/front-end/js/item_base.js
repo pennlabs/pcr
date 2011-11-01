@@ -109,7 +109,7 @@
       textExtraction: function(node) {
         var element;
         element = node.children.length < 2 ? node : node.children[viewmode()];
-        return element.innerHTML;
+        return element != null ? element.innerHTML : void 0;
       }
     }).bind("sortStart", function() {
       return start_sort_rows();
