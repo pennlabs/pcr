@@ -4,14 +4,12 @@ from collections import defaultdict
 
 from api import pcr
 
-
 #TODO: Make this dynamic
 CURRENT_SEMESTER = '2011C'
 
 #we use this to provide data in the case that a course doesn't have lectures
 #if a course doesn't, it will attempt to show seminar data, else lab data, else recitation data 
 TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
-
 
 class Review(object):
   def __init__(self, raw_review):
@@ -152,14 +150,40 @@ class CourseHistory(object):
     self.id = raw_coursehistory['id']
     self.name = raw_coursehistory['name']
     self.aliases = raw_coursehistory['aliases']
+  
+  @property
+  def code(self):
+    return self.aliases[0]
 
   @property
   def courses(self):
     return [Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses']] 
 
+  def all_names(self):
+    names = set([section.name for course in self.courses for section in course.sections])
+    return names - set(['RECITATION', 'LECTURE', 'Recitation', 'Lecture']) 
+
   @property
   def subtitle(self):
-    return self.aliases[0]
+    precondition = "" if len(self.all_names()) < 1 else "(Most Recently) "  
+    return precondition + self.name 
+    #heuristic clean-up: don't call it various for stupid reasons
+    names = self.all_names()
+    return names.pop() if len(names) == 1 else 'Various'
+
+  @property
+  def description(self):
+    #step 1. find relevant course description
+    #assumption: courses are sorted
+    def first_that(collection, condition):
+      for entry in collection:
+        if condition(entry): 
+          return entry
+      return None
+    
+    course_w_description = first_that(self.courses, lambda x: x.description)
+    description = course_w_description.description if course_w_description else ""
+    return description
 
   def __eq__(self, other):
     return self.id == other.id

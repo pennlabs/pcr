@@ -37,7 +37,6 @@ TABLE_INNER_HIDDEN =  ('semester', 'name', 'section', 'responses') # not sure of
 DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
 DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
-
 def index(request):
   return render_to_response('index.html')
 
@@ -137,15 +136,22 @@ def build_score_table(review_tree, key_map, key_columns, key_fields):
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
 
-  review_tree = defaultdict(list)
+  review_tree = defaultdict(list) #coursehistory => list((section, review))
   for section in instructor.sections:
     coursehistory = section.course.coursehistory
     for review in section.reviews:
       review_tree[coursehistory].append((section, review))
 
-
   def key_map(key):
-    return ['course/%s' % "-".join(key.subtitle.split()), key.subtitle, key.name]
+    # returns [link, course code, name]
+    sections = [sr[0] for sr in review_tree[key]]
+    names = set([section.name for section in sections])
+    if len(names) == 1:
+      name = sections[-1].name
+    else:
+      name = 'Various'
+
+    return ['course/%s' % "-".join(key.code.split()), key.code, name]
 
   scorecard = build_scorecard(review_tree)
   score_table = build_score_table(review_tree, key_map, INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN)
@@ -164,11 +170,8 @@ def course(request, dept, id):
   dept = dept.upper()
   title = '%s-%s' % (dept, id)
   coursehistory = CourseHistory(pcr('coursehistory', title))
-
   review_tree = defaultdict(list)
   for course in coursehistory.courses:
-    if not hasattr(coursehistory, 'description') and course.description:
-      coursehistory.description = course.description
     for section in course.sections:
       for review in section.reviews:
         review_tree[review.instructor].append((section, review))
@@ -190,7 +193,6 @@ def course(request, dept, id):
     'base_dir': '../'
   })
   return render_to_response('course.html', context)
-
 
 def department(request, id):
   raw_depts = pcr('depts')['values']
