@@ -1,19 +1,31 @@
+window.course_rows
+window.toggled_rows
+
 window.toggle_course_row_all = () ->
   if $("th div.fold-icon").hasClass("open")
     $("th div.fold-icon").removeClass("open")
     $("td div.fold-icon").removeClass("open")
     $(".row_hidden").hide()
+    window.toggled_rows = 0
   else
     $("th div.fold-icon").addClass("open")
     $("td div.fold-icon").addClass("open")
     $(".row_hidden").show()
+    window.toggled_rows = window.course_rows
 
 window.toggle_course_row = (index) ->
   $("#row_hidden_#{index}").toggle()
   if $("#row_display_#{index} td div.fold-icon").hasClass("open")
     $("#row_display_#{index} td div.fold-icon").removeClass("open")
+    window.toggled_rows--
   else
     $("#row_display_#{index} td div.fold-icon").addClass("open")
+    window.toggled_rows++
+  
+  if window.toggled_rows == window.course_rows
+    $("th div.fold-icon").addClass("open")
+  else
+    $("th div.fold-icon").removeClass("open")
 
 window.toggle_choose_cols = () ->
   $("#choose-cols").toggle()
@@ -96,6 +108,9 @@ window.end_sort_rows = () ->
 DOCUMENT READY
 ###
 $(document).ready ->
+  window.toggled_rows = 0
+  window.course_rows = parseInt($("#course-table").attr("count"), 10)
+
   initSearchbox("../")
   $("#course-table").tablesorter({
     sortList: [[1,0]],  # starting sort order
