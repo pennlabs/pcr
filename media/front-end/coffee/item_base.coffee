@@ -19,7 +19,7 @@ window.toggle_choose_cols = () ->
   $("#choose-cols").toggle()
 
 window.submit_choose_cols = () ->
-  boxes = $("#choose-cols input[type='checkbox']")  
+  boxes = $("#choose-cols input[type='checkbox']")
   result = []
 
   for i in [0..(boxes.length-1)]
@@ -52,6 +52,9 @@ window.set_viewmode = (view_id) ->
     $(".cell_average").hide()
     $(".cell_recent").show()
   $.cookie("pcr_viewmode", view_id, {path: '/'})
+  $('#course-table').trigger('update')
+
+window.viewmode = -> $.cookie('pcr_viewmode')
 
 window.set_cols = (cols) ->
   # hide all cols
@@ -81,29 +84,33 @@ window.set_cols = (cols) ->
   
 
 window.start_sort_rows = () ->
-  $("#course-table .row_hidden").appendTo($("div#hidden"));
+  $("#course-table .row_hidden").appendTo($("div#hidden"))
 
 window.end_sort_rows = () ->
   $("#course-table .row_display").each(() ->
     index = $(this).attr("id").substr(12)
     $(this).after($("#row_hidden_#{index}"))
   )
-  
+
 ###
 DOCUMENT READY
 ###
 $(document).ready ->
-  initSearchbox("../")  
+  initSearchbox("../")
   $("#course-table").tablesorter({
     sortList: [[1,0]],  # starting sort order
     headers: {          # disable sort on col 0
       0: {
-        sorter: false 
+        sorter: false
       }
-    } 
-  }).bind("sortStart",() -> 
+    },
+    textExtraction: (node) ->
+      #sort by average or recent depending on user's preference
+      element = if node.children.length < 2 then node else node.children[viewmode()]
+      return element.innerHTML
+  }).bind("sortStart",() ->
     start_sort_rows()
-  ).bind("sortEnd",() -> 
+  ).bind("sortEnd",() ->
     end_sort_rows()
   )
 
@@ -115,7 +122,7 @@ $(document).ready ->
   ### setup choose columns ###
   # check if key exists, else create default
   
-  if not $.cookie("pcr_choosecols")?    
+  if not $.cookie("pcr_choosecols")?
     $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
   cols = $.cookie("pcr_choosecols").split(",")
   set_cols(cols)

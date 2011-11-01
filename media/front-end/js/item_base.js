@@ -57,9 +57,13 @@
       $(".cell_average").hide();
       $(".cell_recent").show();
     }
-    return $.cookie("pcr_viewmode", view_id, {
+    $.cookie("pcr_viewmode", view_id, {
       path: '/'
     });
+    return $('#course-table').trigger('update');
+  };
+  window.viewmode = function() {
+    return $.cookie('pcr_viewmode');
   };
   window.set_cols = function(cols) {
     var i, _ref, _results;
@@ -101,6 +105,11 @@
         0: {
           sorter: false
         }
+      },
+      textExtraction: function(node) {
+        var element;
+        element = node.children.length < 2 ? node : node.children[viewmode()];
+        return element.innerHTML;
       }
     }).bind("sortStart", function() {
       return start_sort_rows();
