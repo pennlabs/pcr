@@ -111,7 +111,15 @@ $(document).ready ->
   window.toggled_rows = 0
   window.course_rows = parseInt($("#course-table").attr("count"), 10)
 
+  # init search box
   initSearchbox("../")
+  
+  # setup view mode #
+  if not $.cookie("pcr_viewmode")?
+    $.cookie("pcr_viewmode", "0", {path: '/'})
+  set_viewmode($.cookie("pcr_viewmode"))
+  
+  # init table sorter
   $("#course-table").tablesorter({
     sortList: [[1,0]],  # starting sort order
     headers: {          # disable sort on col 0
@@ -122,21 +130,14 @@ $(document).ready ->
     textExtraction: (node) ->
       #sort by average or recent depending on user's preference
       element = if node.children.length < 2 then node else node.children[viewmode()]
-      return element?.innerHTML
+      return element.innerHTML
   }).bind("sortStart",() ->
     start_sort_rows()
   ).bind("sortEnd",() ->
     end_sort_rows()
   )
-
-  ### setup view mode ###
-  if not $.cookie("pcr_viewmode")?
-    $.cookie("pcr_viewmode", "0", {path: '/'})
-  set_viewmode($.cookie("pcr_viewmode"))
   
-  ### setup choose columns ###
-  # check if key exists, else create default
-  
+  # setup choose columns # 
   if not $.cookie("pcr_choosecols")?
     $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
   cols = $.cookie("pcr_choosecols").split(",")

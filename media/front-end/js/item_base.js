@@ -112,6 +112,12 @@
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
     initSearchbox("../");
+    if (!($.cookie("pcr_viewmode") != null)) {
+      $.cookie("pcr_viewmode", "0", {
+        path: '/'
+      });
+    }
+    set_viewmode($.cookie("pcr_viewmode"));
     $("#course-table").tablesorter({
       sortList: [[1, 0]],
       headers: {
@@ -122,21 +128,13 @@
       textExtraction: function(node) {
         var element;
         element = node.children.length < 2 ? node : node.children[viewmode()];
-        return element != null ? element.innerHTML : void 0;
+        return element.innerHTML;
       }
     }).bind("sortStart", function() {
       return start_sort_rows();
     }).bind("sortEnd", function() {
       return end_sort_rows();
     });
-    /* setup view mode */
-    if (!($.cookie("pcr_viewmode") != null)) {
-      $.cookie("pcr_viewmode", "0", {
-        path: '/'
-      });
-    }
-    set_viewmode($.cookie("pcr_viewmode"));
-    /* setup choose columns */
     if (!($.cookie("pcr_choosecols") != null)) {
       $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {
         path: '/'
