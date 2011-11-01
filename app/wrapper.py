@@ -160,12 +160,12 @@ class CourseHistory(object):
     return [Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses']] 
 
   def all_names(self):
-    names = set([section.name for course in self.courses for section in course.sections])
+    names = set([section.name.strip() for course in self.courses for section in course.sections])
     return names - set(['RECITATION', 'LECTURE', 'Recitation', 'Lecture']) 
 
   @property
   def subtitle(self):
-    precondition = "" if len(self.all_names()) < 1 else "(Most Recently) "  
+    precondition = "" if len(self.all_names()) <= 1 else "(Most Recently) "
     return precondition + self.name 
     #heuristic clean-up: don't call it various for stupid reasons
     names = self.all_names()
