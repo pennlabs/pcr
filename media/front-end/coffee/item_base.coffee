@@ -1,19 +1,31 @@
+window.course_rows
+window.toggled_rows
+
 window.toggle_course_row_all = () ->
   if $("th div.fold-icon").hasClass("open")
     $("th div.fold-icon").removeClass("open")
     $("td div.fold-icon").removeClass("open")
     $(".row_hidden").hide()
+    window.toggled_rows = 0
   else
     $("th div.fold-icon").addClass("open")
     $("td div.fold-icon").addClass("open")
     $(".row_hidden").show()
+    window.toggled_rows = window.course_rows
 
 window.toggle_course_row = (index) ->
   $("#row_hidden_#{index}").toggle()
   if $("#row_display_#{index} td div.fold-icon").hasClass("open")
     $("#row_display_#{index} td div.fold-icon").removeClass("open")
+    window.toggled_rows--
   else
     $("#row_display_#{index} td div.fold-icon").addClass("open")
+    window.toggled_rows++
+  
+  if window.toggled_rows == window.course_rows
+    $("th div.fold-icon").addClass("open")
+  else
+    $("th div.fold-icon").removeClass("open")
 
 window.toggle_choose_cols = () ->
   $("#choose-cols").toggle()
@@ -96,7 +108,18 @@ window.end_sort_rows = () ->
 DOCUMENT READY
 ###
 $(document).ready ->
+  window.toggled_rows = 0
+  window.course_rows = parseInt($("#course-table").attr("count"), 10)
+
+  # init search box
   initSearchbox("../")
+  
+  # setup view mode #
+  if not $.cookie("pcr_viewmode")?
+    $.cookie("pcr_viewmode", "0", {path: '/'})
+  set_viewmode($.cookie("pcr_viewmode"))
+  
+  # init table sorter
   $("#course-table").tablesorter({
     sortList: [[1,0]],  # starting sort order
     headers: {          # disable sort on col 0
@@ -107,21 +130,14 @@ $(document).ready ->
     textExtraction: (node) ->
       #sort by average or recent depending on user's preference
       element = if node.children.length < 2 then node else node.children[viewmode()]
-      return element?.innerHTML
+      return element.innerHTML
   }).bind("sortStart",() ->
     start_sort_rows()
   ).bind("sortEnd",() ->
     end_sort_rows()
   )
-
-  ### setup view mode ###
-  if not $.cookie("pcr_viewmode")?
-    $.cookie("pcr_viewmode", "0", {path: '/'})
-  set_viewmode($.cookie("pcr_viewmode"))
   
-  ### setup choose columns ###
-  # check if key exists, else create default
-  
+  # setup choose columns # 
   if not $.cookie("pcr_choosecols")?
     $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
   cols = $.cookie("pcr_choosecols").split(",")
