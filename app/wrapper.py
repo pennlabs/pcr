@@ -163,7 +163,7 @@ class CourseHistory(object):
 
   @property
   def subtitle(self):
-    precondition = "" if len(self.all_names()) <= 1 else "(Most Recently) "
+    precondition = "" if len(self.all_names()) <= 1 else "(Recent Example) "
     return precondition + self.name 
     #heuristic clean-up: don't call it various for stupid reasons
     names = self.all_names()
