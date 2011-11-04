@@ -127,7 +127,16 @@
       },
       textExtraction: function(node) {
         var element;
-        element = node.children.length < 2 ? node : node.children[viewmode()];
+        element = (function() {
+          switch (node.children.length) {
+            case 0:
+              return node;
+            case 1:
+              return node.children[0];
+            default:
+              return node.children[viewmode()];
+          }
+        })();
         return element.innerHTML;
       }
     }).bind("sortStart", function() {

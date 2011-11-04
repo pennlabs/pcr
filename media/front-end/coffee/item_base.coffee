@@ -129,7 +129,10 @@ $(document).ready ->
     },
     textExtraction: (node) ->
       #sort by average or recent depending on user's preference
-      element = if node.children.length < 2 then node else node.children[viewmode()]
+      element = switch node.children.length
+        when 0 then node #course name, for example
+        when 1 then node.children[0] #<a href...> in instructor
+        else node.children[viewmode()]#recent/average filter
       return element.innerHTML
   }).bind("sortStart",() ->
     start_sort_rows()
