@@ -245,14 +245,14 @@ def autocomplete_data(request):
     return "%s%s%03d" % (code, sep, int(num))
   courses_from_api = pcr('coursehistories')['values']
   courses = [{"category": "Courses",
-              "title": alias_to_code(course['aliases'][0], ' '),
+              "title": alias_to_code(alias, ' '),
               "desc": course['name'],
-              "url": "course/" + alias_to_code(course['aliases'][0]),
+              "url": "course/" + alias_to_code(alias),
               "keywords": " ".join([alias_to_code(alias.lower(), sep) \
-                            for sep in ['', '-', ' '] for alias in course['aliases']] \
+                            for sep in ['', '-', ' ']] \
                         + [course['name'].lower()])
-             } for course in courses_from_api if len(course['aliases']) > 0]
-  
+             } for course in courses_from_api 
+               for alias in course['aliases']]
 
   #2. Hit API up for instructor data, push into nop's desired format
   instructors_from_api = pcr('instructors')['values']  
