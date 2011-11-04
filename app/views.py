@@ -100,11 +100,14 @@ def get_relevant_columns(review_tree):
 
 def build_section_table(key, review_tree, strings, fields, columns):
   section_body = []
+  def format_comments(comment):
+    return (comment or "").replace("\n", "<br />")
+
   for section, review in sorted(review_tree[key], key=lambda sr_pair: sr_pair[0].semester, reverse=True):
     section_body.append(
         [prettify_semester(section.semester), section.name, section.sectionnum, "%s/%s" % (review.num_reviewers, review.num_students)]
         + parse_review(review, columns)
-        + [review.comments] 
+        + [format_comments(review.comments)] 
         )
   return Table(TABLE_INNER + strings + ('comments',), TABLE_INNER_HIDDEN + fields + ('comments',), section_body)
 
