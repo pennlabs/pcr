@@ -8,8 +8,8 @@ urlpatterns = patterns('',
   (r'^department/(\w+)$', department),
   (r'^course/(\w+)-(\w+)$', course),
 
-  (r'^faq/$', faq),
-  (r'^about/$', about),
+  (r'^(faq)/$', static),
+  (r'^(about)/$', static),
 
   (r'^autocomplete_data.json$', autocomplete_data),
  

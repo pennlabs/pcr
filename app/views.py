@@ -2,6 +2,7 @@ from __future__ import division
 from collections import defaultdict, namedtuple
 import json
 from itertools import groupby
+import urllib
 
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -17,8 +18,8 @@ from wrapper import Instructor, CourseHistory
 
 
 RATING_API = ORDER
-RATING_STRINGS = tuple([PRETTIFY_REVIEWBITS[v] for v in ORDER])
-RATING_FIELDS = tuple(["".join(words.split()) for words in ORDER])
+RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS[v] for v in ORDER)
+RATING_FIELDS = tuple("".join(words.split()) for words in ORDER)
 
 SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
 SCORECARD_FIELDS = ('course', 'instructor', 'difficulty') 
@@ -37,8 +38,10 @@ TABLE_INNER_HIDDEN =  ('semester', 'name', 'section', 'responses') # not sure of
 DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
 DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
+
 def index(request):
   return render_to_response('index.html')
+
 
 def json_response(result_dict):
   return HttpResponse(content=json.dumps(result_dict))
@@ -47,6 +50,7 @@ def json_response(result_dict):
 def prettify_semester(semester):
   return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
 
+
 def parse_attr(review, attr):
   try:
     val = getattr(review, attr)
@@ -54,6 +58,7 @@ def parse_attr(review, attr):
     return ERROR
   else:
     return val
+
 
 def parse_review(review, attrs):
   return [parse_attr(review, attr) for attr in attrs]  
@@ -86,16 +91,12 @@ def build_scorecard(review_tree):
 def get_relevant_columns(review_tree):
   '''Filter columns to include only relevant data.
   In the case that a course form changes over time, get the union of all columns.'''
-  sections, reviews = zip(*sum(review_tree.values(), []))
-  strings, fields, columns = tuple(), tuple(), tuple()
+  _, reviews = zip(*sum(review_tree.values(), []))
   for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
     for review in reviews:
       if hasattr(review, column):
-        strings += (string,)
-        fields += (field,)
-        columns += (column,)
+      	yield (string, field, column)
         break
-  return strings, fields, columns
 
 
 def build_section_table(key, review_tree, strings, fields, columns):
@@ -113,8 +114,8 @@ def build_section_table(key, review_tree, strings, fields, columns):
 
 
 def build_score_table(review_tree, key_map, key_columns, key_fields):
-  strings, fields, columns = get_relevant_columns(review_tree)
-  
+  strings, fields, columns = zip(*get_relevant_columns(review_tree))
+
   body = []
   for row_id, key in enumerate(sorted(review_tree)):
     sr_pairs = review_tree[key]
@@ -270,20 +271,17 @@ def autocomplete_data(request):
   #3. Respond in JSON
   return json_response({"courses":courses, "instructors":instructors})
 
+
 def browse(request):
   context = {
     'base_dir': "../"
   } 
   return render_to_response('browse.html', context)
 
-def faq(request):
-  context = {
-    'base_dir': "../"
-  } 
-  return render_to_response('faq.html', context)
 
-def about(request):
+def static(request, page):
   context = {
-    'base_dir': "../"
-  } 
-  return render_to_response('about.html', context)
+    'base_dir': "../",
+    'content': pcr('pcrsite-static', page)
+  }
+  return render_to_response('static.html', context)

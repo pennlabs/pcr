@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import *
 
-from app import urls
-
+import app.urls
 
 urlpatterns = patterns('',
     # Example:
@@ -10,5 +9,5 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    (r'^', include(urls)),
+    (r'^', include(app.urls)),
 )

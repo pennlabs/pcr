@@ -4,12 +4,15 @@ from collections import defaultdict
 
 from api import pcr
 
+
 #TODO: Make this dynamic
 CURRENT_SEMESTER = '2011C'
 
 #we use this to provide data in the case that a course doesn't have lectures
 #if a course doesn't, it will attempt to show seminar data, else lab data, else recitation data 
+#TODO: use this
 TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
+
 
 class Review(object):
   def __init__(self, raw_review):
@@ -28,6 +31,7 @@ class Review(object):
   def __repr__(self):
     return "Review(%s, %s)" % (self.raw['section']['id'], self.raw['instructor']['id'])
 
+
 class Instructor(object):
   def __init__(self, raw_instructor):
     self.name = raw_instructor['name']
@@ -39,31 +43,24 @@ class Instructor(object):
 
   @property
   def reviews(self):
-    return [Review(raw_review) for raw_review in pcr('instructor', self.id, 'reviews')['values']]
+    for raw_review in pcr('instructor', self.id, 'reviews')['values']:
+      yield Review(raw_review) 
   
   @property
   def sections(self):
-    raw_sections = pcr('instructor', self.id, 'sections')['values'] 
-    for type_ in TYPE_RANK:
-      sections = [Section(raw_section) for raw_section in raw_sections]
-      if len(sections) > 0:
-        break
-    sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
-    sections.sort(key=lambda section: section.semester, reverse=True)
-    return sections
+    return set(Section(raw_section) for raw_section
+        in pcr('instructor', self.id, 'sections')['values']
+        if raw_section['course']['semester'] != CURRENT_SEMESTER)
 
   @property
   def coursehistories(self):
-    return [section.course.coursehistory for section in self.sections]
-
-  @property
-  def most_recent(self):
-    return self.sections[-1]
+    for section in self.sections:
+      yield section.course.coursehistory
 
   def get_sections(self, coursehistory):
-    sections = filter(lambda section: section.course.coursehistory == coursehistory, self.sections)
-    sections.sort(key=lambda section: section.semester, reverse=True)
-    return sections
+    for section in self.sections:
+      if section.course.coursehistory == coursehistory:
+      	yield section
 
   def recent(self, attr):
     return recent(self.reviews, attr)
@@ -87,13 +84,15 @@ class Section(object):
 
   @property
   def instructors(self):
-    return [Instructor(raw_instructor) for raw_instructor in self.raw['instructors']]
+    for raw_instructor in self.raw['instructors']:
+      yield Instructor(raw_instructor)
 
   @property
   def reviews(self):
     #while most sections will only have on review, it's possible that a section  has multiple
     #professors, in which case it will have multiple reviews
-    return [Review(raw_review) for raw_review in pcr(*(self.raw['path'].split('/') + ['reviews']))['values']]
+    for raw_review in pcr(*(self.raw['path'].split('/') + ['reviews']))['values']:
+    	yield Review(raw_review)
 
   @property
   def course(self):
@@ -125,18 +124,13 @@ class Course(object):
 
   @property
   def instructors(self):
-    return set([instructor for section in self.sections for instructor in section.instructors])
+    return set(instructor for section in self.sections for instructor in section.instructors)
 
   @property
   def sections(self):
-    raw_sections = pcr('course', self.id, 'sections')['values']
-    for type_ in TYPE_RANK:
-      sections = [Section(raw_section) for raw_section in raw_sections]
-      if len(sections) > 0:
-        break
-    sections = filter(lambda section: section.semester != CURRENT_SEMESTER, sections)
-    sections.sort(key=lambda section: section.semester, reverse=True)
-    return sections
+    return set(Section(raw_section) for raw_section
+        in pcr('course', self.id, 'sections')['values']
+        if raw_section['course']['semester'] != CURRENT_SEMESTER)
 
   def __eq__(self, other):
     return self.id == other.id
@@ -155,7 +149,7 @@ class CourseHistory(object):
 
   @property
   def courses(self):
-    return [Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses']] 
+    return set(Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses'])
 
   def all_names(self):
     names = set([section.name.strip() for course in self.courses for section in course.sections])
@@ -186,22 +180,9 @@ class CourseHistory(object):
   def __eq__(self, other):
     return self.id == other.id
 
-  def recent(self, attr):
-    return 4.0#average([review for section in self.most_recent.sections for review in section.reviews], attr)
-    
   @property
   def instructors(self):
-    #so hacky
-    unique = set()
-    instructors = [instructor for course in self.courses for instructor in course.instructors]
-    while instructors:
-      instructor = instructors.pop()
-      if instructor:
-        unique.add(instructor)
-        for o, other in enumerate(instructors):
-          if other and instructor.id == other.id:
-            instructors[o] = 0
-    return unique
+    return set(instructor for course in self.courses for instructor in course.instructors)
   
   def __hash__(self):
     return hash(self.id)

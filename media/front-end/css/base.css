@@ -399,3 +399,31 @@ input {
 div#hidden {
 	display:none;
 }
+
+
+/*
+We used to have different templates for faq and about but merged them into static.
+The result is this, which is a little unclean, but it works.
+*/
+#staff span.title {
+  color:#636363;
+  font-style:italic;
+}
+#faqs p.question {
+  color: #000080;
+  font-weight: bold;
+
+  margin-bottom:8px;
+}
+#faqs p.answer {
+  margin-bottom:8px;
+}
+#faqs a.backtotop {
+  font-size:10px;    }
+#faqs div {      margin-bottom: 25px;
+}
+#faqlinks ul {
+  list-style: none inside none;    }
+#faqlinks li {      list-style-type: none;
+  list-style-image: none;
+  margin-bottom: 10px;
