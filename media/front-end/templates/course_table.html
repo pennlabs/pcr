@@ -8,7 +8,8 @@
 			</th>
 			{% for cell in table.head|slice:"2:-1" %}
 			<th scope="col" class="col_{{cell.0}}">
-				<span class="course-header">{{cell.1}}</span>
+				<div class="sort-icon"></div>
+				<span class="th-text">{{cell.1}}</span>				
 			</th>
 			{% endfor %}
 		</tr>
