@@ -21,26 +21,14 @@
 			</td>
 			<td class="col_{{row.2.0}}">
 				<a href="../{{row.1.1}}" onclick="toggle_course_row({{forloop.counter0}})">{{row.2.1}}</a>
+			</td>			
+			<td class="col_{{row.3.0}}">{{row.3.1}}</td>
+			{% for cell in row|slice:"4:-1" %}
+			<td class="col_{{cell.0}}">
+				<span class="cell_average">{{cell.1.0|floatformat:2}}</span>
+				<span class="cell_recent">{{cell.1.1|floatformat:2}}</span>
 			</td>
-			
-			{% if instructor %}
-				<td class="col_{{row.3.0}}">{{row.3.1}}</td>
-				{% for cell in row|slice:"4:-1" %}
-				<td class="col_{{cell.0}}">
-					<span class="cell_average">{{cell.1.0|floatformat:2}}</span>
-					<span class="cell_recent">{{cell.1.1|floatformat:2}}</span>
-				</td>
-				{% endfor %}
-			{% else %}
-				<td class="col_{{row.3.0}}">{{row.3.1}}</td>
-				{% for cell in row|slice:"4:-1" %}
-				<td class="col_{{cell.0}}">
-					<span class="cell_average">{{cell.1.0|floatformat:2}}</span>
-					<span class="cell_recent">{{cell.1.1|floatformat:2}}</span>
-				</td>
-				{% endfor %}
-			{% endif %}
-		
+			{% endfor %}
 		
 		</tr>
 		<tr class="row_hidden" id="row_hidden_{{forloop.counter0}}">
