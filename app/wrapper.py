@@ -1,8 +1,7 @@
 from __future__ import division
-
 from collections import defaultdict
-
 from api import pcr
+from helper import capitalize
 
 
 #TODO: Make this dynamic
@@ -159,10 +158,7 @@ class CourseHistory(object):
   @property
   def subtitle(self):
     precondition = "" if len(self.all_names()) <= 1 else "(Recent Example) "
-    return precondition + self.name 
-    #heuristic clean-up: don't call it various for stupid reasons
-    names = self.all_names()
-    return names.pop() if len(names) == 1 else 'Various'
+    return capitalize(precondition + self.name)
 
   @property
   def description(self):

@@ -1,4 +1,3 @@
-
 AXES = ('course', 'instructor', 'difficulty')
 
 #Helper function to get sections table
@@ -23,3 +22,11 @@ SECTION = ('id', 'instructors',)
 def build_section(section):
   global SECTION
   return dict(((field, section[field]) for field in SECTION))
+
+def capitalize(name):
+  """Capitalize but account for roman numerals, so no "Calculus Iii" """
+  roman_numerals = set(['I', 'II', 'III', 'IV']) 
+  def cap_word(word): 
+    return word.upper() if word.upper() in roman_numerals else word.capitalize()
+
+  return " ".join(cap_word(word) for word in name.split(" "))

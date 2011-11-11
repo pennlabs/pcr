@@ -15,7 +15,7 @@ from templatetags.table import Table
 from api import pcr
 from average import average, ERROR
 from wrapper import Instructor, CourseHistory
-
+from helper import capitalize
 
 RATING_API = ORDER
 RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS[v] for v in ORDER)
@@ -91,7 +91,7 @@ def build_scorecard(review_tree):
 def get_relevant_columns(review_tree):
   '''Filter columns to include only relevant data.
   In the case that a course form changes over time, get the union of all columns.'''
-  _, reviews = zip(*sum(review_tree.values(), []))
+  sections, reviews = zip(*sum(review_tree.values(), []))
   for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
     for review in reviews:
       if hasattr(review, column):
@@ -152,7 +152,7 @@ def instructor(request, id):
       # returns [link, course code, name]
       sections = [sr[0] for sr in review_tree[key]]
       names = set([section.name for section in sections])
-      name = names.pop() if len(names) == 1 else 'Various'
+      name = capitalize(names.pop() if len(names) == 1 else 'Various')
       return ['course/%s' % "-".join(key.code.split()), key.code, name]
 
     scorecard = build_scorecard(review_tree)
@@ -191,7 +191,7 @@ def course(request, dept, id):
     def key_map(instructor):
       sections = [sr[0] for sr in review_tree[instructor]]
       names = set([section.name for section in sections])
-      name = names.pop() if len(names) == 1 else 'Various'
+      name = capitalize(names.pop() if len(names) == 1 else 'Various')
       return ['instructor/%s' % instructor.id, instructor.name, name]
 
     scorecard = build_scorecard(review_tree)
