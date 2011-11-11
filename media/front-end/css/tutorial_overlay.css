@@ -15,7 +15,7 @@ div#tutorial_overlay {
 }
 
 .tut-elem {
-  
+  position: absolute;
 }
 .tut-elem p {
   line-height: 150%;
@@ -26,8 +26,7 @@ div#tutorial_overlay {
   width: 400px;
   height: 240px;
   
-  float:left;
-  margin-left:-40px;
+  left:-40px;
 }
 #tut-viewmode .inner {
   margin-top:15px;
@@ -39,8 +38,7 @@ div#tutorial_overlay {
   width: 300px;
   height: 240px;
   
-  float:right;
-  margin-right:-20px;
+  right:-20px;
 }
 #tut-choosecols .inner {
   margin-top:15px;

@@ -105,8 +105,8 @@ window.end_sort_rows = () ->
   )
 
 window.setup_tutorial_overlay = () ->
-  $("#tut-viewmode").css("margin-top", $("#settings-viewmode").position().top-235);
-  $("#tut-choosecols").css("margin-top", $("#settings-others").position().top-235);
+  $("#tut-viewmode").css("top", $("#settings-viewmode").offset().top-235);
+  $("#tut-choosecols").css("top", $("#settings-other").offset().top-235);
 
 ###
 DOCUMENT READY

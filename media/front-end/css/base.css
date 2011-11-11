@@ -5,6 +5,10 @@ th, td {
 	vertical-align: middle;
 }
 
+div {
+	position:relative;
+}
+
 body {
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:12px;
