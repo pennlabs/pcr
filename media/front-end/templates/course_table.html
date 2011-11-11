@@ -4,7 +4,7 @@
 	<thead>
 		<tr>
 			<th scope="col" class="col_icon">
-				<div class="fold-icon" onclick="toggle_course_row_all()"></div>
+				<div class="fold-icon" onclick="toggle_course_row_all()" title="Expand All"></div>
 			</th>
 			{% for cell in table.head|slice:"2:-1" %}
 			<th scope="col" class="col_{{cell.0}}">
@@ -18,7 +18,7 @@
 		{% for row in table.body %}
 		<tr id="row_display_{{forloop.counter0}}" class="row_display" onclick="toggle_course_row({{forloop.counter0}})">
 			<td class="col_icon">
-				<div class="fold-icon"></div>
+				<div class="fold-icon" title="Expand"></div>
 			</td>
 			<td class="col_{{row.2.0}}">
 				<a href="../{{row.1.1}}" onclick="toggle_course_row({{forloop.counter0}})">{{row.2.1}}</a>

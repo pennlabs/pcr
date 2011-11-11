@@ -1,12 +1,12 @@
 <div id="content-settings" class="grid_12">
-  <div id="settings-viewmode" class="grid_4 suffix_4 alpha">
-    View:&nbsp;
-    <a id="view_average" onclick="set_viewmode(0)" class="selected">Average</a>
-    &nbsp;|&nbsp;
-    <a id="view_recent" onclick="set_viewmode(1)">Recent</a>
+  <div id="settings-viewmode" class="grid_4 alpha">
+    <span class="label">View:&nbsp;</span>
+    <span id="view_average" class="button selected" onclick="set_viewmode(0)">Average</span>
+    <span id="view_recent" class="button" onclick="set_viewmode(1)">Recent</span>
   </div>
-  <div style="text-align:right" class="grid_4 omega">
-    <a onclick="toggle_choose_cols()">Choose Columns</a>
+  <div id="settings-other" class="grid_8 omega">
+    <span class="button" onclick="toggle_choose_cols()">&nbsp;<strong>?</strong>&nbsp;</span>
+    <span class="button" onclick="toggle_choose_cols()">Choose Columns</span>
   </div>
 </div>
 <div class="clear"></div>

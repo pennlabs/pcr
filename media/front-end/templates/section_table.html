@@ -4,7 +4,7 @@
 	<tbody>		
 		<tr>
 			<td class="sec_th col_icon">
-				<div></div>
+				<div title="Comments"></div>
 			</th>
 			{% for cell in table.head %}
 			<td class="sec_th col_{{cell.0}}">
@@ -18,6 +18,7 @@
 			<td class="col_icon">
 				{% if row|last|last %}
 				<div class="comment-icon"
+					title="See Comments"
 					onclick="$('#row_hidden_{{row_id}} .sec_row_hidden_{{forloop.counter0}}').toggle()">
 				</div>
 				{% endif %}
