@@ -57,7 +57,7 @@ def parse_attr(review, attr):
   except:
     return ERROR
   else:
-    return val
+    return "%.2f" % val
 
 
 def parse_review(review, attrs):
