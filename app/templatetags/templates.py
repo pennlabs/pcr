@@ -32,3 +32,7 @@ def choose_cols_box(context, fields):
     'fields1': fields[half:-1]
   }
   return render_to_string('templates/choose_cols_box.html', new_context)
+
+@tag(register, [])
+def tutorial_overlay(context):
+  return render_to_string('templates/tutorial_overlay.html')

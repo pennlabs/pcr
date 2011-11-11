@@ -104,6 +104,10 @@
       return $(this).after($("#row_hidden_" + index));
     });
   };
+  window.setup_tutorial_overlay = function() {
+    $("#tut-viewmode").css("margin-top", $("#settings-viewmode").position().top - 235);
+    return $("#tut-choosecols").css("margin-top", $("#settings-others").position().top - 235);
+  };
   /*
   DOCUMENT READY
   */
@@ -155,7 +159,8 @@
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
     }
     if ($("#course-table").attr("count") === "1") {
-      return toggle_course_row_all();
+      toggle_course_row_all();
     }
+    return window.setup_tutorial_overlay();
   });
 }).call(this);

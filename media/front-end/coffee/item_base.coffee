@@ -104,6 +104,10 @@ window.end_sort_rows = () ->
     $(this).after($("#row_hidden_#{index}"))
   )
 
+window.setup_tutorial_overlay = () ->
+  $("#tut-viewmode").css("margin-top", $("#settings-viewmode").position().top-235);
+  $("#tut-choosecols").css("margin-top", $("#settings-others").position().top-235);
+
 ###
 DOCUMENT READY
 ###
@@ -152,3 +156,5 @@ $(document).ready ->
   # auto-expand if there's only one item in course-table
   if $("#course-table").attr("count") == "1"
     toggle_course_row_all()
+    
+  window.setup_tutorial_overlay();
