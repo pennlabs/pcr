@@ -147,56 +147,74 @@ def instructor(request, id):
       if review.instructor == instructor:
         review_tree[coursehistory].append((section, review))
 
-  def key_map(key):
-    # returns [link, course code, name]
-    sections = [sr[0] for sr in review_tree[key]]
-    names = set([section.name for section in sections])
-    name = names.pop() if len(names) == 1 else 'Various'
-    return ['course/%s' % "-".join(key.code.split()), key.code, name]
+  if len(review_tree) > 0:
+    def key_map(key):
+      # returns [link, course code, name]
+      sections = [sr[0] for sr in review_tree[key]]
+      names = set([section.name for section in sections])
+      name = names.pop() if len(names) == 1 else 'Various'
+      return ['course/%s' % "-".join(key.code.split()), key.code, name]
 
-  scorecard = build_scorecard(review_tree)
-  score_table = build_score_table(review_tree, key_map, INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN)
+    scorecard = build_scorecard(review_tree)
+    score_table = build_score_table(review_tree, key_map, INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN)
 
-  context = RequestContext(request, {
-    'instructor': instructor,
-    'scorecard': scorecard,
-    'score_table': score_table,
-    'base_dir': '../'
-  })
-
-  return render_to_response('instructor.html', context)
+    context = RequestContext(request, {
+      'instructor': instructor,
+      'scorecard': scorecard,
+      'score_table': score_table,
+      'base_dir': '../'
+    })
+    return render_to_response('instructor.html', context)
+  else:
+    context = RequestContext(request, {
+      'instructor': instructor,
+      'error': True,
+      'base_dir': '../'
+    })
+    return render_to_response('instructor-error.html', context)
 
 
 def course(request, dept, id):
   dept = dept.upper()
   title = '%s-%s' % (dept, id)
   coursehistory = CourseHistory(pcr('coursehistory', title))
+
   review_tree = defaultdict(list)
   for course in coursehistory.courses:
     for section in course.sections:
       for review in section.reviews:
         review_tree[review.instructor].append((section, review))
 
-  def key_map(instructor):
-    sections = [sr[0] for sr in review_tree[instructor]]
-    names = set([section.name for section in sections])
-    name = names.pop() if len(names) == 1 else 'Various'
-    return ['instructor/%s' % instructor.id, instructor.name, name]
+  aliases = coursehistory.aliases - set([title])
 
-  scorecard = build_scorecard(review_tree)
-  score_table = build_score_table(review_tree, key_map, COURSE_OUTER, COURSE_OUTER_HIDDEN)
+  if len(review_tree.values()) > 0:
+    def key_map(instructor):
+      sections = [sr[0] for sr in review_tree[instructor]]
+      names = set([section.name for section in sections])
+      name = names.pop() if len(names) == 1 else 'Various'
+      return ['instructor/%s' % instructor.id, instructor.name, name]
 
-  aliases = coursehistory.aliases
-  aliases.remove(title)
-  context = RequestContext(request, {
-    'aliases': aliases,
-    'title': "%s %s" % (dept, id),
-    'course': coursehistory,
-    'scorecard': scorecard,
-    'score_table': score_table,
-    'base_dir': '../'
-  })
-  return render_to_response('course.html', context)
+    scorecard = build_scorecard(review_tree)
+    score_table = build_score_table(review_tree, key_map, COURSE_OUTER, COURSE_OUTER_HIDDEN)
+
+    context = RequestContext(request, {
+      'aliases': aliases,
+      'title': "%s %s" % (dept, id),
+      'course': coursehistory,
+      'scorecard': scorecard,
+      'score_table': score_table,
+      'base_dir': '../'
+    })
+    return render_to_response('course.html', context)
+  else:
+    context = RequestContext(request, {
+      'aliases': aliases,
+      'title': "%s %s" % (dept, id),
+      'course': coursehistory,
+      'error': True,
+      'base_dir': '../'
+    })
+    return render_to_response('course-error.html', context)
 
 def department(request, id):
   raw_depts = pcr('depts')['values']

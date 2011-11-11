@@ -107,14 +107,14 @@ class Course(object):
     self.raw = raw_course
     self.semester = raw_course['semester']
     self.id = raw_course['id']
-    self.aliases = [" ".join(alias.split('-')) for alias in raw_course['aliases']]
+    self.aliases = set(" ".join(alias.split('-')) for alias in raw_course['aliases'])
     self.description = raw_course['description']
   
   @property
   def name(self):
-    names = set([section.name for section in self.sections])
+    names = set(section.name for section in self.sections)
     if len(names) == 1:
-      return self.sections[-1].name
+      return names.pop()
     else:
       return 'Various'
 
@@ -141,11 +141,12 @@ class CourseHistory(object):
     self.raw = raw_coursehistory
     self.id = raw_coursehistory['id']
     self.name = raw_coursehistory['name']
-    self.aliases = raw_coursehistory['aliases']
+    self.aliases = set(raw_coursehistory['aliases'])
   
   @property
   def code(self):
-    return self.aliases[0]
+    #TODO: Returns an arbtirary alias
+    return iter(self.aliases).next()
 
   @property
   def courses(self):
