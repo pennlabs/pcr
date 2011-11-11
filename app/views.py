@@ -14,7 +14,7 @@ from templatetags.table import Table
 from api import pcr
 from average import average, ERROR
 from wrapper import Instructor, CourseHistory
-
+from helper import capitalize
 
 RATING_API = ORDER
 RATING_STRINGS = tuple([PRETTIFY_REVIEWBITS[v] for v in ORDER])
@@ -150,7 +150,8 @@ def instructor(request, id):
     # returns [link, course code, name]
     sections = [sr[0] for sr in review_tree[key]]
     names = set([section.name for section in sections])
-    name = names.pop() if len(names) == 1 else 'Various'
+    name = capitalize(names.pop() if len(names) == 1 else 'Various')
+
     return ['course/%s' % "-".join(key.code.split()), key.code, name]
 
   scorecard = build_scorecard(review_tree)
@@ -165,7 +166,6 @@ def instructor(request, id):
 
   return render_to_response('instructor.html', context)
 
-
 def course(request, dept, id):
   dept = dept.upper()
   title = '%s-%s' % (dept, id)
@@ -179,7 +179,7 @@ def course(request, dept, id):
   def key_map(instructor):
     sections = [sr[0] for sr in review_tree[instructor]]
     names = set([section.name for section in sections])
-    name = names.pop() if len(names) == 1 else 'Various'
+    name = capitalize(names.pop() if len(names) == 1 else 'Various')
     return ['instructor/%s' % instructor.id, instructor.name, name]
 
   scorecard = build_scorecard(review_tree)
