@@ -58,13 +58,13 @@
   };
   window.set_viewmode = function(view_id) {
     if (("" + view_id) === "0") {
-      $("a#view_average").addClass("selected");
-      $("a#view_recent").removeClass("selected");
+      $("#view_average").addClass("selected");
+      $("#view_recent").removeClass("selected");
       $(".cell_average").show();
       $(".cell_recent").hide();
     } else {
-      $("a#view_average").removeClass("selected");
-      $("a#view_recent").addClass("selected");
+      $("#view_average").removeClass("selected");
+      $("#view_recent").addClass("selected");
       $(".cell_average").hide();
       $(".cell_recent").show();
     }
@@ -103,6 +103,10 @@
       index = $(this).attr("id").substr(12);
       return $(this).after($("#row_hidden_" + index));
     });
+  };
+  window.setup_tutorial_overlay = function() {
+    $("#tut-viewmode").css("top", $("#settings-viewmode").offset().top - 235);
+    return $("#tut-choosecols").css("top", $("#settings-other").offset().top - 235);
   };
   /*
   DOCUMENT READY
@@ -155,7 +159,8 @@
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
     }
     if ($("#course-table").attr("count") === "1") {
-      return toggle_course_row_all();
+      toggle_course_row_all();
     }
+    return window.setup_tutorial_overlay();
   });
 }).call(this);

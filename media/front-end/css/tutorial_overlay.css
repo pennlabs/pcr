@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+
+div#tutorial_overlay {
+  display:none;
+  
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  
+  background:url(../image/bg-pix-75.png) repeat;
+  color:#FFF;
+}
+
+.tut-elem {
+  position: absolute;
+}
+.tut-elem p {
+  line-height: 150%;
+}
+
+#tut-viewmode {
+  background:url(../image/callout-arrow-left.png) no-repeat left;
+  width: 400px;
+  height: 240px;
+  
+  left:-40px;
+}
+#tut-viewmode .inner {
+  margin-top:15px;
+  margin-left:55px;
+}
+
+#tut-choosecols {
+  background:url(../image/callout-arrow-right.png) no-repeat right;
+  width: 300px;
+  height: 240px;
+  
+  right:-20px;
+}
+#tut-choosecols .inner {
+  margin-top:15px;
+  margin-right:55px;
+}

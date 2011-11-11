@@ -54,13 +54,13 @@ window.cancel_choose_cols = () ->
 # 0=average (default), 1=recent
 window.set_viewmode = (view_id) ->
   if "#{view_id}" == "0"
-    $("a#view_average").addClass("selected")
-    $("a#view_recent").removeClass("selected")
+    $("#view_average").addClass("selected")
+    $("#view_recent").removeClass("selected")
     $(".cell_average").show()
     $(".cell_recent").hide()
   else
-    $("a#view_average").removeClass("selected")
-    $("a#view_recent").addClass("selected")
+    $("#view_average").removeClass("selected")
+    $("#view_recent").addClass("selected")
     $(".cell_average").hide()
     $(".cell_recent").show()
   $.cookie("pcr_viewmode", view_id, {path: '/'})
@@ -103,6 +103,10 @@ window.end_sort_rows = () ->
     index = $(this).attr("id").substr(12)
     $(this).after($("#row_hidden_#{index}"))
   )
+
+window.setup_tutorial_overlay = () ->
+  $("#tut-viewmode").css("top", $("#settings-viewmode").offset().top-235);
+  $("#tut-choosecols").css("top", $("#settings-other").offset().top-235);
 
 ###
 DOCUMENT READY
@@ -152,3 +156,5 @@ $(document).ready ->
   # auto-expand if there's only one item in course-table
   if $("#course-table").attr("count") == "1"
     toggle_course_row_all()
+    
+  window.setup_tutorial_overlay();

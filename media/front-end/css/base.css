@@ -5,6 +5,10 @@ th, td {
 	vertical-align: middle;
 }
 
+div {
+	position:relative;
+}
+
 body {
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:12px;
@@ -186,23 +190,50 @@ input {
 	color:#000080;
 	margin-bottom:15px;
 }
+
+/***** CONTENT-SETTINGS *****/
+
 #content-settings {
 	font-size:10px;
 }
-
-#settings-viewmode {
-	
+#content-settings .label {
+	display:inline;
+	padding:2px;
 }
-#settings-viewmode .selected,
-#settings-viewmode .selected:hover {
-	color:#000000;
-	border-bottom: 0px;
+#content-settings .button {
+	color:#FFF;
+	background-color:#a1a1a1;
+	cursor:pointer;
+	display:inline;
+	padding:2px;
+}
+#content-settings .button:hover {
+	background-color:#636363;
+}
+#settings-viewmode .button,
+#settings-viewmode .label {
+	float:left;
+}
+#settings-viewmode .button {
+	padding: 2px 4px;
+}
+#settings-viewmode .button.selected {
+	color:#636363;
+	background:none;
+	border: 1px solid #a1a1a1;
+	padding: 1px 3px;
 	cursor:default;
+}
+#settings-other .button {
+	float:right;
+	margin-left:10px;
 }
 
 #content-section {
 	padding-top:15px;
 }
+
+/***** CONTENT-TABLE *****/
 
 #course-table {	
 	width:100%;
@@ -351,6 +382,8 @@ input {
 	height:11px;
 }
 
+/***** FOOTER *****/
+
 #footer {
 	margin:15px 0px;
 }
@@ -368,6 +401,8 @@ input {
 	margin-top:5px;
 	color:#636363;
 }
+
+/***** CHOOSE COLUMNS BOX *****/
 
 #choose-cols {
 	display:none;
