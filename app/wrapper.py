@@ -64,6 +64,9 @@ class Instructor(object):
   def recent(self, attr):
     return recent(self.reviews, attr)
 
+  def __cmp__(self, other):
+    return self.last_name > other.last_name
+
   def __hash__(self):
     return hash(self.id)
 
