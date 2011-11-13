@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-div#tutorial_overlay {
+#tutorial_overlay {
   display:none;
   
   position:absolute;
@@ -14,6 +14,10 @@ div#tutorial_overlay {
   color:#FFF;
 }
 
+#tutorial_overlay p {
+  margin-bottom: 15px;
+}
+
 .tut-elem {
   position: absolute;
 }
@@ -21,15 +25,29 @@ div#tutorial_overlay {
   line-height: 150%;
 }
 
+#tut-close-button {
+  background:url(../image/tut-close-button.png) no-repeat;
+  width:67px;
+  height:21px;
+  
+  right: 0px;
+  top: 18px;
+  
+  cursor:pointer;
+}
+#tut-close-button:hover {
+  background-position: 0px -21px;
+}
+
 #tut-viewmode {
   background:url(../image/callout-arrow-left.png) no-repeat left;
-  width: 400px;
+  width: 350px;
   height: 240px;
   
   left:-40px;
 }
 #tut-viewmode .inner {
-  margin-top:15px;
+  margin-top:18px;
   margin-left:55px;
 }
 
@@ -38,7 +56,7 @@ div#tutorial_overlay {
   width: 300px;
   height: 240px;
   
-  right:-20px;
+  right:-8px;
 }
 #tut-choosecols .inner {
   margin-top:15px;

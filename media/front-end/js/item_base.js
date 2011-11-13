@@ -105,8 +105,8 @@
     });
   };
   window.setup_tutorial_overlay = function() {
-    $("#tut-viewmode").css("top", $("#settings-viewmode").offset().top - 235);
-    return $("#tut-choosecols").css("top", $("#settings-other").offset().top - 235);
+    $("#tut-viewmode").css("top", $("#settings-viewmode").offset().top - 230);
+    return $("#tut-choosecols").css("top", $("#settings-other").offset().top - 230);
   };
   /*
   DOCUMENT READY
