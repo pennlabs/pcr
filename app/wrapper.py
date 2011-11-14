@@ -158,7 +158,7 @@ class CourseHistory(object):
   @property
   def subtitle(self):
     precondition = "" if len(self.all_names()) <= 1 else "(Recent Example) "
-    return capitalize(precondition + self.name)
+    return precondition + capitalize(self.name)
 
   @property
   def description(self):
