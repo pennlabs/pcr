@@ -19,22 +19,11 @@ RATING_API = ORDER
 RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS[v] for v in ORDER)
 RATING_FIELDS = tuple("".join(words.split()) for words in ORDER)
 
-SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
-SCORECARD_FIELDS = ('course', 'instructor', 'difficulty') 
-SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 
-INSTRUCTOR_OUTER = ('id', 'link', 'Code', 'Name')
-INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
-
-COURSE_OUTER = ('id', 'link', 'Instructor', 'Name')
-COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor', 'name')
-
-TABLE_INNER = ('Semester', 'Name', 'Section', 'Responses')
-TABLE_INNER_HIDDEN =  ('semester', 'name', 'section', 'responses') # not sure of difference?
 
 #UNUSED
-DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
-DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
+#DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
+#DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
 
 def index(request):
@@ -50,6 +39,8 @@ def prettify_semester(semester):
 
 
 def parse_attr(review, attr):
+  """Try to parse an attribute from a review.
+  In the case an attribute cannot be parsed, returns ERROR."""
   try:
     val = getattr(review, attr)
   except:
@@ -59,13 +50,18 @@ def parse_attr(review, attr):
 
 
 def parse_review(review, attrs):
+  """Parse all of the attributes from a review."""
   return [parse_attr(review, attr) for attr in attrs]  
 
 
+SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
+SCORECARD_FIELDS = ('course', 'instructor', 'difficulty') 
+SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
 def build_scorecard(review_tree):
   '''Build a scorecard for the given sections.'''
   sr_pairs = sum(review_tree.values(), [])
-  assert len(sr_pairs) > 0, ValueError("No reviews found.")
+  if len(sr_pairs) == 0:
+    raise ValueError("No reviews found")
 
   #average
   sections, reviews = zip(*sr_pairs)
@@ -98,10 +94,14 @@ def get_relevant_columns(review_tree):
         break
 
 
+def format_comments(comment):
+  return (comment or "").replace("\n", "<br />")
+
+
+TABLE_INNER = ('Semester', 'Name', 'Section', 'Responses')
+TABLE_INNER_HIDDEN =  ('semester', 'name', 'section', 'responses') # not sure of difference?
 def build_section_table(key, review_tree, strings, fields, columns):
   section_body = []
-  def format_comments(comment):
-    return (comment or "").replace("\n", "<br />")
 
   for section, review in sorted(review_tree[key], key=lambda sr_pair: sr_pair[0].semester, reverse=True):
     section_body.append(
@@ -139,6 +139,9 @@ def build_score_table(review_tree, key_map, key_columns, key_fields):
       body
       )
 
+
+INSTRUCTOR_OUTER = ('id', 'link', 'Code', 'Name')
+INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
 def instructor(request, id):
   instructor = Instructor(pcr('instructor', id))
 
@@ -181,6 +184,8 @@ def instructor(request, id):
     return render_to_response('instructor.html', context)
 
 
+COURSE_OUTER = ('id', 'link', 'Instructor', 'Name')
+COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor', 'name')
 def course(request, dept, id):
   dept = dept.upper()
   title = '%s-%s' % (dept, id)
