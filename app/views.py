@@ -1,8 +1,6 @@
 from __future__ import division
-from collections import defaultdict, namedtuple
+from collections import defaultdict
 import json
-from itertools import groupby
-import urllib
 
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
@@ -67,6 +65,7 @@ def parse_review(review, attrs):
 def build_scorecard(review_tree):
   '''Build a scorecard for the given sections.'''
   sr_pairs = sum(review_tree.values(), [])
+  assert len(sr_pairs) > 0, ValueError("No reviews found.")
 
   #average
   sections, reviews = zip(*sr_pairs)
@@ -95,7 +94,7 @@ def get_relevant_columns(review_tree):
   for string, field, column in zip(RATING_STRINGS, RATING_FIELDS, RATING_API):
     for review in reviews:
       if hasattr(review, column):
-      	yield (string, field, column)
+        yield (string, field, column)
         break
 
 
@@ -114,7 +113,10 @@ def build_section_table(key, review_tree, strings, fields, columns):
 
 
 def build_score_table(review_tree, key_map, key_columns, key_fields):
-  strings, fields, columns = zip(*get_relevant_columns(review_tree))
+  try:
+    strings, fields, columns = zip(*get_relevant_columns(review_tree))
+  except ValueError:
+    raise ValueError("No review bits found.")
 
   body = []
   for row_id, key in enumerate(sorted(review_tree)):
@@ -147,17 +149,29 @@ def instructor(request, id):
       if review.instructor == instructor:
         review_tree[coursehistory].append((section, review))
 
-  if len(review_tree) > 0:
-    def key_map(key):
-      # returns [link, course code, name]
-      sections = [sr[0] for sr in review_tree[key]]
-      names = set([section.name for section in sections])
-      name = capitalize(names.pop() if len(names) == 1 else 'Various')
-      return ['course/%s' % "-".join(key.code.split()), key.code, name]
-
-    scorecard = build_scorecard(review_tree)
-    score_table = build_score_table(review_tree, key_map, INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN)
-
+  def key_map(key):
+    # returns [link, course code, name]
+    sections = [sr[0] for sr in review_tree[key]]
+    names = set([section.name for section in sections])
+    name = capitalize(names.pop() if len(names) == 1 else 'Various')
+    return ['course/%s' % "-".join(key.code.split()), key.code, name]
+  try:
+    try:
+      scorecard = build_scorecard(review_tree)
+    except ValueError as e:
+      raise e
+    try:
+      score_table = build_score_table(review_tree, key_map, INSTRUCTOR_OUTER, INSTRUCTOR_OUTER_HIDDEN)
+    except ValueError as e:
+      raise e
+  except ValueError:
+    context = RequestContext(request, {
+      'instructor': instructor,
+      'error': True,
+      'base_dir': '../'
+    })
+    return render_to_response('instructor-error.html', context)
+  else:
     context = RequestContext(request, {
       'instructor': instructor,
       'scorecard': scorecard,
@@ -165,13 +179,6 @@ def instructor(request, id):
       'base_dir': '../'
     })
     return render_to_response('instructor.html', context)
-  else:
-    context = RequestContext(request, {
-      'instructor': instructor,
-      'error': True,
-      'base_dir': '../'
-    })
-    return render_to_response('instructor-error.html', context)
 
 
 def course(request, dept, id):
@@ -187,16 +194,31 @@ def course(request, dept, id):
 
   aliases = coursehistory.aliases - set([title])
 
-  if len(review_tree.values()) > 0:
-    def key_map(instructor):
-      sections = [sr[0] for sr in review_tree[instructor]]
-      names = set([section.name for section in sections])
-      name = capitalize(names.pop() if len(names) == 1 else 'Various')
-      return ['instructor/%s' % instructor.id, instructor.name, name]
+  def key_map(instructor):
+    sections = [sr[0] for sr in review_tree[instructor]]
+    names = set([section.name for section in sections])
+    name = capitalize(names.pop() if len(names) == 1 else 'Various')
+    return ['instructor/%s' % instructor.id, instructor.name, name]
 
-    scorecard = build_scorecard(review_tree)
-    score_table = build_score_table(review_tree, key_map, COURSE_OUTER, COURSE_OUTER_HIDDEN)
-
+  try:
+    try:
+      scorecard = build_scorecard(review_tree)
+    except ValueError as e:
+      raise e
+    try:
+      score_table = build_score_table(review_tree, key_map, COURSE_OUTER, COURSE_OUTER_HIDDEN)
+    except ValueError as e:
+      raise e
+  except ValueError:
+    context = RequestContext(request, {
+      'aliases': aliases,
+      'title': "%s %s" % (dept, id),
+      'course': coursehistory,
+      'error': True,
+      'base_dir': '../'
+    })
+    return render_to_response('course-error.html', context)
+  else:
     context = RequestContext(request, {
       'aliases': aliases,
       'title': "%s %s" % (dept, id),
@@ -206,15 +228,6 @@ def course(request, dept, id):
       'base_dir': '../'
     })
     return render_to_response('course.html', context)
-  else:
-    context = RequestContext(request, {
-      'aliases': aliases,
-      'title': "%s %s" % (dept, id),
-      'course': coursehistory,
-      'error': True,
-      'base_dir': '../'
-    })
-    return render_to_response('course-error.html', context)
 
 def department(request, id):
   raw_depts = pcr('depts')['values']
