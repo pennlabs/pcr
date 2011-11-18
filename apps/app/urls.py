@@ -9,8 +9,6 @@ urlpatterns = patterns('',
 
   (r'^(faq)/$', static),
   (r'^(about)/$', static),
-
-  (r'^autocomplete_data.json$', autocomplete_data),
  
   (r'^$', index),
 )

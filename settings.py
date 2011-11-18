@@ -95,6 +95,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'apps.app',
+    'apps.searchbar',
 )
   
 if DO_STATICGENERATOR:
