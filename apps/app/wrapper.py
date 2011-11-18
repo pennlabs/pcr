@@ -1,6 +1,7 @@
 from __future__ import division
 from collections import defaultdict
-from api import pcr
+
+from api import api
 from helper import capitalize
 
 
@@ -33,6 +34,7 @@ class Review(object):
 
 class Instructor(object):
   def __init__(self, raw_instructor):
+    raw = 
     self.name = raw_instructor['name']
     self.id = raw_instructor['id']
 
@@ -42,13 +44,13 @@ class Instructor(object):
 
   @property
   def reviews(self):
-    for raw_review in pcr('instructor', self.id, 'reviews')['values']:
+    for raw_review in api('instructor', self.id, 'reviews')['values']:
       yield Review(raw_review) 
   
   @property
   def sections(self):
     return set(Section(raw_section) for raw_section
-        in pcr('instructor', self.id, 'sections')['values']
+        in api('instructor', self.id, 'sections')['values']
         if raw_section['course']['semester'] != CURRENT_SEMESTER)
 
   @property
@@ -93,12 +95,12 @@ class Section(object):
   def reviews(self):
     #while most sections will only have on review, it's possible that a section  has multiple
     #professors, in which case it will have multiple reviews
-    for raw_review in pcr(*(self.raw['path'].split('/') + ['reviews']))['values']:
+    for raw_review in api(*(self.raw['path'].split('/') + ['reviews']))['values']:
     	yield Review(raw_review)
 
   @property
   def course(self):
-    return Course(pcr('course', self.raw['course']['id']))
+    return Course(api('course', self.raw['course']['id']))
 
   def __repr__(self):
     return "Section(%s %s)" % (self.id, self.semester)
@@ -122,7 +124,7 @@ class Course(object):
 
   @property
   def coursehistory(self):
-    return CourseHistory(pcr(*self.raw['history']['path'].split('/')))
+    return CourseHistory(api(*self.raw['history']['path'].split('/')))
 
   @property
   def instructors(self):
@@ -131,7 +133,7 @@ class Course(object):
   @property
   def sections(self):
     return set(Section(raw_section) for raw_section
-        in pcr('course', self.id, 'sections')['values']
+        in api('course', self.id, 'sections')['values']
         if raw_section['course']['semester'] != CURRENT_SEMESTER)
 
   def __eq__(self, other):
@@ -152,7 +154,7 @@ class CourseHistory(object):
 
   @property
   def courses(self):
-    return set(Course(pcr('course', raw_course['id'])) for raw_course in self.raw['courses'])
+    return set(Course(api('course', raw_course['id'])) for raw_course in self.raw['courses'])
 
   def all_names(self):
     names = set([section.name.strip() for course in self.courses for section in course.sections])

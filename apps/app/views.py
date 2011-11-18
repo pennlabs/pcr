@@ -15,15 +15,10 @@ from average import average, ERROR
 from wrapper import Instructor, CourseHistory
 from helper import capitalize
 
+
 RATING_API = ORDER
 RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS[v] for v in ORDER)
 RATING_FIELDS = tuple("".join(words.split()) for words in ORDER)
-
-
-
-#UNUSED
-#DEPARTMENT_OUTER = ('id', 'Course',) + RATING_STRINGS + ('courses',)
-#DEPARTMENT_OUTER_HIDDEN = ('id', 'course',) + RATING_FIELDS + ('courses',)
 
 
 def index(request):
@@ -234,49 +229,6 @@ def course(request, dept, id):
     })
     return render_to_response('course.html', context)
 
-def department(request, id):
-  raw_depts = pcr('depts')['values']
-
-  #hacky solution to get department name
-  for raw_dept in raw_depts:
-    if raw_dept['id'] == id:
-      name = raw_dept['name']
-      break
-
-  department = {
-      'code': id,
-      'name': name
-    }
-
-  table_body = []
-  raw_histories = pcr('dept', id)['histories']
-  for raw_history in raw_histories:
-    history_id = raw_history['id']
-    course_name = raw_history['name']
-    raw_reviews = pcr('coursehistory', history_id, 'reviews')['values']
-    course_avg, instructor_avg, difficulty_avg = 0, 0, 0
-    for raw_review in raw_reviews:
-      ratings = raw_review['ratings']
-      if ratings:
-        course_avg += float(ratings['rCourseQuality'])
-        instructor_avg += float(ratings['rInstructorQuality'])
-        try:
-          difficulty_avg += float(ratings['rDifficulty'])
-        except:
-          pass
-    if raw_reviews:
-      course_avg /= len(raw_reviews)
-      instructor_avg /= len(raw_reviews)
-      difficulty_avg /= len(raw_reviews)
-    table_body.append((history_id, course_name, course_avg, instructor_avg, difficulty_avg, ""))
-  score_table = Table(DEPARTMENT_OUTER, DEPARTMENT_OUTER_HIDDEN, table_body)
-
-  context = {
-    'department': department,
-    'score_table': score_table
-  } 
-
-  return render_to_response('department.html', context)
 
 def autocomplete_data(request):
   #1. Hit API up for course-history data, push into nop's desired format
