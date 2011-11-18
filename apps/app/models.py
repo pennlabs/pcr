@@ -16,8 +16,7 @@ TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
 
 class Review(object):
   def __init__(self, raw_review):
-    self.raw = raw_review
-    #comments really are just a block of text
+    self._raw = raw_review
     self.num_reviewers = raw_review['num_reviewers']
     self.num_students = raw_review['num_students']
     self.comments = raw_review['comments']
@@ -26,15 +25,15 @@ class Review(object):
 
   @property
   def instructor(self):
-    return Instructor(self.raw['instructor'])
+    return Instructor(self._raw['instructor']['id'])
 
   def __repr__(self):
-    return "Review(%s, %s)" % (self.raw['section']['id'], self.raw['instructor']['id'])
+    return "Review(%s, %s)" % (self._raw['section']['id'], self._raw['instructor']['id'])
 
 
 class Instructor(object):
-  def __init__(self, raw_instructor):
-    raw = 
+  def __init__(self, id):
+    raw_instructor = api('instructor', id)
     self.name = raw_instructor['name']
     self.id = raw_instructor['id']
 
@@ -78,6 +77,7 @@ class Instructor(object):
   def __repr__(self):
     return self.name
 
+
 class Section(object):
   def __init__(self, raw_section):
     self.raw = raw_section
@@ -100,18 +100,19 @@ class Section(object):
 
   @property
   def course(self):
-    return Course(api('course', self.raw['course']['id']))
+    return Course(self.raw['course']['id'])
 
   def __repr__(self):
     return "Section(%s %s)" % (self.id, self.semester)
 
 
 class Course(object):
-  def __init__(self, raw_course):
+  def __init__(self, id):
+    raw_course = api('course', id)
     self.raw = raw_course
     self.semester = raw_course['semester']
     self.id = raw_course['id']
-    self.aliases = set(" ".join(alias.split('-')) for alias in raw_course['aliases'])
+    self.aliases = set(alias for alias in raw_course['aliases'])
     self.description = raw_course['description']
   
   @property
@@ -124,7 +125,8 @@ class Course(object):
 
   @property
   def coursehistory(self):
-    return CourseHistory(api(*self.raw['history']['path'].split('/')))
+    for alias in self.aliases:
+      return CourseHistory(alias)
 
   @property
   def instructors(self):
@@ -139,9 +141,13 @@ class Course(object):
   def __eq__(self, other):
     return self.id == other.id
 
+  def __repr__(self):
+    return 'Course(%s)' % self.name
+
 
 class CourseHistory(object):
-  def __init__(self, raw_coursehistory):
+  def __init__(self, title):
+    raw_coursehistory = api('coursehistory', title)
     self.raw = raw_coursehistory
     self.id = raw_coursehistory['id']
     self.name = raw_coursehistory['name']
@@ -149,12 +155,11 @@ class CourseHistory(object):
   
   @property
   def code(self):
-    #TODO: Returns an arbtirary alias
     return iter(self.aliases).next()
 
   @property
   def courses(self):
-    return set(Course(api('course', raw_course['id'])) for raw_course in self.raw['courses'])
+    return set(Course(raw_course['id']) for raw_course in self.raw['courses'])
 
   def all_names(self):
     names = set([section.name.strip() for course in self.courses for section in course.sections])

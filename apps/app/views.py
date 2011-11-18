@@ -10,9 +10,9 @@ from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
 from templatetags.scorecard_tag import ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
-from api import pcr
+from api import api
 from average import average, ERROR
-from wrapper import Instructor, CourseHistory
+from models import Instructor, CourseHistory
 from helper import capitalize
 
 
@@ -66,7 +66,7 @@ def build_scorecard(review_tree):
 
   #recent
   for section, review in sorted(sr_pairs, key=lambda sr_pair: sr_pair[0].semester, reverse=True):
-    if review.raw != dict():
+    if review._raw != dict():
       most_recent, most_recent_review = section, review
       break
   if most_recent is None:
@@ -138,7 +138,7 @@ def build_score_table(review_tree, key_map, key_columns, key_fields):
 INSTRUCTOR_OUTER = ('id', 'link', 'Code', 'Name')
 INSTRUCTOR_OUTER_HIDDEN = ('id', 'link', 'code', 'name')
 def instructor(request, id):
-  instructor = Instructor(pcr('instructor', id))
+  instructor = Instructor(id)
 
   review_tree = defaultdict(list) #coursehistory => list((section, review))
   for section in instructor.sections:
@@ -184,7 +184,7 @@ COURSE_OUTER_HIDDEN = ('id', 'link', 'instructor', 'name')
 def course(request, dept, id):
   dept = dept.upper()
   title = '%s-%s' % (dept, id)
-  coursehistory = CourseHistory(pcr('coursehistory', title))
+  coursehistory = CourseHistory(title)
 
   review_tree = defaultdict(list)
   for course in coursehistory.courses:
@@ -235,7 +235,7 @@ def autocomplete_data(request):
   def alias_to_code(alias, sep="-"):
     code, num = alias.split('-')
     return "%s%s%03d" % (code, sep, int(num))
-  courses_from_api = pcr('coursehistories')['values']
+  courses_from_api = api('coursehistories')['values']
   courses = [{"category": "Courses",
               "title": alias_to_code(alias, ' '),
               "desc": course['name'],
@@ -247,7 +247,7 @@ def autocomplete_data(request):
                for alias in course['aliases']]
 
   #2. Hit API up for instructor data, push into nop's desired format
-  instructors_from_api = pcr('instructors')['values']  
+  instructors_from_api = api('instructors')['values']  
   instructors=[{"category": "Instructors",
                 "title": instructor['name'],
                 "desc": ", ".join(instructor['departments']),
@@ -260,16 +260,9 @@ def autocomplete_data(request):
   return json_response({"courses":courses, "instructors":instructors})
 
 
-def browse(request):
-  context = {
-    'base_dir': "../"
-  } 
-  return render_to_response('browse.html', context)
-
-
 def static(request, page):
   context = {
     'base_dir': "../",
-    'content': pcr('pcrsite-static', page)
+    'content': api('apisite-static', page)
   }
   return render_to_response('static.html', context)
