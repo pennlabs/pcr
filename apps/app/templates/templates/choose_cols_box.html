@@ -1,0 +1,33 @@
+<div id="choose-cols">
+  <div class="container_12">
+    <div id="choose-cols-inner">
+      <div class="prefix_3 grid_6 suffix_3">
+        <div id="choose-cols-content" class="shadow disable-selection">
+        
+          <h1>Choose Columns to Display</h1>
+          
+          <div style="width:50%; float:right;">
+            {% for i in fields1 %}
+            <p>
+              <input type="checkbox" id="checkbox_{{i.0}}" name="{{i.0}}" value="{{i.0}}" />
+              <label for="checkbox_{{i.0}}">{{i.1}}</label>
+            </p>
+            {% endfor %}
+          </div>
+          
+          {% for i in fields0 %}
+          <p>
+            <input type="checkbox" id="checkbox_{{i.0}}" name="{{i.0}}" value="{{i.0}}" />
+            <label for="checkbox_{{i.0}}">{{i.1}}</label>
+          </p>
+          {% endfor %}
+          
+          <div id="buttons">
+            <input type="button" value="Submit" onclick="submit_choose_cols()" />
+            <input type="button" value="Cancel" onclick="cancel_choose_cols()" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
