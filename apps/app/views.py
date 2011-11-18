@@ -10,10 +10,8 @@ from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
 from templatetags.scorecard_tag import ScoreBoxRow, ScoreBox
 from templatetags.table import Table
 
-from api import api
 from average import average, ERROR
 from models import Instructor, CourseHistory
-from helper import capitalize
 
 
 RATING_API = ORDER
@@ -151,7 +149,7 @@ def instructor(request, id):
     # returns [link, course code, name]
     sections = [sr[0] for sr in review_tree[key]]
     names = set([section.name for section in sections])
-    name = capitalize(names.pop() if len(names) == 1 else 'Various')
+    name = names.pop() if len(names) == 1 else 'Various'
     return ['course/%s' % "-".join(key.code.split()), key.code, name]
   try:
     try:
@@ -197,7 +195,7 @@ def course(request, dept, id):
   def key_map(instructor):
     sections = [sr[0] for sr in review_tree[instructor]]
     names = set([section.name for section in sections])
-    name = capitalize(names.pop() if len(names) == 1 else 'Various')
+    name = names.pop() if len(names) == 1 else 'Various'
     return ['instructor/%s' % instructor.id, instructor.name, name]
 
   try:
