@@ -116,7 +116,7 @@ $(document).ready ->
   window.course_rows = parseInt($("#course-table").attr("count"), 10)
 
   # init search box
-  initSearchbox("../")
+  init_search_box("../")
   
   # setup view mode #
   if not $.cookie("pcr_viewmode")?

@@ -1,73 +1,76 @@
-regexes_by_priority =
+###
+  Logic for the auto-complete search-box, on the home-page and top-right of
+  every page.  Uses the jQuery UI autocomplete plugin.
+###
+MAX_NUM_COURSES = 6
+MAX_NUM_INSTRUCTORS = 4
+
+REGEXES_BY_PRIORITY =
   Courses: [
     ((search_term, course) ->  RegExp("^#{search_term}", 'i').test(course.title)),
     ((search_term, course) -> RegExp("\\s#{search_term}", 'i').test(course.keywords)),
     ((search_term, course) -> RegExp(search_term, 'i').test(course.keywords))
   ],
   Instructors: [
-    ((search_term, instructor) -> RegExp("\\s#{search_term}$", 'i').test(instructor.keywords))
-    ((search_term, instructor) -> RegExp("(^|\\s)#{search_term}", 'i').test(instructor.keywords))
+    # if instructors = [Rebecca Stein, Steve Ballmer]
+    # we want Stein to show up first when we type 'ste'
+    ((search_term, instructor) ->
+      RegExp("\\s#{search_term}$", 'i').test(instructor.keywords))
+    ((search_term, instructor) ->
+      RegExp("^#{search_term}", 'i').test(instructor.keywords))
   ]
 
-findAutoCompleteMatches = (category, entries, search_str, max) ->
-  #Regexes to match against, in order of interstingness
-  #TODO - bigger (earlier) courses first
+find_autocomplete_matches = (search_str, category, sorted_entries, max) ->
+  # Regexes to match against, in order of interstingness
   results = []
-  for match_test in regexes_by_priority[category]
-    for entry in entries
+  for match_test in REGEXES_BY_PRIORITY[category]
+    for entry in sorted_entries
+      # this regex matches this entry  and previous regex did not
       if match_test(search_str, entry) and not (entry in results)
         results.push(entry)
         return results if results.length is max
   return results
 
+# Inject the category header (ex. instructor) before first result of each category 
 $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
-  self = this
-  currentCategory = ""
+  current_category = ""
   $.each items, (index, item) =>
-    unless item.category == currentCategory
-      ul.append "<li class='ui-autocomplete-category'><p>" + item.category + "</p></li>"
-      currentCategory = item.category
+    unless item.category == current_category
+      ul.append("<li class='ui-autocomplete-category'><p>#{item.category}</p></li>")
+      current_category = item.category
     @_renderItem(ul, item)
 
-window.curritem = null
-
 # dir - base directory
-window.initSearchbox  = (dir="", callback=null) ->
+window.init_search_box = (dir="", callback=null) ->
 
-  $.getJSON(dir+"autocomplete_data.json", (data) ->
-    #put the data in the right order (cis 120 before cis 500)
-    sort_by_title = (first, second) ->
-      if first.title > second.title then 1 else -1
+  # put the data in the right order (cis 120 before cis 500)
+  sort_by_title = (first, second) ->
+    if first.title > second.title then 1 else -1
+  
+  $.getJSON dir+"autocomplete_data.json", (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
 
     $("#searchbox").autocomplete(
       delay: 0
       minLength: 1
-      
       autoFocus: true
-      
       source: (request, response) ->
-        result = findAutoCompleteMatches('Courses', courses, request.term, 6)
-          .concat(findAutoCompleteMatches('Instructors', instructors, request.term, 4))
+        result = find_autocomplete_matches(request.term, 'Courses', courses, MAX_NUM_COURSES)
+          .concat(find_autocomplete_matches(request.term, 'Instructors', instructors, MAX_NUM_INSTRUCTORS))
         response(result)
-        
       position:
         my: "left top"
         at: "left bottom"
         collision: "none"
         of: "#searchbar"
         offset: "0 -1"
-      
-      focus: ( event, ui ) ->
-        #$("#searchbox").attr("value", ui.item.title)
-        return false
-      
-      select: ( event, ui ) ->
+      focus: (event, ui) ->
+        false
+      select: (event, ui) ->
         window.location = dir+ui.item.url
-        return false
-      
-      open: ( event, ui ) ->
+        false
+      open: (event, ui) ->
         $(".ui-autocomplete.ui-menu.ui-widget").width(
           $("#searchbar").width()
         )
@@ -75,19 +78,10 @@ window.initSearchbox  = (dir="", callback=null) ->
     .data("autocomplete")._renderItem = (ul, item) ->
       $("<li></li>")
       .data("item.autocomplete", item)
-      .append("<a><span class='ui-menu-item-title'>" +
-              item.title +
-              "</span><br/><span class='ui-menu-item-desc'>" +
-              item.desc +
-              "</span></a>")
+      .append("""<a>
+                   <span class='ui-menu-item-title'>#{item.title}</span><br />
+                   <span class='ui-menu-item-desc'>#{item.desc}</span>
+                 </a>""")
       .appendTo(ul)
       
-    #enter key
-    #$('#searchbox').keypress((e)->
-    #  if(e.which == 13)
-    #    alert("hit enter")
-    #)
-    
-    if callback?
-      callback()
-  )
+    callback() if callback? # did the auto_complete.json have a callback? call it.

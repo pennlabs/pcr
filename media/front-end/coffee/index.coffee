@@ -7,4 +7,4 @@ $(document).ready ->
     $("#search-container").fadeIn(1000, () ->
       $("#searchbox").focus()
     )
-  initSearchbox("", callback)
+  init_search_box("", callback)
