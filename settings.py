@@ -83,7 +83,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ROOT_URLCONF = 'pcrsite.urls'
 
 TEMPLATE_DIRS = (
-  os.path.join(PROJECT_PATH, 'media/front-end'),
+  os.path.join(PROJECT_PATH, 'templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
 )
 

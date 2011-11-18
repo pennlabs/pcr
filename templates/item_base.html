@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load scorecard_tag %}
+{% load templates %}
+
+{% block htmlheader-links %}
+	<link type="text/css" href="{{base_dir}}media/front-end/css/tutorial_overlay.css" rel="stylesheet" />
+{% endblock %}
+
+{% block htmlheader-js %}
+	<![if ! IE 7]>
+	<script src="{{base_dir}}media/front-end/js/jquery.tablesorter.min.js"></script>
+	<![endif]><!--[if IE 7]>
+	<script src="{{base_dir}}media/front-end/js/jquery.tablesorter.ie8fix.min.js"></script>
+	<![endif]-->
+	<script src="{{base_dir}}media/front-end/js/item_base.js"></script>
+{% endblock %}	
+	
+{% block banner-content %}
+	<div id="banner-info" class="grid_7 suffix_1">
+		{% block info %}{% endblock %}
+	</div>	
+  {% scorecard_widget %}
+  <div class="clear"></div>	
+{% endblock %}
+
+{% block content-content %}	
+  {% if error %}
+	{% else %}
+	  {% content_settings %}
+  {% endif %}
+	<div id="content-section" class="grid_12">
+		{% block content-section %}
+		{% endblock %}
+	</div>
+  <div class="clear"></div>
+{% endblock %}
+
+{% block non-wrapper %}
+	{% choose_cols_box score_table.head %}
+	{% tutorial_overlay %}
+{% endblock %}
