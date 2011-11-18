@@ -1,5 +1,6 @@
 from __future__ import division
 from collections import defaultdict
+from itertools import chain
 import json
 
 from django.shortcuts import get_object_or_404, render_to_response, redirect
@@ -7,7 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
 
 from templatetags.prettify import PRETTIFY_REVIEWBITS, ORDER, PRETTIFY_SEMESTER
-from templatetags.scorecard_tag import ScoreBoxRow, ScoreBox
+from templatetags.scorecard_tag import ScoreCard
 from templatetags.table import Table
 
 from average import average, ERROR
@@ -17,18 +18,11 @@ from models import Instructor, CourseHistory
 RATING_API = ORDER
 RATING_STRINGS = tuple(PRETTIFY_REVIEWBITS[v] for v in ORDER)
 RATING_FIELDS = tuple("".join(words.split()) for words in ORDER)
+#TODO: Change how Scorebox is accessed
 
 
 def index(request):
   return render_to_response('index.html')
-
-
-def json_response(result_dict):
-  return HttpResponse(content=json.dumps(result_dict))
-
-
-def prettify_semester(semester):
-  return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
 
 
 def parse_attr(review, attr):
@@ -45,35 +39,6 @@ def parse_attr(review, attr):
 def parse_review(review, attrs):
   """Parse all of the attributes from a review."""
   return [parse_attr(review, attr) for attr in attrs]  
-
-
-SCORECARD_STRINGS = ('Course', 'Instructor', 'Difficulty')
-SCORECARD_FIELDS = ('course', 'instructor', 'difficulty') 
-SCORECARD_API = ('rCourseQuality', 'rInstructorQuality', 'rDifficulty')
-def build_scorecard(review_tree):
-  '''Build a scorecard for the given sections.'''
-  sr_pairs = sum(review_tree.values(), [])
-  if len(sr_pairs) == 0:
-    raise ValueError("No reviews found")
-
-  #average
-  sections, reviews = zip(*sr_pairs)
-  avg = ScoreBoxRow('Average', '%s sections' % len(sections),
-      [ScoreBox(display, average(reviews, attr))
-        for display, attr in zip(SCORECARD_STRINGS, SCORECARD_API)])
-
-  #recent
-  for section, review in sorted(sr_pairs, key=lambda sr_pair: sr_pair[0].semester, reverse=True):
-    if review._raw != dict():
-      most_recent, most_recent_review = section, review
-      break
-  if most_recent is None:
-    return (avg,)
-  else:
-    parsed = parse_review(most_recent_review, SCORECARD_API)
-    boxes = [ScoreBox(display, attr) for display, attr in zip(SCORECARD_STRINGS, parsed)]
-    recent = ScoreBoxRow('Recent', prettify_semester(most_recent.semester), boxes)
-  return avg, recent
 
 
 def get_relevant_columns(review_tree):
@@ -98,7 +63,7 @@ def build_section_table(key, review_tree, strings, fields, columns):
 
   for section, review in sorted(review_tree[key], key=lambda sr_pair: sr_pair[0].semester, reverse=True):
     section_body.append(
-        [prettify_semester(section.semester), section.name, section.sectionnum, "%s/%s" % (review.num_reviewers, review.num_students)]
+        [section.semester, section.name, section.sectionnum, "%s/%s" % (review.num_reviewers, review.num_students)]
         + parse_review(review, columns)
         + [format_comments(review.comments)] 
         )
@@ -153,7 +118,7 @@ def instructor(request, id):
     return ['course/%s' % "-".join(key.code.split()), key.code, name]
   try:
     try:
-      scorecard = build_scorecard(review_tree)
+      scorecard = ScoreCard(chain(*review_tree.values()))
     except ValueError as e:
       raise e
     try:
@@ -200,7 +165,7 @@ def course(request, dept, id):
 
   try:
     try:
-      scorecard = build_scorecard(review_tree)
+      scorecard = ScoreCard(chain(*review_tree.values()))
     except ValueError as e:
       raise e
     try:
@@ -226,36 +191,6 @@ def course(request, dept, id):
       'base_dir': '../'
     })
     return render_to_response('course.html', context)
-
-
-def autocomplete_data(request):
-  #1. Hit API up for course-history data, push into nop's desired format
-  def alias_to_code(alias, sep="-"):
-    code, num = alias.split('-')
-    return "%s%s%03d" % (code, sep, int(num))
-  courses_from_api = api('coursehistories')['values']
-  courses = [{"category": "Courses",
-              "title": alias_to_code(alias, ' '),
-              "desc": course['name'],
-              "url": "course/" + alias_to_code(alias),
-              "keywords": " ".join([alias_to_code(alias.lower(), sep) \
-                            for sep in ['', '-', ' ']] \
-                        + [course['name'].lower()])
-             } for course in courses_from_api 
-               for alias in course['aliases']]
-
-  #2. Hit API up for instructor data, push into nop's desired format
-  instructors_from_api = api('instructors')['values']  
-  instructors=[{"category": "Instructors",
-                "title": instructor['name'],
-                "desc": ", ".join(instructor['departments']),
-                "url": "instructor/" + instructor['id'],
-                "keywords": instructor['name'].lower()
-               } for instructor in instructors_from_api 
-                 if 'departments' in instructor]
-
-  #3. Respond in JSON
-  return json_response({"courses":courses, "instructors":instructors})
 
 
 def static(request, page):
