@@ -115,7 +115,7 @@
     var cols, i, _ref;
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
-    initSearchbox("../");
+    init_search_box("../");
     if (!($.cookie("pcr_viewmode") != null)) {
       $.cookie("pcr_viewmode", "0", {
         path: '/'
