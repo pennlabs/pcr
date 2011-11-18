@@ -93,7 +93,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'app',
+    'apps.app',
 )
   
 if DO_STATICGENERATOR:
