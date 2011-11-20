@@ -15,5 +15,9 @@
 {% endblock %}
 
 {% block content-section %}
-	{% course_table score_table %}
+  {% if instructor.reviews|length > 0 %}
+    {% instructor_table instructor %}
+  {% else %}
+    <p>No reviews found.</p>
+  {% endif %}
 {% endblock %}

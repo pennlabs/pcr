@@ -1,12 +1,55 @@
+from django import template
+
+from templatetag_sugar.parser import Variable
+from templatetag_sugar.register import tag
 
 
-PRETTIFY_SEMESTER = {
-    "A": "Spring",
-    "B": "Summer",
-    "C": "Fall"
-}
+register = template.Library()
 
-PRETTIFY_REVIEWBITS = {
+ERROR = u"\u00A0" #empty strin
+
+ATTRIBUTES = ( 
+  # general
+  u"rCourseQuality",
+  u"rInstructorQuality",
+  u"rDifficulty",
+  
+  # class
+  
+  u"rAmountLearned",
+  u"rWorkRequired",
+  u"rReadingsValue",
+        
+  u"rHomeworkValuable",
+  u"rExamsConsistent",
+  u"rAbilitiesChallenged",
+  u"rSkillEmphasis",
+  
+  # instructor
+  
+  u"rCommAbility",
+  u"rInstructorAccess",
+  u"rStimulateInterest",
+  u"rArticulateGoals",
+
+  u"rInstructorConcern",
+  u"rInstructorRapport",
+  u"rInstructorAttitude",
+  u"rInstructorEffective",
+
+  u"rOralSkills",
+  u"rGradeFairness",
+  u"rNativeAbility",
+  u"rClassPace",
+
+  u"rTAQuality",
+
+  u"rRecommendMajor",
+  u"rRecommendNonMajor"
+)
+
+
+PRETTIFY_REVIEWBITS = { 
   u"rInstructorQuality": "Instructor Quality",
   u"rCourseQuality": "Course Quality",
   u"rDifficulty": "Difficulty",
@@ -34,42 +77,44 @@ PRETTIFY_REVIEWBITS = {
   u"rTAQuality": "TA Quality"
 }
 
-ORDER = (
-  # general
-  u"rCourseQuality",
-  u"rInstructorQuality",
-  u"rDifficulty",
-  
-  # class
-  
-  u"rAmountLearned",
-  u"rWorkRequired",
-  u"rReadingsValue",
-    
-  u"rHomeworkValuable",
-  u"rExamsConsistent",
-  u"rAbilitiesChallenged",
-  u"rSkillEmphasis",
-  
-  # instructor
-  
-  u"rCommAbility",
-  u"rInstructorAccess",
-  u"rStimulateInterest",
-  u"rArticulateGoals",
-  
-  u"rInstructorConcern",
-  u"rInstructorRapport",
-  u"rInstructorAttitude",
-  u"rInstructorEffective",
-  
-  u"rOralSkills",
-  u"rGradeFairness",
-  u"rNativeAbility",
-  u"rClassPace",
-  
-  u"rTAQuality",
-  
-  u"rRecommendMajor",
-  u"rRecommendNonMajor"     
-)
+
+PRETTIFY_SEMESTER = { 
+    "A": "Spring",
+    "B": "Summer",
+    "C": "Fall"
+}
+
+
+@register.filter(name='score')
+def score(score):
+  if score is None:
+    return ERROR
+  else:
+    return "%.2f" % score
+
+
+@register.filter(name='semester')
+def semester(semester):
+  try:
+    return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
+  except KeyError:
+    return semester
+
+
+@register.filter(name='no_hyphen')
+def no_hyphen(title):
+  return title.replace("-", " ")
+
+
+@tag(register, [Variable])
+def capitalize(name):
+  """Capitalize but account for roman numerals, so no "Calculus Iii" """
+  roman_numerals = set(['I', 'II', 'III', 'IV']) 
+  def cap_word(word): 
+    return word.upper() if word.upper() in roman_numerals else word.capitalize()
+  return " ".join(cap_word(word) for word in name.split(" "))
+
+
+@tag(register, [Variable])
+def format_comment(comment):
+  return (comment or "").replace("\n", "<br />")

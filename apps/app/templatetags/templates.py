@@ -14,15 +14,15 @@ def links(context):
   new_context = {
     'base_dir': context['base_dir'] if 'base_dir' in context else ""
   }
-  return render_to_string('templates/links.html', new_context)
+  return render_to_string('templatetags/links.html', new_context)
   
 @tag(register, [])
 def searchbar(context):
-  return render_to_string('templates/searchbar.html')
+  return render_to_string('templatetags/searchbar.html')
   
 @tag(register, [])
 def content_settings(context):
-  return render_to_string('templates/content_settings.html')
+  return render_to_string('templatetags/content_settings.html')
   
 @tag(register, [Variable()])
 def choose_cols_box(context, fields):
@@ -31,8 +31,8 @@ def choose_cols_box(context, fields):
     'fields0': fields[3:half],
     'fields1': fields[half:-1]
   }
-  return render_to_string('templates/choose_cols_box.html', new_context)
+  return render_to_string('templatetags/choose_cols_box.html', new_context)
 
 @tag(register, [])
 def tutorial_overlay(context):
-  return render_to_string('templates/tutorial_overlay.html')
+  return render_to_string('templatetags/tutorial_overlay.html')
