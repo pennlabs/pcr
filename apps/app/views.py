@@ -6,17 +6,22 @@ from django.template import Context, loader, RequestContext
 
 def instructor(request, id):
   from models import Instructor
+  instructor = Instructor(id)
   context = RequestContext(request, {
-    'instructor': Instructor(id),
-    'base_dir': '../'
+    'base_dir': '../',
+    'item': instructor,
+    'title': instructor.name
   })
-  return render_to_response('instructor.html', context)
+  return render_to_response('detail.html', context)
 
 
 def course(request, dept, id):
   from models import CourseHistory
+  title = '%s-%s' % (dept.upper(), id)
+  course = CourseHistory(title)
   context = RequestContext(request, {
-    'course': CourseHistory('%s-%s' % (dept.upper(), id)),
-    'base_dir': '../'
+    'base_dir': '../',
+    'item': course,
+    'title': title
     })
-  return render_to_response('course.html', context)
+  return render_to_response('detail.html', context)

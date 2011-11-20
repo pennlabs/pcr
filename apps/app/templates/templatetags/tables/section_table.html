@@ -1,0 +1,39 @@
+{% load table %}
+
+<table id="section-table">
+	<tbody>		
+		<tr>
+			<td class="sec_th col_icon">
+				<div title="Comments"></div>
+			</th>
+			{% for cell in table.head %}
+			<td class="sec_th col_{{cell.0}}">
+				{{cell.1}}
+			</td>
+			{% endfor %}
+		</tr>
+		
+		{% for row in table.body %}
+		<tr class="sec_row_display">
+			<td class="col_icon">
+				{% if row|last|last %}
+				<div class="comment-icon"
+					title="See Comments"
+					onclick="$('#row_hidden_{{row_id}} .sec_row_hidden_{{forloop.counter0}}').toggle()">
+				</div>
+				{% endif %}
+			</td>
+			{% for cell in row %}
+			<td class="col_{{cell.0}}">{{cell.1}}</td>
+			{% endfor %}
+		</tr>
+		{% if row|last|last %}
+		<tr class="sec_row_hidden sec_row_hidden_{{forloop.counter0}}">
+			<td class="sec_td_hidden" colspan="50">
+				<p>{{row|last|last|safe}}</p>
+			</td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+	</tbody>
+</table>

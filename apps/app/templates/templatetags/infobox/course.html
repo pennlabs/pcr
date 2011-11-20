@@ -1,0 +1,12 @@
+<p class="title">{{course.title|no_hyphen}}
+<span class="crosslist">
+  {% if course.aliases|length > 1 %}
+    (Also:
+    <a href="{{aliases.0}}">{{aliases.0}}</a>
+    {% for alias in aliases|slice:"1:" %},
+      <a href="{{alias}}">{{alias}}</a>
+    {% endfor %})
+  {% endif %}
+</span>
+<p class="subtitle">{{course.subtitle}}</p>
+<p class="desc">{{course.description}}</p>
