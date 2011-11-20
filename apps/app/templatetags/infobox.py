@@ -7,8 +7,6 @@ from django.template.loader import render_to_string
 from templatetag_sugar.register import tag
 from templatetag_sugar.parser import Variable, Optional, Constant, Name
 
-from average import average
-
 
 register = template.Library()
 

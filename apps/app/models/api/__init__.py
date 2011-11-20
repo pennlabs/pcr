@@ -7,8 +7,8 @@ from dataflow import dataflow
 from memoize import memoize
 
 
-@memoize
 @dataflow
+@memoize
 def api(*args, **kwargs):
   kwargs["token"] = TOKEN
   path = "".join((API, "/".join([str(arg) for arg in args]), "?", urllib.urlencode(kwargs)))
