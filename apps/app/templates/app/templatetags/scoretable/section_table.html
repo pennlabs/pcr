@@ -23,7 +23,7 @@
       {% if review.comments %}
         <div class="comment-icon"
           title="See Comments"
-          onclick="$('#row_hidden_{{row_id}} .sec_row_hidden_{{forloop.counter0}}').toggle()">
+          onclick="$('#row_hidden_{{forloop.parentloop.counter0}} .sec_row_hidden_{{forloop.counter0}}').toggle()">
         </div>
       {% endif %}
       </td>
