@@ -113,6 +113,8 @@ window.setup_tutorial_overlay = () ->
 DOCUMENT READY
 ###
 $(document).ready ->
+  window.toggle_course_row_all()
+  window.toggle_course_row_all()
   window.toggled_rows = 0
   window.course_rows = parseInt($("#course-table").attr("count"), 10)
 
