@@ -85,6 +85,7 @@ ROOT_URLCONF = 'pcrsite.urls'
 TEMPLATE_DIRS = (
   os.path.join(PROJECT_PATH, 'templates'),
   os.path.join(PROJECT_PATH, 'apps/app/templates'),
+  os.path.join(PROJECT_PATH, 'apps/searchbar/templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
 )
 
@@ -96,6 +97,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'apps.app',
     'apps.searchbar',
+    'apps.static',
 )
   
 if DO_STATICGENERATOR:
