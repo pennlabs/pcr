@@ -22,11 +22,11 @@ def infobox(context, item):
       'aliases': item.aliases - set([context['title']]),
       'coursehistory': item,
       }
-    return render_to_string('templatetags/infobox/course.html', new_context)
+    return render_to_string('app/templatetags/infobox/course.html', new_context)
   elif type(item) == Instructor:
     new_context = {
       'instructor': item,
       }
-    return render_to_string('templatetags/infobox/instructor.html', new_context)
+    return render_to_string('app/templatetags/infobox/instructor.html', new_context)
   else:
     raise Http404

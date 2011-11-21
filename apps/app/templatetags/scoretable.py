@@ -17,8 +17,8 @@ register = template.Library()
 def scoretable(context, item):
   '''Create a scorecard.'''
   if type(item) == CourseHistory:
-    return render_to_string('templatetags/scoretable/course.html', context)
+    return render_to_string('app/templatetags/scoretable/course.html', context)
   elif type(item) == Instructor:
-    return render_to_string('templatetags/scoretable/instructor.html', context)
+    return render_to_string('app/templatetags/scoretable/instructor.html', context)
   else:
     raise Http404

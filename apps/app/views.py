@@ -12,7 +12,7 @@ def instructor(request, id):
     'reviews': instructor.reviews,
     'title': instructor.name
   })
-  return render_to_response('detail.html', context)
+  return render_to_response('app/detail.html', context)
 
 
 def course(request, dept, id):
@@ -25,4 +25,4 @@ def course(request, dept, id):
     'reviews': set(review for course in coursehistory.courses for section in course.sections for review in section.reviews),
     'title': title
     })
-  return render_to_response('detail.html', context)
+  return render_to_response('app/detail.html', context)

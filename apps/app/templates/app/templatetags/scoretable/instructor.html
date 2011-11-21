@@ -1,4 +1,4 @@
-{% extends "templatetags/scoretable/base_scoretable.html" %}
+{% extends "app/templatetags/scoretable/base_scoretable.html" %}
 {% load prettify %}
 {% block key %}
   <th scope="col" class="col_code">
@@ -33,7 +33,7 @@
           {% endwith %}
         </tr>
         <tr class="row_hidden" id="row_hidden_{{forloop.counter0}}">
-          <td class="td_hidden" colspan="50">{% include "./templatetags/scoretable/section_table.html" %}</td>
+          <td class="td_hidden" colspan="50">{% include "app/templatetags/scoretable/section_table.html" %}</td>
         </tr>
       {% endwith %}
     {% endwith %}
