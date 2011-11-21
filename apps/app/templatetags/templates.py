@@ -15,11 +15,8 @@ def links(context):
     'base_dir': context['base_dir'] if 'base_dir' in context else ""
   }
   return render_to_string('templatetags/links.html', new_context)
-  
-@tag(register, [])
-def searchbar(context):
-  return render_to_string('templatetags/searchbar.html')
-  
+
+
 @tag(register, [Variable()])
 def choose_cols_box(context, attributes):
   #split the attributes into two columns
