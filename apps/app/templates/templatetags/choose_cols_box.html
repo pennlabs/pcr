@@ -1,3 +1,4 @@
+{% load prettify %}
 <div id="choose-cols">
   <div class="container_12">
     <div id="choose-cols-inner">
@@ -7,18 +8,18 @@
           <h1>Choose Columns to Display</h1>
           
           <div style="width:50%; float:right;">
-            {% for i in fields1 %}
-            <p>
-              <input type="checkbox" id="checkbox_{{i.0}}" name="{{i.0}}" value="{{i.0}}" />
-              <label for="checkbox_{{i.0}}">{{i.1}}</label>
-            </p>
+            {% for attribute in left_col %}
+          <p>
+            <input type="checkbox" id="checkbox_{{attribute}}" name="{{attribute}}" value="{{attribute}}" />
+            <label for="checkbox_{{attribute}}">{{attribute|reviewbit}}</label>
+          </p>
             {% endfor %}
           </div>
           
-          {% for i in fields0 %}
+          {% for attribute in right_col %}
           <p>
-            <input type="checkbox" id="checkbox_{{i.0}}" name="{{i.0}}" value="{{i.0}}" />
-            <label for="checkbox_{{i.0}}">{{i.1}}</label>
+            <input type="checkbox" id="checkbox_{{attribute}}" name="{{attribute}}" value="{{attribute}}" />
+            <label for="checkbox_{{attribute}}">{{attribute|reviewbit}}</label>
           </p>
           {% endfor %}
           

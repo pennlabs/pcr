@@ -9,5 +9,5 @@
     )
   {% endif %}
 </span>
-<p class="subtitle">{{coursehistory.subtitle|fix_roman}}</p>
+<p class="subtitle">{{coursehistory|subtitle|fix_roman}}</p>
 <p class="desc">{{coursehistory.description|default_if_none:""}}</p>

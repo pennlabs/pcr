@@ -171,15 +171,6 @@ class CourseHistory(object):
   def courses(self):
     return set(Course(course_id) for course_id in self.__course_ids)
 
-  def all_names(self):
-    names = set(section.name.strip() for course in self.courses for section in course.sections)
-    return names - set(['RECITATION', 'LECTURE', 'Recitation', 'Lecture']) 
-
-  @property
-  def subtitle(self):
-    precondition = "" if len(self.all_names()) <= 1 else "(Recent Example) "
-    return precondition + self.name
-
   @property
   def alias(self):
     for alias in self.aliases:

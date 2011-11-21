@@ -1,4 +1,5 @@
 from __future__ import division
+import re
 
 from django import template
 
@@ -151,6 +152,15 @@ def no_hyphen(title):
   return title.replace("-", " ")
 
 
+@register.filter(name='subtitle')
+def subtitle(coursehistory):
+  names = set(section.name for course in coursehistory.courses for section in course.sections)
+  if len(names - set(["RECITATATION", "Recitation", "LECTURE", "Lecture"])) > 1:
+    return "(Recent Example) %s" % coursehistory.name
+  else:
+    return coursehistory.name
+
+
 #NOTE: Find another way to do this if possible.
 @register.filter(name="get")
 def get(item, arg):
@@ -168,10 +178,12 @@ def get(item, arg):
 @register.filter(name="fix_roman")
 def capitalize(name):
   """Capitalize but account for roman numerals, so no "Calculus Iii" """
+  #split into words, punctuation, and whitespace
+  tokens = re.findall(r"(\w+|[\s.,?/:\(\)]+)", name)
   roman_numerals = set(['I', 'II', 'III', 'IV']) 
   def cap_word(word): 
     return word.upper() if word.upper() in roman_numerals else word.capitalize()
-  return " ".join(cap_word(word) for word in name.split(" "))
+  return "".join(cap_word(token) for token in tokens)
 
 
 @register.filter(name="format_comment")

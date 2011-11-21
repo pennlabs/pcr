@@ -22,12 +22,12 @@
         {% endblock %}
         <th scope="col" class="col_name">
           <div class="sort-icon"></div>
-          <span class="th-text">Name</span>				
+          <span class="th-text">Name</span>
         </th>
         {% for attribute in reviews|columns %}
         <th scope="col" class="col_{{attribute}}">
           <div class="sort-icon"></div>
-          <span class="th-text">{{attribute|reviewbit}}</span>				
+          <span class="th-text">{{attribute|reviewbit}}</span>
         </th>
         {% endfor %}
       </tr>

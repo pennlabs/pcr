@@ -2,6 +2,7 @@
 
 {% load infobox %}
 {% load scoretable %}
+{% load prettify %}
 {% load templates %}
 
 {% block title %}
@@ -35,6 +36,6 @@
 {% endblock %}
 
 {% block non-wrapper %}
-  {% choose_cols_box score_table.head %}
+  {% choose_cols_box reviews|columns %}
   {% tutorial_overlay %}
 {% endblock %}
