@@ -17,7 +17,7 @@
     </tr>
   </thead>
   <tbody>
-  {% for review in reviews|dictsortreversed:"section.course.semester" %}
+  {% for review in reviews|dictsort:"section.sectionnum"|dictsortreversed:"section.course.semester" %}
     <tr class="sec_row_display">
       <td class="col_icon">
       {% if review.comments %}
