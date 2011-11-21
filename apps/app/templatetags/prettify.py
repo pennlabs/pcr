@@ -179,7 +179,7 @@ def get(item, arg):
 def capitalize(name):
   """Capitalize but account for roman numerals, so no "Calculus Iii" """
   #split into words, punctuation, and whitespace
-  tokens = re.findall(r"(\w+|[\s.,?/:\(\)]+)", name)
+  tokens = re.findall(r"(\w+|[\s.,?&/:\(\)]+)", name)
   roman_numerals = set(['I', 'II', 'III', 'IV']) 
   def cap_word(word): 
     return word.upper() if word.upper() in roman_numerals else word.capitalize()
