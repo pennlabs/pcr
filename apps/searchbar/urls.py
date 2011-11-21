@@ -1,8 +1,6 @@
 from django.conf.urls.defaults import *
 
-from views import *
 
-
-urlpatterns = patterns('',
-  (r'^autocomplete_data.json$', autocomplete_data),
+urlpatterns = patterns('apps.searchbar.views',
+  (r'^$', 'autocomplete_data'),
 )

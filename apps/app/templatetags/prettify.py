@@ -1,3 +1,5 @@
+from __future__ import division
+
 from django import template
 
 from templatetag_sugar.parser import Variable
@@ -6,7 +8,6 @@ from templatetag_sugar.register import tag
 
 register = template.Library()
 
-ERROR = u"\u00A0" #empty strin
 
 ATTRIBUTES = ( 
   # general
@@ -78,6 +79,56 @@ PRETTIFY_REVIEWBITS = {
 }
 
 
+@register.filter(name='reviewbit')
+def reviewbit(reviewbit):
+  try:
+    return PRETTIFY_REVIEWBITS[reviewbit]
+  except KeyError:
+    return reviewbit
+
+
+@register.filter(name="columns")
+def attributes(reviews):
+  for attribute in ATTRIBUTES:
+    for review in reviews:
+      if attribute in review.ratings:
+        yield attribute
+        break
+
+
+@register.filter(name="sectionname")
+def sectionname(reviews):
+  names = set(review.section.name.strip() for review in reviews)
+  if len(names) > 1:
+    return "Various"
+  else:
+    return names.pop()
+
+
+@register.filter(name='recent')
+def recent(reviews):
+  try:
+    return max(reviews, key=lambda review: review.section.course.semester)
+  except ValueError:
+    return ""
+
+
+@register.filter(name='average')
+def average(reviews, attribute):
+  average = 0.0
+  valid = 0
+  for review in reviews:
+    try:
+      average += review.ratings[attribute]
+      valid += 1
+    except KeyError:
+      continue
+  try:
+    return average / valid
+  except ZeroDivisionError:
+    return ""
+
+
 PRETTIFY_SEMESTER = { 
     "A": "Spring",
     "B": "Summer",
@@ -85,18 +136,12 @@ PRETTIFY_SEMESTER = {
 }
 
 
-@register.filter(name='score')
-def score(score):
-  if score is None:
-    return ERROR
-  else:
-    return "%.2f" % score
-
-
 @register.filter(name='semester')
 def semester(semester):
   try:
     return "%s %s" % (PRETTIFY_SEMESTER[semester[-1]], semester[:-1])
+  except IndexError:
+    return semester
   except KeyError:
     return semester
 
@@ -106,7 +151,21 @@ def no_hyphen(title):
   return title.replace("-", " ")
 
 
-@tag(register, [Variable])
+#NOTE: Find another way to do this if possible.
+@register.filter(name="get")
+def get(item, arg):
+  try:
+    return getattr(item, arg)
+  except AttributeError:
+    try:
+      return item.get(arg)
+    except AttributeError:
+      return ""
+    except KeyError:
+      return ""
+
+
+@register.filter(name="fix_roman")
 def capitalize(name):
   """Capitalize but account for roman numerals, so no "Calculus Iii" """
   roman_numerals = set(['I', 'II', 'III', 'IV']) 
@@ -115,6 +174,6 @@ def capitalize(name):
   return " ".join(cap_word(word) for word in name.split(" "))
 
 
-@tag(register, [Variable])
+@register.filter(name="format_comment")
 def format_comment(comment):
   return (comment or "").replace("\n", "<br />")

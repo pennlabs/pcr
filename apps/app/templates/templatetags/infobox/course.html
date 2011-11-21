@@ -1,12 +1,13 @@
-<p class="title">{{course.title|no_hyphen}}
+{% load prettify %}
+<p class="title">{{title|no_hyphen}}
 <span class="crosslist">
-  {% if course.aliases|length > 1 %}
+  {% if aliases|length > 1 %}
     (Also:
-    <a href="{{aliases.0}}">{{aliases.0}}</a>
-    {% for alias in aliases|slice:"1:" %},
-      <a href="{{alias}}">{{alias}}</a>
-    {% endfor %})
+    {% for alias in aliases %}
+    <a href="{{alias}}">{{alias}}</a>{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    )
   {% endif %}
 </span>
-<p class="subtitle">{{course.subtitle}}</p>
-<p class="desc">{{course.description}}</p>
+<p class="subtitle">{{coursehistory.subtitle|fix_roman}}</p>
+<p class="desc">{{coursehistory.description|default_if_none:""}}</p>

@@ -20,10 +20,6 @@ def links(context):
 def searchbar(context):
   return render_to_string('templatetags/searchbar.html')
   
-@tag(register, [])
-def content_settings(context):
-  return render_to_string('templatetags/content_settings.html')
-  
 @tag(register, [Variable()])
 def choose_cols_box(context, fields):
   half = (len(fields)-3)/2+3

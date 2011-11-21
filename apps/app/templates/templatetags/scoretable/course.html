@@ -1,0 +1,41 @@
+{% extends "templatetags/scoretable/base_scoretable.html" %}
+{% load prettify %}
+{% block key%}
+<th scope="col" class="col_instructor">
+  <div class="sort-icon"></div>
+  <span class="th-text">Instructor</span>
+</th>
+{% endblock %}
+{% block body %}
+  {% regroup reviews|dictsort:"instructor.last_name" by instructor as instructor_list %}
+  {% for group in instructor_list %}
+    {% with instructor=group.grouper %}
+    <tr id="row_display_{{forloop.counter0}}" class="row_display" onclick="toggle_course_row({{forloop.counter0}})">
+      <td class="col_icon">
+        <div class="fold-icon" title="Expand"></div>
+      </td>
+      <td class="col_instructor">
+        <a href="../{{instructor.url}}" onclick="toggle_course_row({{forloop.counter0}})">
+          {{instructor.name}}
+        </a>
+      </td> 
+        {% with reviews=group.list %}
+      <td class="col_name">
+          {{reviews|sectionname|fix_roman}}
+      </td>
+          {% with reviews|recent as recent %}
+            {% for attribute in reviews|columns %}
+            <td class="col_{{attribute}}">
+              <span class="cell_average">{{reviews|average:attribute|floatformat:2}}</span>
+              <span class="cell_recent">{{recent.ratings|get:attribute|floatformat:2}}</span>
+            </td>
+            {% endfor %}
+          {% endwith %}
+        </tr>
+        <tr class="row_hidden" id="row_hidden_{{forloop.counter0}}">
+          <td class="td_hidden" colspan="50">{% include "./templatetags/scoretable/section_table.html" %}</td>
+        </tr>
+      {% endwith %}
+    {% endwith %}
+  {% endfor %}
+{% endblock %}

@@ -14,19 +14,11 @@ register = template.Library()
 
 
 @tag(register, [Variable()])
-def infobox(context, item):
+def scoretable(context, item):
   '''Create a scorecard.'''
   if type(item) == CourseHistory:
-    new_context = {
-      'title': context['title'],
-      'aliases': item.aliases - set([context['title']]),
-      'coursehistory': item,
-      }
-    return render_to_string('templatetags/infobox/course.html', new_context)
+    return render_to_string('templatetags/scoretable/course.html', context)
   elif type(item) == Instructor:
-    new_context = {
-      'instructor': item,
-      }
-    return render_to_string('templatetags/infobox/instructor.html', new_context)
+    return render_to_string('templatetags/scoretable/instructor.html', context)
   else:
     raise Http404

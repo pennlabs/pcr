@@ -2,8 +2,8 @@ from __future__ import division
 import itertools
 
 from api import api
-from urllib2 import HTTPError
 
+#NOTE: I use sets rather than generators to reduce blocking calls.
 
 #we use this to provide data in the case that a course doesn't have lectures
 #if a course doesn't, it will attempt to show seminar data, else lab data, else recitation data 
@@ -16,7 +16,7 @@ class Review(object):
     course_id, section_id = section_id.split("-")
     try:
       raw_self = api('course', course_id, 'section', section_id, 'review', instructor_id)
-    except HTTPError as e:
+    except ValueError as e:
       raise e
     else:
       self.comments = raw_self['comments']
@@ -44,41 +44,52 @@ class Instructor(object):
   def __init__(self, id):
     try:
       raw_self = api('instructor', id)
-    except HTTPError as e:
+    except ValueError as e:
       raise e
     else:
       self.id = id
       self.name = raw_self['name']
 
   @property
+  def last_name(self):
+    return self.name.split()[-1]
+
+  @property
   def sections(self):
     #TODO: Request change
     raw_sections = api('instructor', self.id, 'sections')
-    for raw_section in raw_sections:
-      yield Section(raw_section['id'])
+    return set(Section(raw_section['id']) for raw_section in raw_sections)
+
+  @property
+  def reviews(self):
+    return set(Review(raw_review['section']['id'], self.id) for raw_review in api('instructor', self.id, 'reviews')['values'])
+
+  @property
+  def url(self):
+    return 'instructor/%s' % self.id
 
   def __cmp__(self, other):
-    return self.last_name > other.last_name
+    return 1 if self.last_name > other.last_name else 0 if self.last_name == other.last_name else -1
 
   def __eq__(self, other):
     return self.id == other.id
 
   def __hash__(self):
-    return self.id
+    return hash(self.id)
 
   def __repr__(self):
     return "Instructor(%s)" % self.name
 
 
 class Section(object):
-  def __init__(self, id):
-    course_id, section_id = id.split("-")
+  def __init__(self, sid):
+    course_id, section_id = sid.split("-")
     try:
       raw_self = api('course', course_id, 'section', section_id)
-    except HTTPError as e:
+    except ValueError as e:
       raise e
     else:
-      self.id = id
+      self.id = raw_self['id']
       self.name = raw_self['name']
       self.sectionnum = raw_self['sectionnum']
       self.__course_id = raw_self['course']['id']
@@ -91,11 +102,16 @@ class Section(object):
 
   @property
   def instructors(self):
-    for instructor_id in self.__instructor_ids:
-      yield Instructor(instructor_id)
+    return set(Instructor(instructor_id) for instructor_id in self.__instructor_ids)
+
+  @property
+  def reviews(self):
+    return set(Review(self.id, raw_review['instructor']['id'])
+        for raw_review
+        in api('course', self.__course_id, 'section', self.sectionnum, 'reviews')['values'])
 
   def __hash__(self):
-    return self.id
+    return hash(self.id)
 
   def __repr__(self):
     return "Section(%s)" % self.id
@@ -105,10 +121,10 @@ class Course(object):
   def __init__(self, id):
     try:
       raw_self = api('course', id)
-    except HTTPError as e:
+    except ValueError as e:
       raise e
     else:
-      self.id = id
+      self.id = raw_self['id']
       self.aliases = set(alias for alias in raw_self['aliases'])
       self.description = raw_self['description']
       self.semester = raw_self['semester']
@@ -122,17 +138,16 @@ class Course(object):
 
   @property
   def sections(self):
-    for section_id in self.__section_ids:
-      yield Section(section_id)
+    return set(Section(section_id) for section_id in self.__section_ids)
 
   def __cmp__(self, other):
-    return self.semester > other.semester
+    return 1 if self.semester > other.semester else 0 if self.semester == other.semester else -1
 
   def __eq__(self, other):
     return self.id == other.id
 
   def __hash__(self):
-    return self.id
+    return hash(self.id)
 
   def __repr__(self):
     return 'Course(%s)' % self.id
@@ -140,13 +155,13 @@ class Course(object):
 
 class CourseHistory(object):
   def __init__(self, id):
-    #id can either be one if its aliases, or numeric id
+    #constructor id can either be one if its aliases, or numeric id
     try:
       raw_self = api('coursehistory', id)
-    except HTTPError as e:
+    except ValueError as e:
       raise e
     else:
-      self.id = int(raw_self['id'])
+      self.id = raw_self['id']
       self.aliases = set(raw_self['aliases'])
       self.name = raw_self['name'] #ie PROG LANG AND TECH II
       self.__course_ids = [int(raw_course['id'])
@@ -154,11 +169,10 @@ class CourseHistory(object):
 
   @property
   def courses(self):
-    for course_id in self.__course_ids:
-      yield Course(course_id)
+    return set(Course(course_id) for course_id in self.__course_ids)
 
   def all_names(self):
-    names = set([section.name.strip() for course in self.courses for section in course.sections])
+    names = set(section.name.strip() for course in self.courses for section in course.sections)
     return names - set(['RECITATION', 'LECTURE', 'Recitation', 'Lecture']) 
 
   @property
@@ -167,16 +181,29 @@ class CourseHistory(object):
     return precondition + self.name
 
   @property
+  def alias(self):
+    for alias in self.aliases:
+      return alias
+
+  @property
   def description(self):
-    for course in itertools.takewhile(lambda course: course.description, sorted(self.courses)):
-      return course.description
+    for course in sorted(self.courses, reverse=True):
+      if course.description:
+        return course.description
     return None
+  
+  @property
+  def url(self):
+    return "course/%s" % self.alias
 
   def __eq__(self, other):
     return self.id == other.id
+
+  def __cmp__(self, other):
+    return 1 if self.id > other.id else 0 if self.id == other.id else -1
   
   def __hash__(self):
-    return self.id
+    return hash(self.id)
 
   def __repr__(self):
     return 'CourseHistory(%s)' % self.id

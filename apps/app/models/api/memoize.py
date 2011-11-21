@@ -9,7 +9,9 @@ def memoize(func):
     try:
       return cache[hash_]
     except KeyError:
-      #this is potentially dangerous
-      cache[hash_] = func(*args, **kwargs)
+      try:
+        cache[hash_] = func(*args, **kwargs)
+      except Exception as e:
+        raise e
       return cache[hash_]
   return memoized

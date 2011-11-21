@@ -1,0 +1,43 @@
+{% load prettify %}
+{% if reviews|length > 0 %}
+<div id="banner-score" class="grid_4">
+    <div class="grid_4 alpha omega scoreboxrow">
+      <div class="grid_1 alpha scoredesc">
+        <p class="title">Average</p>
+        <p class="subtitle">{{reviews|length}} review{{reviews|length|pluralize}}</p>
+      </div>
+      <div class="grid_1 scorebox">
+        <p class="num">{{reviews|average:"rCourseQuality"|floatformat:1}}</p>
+        <p class="desc">Course</p>
+      </div>
+      <div class="grid_1 scorebox">
+        <p class="num">{{reviews|average:"rInstructorQuality"|floatformat:1}}</p>
+        <p class="desc">Instructor</p>
+      </div>
+      <div class="grid_1 omega scorebox">
+        <p class="num">{{reviews|average:"rDifficulty"|floatformat:1}}</p>
+        <p class="desc">Difficulty</p>
+      </div>
+    </div>
+    <div class="grid_4 alpha omega scoreboxrow">
+      {% with recent=reviews|recent %}
+      <div class="grid_1 alpha scoredesc">
+        <p class="title">Recent</p>
+        <p class="subtitle">{{recent.section.course.semester|semester}}</p>
+      </div>
+      <div class="grid_1 scorebox">
+        <p class="num">{{recent.ratings.rCourseQuality|floatformat:1}}</p>
+        <p class="desc">Course</p>
+      </div>
+      <div class="grid_1 scorebox">
+        <p class="num">{{recent.ratings.rInstructorQuality|floatformat:1}}</p>
+        <p class="desc">Instructor</p>
+      </div>
+      <div class="grid_1 omega scorebox">
+        <p class="num">{{recent.ratings.rDifficulty|floatformat:1}}</p>
+        <p class="desc">Difficulty</p>
+      </div>
+      {% endwith %}
+    </div>
+</div>
+{% endif %}
