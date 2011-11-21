@@ -29,7 +29,3 @@ def choose_cols_box(context, attributes):
       'right_col': cols[len(cols)/2:]
   }
   return render_to_string('templatetags/choose_cols_box.html', new_context)
-
-@tag(register, [])
-def tutorial_overlay(context):
-  return render_to_string('templatetags/tutorial_overlay.html')
