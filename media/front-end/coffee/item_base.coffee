@@ -113,8 +113,14 @@ window.setup_tutorial_overlay = () ->
 DOCUMENT READY
 ###
 $(document).ready ->
-  window.toggle_course_row_all()
-  window.toggle_course_row_all()
+  # graceful degradation without javascript: by default, everything is open
+  # and javascript hides everything
+  # 1. Hide 'comments'
+  $('.sec_row_hidden').hide()
+  # 2. Hide 'sections'
+  window.toggle_course_row_all() 
+  window.toggle_course_row_all()# hack - called twice due to init bug TODO - fix
+
   window.toggled_rows = 0
   window.course_rows = parseInt($("#course-table").attr("count"), 10)
 

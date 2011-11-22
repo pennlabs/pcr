@@ -1,11 +1,13 @@
 {% extends "app/templatetags/scoretable/base_scoretable.html" %}
 {% load prettify %}
+
 {% block key%}
 <th scope="col" class="col_instructor">
   <div class="sort-icon"></div>
   <span class="th-text">Instructor</span>
 </th>
 {% endblock %}
+
 {% block body %}
   {% regroup reviews|dictsort:"instructor.last_name" by instructor as instructor_list %}
   {% for group in instructor_list %}
@@ -21,7 +23,7 @@
       </td> 
         {% with reviews=group.list %}
       <td class="col_name">
-          {{reviews|sectionname|fix_roman}}
+          {{reviews|sectionname|capitalize_improved|safe}}
       </td>
           {% with reviews|recent as recent %}
             {% for attribute in reviews|columns %}

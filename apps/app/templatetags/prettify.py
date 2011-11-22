@@ -9,7 +9,7 @@ from templatetag_sugar.register import tag
 
 register = template.Library()
 
-
+# review attributes, ordered left-to-right 
 ATTRIBUTES = ( 
   # general
   u"rCourseQuality",
@@ -175,7 +175,7 @@ def get(item, arg):
       return ""
 
 
-@register.filter(name="fix_roman")
+@register.filter(name="capitalize_improved")
 def capitalize(name):
   """Capitalize but account for roman numerals, so no "Calculus Iii" """
   #split into words, punctuation, and whitespace

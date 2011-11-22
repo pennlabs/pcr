@@ -3,16 +3,15 @@ import urllib
 import urllib2
 import json
 
-try:
-  from pcrsite.sandbox_config import DOMAIN, TOKEN
-except ImportError:
-  DOMAIN, TOKEN = "http://pennapps.com/courses-ceasarb/", "pcr_e4a04ecd6aaadc2fe927e00205d9b039"
+from pcrsite.sandbox_config import DOMAIN, TOKEN
 from dataflow import dataflow
 from memoize import memoize
 
+#dataflow makes the function return a dummy object and starts a thread for the request
+#if the dummy object is asked for data, the thread blocks
 
 @memoize
-@dataflow
+@dataflow 
 def api(domain, *args, **kwargs):
   path = "".join((domain, "/".join([str(arg) for arg in args]), "?", urllib.urlencode(kwargs)))
   try:

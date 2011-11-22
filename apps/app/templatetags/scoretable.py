@@ -15,7 +15,7 @@ register = template.Library()
 
 @tag(register, [Variable()])
 def scoretable(context, item):
-  '''Create a scorecard.'''
+  '''Create a score table (the main content itself).'''
   if type(item) == CourseHistory:
     return render_to_string('app/templatetags/scoretable/course.html', context)
   elif type(item) == Instructor:
