@@ -1,7 +1,7 @@
 from __future__ import division
 import itertools
 
-from api import api
+from pcrsite.lib.api import api
 
 #NOTE: I use sets rather than generators to reduce blocking calls.
 

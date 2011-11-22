@@ -2,7 +2,7 @@ import json
 
 from django.http import HttpResponse
 
-from api import api
+from pcrsite.lib.api import api
 
 
 def json_response(result_dict):

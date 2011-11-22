@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 
-from api import api
+from pcrsite.lib.api import api
 
 
 def static(request, page):
