@@ -113,6 +113,9 @@
   */
   $(document).ready(function() {
     var cols, i, _ref;
+    $('.sec_row_hidden').hide();
+    window.toggle_course_row_all();
+    window.toggle_course_row_all();
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
     init_search_box("../");

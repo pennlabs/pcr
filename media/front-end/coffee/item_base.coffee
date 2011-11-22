@@ -1,6 +1,7 @@
 window.course_rows
 window.toggled_rows
 
+
 window.toggle_course_row_all = () ->
   if $("th div.fold-icon").hasClass("open")
     $("th div.fold-icon").removeClass("open")
@@ -12,6 +13,7 @@ window.toggle_course_row_all = () ->
     $("td div.fold-icon").addClass("open")
     $(".row_hidden").show()
     window.toggled_rows = window.course_rows
+
 
 window.toggle_course_row = (index) ->
   $("#row_hidden_#{index}").toggle()
@@ -27,8 +29,10 @@ window.toggle_course_row = (index) ->
   else
     $("th div.fold-icon").removeClass("open")
 
+
 window.toggle_choose_cols = () ->
   $("#choose-cols").toggle()
+
 
 window.submit_choose_cols = () ->
   boxes = $("#choose-cols input[type='checkbox']")
@@ -42,6 +46,7 @@ window.submit_choose_cols = () ->
   toggle_choose_cols()
   set_cols(result)
 
+
 window.cancel_choose_cols = () ->
   $("#choose-cols input[type=checkbox]").attr("checked",false)
   
@@ -50,7 +55,8 @@ window.cancel_choose_cols = () ->
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
     
   toggle_choose_cols()
-  
+
+
 # 0=average (default), 1=recent
 window.set_viewmode = (view_id) ->
   if "#{view_id}" == "0"
@@ -66,13 +72,14 @@ window.set_viewmode = (view_id) ->
   $.cookie("pcr_viewmode", view_id, {path: '/'})
   $('#course-table').trigger('update')
 
+
 window.viewmode = -> $.cookie('pcr_viewmode')
 
+
 window.set_cols = (cols) ->
-  # hide all cols
   $("#course-table th").hide()
   $("#course-table td").hide()
-  # show default cols
+
   $("#course-table .col_icon").show()
   $("#course-table .col_code").show()
   $("#course-table .col_instructor").show()
@@ -81,22 +88,14 @@ window.set_cols = (cols) ->
   $("#course-table .col_responses").show()
   $("#course-table .td_hidden").show()
   $("#course-table .sec_td_hidden").show()
-  
-  #course_col_count = 2
-  #section_col_count = 2
-  
-  # loop cols
+
   for i in [0..(cols.length-1)]
     $("#course-table .col_#{cols[i]}").show()
-    #course_col_count++
-    #section_col_count++
-    
-  #$("td.td_hidden").attr("colspan", "#{course_col_count}")
-  #$("td.sec_td_hidden").attr("colspan", "#{section_col_count}")
-  
+
 
 window.start_sort_rows = () ->
   $("#course-table .row_hidden").appendTo($("div#hidden"))
+
 
 window.end_sort_rows = () ->
   $("#course-table .row_display").each(() ->
@@ -104,14 +103,24 @@ window.end_sort_rows = () ->
     $(this).after($("#row_hidden_#{index}"))
   )
 
+
 window.setup_tutorial_overlay = () ->
   $("#tut-viewmode").css("top", $("#settings-viewmode").offset().top-230);
   $("#tut-choosecols").css("top", $("#settings-other").offset().top-230);
+
 
 ###
 DOCUMENT READY
 ###
 $(document).ready ->
+  # graceful degradation without javascript: by default, everything is open
+  # and javascript hides everything
+  # 1. Hide 'comments'
+  $('.sec_row_hidden').hide()
+  # 2. Hide 'sections'
+  window.toggle_course_row_all() 
+  window.toggle_course_row_all()# hack - called twice due to init bug TODO - fix
+
   window.toggled_rows = 0
   window.course_rows = parseInt($("#course-table").attr("count"), 10)
 
@@ -149,7 +158,7 @@ $(document).ready ->
     $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
   cols = $.cookie("pcr_choosecols").split(",")
   set_cols(cols)
-  # loop cols
+
   for i in [0..(cols.length-1)]
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
     
