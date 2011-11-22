@@ -64,10 +64,6 @@ class Instructor(object):
   def reviews(self):
     return set(Review(review_id) for review_id in self.__review_ids)
 
-  @property
-  def url(self):
-    return 'instructors/%s' % self.id
-
   def __cmp__(self, other):
     return cmp(self.id, other.id)
 
@@ -185,11 +181,6 @@ class CourseHistory(object):
       if course.description:
         return course.description
     return None
-  
-  @property
-  def url(self):
-    #TODO: This is made to satisfy the views, but is wrong. Fix it.
-    return "course/%s" % self.alias
 
   def __eq__(self, other):
     return self.id == other.id

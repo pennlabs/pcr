@@ -17,14 +17,14 @@
         <div class="fold-icon" title="Expand"></div>
       </td>
       <td class="col_code">
-        <a href="../{{coursehistory.url}}" onclick="toggle_course_row({{forloop.counter0}})">
+        <a href="../course/{{coursehistory.alias}}" onclick="toggle_course_row({{forloop.counter0}})">
           {{coursehistory.alias}}
         </a>
-      </td>			
+      </td>
         {% with reviews=group.list %}
       <td class="col_name">
           {{reviews|sectionname|title}}
-      </td>			
+      </td>
           {% with reviews|recent as recent %}
             {% for attribute in reviews|columns %}
             <td class="col_{{attribute}}">
