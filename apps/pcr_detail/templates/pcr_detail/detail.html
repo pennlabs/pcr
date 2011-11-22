@@ -26,7 +26,7 @@
   <div id="banner-info" class="grid_7 suffix_1">
     {% infobox item %}
   </div>
-  {% include "app/scorecard.html" %}
+  {% include "pcr_detail/scorecard.html" %}
   <div class="clear"></div>	
 {% endblock %}
 
@@ -37,5 +37,5 @@
 
 {% block non-wrapper %}
   {% choose_cols_box reviews|columns %}
-  {% include "app/tutorial_overlay.html" %}
+  {% include "pcr_detail/tutorial_overlay.html" %}
 {% endblock %}

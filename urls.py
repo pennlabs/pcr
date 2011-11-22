@@ -7,5 +7,5 @@ urlpatterns = patterns('',
     (r'autocomplete_data.json', 'apps.searchbar.views.autocomplete_data'),
     (r'(about)', 'apps.static.views.static'),
     (r'(faq)', 'apps.static.views.static'),
-    (r'^', include('apps.app.urls')),
+    (r'^', include('apps.pcr_detail.urls')),
 )

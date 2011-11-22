@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from templatetag_sugar.register import tag
 from templatetag_sugar.parser import Variable, Optional, Constant, Name
 
-from apps.app.models import CourseHistory, Instructor
+from apps.pcr_detail.models import CourseHistory, Instructor
 
 
 register = template.Library()
@@ -17,8 +17,8 @@ register = template.Library()
 def scoretable(context, item):
   '''Create a score table (the main content itself).'''
   if type(item) == CourseHistory:
-    return render_to_string('app/templatetags/scoretable/course.html', context)
+    return render_to_string('pcr_detail/templatetags/scoretable/course.html', context)
   elif type(item) == Instructor:
-    return render_to_string('app/templatetags/scoretable/instructor.html', context)
+    return render_to_string('pcr_detail/templatetags/scoretable/instructor.html', context)
   else:
     raise Http404

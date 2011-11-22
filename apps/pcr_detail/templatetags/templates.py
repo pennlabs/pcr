@@ -14,7 +14,7 @@ def links(context):
   new_context = {
     'base_dir': context['base_dir'] if 'base_dir' in context else ""
   }
-  return render_to_string('app/templatetags/links.html', new_context)
+  return render_to_string('pcr_detail/templatetags/links.html', new_context)
 
 
 @tag(register, [Variable()])
@@ -25,4 +25,4 @@ def choose_cols_box(context, attributes):
       'left_col': cols[:len(cols)/2],
       'right_col': cols[len(cols)/2:]
   }
-  return render_to_string('app/templatetags/choose_cols_box.html', new_context)
+  return render_to_string('pcr_detail/templatetags/choose_cols_box.html', new_context)

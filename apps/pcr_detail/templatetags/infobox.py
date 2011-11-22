@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from templatetag_sugar.register import tag
 from templatetag_sugar.parser import Variable, Optional, Constant, Name
 
-from apps.app.models import CourseHistory, Instructor
+from apps.pcr_detail.models import CourseHistory, Instructor
 
 
 register = template.Library()
@@ -22,11 +22,11 @@ def infobox(context, item):
       'aliases': item.aliases - set([context['title']]),
       'coursehistory': item,
       }
-    return render_to_string('app/templatetags/infobox/course.html', new_context)
+    return render_to_string('pcr_detail/templatetags/infobox/course.html', new_context)
   elif type(item) == Instructor:
     new_context = {
       'instructor': item,
       }
-    return render_to_string('app/templatetags/infobox/instructor.html', new_context)
+    return render_to_string('pcr_detail/templatetags/infobox/instructor.html', new_context)
   else:
     raise Http404
