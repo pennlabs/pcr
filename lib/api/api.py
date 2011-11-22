@@ -9,7 +9,7 @@ from memoize import memoize
 
 
 @memoize
-@dataflow
+#@dataflow
 def api(domain, *args, **kwargs):
   path = "".join((domain, "/".join([str(arg) for arg in args]), "?", urllib.urlencode(kwargs)))
   try:

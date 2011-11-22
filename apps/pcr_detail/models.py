@@ -1,9 +1,5 @@
-from __future__ import division
-import itertools
-
 from pcrsite.lib.api import api
 
-#NOTE: I use sets rather than generators to reduce blocking calls.
 
 #we use this to provide data in the case that a course doesn't have lectures
 #if a course doesn't, it will attempt to show seminar data, else lab data, else recitation data 
@@ -12,19 +8,20 @@ TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
 
 
 class Review(object):
-  def __init__(self, section_id, instructor_id):
-    course_id, section_id = section_id.split("-")
+  def __init__(self, rid):
+    tokens = rid.split("-")
+    #NOTE: Since a professor's name is hyphen separated we have to be careful
+    course_id, section_id, instructor_id = tokens[0], tokens[1], "-".join(tokens[2:])
     try:
-      raw_self = api('course', course_id, 'section', section_id, 'review', instructor_id)
+      raw_self = api('courses', course_id, 'sections', section_id, 'reviews', instructor_id)
     except ValueError as e:
       raise e
     else:
+      self.id = raw_self['id']
       self.comments = raw_self['comments']
       self.num_students = raw_self['num_students']
       self.num_reviewers = raw_self['num_reviewers']
-      self.ratings = {}
-      for attr, score in raw_self['ratings'].items():
-        self.ratings[attr] = float(score)
+      self.ratings = dict((k, float(v)) for k, v in raw_self['ratings'].items())
       self.__instructor_id = raw_self['instructor']['id']
       self.__section_id = raw_self['section']['id']
 
@@ -36,19 +33,24 @@ class Review(object):
   def section(self):
     return Section(self.__section_id)
 
+  def __cmp__(self, other):
+    return cmp(self.id, other.id)
+
   def __repr__(self):
-    return "Review(%s, %s)" % (self.__instructor_id, self.__section_id)
+    return "Review(%s)" % self.id
 
 
 class Instructor(object):
-  def __init__(self, id):
+  def __init__(self, iid):
     try:
-      raw_self = api('instructor', id)
+      raw_self = api('instructors', iid)
     except ValueError as e:
       raise e
     else:
-      self.id = id
+      self.id = raw_self['id']
       self.name = raw_self['name']
+      self.__section_ids = set(section['id'] for section in raw_self['sections']['values'])
+      self.__review_ids = set(review['id'] for review in raw_self['reviews']['values'])
 
   @property
   def last_name(self):
@@ -56,20 +58,18 @@ class Instructor(object):
 
   @property
   def sections(self):
-    #TODO: Request change
-    raw_sections = api('instructor', self.id, 'sections')
-    return set(Section(raw_section['id']) for raw_section in raw_sections)
+    return set(Section(section_id) for section_id in self.__section_ids)
 
   @property
   def reviews(self):
-    return set(Review(raw_review['section']['id'], self.id) for raw_review in api('instructor', self.id, 'reviews')['values'])
+    return set(Review(review_id) for review_id in self.__review_ids)
 
   @property
   def url(self):
-    return 'instructor/%s' % self.id
+    return 'instructors/%s' % self.id
 
   def __cmp__(self, other):
-    return 1 if self.last_name > other.last_name else 0 if self.last_name == other.last_name else -1
+    return cmp(self.id, other.id)
 
   def __eq__(self, other):
     return self.id == other.id
@@ -85,16 +85,16 @@ class Section(object):
   def __init__(self, sid):
     course_id, section_id = sid.split("-")
     try:
-      raw_self = api('course', course_id, 'section', section_id)
+      raw_self = api('courses', course_id, 'sections', section_id)
     except ValueError as e:
       raise e
     else:
       self.id = raw_self['id']
       self.name = raw_self['name']
       self.sectionnum = raw_self['sectionnum']
-      self.__course_id = raw_self['course']['id']
-      self.__instructor_ids = [raw_instructor['id']
-          for raw_instructor in raw_self['instructors']]
+      self.__course_id = raw_self['courses']['id'] #TODO: Request change
+      self.__instructor_ids = set(instructor['id'] for instructor in raw_self['instructors'])
+      self.__review_ids = set(review['id'] for review in raw_self['reviews']['values'])
 
   @property
   def course(self):
@@ -106,9 +106,10 @@ class Section(object):
 
   @property
   def reviews(self):
-    return set(Review(self.id, raw_review['instructor']['id'])
-        for raw_review
-        in api('course', self.__course_id, 'section', self.sectionnum, 'reviews')['values'])
+    return set(Review(review_id) for review_id in self.__review_ids)
+
+  def __cmp__(self, other):
+    return cmp(self.id, other.id)
 
   def __hash__(self):
     return hash(self.id)
@@ -118,9 +119,9 @@ class Section(object):
 
 
 class Course(object):
-  def __init__(self, id):
+  def __init__(self, cid):
     try:
-      raw_self = api('course', id)
+      raw_self = api('courses', cid)
     except ValueError as e:
       raise e
     else:
@@ -128,9 +129,8 @@ class Course(object):
       self.aliases = set(alias for alias in raw_self['aliases'])
       self.description = raw_self['description']
       self.semester = raw_self['semester']
-      self.__coursehistory_id = raw_self['history']['path'].split("/")[-1]
-      self.__section_ids = [raw_section['id']
-          for raw_section in raw_self['sections']['values']]
+      self.__coursehistory_id = raw_self['coursehistories']['path'].split("/")[-1]
+      self.__section_ids = set(section['id'] for section in raw_self['sections']['values'])
 
   @property
   def coursehistory(self):
@@ -139,9 +139,13 @@ class Course(object):
   @property
   def sections(self):
     return set(Section(section_id) for section_id in self.__section_ids)
+  
+  @property
+  def url(self):
+    return "courses/%s" % self.id
 
   def __cmp__(self, other):
-    return 1 if self.semester > other.semester else 0 if self.semester == other.semester else -1
+    return cmp(self.id, other.id)
 
   def __eq__(self, other):
     return self.id == other.id
@@ -154,18 +158,17 @@ class Course(object):
 
 
 class CourseHistory(object):
-  def __init__(self, id):
+  def __init__(self, chid):
     #constructor id can either be one if its aliases, or numeric id
     try:
-      raw_self = api('coursehistory', id)
+      raw_self = api('coursehistories', chid)
     except ValueError as e:
       raise e
     else:
       self.id = raw_self['id']
       self.aliases = set(raw_self['aliases'])
       self.name = raw_self['name'] #ie PROG LANG AND TECH II
-      self.__course_ids = [int(raw_course['id'])
-          for raw_course in raw_self['courses']]
+      self.__course_ids = set(course['id'] for course in raw_self['courses'])
 
   @property
   def courses(self):
@@ -178,20 +181,21 @@ class CourseHistory(object):
 
   @property
   def description(self):
-    for course in sorted(self.courses, reverse=True):
+    for course in sorted(self.courses, key=lambda c: c.semester, reverse=True):
       if course.description:
         return course.description
     return None
   
   @property
   def url(self):
+    #TODO: This is made to satisfy the views, but is wrong. Fix it.
     return "course/%s" % self.alias
 
   def __eq__(self, other):
     return self.id == other.id
 
   def __cmp__(self, other):
-    return 1 if self.id > other.id else 0 if self.id == other.id else -1
+    return cmp(self.id, other.id)
   
   def __hash__(self):
     return hash(self.id)
