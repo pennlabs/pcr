@@ -8,7 +8,6 @@ from pcrsite.lib.api import api
 def json_response(result_dict):
   return HttpResponse(content=json.dumps(result_dict))
 
-
 def autocomplete_data(request):
   #1. Hit API up for course-history data, push into nop's desired format
   def alias_to_code(alias, sep="-"):
@@ -29,11 +28,11 @@ def autocomplete_data(request):
   instructors_from_api = api('instructors')['values']  
   instructors=[{"category": "Instructors",
                 "title": instructor['name'],
-                "desc": ", ".join(instructor['departments']),
+                "desc": ", ".join(instructor['depts']),
                 "url": "instructor/" + instructor['id'],
                 "keywords": instructor['name'].lower()
                } for instructor in instructors_from_api 
-                 if 'departments' in instructor]
+                 if 'depts' in instructor]
 
   #3. Respond in JSON
   return json_response({"courses":courses, "instructors":instructors})
