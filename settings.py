@@ -79,7 +79,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
 )
 
-
 ROOT_URLCONF = 'pcrsite.urls'
 
 TEMPLATE_DIRS = (
