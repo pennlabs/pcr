@@ -1,13 +1,10 @@
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 
-import app.urls
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^frontend/', include('frontend.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    (r'^', include(app.urls)),
+    (r'^$', direct_to_template, {'template': 'index.html'}),
+    (r'^', include('apps.pcr_detail.urls')),
+    (r'^', include('apps.searchbar.urls')),
+    (r'^', include('apps.static.urls')),
 )

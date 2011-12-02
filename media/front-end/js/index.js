@@ -9,6 +9,6 @@
         return $("#searchbox").focus();
       });
     };
-    return initSearchbox("", callback);
+    return init_search_box("", callback);
   });
 }).call(this);

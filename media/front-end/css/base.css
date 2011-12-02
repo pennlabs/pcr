@@ -242,7 +242,7 @@ input {
 }
 #course-table td,
 #course-table th {
-	display:none;	
+	/*display: none;*/
 }
 #course-table th {	
 	border-bottom: 2px solid #000080;
@@ -274,7 +274,7 @@ input {
 	color:#000000;
 }
 #course-table tr.row_hidden {
-	display: none;
+	/*display: none;*/
 }
 #course-table td.td_hidden {
 	padding: 10px 10px 10px 10px;
@@ -304,9 +304,6 @@ input {
 	border-bottom: 2px solid #CCC;
 	font-weight:bold;
 }
-#section-table tr:last-child td{
-	border-bottom: 0px;
-}
 #section-table td.sec_td_hidden {
 	padding: 10px 10px 10px 10px;
 }
@@ -319,7 +316,7 @@ input {
 	color:#000000;*/
 }
 #section-table tr.sec_row_hidden {
-	display: none;
+/*display: none;*/
 }
 #section-table .sec_td_hidden p{
 	line-height:150%;

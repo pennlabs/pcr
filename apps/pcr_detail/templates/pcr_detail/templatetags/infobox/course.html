@@ -1,0 +1,13 @@
+{% load prettify %}
+<p class="title">{{title|no_hyphen}}
+<span class="crosslist">
+  {% if aliases|length > 1 %}
+    (Also:
+    {% for alias in aliases %}
+    <a href="{{alias}}">{{alias}}</a>{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    )
+  {% endif %}
+</span>
+<p class="subtitle">{{coursehistory|subtitle|capitalize_improved|safe}}</p>
+<p class="desc">{{coursehistory.description|default_if_none:""}}</p>
