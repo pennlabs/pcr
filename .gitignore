@@ -1,0 +1,6 @@
+*.pyc
+*.swp
+sandbox_config.py
+availability_cron/passworddbpath.txt
+staticgenerator_output/*
+compilecoffee
