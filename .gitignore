@@ -1,0 +1,7 @@
+*.pyc
+*.swp
+sandbox_config.py
+*~
+compilecoffee
+staticgenerator_output/*
+CACHES/*
