@@ -437,9 +437,17 @@ input {
 	margin-top:15px;
 	margin-bottom:10px;
 }
+#choose-cols-content #select-all {
+	margin-bottom:15px;
+	color: #6666b3;
+}
+#choose-cols-content div.col {
+	width:50%;
+	float:left;
+}
 #choose-cols-content div#buttons {
 	text-align:center;
-	margin-top:15px;
+	margin-top:5px;
 }
 #choose-cols-content input[type="button"] {
 	border: 1px solid #636363;

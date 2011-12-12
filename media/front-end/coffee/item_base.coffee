@@ -34,6 +34,12 @@ window.toggle_choose_cols = () ->
   $("#choose-cols").toggle()
 
 
+window.toggle_choose_cols_all = () ->
+  if($("#choose-cols input[type='checkbox'][name='all']").attr("checked"))
+    $("#choose-cols input[type='checkbox']").attr("checked", true)
+  else
+    $("#choose-cols input[type='checkbox']").attr("checked", false)
+
 window.submit_choose_cols = () ->
   boxes = $("#choose-cols input[type='checkbox']")
   result = []

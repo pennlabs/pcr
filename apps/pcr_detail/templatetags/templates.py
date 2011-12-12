@@ -21,8 +21,9 @@ def links(context):
 def choose_cols_box(context, attributes):
   #split the attributes into two columns
   cols = [attr for attr in attributes]
+  half = len(cols)/2+1
   new_context = {
-      'left_col': cols[:len(cols)/2],
-      'right_col': cols[len(cols)/2:]
+      'left_col': cols[:half],
+      'right_col': cols[half:]
   }
   return render_to_string('pcr_detail/templatetags/choose_cols_box.html', new_context)

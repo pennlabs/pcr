@@ -7,22 +7,33 @@
         
           <h1>Choose Columns to Display</h1>
           
-          <div style="width:50%; float:left;">
-            {% for attribute in left_col %}
-          <p>
-            <input type="checkbox" id="checkbox_{{attribute}}" name="{{attribute}}" value="{{attribute}}" />
-            <label for="checkbox_{{attribute}}">{{attribute|reviewbit}}</label>
-          </p>
-            {% endfor %}
+          <div id="select-all">
+            <p>
+              <input type="checkbox" id="checkbox_all" name="all" value="all"
+                onchange="toggle_choose_cols_all()" />
+              <label for="checkbox_all">Select/Deselect All</label>
+            </p>
           </div>
           
-          {% for attribute in right_col %}
-          <p>
-            <input type="checkbox" id="checkbox_{{attribute}}" name="{{attribute}}" value="{{attribute}}" />
-            <label for="checkbox_{{attribute}}">{{attribute|reviewbit}}</label>
-          </p>
-          {% endfor %}
+          <div class="col">            
+            {% for attribute in left_col %}
+            <p>
+              <input type="checkbox" id="checkbox_{{attribute}}" name="{{attribute}}" value="{{attribute}}" />
+              <label for="checkbox_{{attribute}}">{{attribute|reviewbit}}</label>
+            </p>
+            {% endfor %}
+          </div>
+                    
+          <div class="col">
+            {% for attribute in right_col %}
+            <p>
+              <input type="checkbox" id="checkbox_{{attribute}}" name="{{attribute}}" value="{{attribute}}" />
+              <label for="checkbox_{{attribute}}">{{attribute|reviewbit}}</label>
+            </p>
+            {% endfor %}  
+          </div>
           
+          <div style="clear:both"></div>
           <div id="buttons">
             <input type="button" value="Submit" onclick="submit_choose_cols()" />
             <input type="button" value="Cancel" onclick="cancel_choose_cols()" />

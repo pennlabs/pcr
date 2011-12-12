@@ -32,6 +32,13 @@
   window.toggle_choose_cols = function() {
     return $("#choose-cols").toggle();
   };
+  window.toggle_choose_cols_all = function() {
+    if ($("#choose-cols input[type='checkbox'][name='all']").attr("checked")) {
+      return $("#choose-cols input[type='checkbox']").attr("checked", true);
+    } else {
+      return $("#choose-cols input[type='checkbox']").attr("checked", false);
+    }
+  };
   window.submit_choose_cols = function() {
     var boxes, i, result, _ref;
     boxes = $("#choose-cols input[type='checkbox']");
