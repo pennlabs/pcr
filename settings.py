@@ -102,6 +102,6 @@ INSTALLED_APPS = (
 if DO_STATICGENERATOR:
     MIDDLEWARE_CLASSES += ('staticgenerator.middleware.StaticGeneratorMiddleware',)
     # I think WEB_ROOT is staticgenerator-specific
-    WEB_ROOT = os.path.join(PCRSITE_APP_ROOT, "staticgenerator_output") 
+    WEB_ROOT = os.path.join(PCRSITE_APP_ROOT, "staticgenerator_output/write") 
     SERVER_NAME = 'pennapps.com' # not staticgenerator-specific, but that's all that needs it
     STATIC_GENERATOR_URLS = ('.*',)
