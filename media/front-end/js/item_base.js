@@ -115,7 +115,8 @@
     $("#tut-viewmode").css("top", $("#settings-viewmode").offset().top - 230);
     $("#tut-choosecols").css("top", $("#settings-other").offset().top + 5);
     $("#tut-ratings").css("top", $("#banner-bg").offset().top + 15);
-    return $("#tut-sort").css("top", $("#course-table").offset().top - 30);
+    $("#tut-sort").css("top", $("#course-table").offset().top - 30);
+    return $("#tut-row").css("top", $("#course-table").offset().top + 50);
   };
   /*
   DOCUMENT READY

@@ -115,6 +115,7 @@ window.setup_tutorial_overlay = () ->
   $("#tut-choosecols").css("top", $("#settings-other").offset().top+5);
   $("#tut-ratings").css("top", $("#banner-bg").offset().top+15);
   $("#tut-sort").css("top", $("#course-table").offset().top-30);
+  $("#tut-row").css("top", $("#course-table").offset().top+50);
 
 
 ###

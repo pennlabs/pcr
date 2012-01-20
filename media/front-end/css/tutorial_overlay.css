@@ -88,3 +88,15 @@
   margin-top:85px;
   margin-right:55px;
 }
+
+#tut-row {
+  background:url(../image/callout-arrow-left-bottom.png) no-repeat left top;
+  width: 350px;
+  height: 153px;
+  
+  left:-40px;
+}
+#tut-row .inner {
+  margin-top:75px;
+  margin-left:55px;
+}
