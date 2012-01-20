@@ -26,3 +26,16 @@ def course(request, dept, id):
     'title': title
     })
   return render_to_response('pcr_detail/detail.html', context)
+
+
+def department(request, name):
+  from models import Department
+  department = Department(name)
+  context = RequestContext(request, {
+    'base_dir': '../',
+    'item': department,
+    'reviews': department.reviews,
+    'title': name,
+    'is_department': True,
+  })  
+  return render_to_response('pcr_detail/detail.html', context)

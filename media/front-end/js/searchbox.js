@@ -28,6 +28,13 @@
       }), (function(search_term, instructor) {
         return RegExp("^" + search_term, 'i').test(instructor.keywords);
       })
+    ],
+    Departments: [
+      (function(search_term, department) {
+        return RegExp("^" + search_term, 'i').test(department.title);
+      }), (function(search_term, department) {
+        return RegExp("^" + search_term, 'i').test(department.keywords);
+      })
     ]
   };
   find_autocomplete_matches = function(search_str, category, sorted_entries, max) {
@@ -77,16 +84,17 @@
       }
     };
     return $.getJSON(dir + "autocomplete_data.json", function(data) {
-      var courses, instructors;
+      var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);
+      departments = data.departments.sort(sort_by_title);
       $("#searchbox").autocomplete({
         delay: 0,
         minLength: 1,
         autoFocus: true,
         source: function(request, response) {
           var result;
-          result = find_autocomplete_matches(request.term, 'Courses', courses, MAX_NUM_COURSES).concat(find_autocomplete_matches(request.term, 'Instructors', instructors, MAX_NUM_INSTRUCTORS));
+          result = find_autocomplete_matches(request.term, 'Courses', courses, MAX_NUM_COURSES).concat(find_autocomplete_matches(request.term, 'Instructors', instructors, MAX_NUM_INSTRUCTORS)).concat(find_autocomplete_matches(request.term, 'Departments', departments, MAX_NUM_INSTRUCTORS));
           return response(result);
         },
         position: {

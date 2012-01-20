@@ -18,6 +18,12 @@ REGEXES_BY_PRIORITY =
       RegExp("\\s#{search_term}$", 'i').test(instructor.keywords))
     ((search_term, instructor) ->
       RegExp("^#{search_term}", 'i').test(instructor.keywords))
+  ],
+  Departments: [
+    ((search_term, department) ->
+      RegExp("^#{search_term}", 'i').test(department.title))
+    ((search_term, department) ->
+      RegExp("^#{search_term}", 'i').test(department.keywords))
   ]
 
 find_autocomplete_matches = (search_str, category, sorted_entries, max) ->
@@ -50,6 +56,7 @@ window.init_search_box = (dir="", callback=null) ->
   $.getJSON dir+"autocomplete_data.json", (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
+    departments = data.departments.sort(sort_by_title)
 
     $("#searchbox").autocomplete(
       delay: 0
@@ -58,6 +65,7 @@ window.init_search_box = (dir="", callback=null) ->
       source: (request, response) ->
         result = find_autocomplete_matches(request.term, 'Courses', courses, MAX_NUM_COURSES)
           .concat(find_autocomplete_matches(request.term, 'Instructors', instructors, MAX_NUM_INSTRUCTORS))
+          .concat(find_autocomplete_matches(request.term, 'Departments', departments, MAX_NUM_INSTRUCTORS))
         response(result)
       position:
         my: "left top"
