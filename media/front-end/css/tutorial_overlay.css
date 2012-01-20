@@ -66,6 +66,17 @@
   padding: 5px;
 }
 
+#tut-sort {
+  background:url(../image/tut-horizontal-line.png) no-repeat bottom center;
+  height: 27px;
+  
+  width: 350px;
+  position: relative;
+  margin: 0 auto;
+  
+  text-align: center;
+}
+
 #tut-choosecols {
   background:url(../image/callout-arrow-right-bottom.png) no-repeat right;
   width: 300px;

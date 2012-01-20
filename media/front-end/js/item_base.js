@@ -114,7 +114,8 @@
   window.setup_tutorial_overlay = function() {
     $("#tut-viewmode").css("top", $("#settings-viewmode").offset().top - 230);
     $("#tut-choosecols").css("top", $("#settings-other").offset().top + 5);
-    return $("#tut-ratings").css("top", $("#banner-bg").offset().top + 15);
+    $("#tut-ratings").css("top", $("#banner-bg").offset().top + 15);
+    return $("#tut-sort").css("top", $("#course-table").offset().top - 30);
   };
   /*
   DOCUMENT READY
