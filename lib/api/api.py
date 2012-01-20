@@ -9,6 +9,7 @@ from memoize import memoize
 
 @memoize
 def api(domain, *args, **kwargs):
+  assert domain.endwitsh("/")
   path = "".join((domain, "/".join([str(arg) for arg in args]), "?", urllib.urlencode(kwargs)))
   try:
     response = urllib2.build_opener().open(path)

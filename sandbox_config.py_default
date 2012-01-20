@@ -14,6 +14,7 @@ PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcrsite")
 
 #For hitting the API
 DOMAIN = "http://pennapps.com/courses/"
+assert DOMAIN.endswith("/") # Else, weird bugs occur wherever DOMAIN is used.
 TOKEN = "this-is-not-a-token" # fill in
 
 # Do static caching (true only in production)
