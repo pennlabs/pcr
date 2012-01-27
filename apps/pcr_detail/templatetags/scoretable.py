@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from templatetag_sugar.register import tag
 from templatetag_sugar.parser import Variable, Optional, Constant, Name
 
-from apps.pcr_detail.models import CourseHistory, Instructor
+from apps.pcr_detail.models import CourseHistory, Instructor, Department
 
 
 register = template.Library()
@@ -20,5 +20,7 @@ def scoretable(context, item):
     return render_to_string('pcr_detail/templatetags/scoretable/course.html', context)
   elif type(item) == Instructor:
     return render_to_string('pcr_detail/templatetags/scoretable/instructor.html', context)
+  elif type(item) == Department:
+    return render_to_string('pcr_detail/templatetags/scoretable/department.html', context)
   else:
     raise Http404
