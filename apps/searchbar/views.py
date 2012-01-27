@@ -34,7 +34,7 @@ def autocomplete_data(request):
                } for instructor in instructors_from_api 
                  if 'depts' in instructor]
 
-  #3. Hit API up for instructor data, push into nop's desired format
+  #3. Hit API up for department data, push into nop's desired format
   departments_from_api = api('depts')['values']  
   departments=[{"category": "Departments",
                 "title": department['id'],

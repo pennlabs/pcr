@@ -3,7 +3,7 @@
     Logic for the auto-complete search-box, on the home-page and top-right of
     every page.  Uses the jQuery UI autocomplete plugin.
   */
-  var MAX_NUM_COURSES, MAX_NUM_INSTRUCTORS, REGEXES_BY_PRIORITY, find_autocomplete_matches;
+  var MAX_NUM_COURSES, MAX_NUM_DEPARTMENTS, MAX_NUM_INSTRUCTORS, REGEXES_BY_PRIORITY, find_autocomplete_matches;
   var __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
@@ -12,6 +12,7 @@
   }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   MAX_NUM_COURSES = 6;
   MAX_NUM_INSTRUCTORS = 4;
+  MAX_NUM_DEPARTMENTS = 3;
   REGEXES_BY_PRIORITY = {
     Courses: [
       (function(search_term, course) {
@@ -94,7 +95,7 @@
         autoFocus: true,
         source: function(request, response) {
           var result;
-          result = find_autocomplete_matches(request.term, 'Courses', courses, MAX_NUM_COURSES).concat(find_autocomplete_matches(request.term, 'Instructors', instructors, MAX_NUM_INSTRUCTORS)).concat(find_autocomplete_matches(request.term, 'Departments', departments, MAX_NUM_INSTRUCTORS));
+          result = find_autocomplete_matches(request.term, 'Courses', courses, MAX_NUM_COURSES).concat(find_autocomplete_matches(request.term, 'Instructors', instructors, MAX_NUM_INSTRUCTORS)).concat(find_autocomplete_matches(request.term, 'Departments', departments, MAX_NUM_DEPARTMENTS));
           return response(result);
         },
         position: {

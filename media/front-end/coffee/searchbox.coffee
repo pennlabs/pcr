@@ -4,6 +4,7 @@
 ###
 MAX_NUM_COURSES = 6
 MAX_NUM_INSTRUCTORS = 4
+MAX_NUM_DEPARTMENTS = 3
 
 REGEXES_BY_PRIORITY =
   Courses: [
@@ -65,7 +66,7 @@ window.init_search_box = (dir="", callback=null) ->
       source: (request, response) ->
         result = find_autocomplete_matches(request.term, 'Courses', courses, MAX_NUM_COURSES)
           .concat(find_autocomplete_matches(request.term, 'Instructors', instructors, MAX_NUM_INSTRUCTORS))
-          .concat(find_autocomplete_matches(request.term, 'Departments', departments, MAX_NUM_INSTRUCTORS))
+          .concat(find_autocomplete_matches(request.term, 'Departments', departments, MAX_NUM_DEPARTMENTS))
         response(result)
       position:
         my: "left top"

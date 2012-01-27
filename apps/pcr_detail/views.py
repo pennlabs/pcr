@@ -10,7 +10,8 @@ def instructor(request, id):
     'base_dir': '../',
     'item': instructor,
     'reviews': instructor.reviews,
-    'title': instructor.name
+    'title': instructor.name,
+    'type': 'instructor',
   })
   return render_to_response('pcr_detail/detail.html', context)
 
@@ -23,7 +24,8 @@ def course(request, dept, id):
     'base_dir': '../',
     'item': coursehistory,
     'reviews': set(review for course in coursehistory.courses for section in course.sections for review in section.reviews),
-    'title': title
+    'title': title,
+    'type': 'course',
     })
   return render_to_response('pcr_detail/detail.html', context)
 
@@ -34,8 +36,11 @@ def department(request, name):
   context = RequestContext(request, {
     'base_dir': '../',
     'item': department,
-    'reviews': department.reviews,
+    'reviews': set(review for coursehistory in department.coursehistories 
+                    for course in coursehistory.courses 
+                    for section in course.sections 
+                    for review in section.reviews),
     'title': name,
-    'is_department': True,
+    'type': 'department',
   })  
   return render_to_response('pcr_detail/detail.html', context)

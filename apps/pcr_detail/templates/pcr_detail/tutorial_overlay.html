@@ -46,13 +46,14 @@
         <p>Further information about the class, such as "Amount of Work" or "Instructor Communication", can be added to display in the table using this option. </p>
       </div>
     </div>
-    
+   {% ifnotequal type 'department' %} 
     <div id="tut-row" class="tut-elem">
       <div class="inner">
         <p>Click the "+" to see individual semesters and available written reviews.</p>
         <p>Click on the link to go to the respective page.</p>
       </div>
     </div>
+  {% endifnotequal %}
     
     
   </div>

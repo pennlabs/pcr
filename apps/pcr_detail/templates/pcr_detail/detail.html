@@ -26,9 +26,9 @@
   <div id="banner-info" class="grid_7 suffix_1">
     {% infobox item %}
   </div>
-  {% if not is_department %}
+  {% ifnotequal type 'department'%}
     {% include "pcr_detail/scorecard.html" %}
-  {% endif %}
+  {% endifnotequal %}
   <div class="clear"></div>	
 {% endblock %}
 
@@ -39,5 +39,5 @@
 
 {% block non-wrapper %}
   {% choose_cols_box reviews|columns %}
-  {% include "pcr_detail/tutorial_overlay.html" %}
+  {% include "pcr_detail/tutorial_overlay.html" with type=type%}
 {% endblock %}

@@ -18,9 +18,9 @@
       <thead>
         <tr>
           <th scope="col" class="col_icon">
-            {% if not is_department %}
+            {% ifnotequal type 'department'%}
             <div class="fold-icon" onclick="toggle_course_row_all()" title="Expand All"></div>
-            {% endif %}
+            {% endifnotequal %}
           </th>
           {% block key %}
           {% endblock %}

@@ -208,11 +208,3 @@ class Department(object):
   @property
   def coursehistories(self):
     return set(CourseHistory(ch['id']) for ch in self.raw_self['coursehistories'])
-
-  @property
-  def courses(self):
-    return set(course for ch in self.coursehistories for course in ch.courses)
-
-  @property
-  def reviews(self):
-    return set(review for coursehistory in self.coursehistories for course in coursehistory.courses for section in course.sections for review in section.reviews)
