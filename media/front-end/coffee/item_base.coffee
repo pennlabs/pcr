@@ -1,6 +1,6 @@
 window.course_rows
 window.toggled_rows
-
+store = new Persist.Store('local store')
 
 window.toggle_course_row_all = () ->
   if $("th div.fold-icon").hasClass("open")
@@ -48,7 +48,7 @@ window.submit_choose_cols = () ->
     if $(boxes[i]).attr("checked")?
       result.push($(boxes[i]).attr("value"))
   
-  $.cookie("pcr_choosecols", result.join(), {path: '/'})
+  store.set("pcr_choosecols", result.join())
   toggle_choose_cols()
   set_cols(result)
 
@@ -56,7 +56,7 @@ window.submit_choose_cols = () ->
 window.cancel_choose_cols = () ->
   $("#choose-cols input[type=checkbox]").attr("checked",false)
   
-  cols = $.cookie("pcr_choosecols").split(",")
+  cols = store.get("pcr_choosecols").split(",")
   for i in [0..(cols.length-1)]
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
     
@@ -75,11 +75,11 @@ window.set_viewmode = (view_id) ->
     $("#view_recent").addClass("selected")
     $(".cell_average").hide()
     $(".cell_recent").show()
-  $.cookie("pcr_viewmode", view_id, {path: '/'})
+  store.set("pcr_viewmode", view_id)
   $('#course-table').trigger('update')
 
 
-window.viewmode = -> $.cookie('pcr_viewmode')
+window.viewmode = -> store.get('pcr_viewmode')
 
 
 window.set_cols = (cols) ->
@@ -138,9 +138,9 @@ $(document).ready ->
   init_search_box("../")
   
   # setup view mode #
-  if not $.cookie("pcr_viewmode")?
-    $.cookie("pcr_viewmode", "0", {path: '/'})
-  set_viewmode($.cookie("pcr_viewmode"))
+  if not store.get("pcr_viewmode")?
+    store.set("pcr_viewmode" , "0")
+  set_viewmode(store.get("pcr_viewmode"))
   
   # init table sorter
   $("#course-table").tablesorter({
@@ -164,9 +164,9 @@ $(document).ready ->
   )
   
   # setup choose columns # 
-  if not $.cookie("pcr_choosecols")?
-    $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
-  cols = $.cookie("pcr_choosecols").split(",")
+  if not store.get("pcr_choosecols")?
+    store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty")
+  cols = store.get("pcr_choosecols").split(",")
   set_cols(cols)
 
   for i in [0..(cols.length-1)]
