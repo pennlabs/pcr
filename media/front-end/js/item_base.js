@@ -1,6 +1,8 @@
 (function() {
+  var store;
   window.course_rows;
   window.toggled_rows;
+  store = new Persist.Store('local store');
   window.toggle_course_row_all = function() {
     if ($("th div.fold-icon").hasClass("open")) {
       $("th div.fold-icon").removeClass("open");
@@ -48,16 +50,14 @@
         result.push($(boxes[i]).attr("value"));
       }
     }
-    $.cookie("pcr_choosecols", result.join(), {
-      path: '/'
-    });
+    store.set("pcr_choosecols", result.join());
     toggle_choose_cols();
     return set_cols(result);
   };
   window.cancel_choose_cols = function() {
     var cols, i, _ref;
     $("#choose-cols input[type=checkbox]").attr("checked", false);
-    cols = $.cookie("pcr_choosecols").split(",");
+    cols = store.get("pcr_choosecols").split(",");
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
     }
@@ -75,13 +75,11 @@
       $(".cell_average").hide();
       $(".cell_recent").show();
     }
-    $.cookie("pcr_viewmode", view_id, {
-      path: '/'
-    });
+    store.set("pcr_viewmode", view_id);
     return $('#course-table').trigger('update');
   };
   window.viewmode = function() {
-    return $.cookie('pcr_viewmode');
+    return store.get('pcr_viewmode');
   };
   window.set_cols = function(cols) {
     var i, _ref, _results;
@@ -130,12 +128,10 @@
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
     init_search_box("../");
-    if (!($.cookie("pcr_viewmode") != null)) {
-      $.cookie("pcr_viewmode", "0", {
-        path: '/'
-      });
+    if (!(store.get("pcr_viewmode") != null)) {
+      store.set("pcr_viewmode", "0");
     }
-    set_viewmode($.cookie("pcr_viewmode"));
+    set_viewmode(store.get("pcr_viewmode"));
     $("#course-table").tablesorter({
       sortList: [[1, 0]],
       headers: {
@@ -162,12 +158,10 @@
     }).bind("sortEnd", function() {
       return end_sort_rows();
     });
-    if (!($.cookie("pcr_choosecols") != null)) {
-      $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {
-        path: '/'
-      });
+    if (!(store.get("pcr_choosecols") != null)) {
+      store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty");
     }
-    cols = $.cookie("pcr_choosecols").split(",");
+    cols = store.get("pcr_choosecols").split(",");
     set_cols(cols);
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
