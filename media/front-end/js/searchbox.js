@@ -69,13 +69,16 @@
       }, this));
     }
   });
-  window.init_search_box = function(dir, callback) {
+  window.init_search_box = function(dir, callback, start) {
     var sort_by_title;
     if (dir == null) {
       dir = "";
     }
     if (callback == null) {
       callback = null;
+    }
+    if (start == null) {
+      start = "";
     }
     sort_by_title = function(first, second) {
       if (first.title > second.title) {
@@ -84,14 +87,14 @@
         return -1;
       }
     };
-    return $.getJSON(dir + "autocomplete_data.json", function(data) {
+    return $.getJSON(dir + "autocomplete_data.json/" + start, function(data) {
       var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);
       departments = data.departments.sort(sort_by_title);
       $("#searchbox").autocomplete({
         delay: 0,
-        minLength: 1,
+        minLength: 2,
         autoFocus: true,
         source: function(request, response) {
           var result;

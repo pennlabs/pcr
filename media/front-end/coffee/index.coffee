@@ -7,4 +7,10 @@ $(document).ready ->
     $("#search-container").fadeIn(1000, () ->
       $("#searchbox").focus()
     )
-  init_search_box("", callback)
+    alert("data loaded")
+  $("#searchbox").keypress( () ->
+    if $("#searchbox").val().length == 2
+      init_search_box("", callback, $("#searchbox").val())
+  )
+  $("#search-loading").hide()
+  $("#search-container").show()

@@ -48,20 +48,20 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
     @_renderItem(ul, item)
 
 # dir - base directory
-window.init_search_box = (dir="", callback=null) ->
+window.init_search_box = (dir="", callback=null, start="") ->
 
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
   
-  $.getJSON dir+"autocomplete_data.json", (data) ->
+  $.getJSON dir+"autocomplete_data.json/"+start, (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
 
     $("#searchbox").autocomplete(
       delay: 0
-      minLength: 1
+      minLength: 2
       autoFocus: true
       source: (request, response) ->
         result = find_autocomplete_matches(request.term, 'Courses', courses, MAX_NUM_COURSES)

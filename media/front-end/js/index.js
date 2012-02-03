@@ -5,10 +5,17 @@
     var callback;
     callback = function() {
       $("#search-loading").hide();
-      return $("#search-container").fadeIn(1000, function() {
+      $("#search-container").fadeIn(1000, function() {
         return $("#searchbox").focus();
       });
+      return alert("data loaded");
     };
-    return init_search_box("", callback);
+    $("#searchbox").keypress(function() {
+      if ($("#searchbox").val().length === 2) {
+        return init_search_box("", callback, $("#searchbox").val());
+      }
+    });
+    $("#search-loading").hide();
+    return $("#search-container").show();
   });
 }).call(this);
