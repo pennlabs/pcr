@@ -50,7 +50,9 @@
         result.push($(boxes[i]).attr("value"));
       }
     }
-    store.set("pcr_choosecols", result.join());
+    store.set("pcr_choosecols", result.join(), {
+      path: '/'
+    });
     toggle_choose_cols();
     return set_cols(result);
   };
@@ -75,7 +77,9 @@
       $(".cell_average").hide();
       $(".cell_recent").show();
     }
-    store.set("pcr_viewmode", view_id);
+    store.set("pcr_viewmode", view_id, {
+      path: '/'
+    });
     return $('#course-table').trigger('update');
   };
   window.viewmode = function() {
@@ -129,7 +133,9 @@
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
     init_search_box("../");
     if (!(store.get("pcr_viewmode") != null)) {
-      store.set("pcr_viewmode", "0");
+      store.set("pcr_viewmode", "0", {
+        path: '/'
+      });
     }
     set_viewmode(store.get("pcr_viewmode"));
     $("#course-table").tablesorter({
@@ -159,7 +165,9 @@
       return end_sort_rows();
     });
     if (!(store.get("pcr_choosecols") != null)) {
-      store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty");
+      store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {
+        path: '/'
+      });
     }
     cols = store.get("pcr_choosecols").split(",");
     set_cols(cols);
