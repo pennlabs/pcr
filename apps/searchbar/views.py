@@ -25,7 +25,7 @@ def autocomplete_data(request, start):
         courses.append({"category": "Courses",
                 "title": course_title,
                 "desc": course['name'],
-                "url": "course/" + course_title,
+                "url": "course/" + alias_to_code(alias),
                 "keywords": course_keywords
                 })
               
