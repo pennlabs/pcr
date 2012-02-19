@@ -48,7 +48,8 @@ def autocomplete_data(request, start):
                 "url": "department/" + department['id'],
                 "keywords": department['name']
                } for department in departments_from_api
-                 if start in department['id'] or start in department['name']]
+                 if start in department['id'].lower() 
+                   or start in department['name'].lower()]
 
   #4. Respond in JSON
   return json_response({"courses":courses, "instructors":instructors, 
