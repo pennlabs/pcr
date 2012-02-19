@@ -11,5 +11,3 @@ $(document).ready ->
     else if $("#searchbox").val().length < 2
       $("#searchbox").autocomplete("disable")
   , 0))
-  $("#search-loading").hide()
-  $("#search-container").show()

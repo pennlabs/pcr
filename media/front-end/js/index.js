@@ -7,7 +7,7 @@
       $("#searchbox").autocomplete("enable");
       return $("#searchbox").autocomplete("search");
     };
-    $("#searchbox").keypress(function() {
+    return $("#searchbox").keypress(function() {
       return setTimeout(function() {
         if ($("#searchbox").val().length === 2) {
           return init_search_box("", callback, $("#searchbox").val());
@@ -16,7 +16,5 @@
         }
       }, 0);
     });
-    $("#search-loading").hide();
-    return $("#search-container").show();
   });
 }).call(this);

@@ -15,6 +15,7 @@
 
 #search-loading {
 	text-align:center;
+  display:none;
 }
 #loading-bar {
 	display:inline-block;
@@ -27,7 +28,6 @@
 	color:#636363;
 }
 #search-container {
-	display:none;
 }
 
 #searchbar{	
