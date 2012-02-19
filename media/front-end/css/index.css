@@ -30,6 +30,22 @@
 #search-container {
 }
 
+#loading-img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+#loading-container {
+  background-color: #FFF;
+  z-index: 1;
+  top: 97px;
+  left: 240px;
+  width: 458px;
+  overflow: hidden;
+  display: none;
+}
+
 #searchbar{	
 	background:#FFF;
 	width:458px;
