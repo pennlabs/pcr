@@ -122,12 +122,27 @@
   DOCUMENT READY
   */
   $(document).ready(function() {
-    var cols, i, _ref;
+    var callback, cols, i, _ref;
     $('.sec_row_hidden').hide();
     window.toggle_course_row_all();
     window.toggle_course_row_all();
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
+    callback = function() {
+      $("#searchbox").autocomplete("enable");
+      $("#loading-container").hide();
+      return $("#searchbox").autocomplete("search");
+    };
+    $("#searchbox").keypress(function() {
+      return setTimeout(function() {
+        if ($("#searchbox").val().length === 2) {
+          $("#loading-container").show();
+          return init_search_box("../", callback, $("#searchbox").val());
+        } else if ($("#searchbox").val().length < 2) {
+          return $("#searchbox").autocomplete("disable");
+        }
+      }, 0);
+    });
     if (!($.cookie("pcr_viewmode") != null)) {
       $.cookie("pcr_viewmode", "0", {
         path: '/'

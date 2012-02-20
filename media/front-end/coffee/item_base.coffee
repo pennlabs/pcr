@@ -133,6 +133,19 @@ $(document).ready ->
   window.toggled_rows = 0
   window.course_rows = parseInt($("#course-table").attr("count"), 10)
 
+  #setting up the search box
+  callback = () ->
+    $("#searchbox").autocomplete("enable")
+    $("#loading-container").hide()
+    $("#searchbox").autocomplete("search")
+  $("#searchbox").keypress( () -> setTimeout(() ->
+    if $("#searchbox").val().length == 2
+      $("#loading-container").show()
+      init_search_box("../", callback, $("#searchbox").val())
+    else if $("#searchbox").val().length < 2
+      $("#searchbox").autocomplete("disable")
+  , 0))
+
   # setup view mode #
   if not $.cookie("pcr_viewmode")?
     $.cookie("pcr_viewmode", "0", {path: '/'})
