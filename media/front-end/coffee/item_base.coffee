@@ -133,9 +133,6 @@ $(document).ready ->
   window.toggled_rows = 0
   window.course_rows = parseInt($("#course-table").attr("count"), 10)
 
-  # init search box
-  init_search_box("../")
-  
   # setup view mode #
   if not $.cookie("pcr_viewmode")?
     $.cookie("pcr_viewmode", "0", {path: '/'})

@@ -77,9 +77,6 @@
     if (callback == null) {
       callback = null;
     }
-    if (start == null) {
-      start = "";
-    }
     sort_by_title = function(first, second) {
       if (first.title > second.title) {
         return 1;

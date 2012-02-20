@@ -48,7 +48,7 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
     @_renderItem(ul, item)
 
 # dir - base directory
-window.init_search_box = (dir="", callback=null, start="") ->
+window.init_search_box = (dir="", callback=null, start) ->
 
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->

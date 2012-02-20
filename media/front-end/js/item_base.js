@@ -87,7 +87,6 @@
     var i, _ref, _results;
     $("#course-table th").hide();
     $("#course-table td").hide();
-    $("#course-table .col_icon").show();
     $("#course-table .col_code").show();
     $("#course-table .col_name").show();
     $("#course-table .col_instructor").show();
@@ -129,7 +128,6 @@
     window.toggle_course_row_all();
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
-    init_search_box("../");
     if (!($.cookie("pcr_viewmode") != null)) {
       $.cookie("pcr_viewmode", "0", {
         path: '/'
