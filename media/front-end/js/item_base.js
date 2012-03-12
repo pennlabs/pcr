@@ -2,7 +2,7 @@
   var store;
   window.course_rows;
   window.toggled_rows;
-  store = new Persist.Store('local store');
+  store = new Persist.Store('localstore');
   window.toggle_course_row_all = function() {
     if ($("th div.fold-icon").hasClass("open")) {
       $("th div.fold-icon").removeClass("open");
@@ -50,9 +50,7 @@
         result.push($(boxes[i]).attr("value"));
       }
     }
-    store.set("pcr_choosecols", result.join(), {
-      path: '/'
-    });
+    store.set("pcr_choosecols", result.join());
     toggle_choose_cols();
     return set_cols(result);
   };
@@ -77,9 +75,7 @@
       $(".cell_average").hide();
       $(".cell_recent").show();
     }
-    store.set("pcr_viewmode", view_id, {
-      path: '/'
-    });
+    store.set("pcr_viewmode", view_id);
     return $('#course-table').trigger('update');
   };
   window.viewmode = function() {
@@ -132,11 +128,10 @@
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
     init_search_box("../");
-    if (!(store.get("pcr_viewmode") != null)) {
-      store.set("pcr_viewmode", "0", {
-        path: '/'
-      });
-    }
+    if (store.get("pcr_viewmode") == null) {
+      store.set("pcr_viewmode", "0");
+      console.log(store.get("pcr_viewmode"));
+      }
     set_viewmode(store.get("pcr_viewmode"));
     $("#course-table").tablesorter({
       sortList: [[1, 0]],
@@ -165,9 +160,8 @@
       return end_sort_rows();
     });
     if (!(store.get("pcr_choosecols") != null)) {
-      store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {
-        path: '/'
-      });
+      store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty");
+    console.log("black mamba");
     }
     cols = store.get("pcr_choosecols").split(",");
     set_cols(cols);

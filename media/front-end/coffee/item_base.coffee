@@ -48,7 +48,7 @@ window.submit_choose_cols = () ->
     if $(boxes[i]).attr("checked")?
       result.push($(boxes[i]).attr("value"))
   
-  store.set("pcr_choosecols", result.join(), {path: '/'})
+  store.set("pcr_choosecols", result.join())
   toggle_choose_cols()
   set_cols(result)
 
@@ -75,7 +75,7 @@ window.set_viewmode = (view_id) ->
     $("#view_recent").addClass("selected")
     $(".cell_average").hide()
     $(".cell_recent").show()
-  store.set("pcr_viewmode", view_id, {path: '/'})
+  store.set("pcr_viewmode", view_id)
   $('#course-table').trigger('update')
 
 
@@ -139,7 +139,7 @@ $(document).ready ->
   
   # setup view mode #
   if not store.get("pcr_viewmode")?
-    store.set("pcr_viewmode" , "0", {path: '/'})
+    store.set("pcr_viewmode" , "0")
   set_viewmode(store.get("pcr_viewmode"))
   
   # init table sorter
@@ -165,7 +165,7 @@ $(document).ready ->
   
   # setup choose columns # 
   if not store.get("pcr_choosecols")?
-    store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
+    store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty")
   cols = store.get("pcr_choosecols").split(",")
   set_cols(cols)
 
