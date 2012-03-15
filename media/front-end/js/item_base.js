@@ -122,6 +122,7 @@
   */
   $(document).ready(function() {
     var cols, i, _ref;
+    var store = new Persist.store("localstore");
     $('.sec_row_hidden').hide();
     window.toggle_course_row_all();
     window.toggle_course_row_all();
@@ -161,7 +162,6 @@
     });
     if (!(store.get("pcr_choosecols") != null)) {
       store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty");
-    console.log("black mamba");
     }
     cols = store.get("pcr_choosecols").split(",");
     set_cols(cols);
