@@ -122,7 +122,6 @@
   */
   $(document).ready(function() {
     var cols, i, _ref;
-    var store = new Persist.store("localstore");
     $('.sec_row_hidden').hide();
     window.toggle_course_row_all();
     window.toggle_course_row_all();
