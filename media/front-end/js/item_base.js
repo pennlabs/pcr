@@ -55,9 +55,13 @@
     return set_cols(result);
   };
   window.cancel_choose_cols = function() {
-    var cols, i, _ref;
+    var cols, str, i, _ref;
     $("#choose-cols input[type=checkbox]").attr("checked", false);
-    cols = store.get("pcr_choosecols").split(",");
+    store.get("pcr_choosecols", function(ok, val){
+        if (ok)
+          str = val;
+    });
+    cols = str.split(",");
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
     }
@@ -79,7 +83,12 @@
     return $('#course-table').trigger('update');
   };
   window.viewmode = function() {
-    return store.get('pcr_viewmode');
+    var view;
+    store.get('pcr_viewmode', function(ok, val){
+        if (ok)
+          view = val;
+    });
+    return view;
   };
   window.set_cols = function(cols) {
     var i, _ref, _results;
@@ -121,18 +130,30 @@
   DOCUMENT READY
   */
   $(document).ready(function() {
-    var cols, i, _ref;
+    var cols, i, _ref, str;
     $('.sec_row_hidden').hide();
     window.toggle_course_row_all();
     window.toggle_course_row_all();
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
     init_search_box("../");
-    if (store.get("pcr_viewmode") == null) {
-      store.set("pcr_viewmode", "0");
-      console.log(store.get("pcr_viewmode"));
-      }
-    set_viewmode(store.get("pcr_viewmode"));
+    store.get("pcr_viewmode", function(ok,val){
+      if (ok)
+        str = val;
+    });
+    if (str == null) {
+      store.set("pcr_viewmode", "0"); 
+      store.get("pcr_viewmode", function(ok,val){
+        if (ok)
+          str = val;
+      });
+      console.log(str);
+    }
+    store.get("pcr_viewmode", function(ok,val){
+      if (ok)
+        str = val;
+    });
+    set_viewmode(str);
     $("#course-table").tablesorter({
       sortList: [[1, 0]],
       headers: {
@@ -159,10 +180,18 @@
     }).bind("sortEnd", function() {
       return end_sort_rows();
     });
-    if (!(store.get("pcr_choosecols") != null)) {
+    store.get("pcr_choosecols", function(ok,val){
+      if (ok)
+        str = val;
+    });
+    if (str == null) {
       store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty");
-    }
-    cols = store.get("pcr_choosecols").split(",");
+    } 
+    store.get("pcr_choosecols", function(ok,val){
+      if (ok)
+        str = val;
+    });
+    cols = str.split(",");
     set_cols(cols);
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
