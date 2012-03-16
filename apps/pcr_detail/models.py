@@ -193,3 +193,18 @@ class CourseHistory(object):
 
   def __repr__(self):
     return 'CourseHistory(%s)' % self.id
+
+class Department(object):
+  def __init__(self, name):
+    try:
+      raw_self = api('depts', name)
+    except ValueError as e:
+      raise e
+    else:
+      self.raw_self = raw_self
+      self.id = raw_self['id']
+      self.name = raw_self['name']
+
+  @property
+  def coursehistories(self):
+    return set(CourseHistory(ch['id']) for ch in self.raw_self['coursehistories'])
