@@ -55,13 +55,13 @@
     return set_cols(result);
   };
   window.cancel_choose_cols = function() {
-    var cols, str, i, _ref;
+    var cols, val, i, _ref;
     $("#choose-cols input[type=checkbox]").attr("checked", false);
-    store.get("pcr_choosecols", function(ok, val){
+    store.get("pcr_choosecols", function(ok, v){
         if (ok)
-          str = val;
+          val = v;
     });
-    cols = str.split(",");
+    cols = val.split(",");
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
     }
@@ -84,9 +84,9 @@
   };
   window.viewmode = function() {
     var view;
-    store.get('pcr_viewmode', function(ok, val){
+    store.get('pcr_viewmode', function(ok, v){
         if (ok)
-          view = val;
+          view = v;
     });
     return view;
   };
@@ -130,30 +130,25 @@
   DOCUMENT READY
   */
   $(document).ready(function() {
-    var cols, i, _ref, str;
+    var cols, i, _ref, val;
     $('.sec_row_hidden').hide();
     window.toggle_course_row_all();
     window.toggle_course_row_all();
     window.toggled_rows = 0;
     window.course_rows = parseInt($("#course-table").attr("count"), 10);
     init_search_box("../");
-    store.get("pcr_viewmode", function(ok,val){
+    store.get("pcr_viewmode", function(ok,v){
       if (ok)
-        str = val;
+        val = v;
     });
-    if (str == null) {
+    if (val == null) {
       store.set("pcr_viewmode", "0"); 
-      store.get("pcr_viewmode", function(ok,val){
-        if (ok)
-          str = val;
-      });
-      console.log(str);
     }
-    store.get("pcr_viewmode", function(ok,val){
+    store.get("pcr_viewmode", function(ok,v){
       if (ok)
-        str = val;
+        val = v;
     });
-    set_viewmode(str);
+    set_viewmode(val);
     $("#course-table").tablesorter({
       sortList: [[1, 0]],
       headers: {
@@ -180,18 +175,18 @@
     }).bind("sortEnd", function() {
       return end_sort_rows();
     });
-    store.get("pcr_choosecols", function(ok,val){
+    store.get("pcr_choosecols", function(ok,v){
       if (ok)
-        str = val;
+        val = v;
     });
-    if (str == null) {
+    if (val == null) {
       store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty");
     } 
-    store.get("pcr_choosecols", function(ok,val){
+    store.get("pcr_choosecols", function(ok,v){
       if (ok)
-        str = val;
+        val = v;
     });
-    cols = str.split(",");
+    cols = val.split(",");
     set_cols(cols);
     for (i = 0, _ref = cols.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
       $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
