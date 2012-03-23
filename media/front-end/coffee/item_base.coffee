@@ -1,7 +1,6 @@
 window.course_rows
 window.toggled_rows
-store = new Persist.Store('local store')
-
+store = undefined
 window.toggle_course_row_all = () ->
   if $("th div.fold-icon").hasClass("open")
     $("th div.fold-icon").removeClass("open")
@@ -55,8 +54,8 @@ window.submit_choose_cols = () ->
 
 window.cancel_choose_cols = () ->
   $("#choose-cols input[type=checkbox]").attr("checked",false)
-  
-  cols = store.get("pcr_choosecols").split(",")
+  cols = undefined
+  store.get("pcr_choosecols", (ok, v) -> cols = v.split(",") if ok)
   for i in [0..(cols.length-1)]
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
     
@@ -79,7 +78,10 @@ window.set_viewmode = (view_id) ->
   $('#course-table').trigger('update')
 
 
-window.viewmode = -> store.get('pcr_viewmode')
+window.viewmode = -> 
+  view = undefined
+  store.get('pcr_viewmode', (ok, v) -> view = v if ok)
+  view
 
 
 window.set_cols = (cols) ->
@@ -136,10 +138,14 @@ $(document).ready ->
   # init search box
   init_search_box("../")
   
+  store = new Persist.Store("localstore");
+  val = undefined
+
   # setup view mode #
-  if not store.get("pcr_viewmode")?
-    store.set("pcr_viewmode" , "0")
-  set_viewmode(store.get("pcr_viewmode"))
+  store.get("pcr_viewmode", (ok, v) -> val = v if ok)
+  store.set("pcr_viewmode", "0")  unless val?
+  store.get("pcr_viewmode", (ok, v) -> val = v if ok)
+  set_viewmode(val);
   
   # init table sorter
   $("#course-table").tablesorter({
@@ -163,9 +169,10 @@ $(document).ready ->
   )
   
   # setup choose columns # 
-  if not store.get("pcr_choosecols")?
-    store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty")
-  cols = store.get("pcr_choosecols").split(",")
+  store.get("pcr_choosecols", (ok, v) -> val = v if ok)
+  store.set("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty") unless val?
+  store.get("pcr_choosecols", (ok, v) -> val = v if ok)
+  cols = val.split(",")
   set_cols(cols)
 
   for i in [0..(cols.length-1)]
