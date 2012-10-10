@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-	<link rel="shortcut icon" href="{{base_dir}}media/front-end/image/favicon.ico">
-	<link type="text/css" href="{{base_dir}}media/front-end/css/960_12_col.css" rel="stylesheet" />
-	<link type="text/css" href="{{base_dir}}media/front-end/css/reset.css" rel="stylesheet" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <link rel="shortcut icon" href="{{base_dir}}media/front-end/image/favicon.ico">
+  <link type="text/css" href="{{base_dir}}media/front-end/css/960_12_col.css" rel="stylesheet" />
+  <link type="text/css" href="{{base_dir}}media/front-end/css/reset.css" rel="stylesheet" />
   <link type="text/css" href="{{base_dir}}media/front-end/css/flick/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 
   <link type="text/css" href="{{base_dir}}media/front-end/css/base.css" rel="stylesheet" />  
-	<link type="text/css" href="{{base_dir}}media/front-end/css/searchbox.css" rel="stylesheet" />
-	
-	{% block htmlheader-links %}{% endblock %}
-	
-	<title>{% block title %}Penn Course Review{% endblock %}</title>
+  <link type="text/css" href="{{base_dir}}media/front-end/css/searchbox.css" rel="stylesheet" />
+  
+  {% block htmlheader-links %}{% endblock %}
+  
+  <title>{% block title %}Penn Course Review{% endblock %}</title>
 
-	<script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery-1.6.2.min.js"></script>
   <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery-ui-1.8.16.custom.min.js"></script>
   <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery.cookie.js"></script>
   
-	<script type="text/javascript" src="{{base_dir}}media/front-end/js/searchbox.js"></script>
+  <script type="text/javascript" src="{{base_dir}}media/front-end/js/searchbox.js"></script>
   
   {% block htmlheader-js %}{% endblock %}
   
@@ -50,7 +50,7 @@
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();  
   </script>
-	
+  
 </head>
 {% load templates %}
 <body>
@@ -76,7 +76,7 @@
     <div id="banner"><div id="banner-bg">
       <div id="banner-inner" class="container_12">
         {% block banner-content %}
-        {% endblock %}			
+        {% endblock %}      
       </div>
     </div></div>
     {% endblock %}
@@ -118,6 +118,13 @@
     {% block hidden %}
     {% endblock %}
   </div>
-		
+  <script type="text/javascript">
+    var uvOptions = {};
+    (function() {
+      var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+      uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/BG2CMxytrRmfLzouyrYEJw.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+    })();
+  </script>
 </body>
 </html>
