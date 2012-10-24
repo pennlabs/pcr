@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block htmlheader-links %}
-	<link rel="stylesheet" href="media/front-end/css/index.css" />
+<link rel="stylesheet" href="{{ base_dir }}media/front-end/css/index.css" />
 {% endblock %}
 
 {% block htmlheader-js %}
-	<script type="text/javascript" src="media/front-end/js/index.js"></script>
+<script type="text/javascript" src="{{ base_dir }}media/front-end/js/index.js"></script>
 {% endblock %}
 
 
@@ -21,9 +21,9 @@
 
 {% block banner-content %}
 	<div id="search" class="grid_6 prefix_3 suffix_3">
-		<img id="title" src="media/front-end/image/indextitle.png" alt="Penn Course Review">
+            <img id="title" src="{{ base_dir }}media/front-end/image/indextitle.png" alt="Penn Course Review">
 		<div id="search-loading">			
-			<img id="loading-bar" src="media/front-end/image/loadingbar.gif" alt="loading"/>
+            <img id="loading-bar" src="{{ base_dir }}media/front-end/image/loadingbar.gif" alt="loading"/>
 			<p id="loading-text">Downloading 26,709 courses, 6,588 instructors, and 47,414 reviews...</p>
 		</div>
 		<div id="search-container">
@@ -58,7 +58,7 @@
 			<p>Developed by</p>
 			<div style="margin-top:-45px; text-align:center;">
 				<a href="http://labs.pennapps.com/" style="border:none">
-					<img style="display:inline-block;" src="media/front-end/image/pennapps-sm-gray.png" alt="PennApps Labs" />
+            <img style="display:inline-block;" src="{{ base_dir }}media/front-end/image/pennapps-sm-gray.png" alt="PennApps Labs" />
 				</a>
 			</div>
 		</div>
