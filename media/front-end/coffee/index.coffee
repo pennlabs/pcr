@@ -3,8 +3,13 @@ DOCUMENT READY
 ###
 $(document).ready ->
   callback = () ->
-    $("#search-loading").hide()
-    $("#search-container").fadeIn(1000, () ->
-      $("#searchbox").focus()
-    )
-  init_search_box("", callback)
+    $("#searchbox").autocomplete("enable")
+    $("#loading-container").hide()
+    $("#searchbox").autocomplete("search")
+  $("#searchbox").keypress( () -> setTimeout(() ->
+    if $("#searchbox").val().length == 2
+      $("#loading-container").show()
+      init_search_box("", callback, $("#searchbox").val())
+    else if $("#searchbox").val().length < 2
+      $("#searchbox").autocomplete("disable")
+  , 0))
