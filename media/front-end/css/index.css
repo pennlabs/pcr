@@ -15,6 +15,7 @@
 
 #search-loading {
 	text-align:center;
+  display:none;
 }
 #loading-bar {
 	display:inline-block;
@@ -27,7 +28,22 @@
 	color:#636363;
 }
 #search-container {
-	display:none;
+}
+
+#loading-img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+#loading-container {
+  background-color: #FFF;
+  z-index: 1;
+  top: 97px;
+  left: 240px;
+  width: 458px;
+  overflow: hidden;
+  display: none;
 }
 
 #searchbar{	
