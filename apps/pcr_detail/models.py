@@ -66,7 +66,7 @@ class Instructor(object):
 
   def taught(self, course):
       """Check if an instructor taught a course."""
-      for section in sections:
+      for section in self.sections:
         if section.course == course:
             return True
       return False

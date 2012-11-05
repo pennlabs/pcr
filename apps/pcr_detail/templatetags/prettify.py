@@ -87,6 +87,10 @@ def reviewbit(reviewbit):
   except KeyError:
     return reviewbit
 
+@register.filter(name='get_alias')
+def get_alias(coursehistory, instructor):
+    return coursehistory.alias(instructor)
+
 
 @register.filter(name="columns")
 def attributes(reviews):
