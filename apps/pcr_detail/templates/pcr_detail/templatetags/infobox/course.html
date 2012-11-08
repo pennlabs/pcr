@@ -1,7 +1,7 @@
 {% load prettify %}
 <p class="title">{{title|no_hyphen}}
 <span class="crosslist">
-  {% if aliases|length > 1 %}
+  {% if aliases|length >= 1 %}
     (Also:
     {% for alias in aliases %}
     <a href="{{alias}}">{{alias}}</a>{% if not forloop.last %},{% endif %}
