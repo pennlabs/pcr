@@ -24,8 +24,12 @@ REGEXES_BY_PRIORITY =
   Instructors: [
     # if instructors = [Rebecca Stein, Steve Ballmer]
     # we want Stein to show up first when we type 'ste'
+    # note, instructor.keywords is just the instruct name in lowercase
+
+    # match last name
     ((search_term, instructor) ->
-      RegExp("\\s#{search_term}$", 'i').test(instructor.keywords))
+      RegExp("\\s#{search_term}", 'i').test(instructor.keywords))
+    # match first name
     ((search_term, instructor) ->
       RegExp("^#{search_term}", 'i').test(instructor.keywords))
   ],

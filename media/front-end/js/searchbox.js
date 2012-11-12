@@ -28,7 +28,7 @@
     ],
     Instructors: [
       (function(search_term, instructor) {
-        return RegExp("\\s" + search_term + "$", 'i').test(instructor.keywords);
+        return RegExp("\\s" + search_term, 'i').test(instructor.keywords);
       }), (function(search_term, instructor) {
         return RegExp("^" + search_term, 'i').test(instructor.keywords);
       })
