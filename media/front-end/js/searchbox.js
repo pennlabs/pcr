@@ -7,13 +7,17 @@
 
 
 (function() {
-  var MAX_ITEMS, REGEXES_BY_PRIORITY, find_autocomplete_matches, get_entries,
+  var MAX_ITEMS, REGEXES_BY_PRIORITY, endsWith, find_autocomplete_matches, get_entries,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   MAX_ITEMS = {
     Courses: 6,
     Instructors: 3,
     Departments: 3
+  };
+
+  endsWith = function(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length !== -1);
   };
 
   REGEXES_BY_PRIORITY = {
@@ -28,9 +32,15 @@
     ],
     Instructors: [
       (function(search_term, instructor) {
-        return RegExp("\\s" + search_term, 'i').test(instructor.keywords);
+        if (endsWith(search_term, " ")) {
+          return false;
+        } else {
+          return RegExp("\\s" + search_term + "[a-z]*$", 'i').test(instructor.keywords);
+        }
       }), (function(search_term, instructor) {
         return RegExp("^" + search_term, 'i').test(instructor.keywords);
+      }), (function(search_term, instructor) {
+        return RegExp("\\s" + search_term, 'i').test(instructor.keywords);
       })
     ],
     Departments: [

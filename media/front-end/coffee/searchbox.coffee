@@ -11,6 +11,9 @@ MAX_ITEMS =
     Departments: 3
 
 
+endsWith = (str, suffix) ->
+    str.indexOf suffix, str.length - suffix.length != -1
+
 # Rules for prioritizing items
 REGEXES_BY_PRIORITY =
   Courses: [
@@ -28,10 +31,19 @@ REGEXES_BY_PRIORITY =
 
     # match last name
     ((search_term, instructor) ->
-      RegExp("\\s#{search_term}", 'i').test(instructor.keywords))
+      # if it ends with a space, middle names will match the regex
+      if endsWith search_term, " "
+        false
+      else
+          RegExp("\\s#{search_term}[a-z]*$", 'i').test(instructor.keywords))
+
     # match first name
     ((search_term, instructor) ->
       RegExp("^#{search_term}", 'i').test(instructor.keywords))
+
+    # match middle name
+    ((search_term, instructor) ->
+      RegExp("\\s#{search_term}", 'i').test(instructor.keywords))
   ],
   Departments: [
     ((search_term, department) ->
