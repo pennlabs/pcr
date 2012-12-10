@@ -9,6 +9,9 @@ def json_response(result_dict):
   return HttpResponse(content=json.dumps(result_dict))
 
 def autocomplete_data(request, start=None):
+  """Generate an autocomplete_data.json file, with an optional search
+  string `start` (usually two characters)."""
+
   if start:
     start = start.lower()
 
@@ -20,6 +23,7 @@ def autocomplete_data(request, start=None):
   courses = []
   for course in courses_from_api:
     for alias in course['aliases']:
+      # Combinations of all the variants a user may search by
       course_keywords = " ".join([alias_to_code(alias.lower(), sep)
                                   for sep in ['', '-', ' ']]
                                  + [course['name'].lower()])
