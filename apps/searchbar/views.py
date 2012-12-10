@@ -8,7 +8,7 @@ from pcrsite.lib.api import api
 def json_response(result_dict):
   return HttpResponse(content=json.dumps(result_dict))
 
-def autocomplete_data(request, start):
+def autocomplete_data(request, start=None):
   #1. Hit API up for course-history data, push into nop's desired format
   def alias_to_code(alias, sep="-"):
     code, num = alias.split('-')
@@ -17,9 +17,9 @@ def autocomplete_data(request, start):
   courses = []
   for course in courses_from_api:
     for alias in course['aliases']:
-      course_keywords = " ".join([alias_to_code(alias.lower(), sep) \
-                            for sep in ['', '-', ' ']] \
-                        + [course['name'].lower()])
+      course_keywords = " ".join([alias_to_code(alias.lower(), sep)
+                                  for sep in ['', '-', ' ']]
+                                 + [course['name'].lower()])
       course_title = alias_to_code(alias, ' ')
       if start in course_title or start in course_keywords:
         courses.append({"category": "Courses",
