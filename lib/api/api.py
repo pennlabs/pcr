@@ -3,7 +3,7 @@ import urllib
 import urllib2
 import json
 
-from pcrsite.sandbox_config import DOMAIN, TOKEN
+from pcrsite.local_settings import DOMAIN, TOKEN
 from memoize import memoize
 
 

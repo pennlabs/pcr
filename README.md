@@ -66,5 +66,5 @@ static is responsible for serving the FAQ and About page. Both of these pages ac
 
 ## lib/api
 
-Each of these apps make use of the api function found in lib/api/api.py. The api function pulls domain and token data from sandbox_config to make requests to the PCR API.
+Each of these apps make use of the api function found in lib/api/api.py. The api function pulls domain and token data from local_settings to make requests to the PCR API.
 

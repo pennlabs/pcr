@@ -1,7 +1,8 @@
 *.pyc
 *.swp
-sandbox_config.py
 *~
+
+local_settings.py
 compilecoffee
 staticgenerator_output/*
 CACHES/*

@@ -4,8 +4,11 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-#May override DEBUG
-from sandbox_config import *
+try:
+    #May override DEBUG
+    from local_settings import *
+except ImportError, e:
+    print "Unable to load local_settings.py:", e
 
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
