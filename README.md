@@ -16,7 +16,7 @@ Then modify `local_settings.py` as needed.
 To run the server, run:
 
 ```
-python manage.py runserver
+python manage.py runserver --settings=local_settings
 ```
 
 
