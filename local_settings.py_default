@@ -13,9 +13,18 @@ DEV_ROOT = "/var/www/pennapps.com/django" # root of all apps you're working on
 PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcrsite")
 
 #For hitting the API
-DOMAIN = "http://pennapps.com/courses/"
+DOMAIN = "http://api.penncoursereview.com/v1/"
 assert DOMAIN.endswith("/") # Else, weird bugs occur wherever DOMAIN is used.
-TOKEN = "this-is-not-a-token" # fill in
+
+try:
+    TOKEN = os.environ["PCR_AUTH_TOKEN"] # fill in
+except KeyError:
+    print "INFO: No token detected. Using 'public'."
+    TOKEN = "public"
+else:
+    print "INFO: Token detected."
 
 # Do static caching (true only in production)
 DO_STATICGENERATOR = False
+
+STATIC_DOC_ROOT = os.path.join(os.getcwd(), "media")

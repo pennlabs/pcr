@@ -1,6 +1,8 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 
+import settings
+
 
 urlpatterns = patterns('',
     (r'^$', direct_to_template, {'template': 'index.html'}),
@@ -8,3 +10,9 @@ urlpatterns = patterns('',
     (r'^', include('apps.searchbar.urls')),
     (r'^', include('apps.static.urls')),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+                 {'document_root': settings.STATIC_DOC_ROOT}),
+    )
