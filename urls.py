@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     (r'^', include('apps.static.urls')),
 )
 
+# Enable static file in local development
 if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve',

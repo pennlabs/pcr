@@ -2,6 +2,7 @@
 *.swp
 *~
 
+venv
 local_settings.py
 compilecoffee
 staticgenerator_output/*

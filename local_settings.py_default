@@ -4,7 +4,9 @@ NOTE: this is a development-specific file that lets us set various variables
 django.wsgi and settings.py files without fear. This should be configured per-
 sandbox. This and nothing else.
 Author: AMK, Dec 27, 2010"""
+
 import os
+import sys
 
 from settings import *
 
@@ -22,15 +24,10 @@ assert DOMAIN.endswith("/")
 try:
     TOKEN = os.environ["PCR_AUTH_TOKEN"]
 except KeyError:
-    print "INFO: No token detected. Using 'public'."
-    TOKEN = "public"
+    print "INFO: No token detected."
+    sys.exit(1)
 else:
     print "INFO: Token detected."
-
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/%s/media/' % (DISPLAY_NAME)
 
 # Do static caching (true only in production)
 DO_STATICGENERATOR = False

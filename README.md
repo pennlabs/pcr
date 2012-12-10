@@ -5,13 +5,15 @@ Front-end component to [PennCourseReview](https://penncoursereview.com/). Render
 
 # Setup
 
+Install requirements:
+
 ```
-virtualenv pcrsite
-source pcrsite/bin/activate
+virtualenv venv
+source venv/bin/activate
 pip install -R requirements.txt
 ```
 
-Then modify `local_settings.py` as needed.
+Next, copy `local_settings.py_default` to `local_settings.py` and modify as needed.
 
 To run the server, run:
 
