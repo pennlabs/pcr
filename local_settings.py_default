@@ -14,7 +14,8 @@ from settings import *
 # i.e., pennapps.com/display_name
 DISPLAY_NAME = "pcrsite"
 # root of all apps you're working on
-DEV_ROOT = "/var/www/pennapps.com/django"
+DEV_ROOT = ""
+assert "No DEV_ROOT specified. For production, use /var/www/pennapps.com/django"
 PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcrsite")
 
 # For hitting the API

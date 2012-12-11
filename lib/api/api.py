@@ -3,7 +3,8 @@ import urllib
 import urllib2
 import json
 
-from pcrsite.local_settings import DOMAIN, TOKEN
+from django.conf import settings
+
 from memoize import memoize
 
 
@@ -16,4 +17,4 @@ def api(domain, *args, **kwargs):
   except urllib2.HTTPError as e:
     raise ValueError("invalid path: %s", path)
   return json.loads(response.read())['result']
-api = functools.partial(api, DOMAIN, token=TOKEN)
+api = functools.partial(api, settings.DOMAIN, token=settings.TOKEN)
