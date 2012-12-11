@@ -21,13 +21,9 @@ PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcrsite")
 DOMAIN = "http://api.penncoursereview.com/v1/"
 # Avoid weird bugs that occur wherever DOMAIN is used.
 assert DOMAIN.endswith("/")
-try:
-    TOKEN = os.environ["PCR_AUTH_TOKEN"]
-except KeyError:
-    print "INFO: No token detected."
-    sys.exit(1)
-else:
-    print "INFO: Token detected."
+
+TOKEN = ""
+assert TOKEN, "No token provided"
 
 # Do static caching (true only in production)
 DO_STATICGENERATOR = False
