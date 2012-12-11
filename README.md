@@ -15,7 +15,9 @@ pip install -R requirements.txt
 
 Next, copy `local_settings.py_default` to `local_settings.py` and modify as needed.
 
-To run the server, run:
+Next, export your PCR_AUTH_TOKEN via `$ export PCR_AUTH_TOKEN=mytoken`. Note, in order to not have to type this in at each session, you may wish to add that line to the bottom of your bash profile.
+
+Finally, to run the server, run:
 
 ```
 python manage.py runserver --settings=local_settings
