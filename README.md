@@ -10,14 +10,14 @@ Install requirements:
 ```
 virtualenv venv
 source venv/bin/activate
-pip install -R requirements.txt
+pip install -r requirements.txt
 ```
 
-Next, copy `local_settings.py_default` to `local_settings.py` and modify as needed.
+Next, copy `local_settings.py_default` to `local_settings.py` and define a TOKEN and DEV_ROOT, plus anything else you may need.
 
-Next, export your PCR_AUTH_TOKEN via `$ export PCR_AUTH_TOKEN=mytoken`. Note, in order to not have to type this in at each session, you may wish to add that line to the bottom of your bash profile.
+At this point, if you are editing on the server things should just work.
 
-Finally, to run the server, run:
+If you are editing locally, you can run the server as follows:
 
 ```
 python manage.py runserver --settings=local_settings
