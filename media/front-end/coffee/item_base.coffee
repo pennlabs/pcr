@@ -132,7 +132,8 @@ $(document).ready ->
   window.toggle_course_row_all()# hack - called twice due to init bug TODO - fix
 
   window.toggled_rows = 0
-  window.course_rows = parseInt($("#course-table").attr("count"), 10)
+  #window.course_rows = parseInt($("#course-table").attr("count"), 10)
+  window.course_rows = $("#course-table .row_display").size()
 
   #setting up the search box
   callback = () ->

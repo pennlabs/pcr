@@ -146,7 +146,7 @@
     window.toggle_course_row_all();
     window.toggle_course_row_all();
     window.toggled_rows = 0;
-    window.course_rows = parseInt($("#course-table").attr("count"), 10);
+    window.course_rows = $("#course-table .row_display").size();
     callback = function() {
       $("#searchbox").autocomplete("enable");
       $("#loading-container").hide();
