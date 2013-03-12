@@ -104,7 +104,7 @@ window.init_search_box = (dir="", callback=null, start) ->
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
-  $.getJSON dir+"autocomplete_data.json/"+start, (data) ->
+  $.getJSON dir+"autocomplete_data.json/"+start.toLowerCase(), (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
