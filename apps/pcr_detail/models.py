@@ -64,6 +64,13 @@ class Instructor(object):
   def reviews(self):
     return set(Review(review_id) for review_id in self.__review_ids)
 
+  def taught(self, course):
+      """Check if an instructor taught a course."""
+      for section in self.sections:
+        if section.course == course:
+            return True
+      return False
+
   def __cmp__(self, other):
     return cmp(self.id, other.id)
 
@@ -123,6 +130,7 @@ class Course(object):
     else:
       self.id = raw_self['id']
       self.aliases = set(alias for alias in raw_self['aliases'])
+      self.primary_alias = raw_self['primary_alias']
       self.description = raw_self['description']
       self.semester = raw_self['semester']
       self.__coursehistory_id = raw_self['coursehistories']['path'].split("/")[-1]
@@ -171,12 +179,29 @@ class CourseHistory(object):
     return set(Course(course_id) for course_id in self.__course_ids)
 
   @property
-  def alias(self):
-    for alias in self.aliases:
-      return alias
+  def most_recent(self):
+    for course in sorted(self.courses, key=lambda c: c.semester, reverse=True):
+        return course
+
+  def alias(self, instructor=None):
+      """
+      Get the primary alias of the course history in relation to an
+      instructor. If instructor is None, get the most recent primary
+      alias.
+      """
+      if instructor is None:
+          return self.most_recent.primary_alias
+      else:
+          # Find the most recent course taught by an instructor
+          for course in sorted(self.courses, key=lambda c: c.semester, reverse=True):
+              if instructor.taught(course):
+                  return course.primary_alias
+          raise ValueError("instructor never taught course")
 
   @property
   def description(self):
+    # NOTE: we cannot use most recent here because courses are not
+    # guaranteed to have a description.
     for course in sorted(self.courses, key=lambda c: c.semester, reverse=True):
       if course.description:
         return course.description
