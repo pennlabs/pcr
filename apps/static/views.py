@@ -14,8 +14,9 @@ def static(request, page):
   return render_to_response('static.html', context)
 
 
-def proxy_to(request, path, target_url):
-    url = '%s%s' % (target_url, path)
+
+def proxy(request, path):
+    url = '%s%s%s' % ('http://api.penncoursereview.com/v1/', path, '?token=D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ')
     if request.META.has_key('QUERY_STRING'):
         url += '?' + request.META['QUERY_STRING']
     try:
