@@ -3,8 +3,8 @@
 ``apps.pcr_detail``
 --------------------------------------------------------------------------------
 
-Responsible for serving model detail pages (ie, the instructor page, the
-coursehistory page, and the department page).
+Serves model detail pages (ie, the instructor page, the coursehistory page, and
+the department page).
 
 Each page consists of three widgets:
 

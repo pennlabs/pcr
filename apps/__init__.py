@@ -3,7 +3,7 @@
 ``apps``
 ================================================================================
 
-Responsible for serving PennCourseReview.
+Serves PennCourseReview.
 
 .. automodule:: apps.pcr_detail
 
