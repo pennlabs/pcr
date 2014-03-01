@@ -5,3 +5,5 @@ sandbox_config.py
 compilecoffee
 staticgenerator_output/*
 CACHES/*
+
+docs/_build
