@@ -1,10 +1,15 @@
 
+.. _PennCourseReview: https://penncoursereview.com/
+
 ================================================================================
 PennCourseReview
 ================================================================================
 
-Front-end component to [PennCourseReview](https://penncoursereview.com/).
-Renders the data from the PCR API in a more useful manner.
+Front-end component to PennCourseReview_. Renders the data from the PCR API in a
+user-friendly manner.
+
+Introduction
+================================================================================
 
 PennCourseReview is a student-run publication that provides numerical ratings
 and written reviews for undergraduate courses taught at the University of
@@ -19,7 +24,8 @@ To install ``pcr``, simply::
     source venv/bin/activate
     pip install -r requirements.txt
 
-Next, copy `local_settings.py_default` to `local_settings.py` and define a TOKEN and DEV_ROOT, plus anything else you may need.
+Next, copy ``local_settings.py_default`` to ``local_settings.py`` and define
+``TOKEN`` and ``DEV_ROOT``, plus anything else you may need.
 
 At this point, if you are editing on the server things should just work.
 
