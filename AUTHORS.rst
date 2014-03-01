@@ -1,3 +1,7 @@
+
+Authors
+================================================================================
+
 PennCourseReview is written and maintained by various contributors.
 
 - Ceasar Bautista
