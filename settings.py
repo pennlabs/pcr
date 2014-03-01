@@ -4,9 +4,6 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-#May override DEBUG
-from sandbox_config import *
-
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
@@ -17,12 +14,18 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = ''           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = ''             # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+# 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_ENGINE = ''
+# Or path to database file if using sqlite3.
+DATABASE_NAME = ''
+# Not used with sqlite3.
+DATABASE_USER = ''
+# Not used with sqlite3.
+DATABASE_PASSWORD = ''
+# Set to empty string for localhost. Not used with sqlite3.
+DATABASE_HOST = ''
+# Set to empty string for default. Not used with sqlite3.
+DATABASE_PORT = ''
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -46,14 +49,7 @@ USE_I18N = True
 MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
-
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/%s/media/' % (DISPLAY_NAME)
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^'
@@ -77,7 +73,6 @@ TEMPLATE_DIRS = (
   os.path.join(PROJECT_PATH, 'templates'),
   os.path.join(PROJECT_PATH, 'apps/pcr_detail/templates'),
   os.path.join(PROJECT_PATH, 'apps/searchbar/templates'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
 )
 
 INSTALLED_APPS = (
@@ -90,10 +85,3 @@ INSTALLED_APPS = (
     'apps.searchbar',
     'apps.static',
 )
-  
-if DO_STATICGENERATOR:
-    MIDDLEWARE_CLASSES += ('staticgenerator.middleware.StaticGeneratorMiddleware',)
-    # I think WEB_ROOT is staticgenerator-specific
-    WEB_ROOT = os.path.join(PCRSITE_APP_ROOT, "staticgenerator_output/write") 
-    SERVER_NAME = 'pennapps.com' # not staticgenerator-specific, but that's all that needs it
-    STATIC_GENERATOR_URLS = ('.*',)
