@@ -7,3 +7,4 @@ local_settings.py
 compilecoffee
 staticgenerator_output/*
 CACHES/*
+docs/_build
