@@ -1,4 +1,4 @@
-from pcrsite.lib.api import api
+from pcr.lib.api import api
 
 
 #we use this to provide data in the case that a course doesn't have lectures
