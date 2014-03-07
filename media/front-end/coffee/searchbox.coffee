@@ -60,17 +60,64 @@ REGEXES_BY_PRIORITY =
 # @param items to consider showing, in sorted order
 # @param max number of items
 # @return array of items to show
-find_autocomplete_matches = (search_str, category, sorted_entries) ->
+find_autocomplete_matches = (search_str, category, cb) ->
+  
+  $.ajax 'http://api.penncoursereview.com/v1/search',
+  {
+    data:{
+      result_type:category,
+      count:5,
+      q:search_str,
+      token:'smOFfjV6JeHUgGO5e7VdEAYuF3oQGn'
+    },
+    success: (data) ->
+      results = JSON.parse(data).result
+      resultsArr = []
+     
+      if results.courses
+        for obj, i in results.courses
+          obj.category = "courses"
+          dup = false
+          # The O(n^2), it hurts
+          for obj2, i in results.departments
+            if obj.value == obj2.value
+              dup = true
+              break
+          if not dup    
+            if not obj.name
+              obj.name = ""
+            resultsArr.push(obj)
+
+      if results.instructors
+        for obj, i in results.instructors
+          obj.category = "instructors"
+          if not obj.name
+            obj.name = ""
+          resultsArr.push(obj)
+
+      if results.departments 
+        for obj, i in results.departments
+          obj.title = obj.value
+          obj.category = "departments"
+          if not obj.name
+            obj.name = ""
+          resultsArr.push(obj)
+
+      cb(resultsArr)
+    error: (error) ->
+      cb([]) 
+  }
+
   # Regexes to match against, in order of interstingness
-  results = []
-  for match_test in REGEXES_BY_PRIORITY[category]
-    for entry in sorted_entries
-      # this regex matches this entry  and previous regex did not
-      if match_test(search_str, entry) and entry not in results
-        results.push(entry)
-        if results.length is MAX_ITEMS[category]
-          return results
-  return results
+  # results = []
+  # for match_test in REGEXES_BY_PRIORITY[category]
+  #   for entry in sorted_entries
+  #     # this regex matches this entry  and previous regex did not
+  #     if match_test(search_str, entry) and entry not in results
+  #       results.push(entry)
+  #       if results.length is MAX_ITEMS[category]
+  #         return results
+  # return results
 
 
 # Get a list of interesting entries for a given search term
@@ -104,43 +151,41 @@ window.init_search_box = (dir="", callback=null, start) ->
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
-  $.getJSON dir+"autocomplete_data.json/"+start, (data) ->
-    instructors = data.instructors.sort(sort_by_title)
-    courses = data.courses.sort(sort_by_title)
-    departments = data.departments.sort(sort_by_title)
-    console.log "have data"
 
-    $("#searchbox").autocomplete(
-      delay: 0
-      minLength: 2
-      autoFocus: true
-      source: (request, response) ->
-        # update the entries to show
-        response(get_entries(request.term, courses, instructors, departments))
-      position:
-        my: "left top"
-        at: "left bottom"
-        collision: "none"
-        of: "#searchbar"
-        offset: "0 -1"
-      focus: (event, ui) ->
-        false
-      select: (event, ui) ->
-        # On click, go to page
-        window.location = dir+ui.item.url
-        false
-      open: (event, ui) ->
-        $(".ui-autocomplete.ui-menu.ui-widget").width(
-          $("#searchbar").width()
-        )
-    )
-    .data("autocomplete")._renderItem = (ul, item) ->
-      $("<li></li>")
-      .data("item.autocomplete", item)
-      .append("""<a>
-                   <span class='ui-menu-item-title'>#{item.title}</span><br />
-                   <span class='ui-menu-item-desc'>#{item.desc}</span>
-                 </a>""")
+  $("#searchbox").autocomplete(
+    delay: 0
+    minLength: 0
+    autoFocus: true
+    source: (request, response) ->
+      # update the entries to show
+      find_autocomplete_matches(request.term, 'mixed', (arr)->
+        console.log(arr)
+        response(arr)   
+      )
+    position:
+      my: "left top"
+      at: "left bottom"
+      collision: "none"
+      of: "#searchbar"
+      offset: "0 -1"
+    focus: (event, ui) ->
+      false
+    select: (event, ui) ->
+      # On click, go to page
+      window.location = dir+ui.item.url
+      false
+    open: (event, ui) ->
+      $(".ui-autocomplete.ui-menu.ui-widget").width(
+        $("#searchbar").width()
+      )
+
+  )
+  .data("autocomplete")._renderItem = (ul, item) ->
+    $("<li></li>")
+    .data("item.autocomplete", item)
+    .append("""<a>
+                 <span class='ui-menu-item-title'>#{item.value}</span><br />
+                 <span class='ui-menu-item-desc'>#{item.name}</span>
+               </a>""")
       .appendTo(ul)
-    # did the auto_complete.json have a callback? call it.
-    callback() if callback?
+
