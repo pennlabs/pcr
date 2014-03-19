@@ -154,7 +154,7 @@ window.init_search_box = (dir="", callback=null, start) ->
 
   $("#searchbox").autocomplete(
     delay: 0
-    minLength: 0
+    minLength: 2
     autoFocus: true
     source: (request, response) ->
       # update the entries to show

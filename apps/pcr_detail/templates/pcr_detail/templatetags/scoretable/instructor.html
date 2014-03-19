@@ -17,8 +17,8 @@
         <div class="fold-icon" title="Expand"></div>
       </td>
       <td class="col_code">
-        <a href="../course/{{coursehistory.alias}}" onclick="toggle_course_row({{forloop.counter0}})">
-          {{coursehistory.alias}}
+        <a href="../course/{{coursehistory|get_alias:item}}" onclick="toggle_course_row({{forloop.counter0}})">
+          {{coursehistory|get_alias:item}}
         </a>
       </td>
         {% with reviews=group.list %}

@@ -97,13 +97,12 @@
           <!--[if IE 8]>
           <span style="color:#CC0000;">Best viewed in Chrome or Firefox. </span>
           <![endif]-->
-          Copyright &copy; 2011
-          <a href="http://pennapps.com/labs/"><strong>PennApps Labs</strong></a>
+          Copyright &copy; 2013
+          <a href="http://labs.pennapps.com"><strong>PennApps Labs</strong></a>
           |
           Hosted by
           <a href="http://stwing.upenn.edu/"><strong>STWing</strong></a>
-          &nbsp;
-          <!--[if IE 8]>
+          <!--[if IE 8>]
           <span style="color:#CC0000;">Best viewed in Chrome or Firefox. </span>
           <![endif]-->
         </p>
@@ -118,13 +117,23 @@
     {% block hidden %}
     {% endblock %}
   </div>
-  <script type="text/javascript">
-    var uvOptions = {};
-    (function() {
-      var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-      uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/BG2CMxytrRmfLzouyrYEJw.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
-    })();
-  </script>
+<!-- UserVoice JavaScript SDK (only needed once on a page) -->
+<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/DK7y9di1OfqvyeKq0bB94g.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+
+<!-- A tab to launch the Classic Widget -->
+<script>
+UserVoice = window.UserVoice || [];
+UserVoice.push(['showTab', 'classic_widget', {
+  mode: 'full',
+  primary_color: '#cc6d00',
+  link_color: '#007dbf',
+  default_mode: 'feedback',
+  forum_id: 177712,
+  tab_label: 'Feedback',
+  tab_color: '#cc6d00',
+  tab_position: 'bottom-right',
+  tab_inverted: false
+}]);
+</script>
 </body>
 </html>
