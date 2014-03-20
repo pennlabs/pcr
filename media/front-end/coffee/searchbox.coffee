@@ -75,22 +75,20 @@ find_autocomplete_matches = (search_str, category, cb) ->
       resultsArr = []
      
       if results.courses
+        stuff = {}
         for obj, i in results.courses
-          obj.category = "courses"
-          dup = false
-          # The O(n^2), it hurts
-          for obj2, i in results.departments
-            if obj.value == obj2.value
-              dup = true
-              break
-          if not dup    
-            if not obj.name
-              obj.name = ""
-            resultsArr.push(obj)
+          obj.category = "course"
+          if not stuff[obj.value]
+            # body...()
+            stuff[obj.value] = obj 
+            console.log(stuff)
+        for key, val of stuff
+          resultsArr.push(val)
+        
 
       if results.instructors
         for obj, i in results.instructors
-          obj.category = "instructors"
+          obj.category = "instructor"
           if not obj.name
             obj.name = ""
           resultsArr.push(obj)
@@ -98,7 +96,7 @@ find_autocomplete_matches = (search_str, category, cb) ->
       if results.departments 
         for obj, i in results.departments
           obj.title = obj.value
-          obj.category = "departments"
+          obj.category = "department"
           if not obj.name
             obj.name = ""
           resultsArr.push(obj)
@@ -151,7 +149,7 @@ window.init_search_box = (dir="", callback=null, start) ->
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
-
+    
   $("#searchbox").autocomplete(
     delay: 0
     minLength: 2
@@ -172,7 +170,10 @@ window.init_search_box = (dir="", callback=null, start) ->
       false
     select: (event, ui) ->
       # On click, go to page
-      window.location = dir+ui.item.url
+      if ui.item.category == 'instructor'
+        window.location = dir+'/'+ui.item.category+'/'+parseInt(ui.item.path.split('/')[2])
+      else
+        window.location = dir+'/'+ui.item.category+'/'+ui.item.value
       false
     open: (event, ui) ->
       $(".ui-autocomplete.ui-menu.ui-widget").width(
