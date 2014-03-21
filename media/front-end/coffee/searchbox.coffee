@@ -138,7 +138,6 @@ window.init_search_box = (dir="", callback=null, start) ->
     source: (request, response) ->
       # update the entries to show
       find_autocomplete_matches(request.term, 'mixed', (matches)->
-        console.log(matches)
         response(matches)   
       )
     position:

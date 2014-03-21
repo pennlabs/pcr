@@ -149,7 +149,6 @@
       autoFocus: true,
       source: function(request, response) {
         return find_autocomplete_matches(request.term, 'mixed', function(matches) {
-          console.log(matches);
           return response(matches);
         });
       },
