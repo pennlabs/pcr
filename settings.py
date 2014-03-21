@@ -4,7 +4,6 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-from sandbox_config import *
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
