@@ -77,9 +77,8 @@ find_autocomplete_matches = (search_str, category, cb) ->
         uniqueCourses = {}
         for course, _ in results.courses
           course.category = "course"
-          if not uniqueCourses[course.value]
-            uniqueCourses[course.value] = course 
-        for _, val of stuff
+          uniqueCourses[course.value] ?= course 
+        for _, val of uniqueCourses
           rv.push(val)
         
 
@@ -87,14 +86,14 @@ find_autocomplete_matches = (search_str, category, cb) ->
         for instructor, _ in results.instructors
           instructor.category = "instructor"
           instructor.name ?= ""
-          rv.push(instructor)
+        rv.concat(results.instructors)
 
       if results.departments 
         for dept, _ in results.departments
           dept.title = obj.value
           dept.category = "department"
           dept.name ?= ""
-          rv.push(obj)
+        rv.concat(results.departments)
 
       cb(rv)
     error: (error) ->

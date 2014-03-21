@@ -59,7 +59,7 @@
         token: 'smOFfjV6JeHUgGO5e7VdEAYuF3oQGn'
       },
       success: function(data) {
-        var course, dept, instructor, results, rv, uniqueCourses, val, _, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+        var course, dept, instructor, results, rv, uniqueCourses, val, _, _i, _j, _k, _len, _len1, _len2, _name, _ref, _ref1, _ref2;
         results = JSON.parse(data).result;
         rv = [];
         if (results.courses) {
@@ -68,12 +68,12 @@
           for (_ = _i = 0, _len = _ref.length; _i < _len; _ = ++_i) {
             course = _ref[_];
             course.category = "course";
-            if (!uniqueCourses[course.value]) {
-              uniqueCourses[course.value] = course;
+            if (uniqueCourses[_name = course.value] == null) {
+              uniqueCourses[_name] = course;
             }
           }
-          for (_ in stuff) {
-            val = stuff[_];
+          for (_ in uniqueCourses) {
+            val = uniqueCourses[_];
             rv.push(val);
           }
         }
@@ -85,8 +85,8 @@
             if (instructor.name == null) {
               instructor.name = "";
             }
-            rv.push(instructor);
           }
+          rv.concat(results.instructors);
         }
         if (results.departments) {
           _ref2 = results.departments;
@@ -97,8 +97,8 @@
             if (dept.name == null) {
               dept.name = "";
             }
-            rv.push(obj);
           }
+          rv.concat(results.departments);
         }
         return cb(rv);
       },
