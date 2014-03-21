@@ -16,7 +16,7 @@ def static(request, page):
 
 
 def proxy(request, path):
-    url = '%s%s%s' % ('http://api.penncoursereview.com/v1/', path, '?token=smOFfjV6JeHUgGO5e7VdEAYuF3oQGn')
+    url = '%s%s%s' % ('http://api.penncoursereview.com/v1/', path + '?' + request.GET.urlencode(), '&token=smOFfjV6JeHUgGO5e7VdEAYuF3oQGn')
     try:
         proxied_request = urllib2.urlopen(url)
         status_code = proxied_request.code

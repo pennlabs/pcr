@@ -60,13 +60,12 @@ REGEXES_BY_PRIORITY =
 # @param callback function array of items to show passed in
 find_autocomplete_matches = (search_str, category, cb) ->
   
-  $.ajax 'http://api.penncoursereview.com/v1/search',
+  $.ajax 'chrome/api/search/',
   {
     data:{
       result_type:category,
       count:5,
-      q:search_str,
-      token:'smOFfjV6JeHUgGO5e7VdEAYuF3oQGn'
+      q:search_str
     },
     success: (data) ->
       results = JSON.parse(data).result

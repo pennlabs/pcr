@@ -51,12 +51,11 @@
   };
 
   find_autocomplete_matches = function(search_str, category, cb) {
-    return $.ajax('http://api.penncoursereview.com/v1/search', {
+    return $.ajax('chrome/api/search/', {
       data: {
         result_type: category,
         count: 5,
-        q: search_str,
-        token: 'smOFfjV6JeHUgGO5e7VdEAYuF3oQGn'
+        q: search_str
       },
       success: function(data) {
         var course, dept, instructor, results, rv, uniqueCourses, val, _, _i, _j, _k, _len, _len1, _len2, _name, _ref, _ref1, _ref2;
