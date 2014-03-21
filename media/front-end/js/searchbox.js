@@ -59,49 +59,48 @@
         token: 'smOFfjV6JeHUgGO5e7VdEAYuF3oQGn'
       },
       success: function(data) {
-        var i, key, obj, results, resultsArr, stuff, val, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+        var course, dept, instructor, results, rv, uniqueCourses, val, _, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
         results = JSON.parse(data).result;
-        resultsArr = [];
+        rv = [];
         if (results.courses) {
-          stuff = {};
+          uniqueCourses = {};
           _ref = results.courses;
-          for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-            obj = _ref[i];
-            obj.category = "course";
-            if (!stuff[obj.value]) {
-              stuff[obj.value] = obj;
-              console.log(stuff);
+          for (_ = _i = 0, _len = _ref.length; _i < _len; _ = ++_i) {
+            course = _ref[_];
+            course.category = "course";
+            if (!uniqueCourses[course.value]) {
+              uniqueCourses[course.value] = course;
             }
           }
-          for (key in stuff) {
-            val = stuff[key];
-            resultsArr.push(val);
+          for (_ in stuff) {
+            val = stuff[_];
+            rv.push(val);
           }
         }
         if (results.instructors) {
           _ref1 = results.instructors;
-          for (i = _j = 0, _len1 = _ref1.length; _j < _len1; i = ++_j) {
-            obj = _ref1[i];
-            obj.category = "instructor";
-            if (!obj.name) {
-              obj.name = "";
+          for (_ = _j = 0, _len1 = _ref1.length; _j < _len1; _ = ++_j) {
+            instructor = _ref1[_];
+            instructor.category = "instructor";
+            if (instructor.name == null) {
+              instructor.name = "";
             }
-            resultsArr.push(obj);
+            rv.push(instructor);
           }
         }
         if (results.departments) {
           _ref2 = results.departments;
-          for (i = _k = 0, _len2 = _ref2.length; _k < _len2; i = ++_k) {
-            obj = _ref2[i];
-            obj.title = obj.value;
-            obj.category = "department";
-            if (!obj.name) {
-              obj.name = "";
+          for (_ = _k = 0, _len2 = _ref2.length; _k < _len2; _ = ++_k) {
+            dept = _ref2[_];
+            dept.title = obj.value;
+            dept.category = "department";
+            if (dept.name == null) {
+              dept.name = "";
             }
-            resultsArr.push(obj);
+            rv.push(obj);
           }
         }
-        return cb(resultsArr);
+        return cb(rv);
       },
       error: function(error) {
         return cb([]);
@@ -150,9 +149,8 @@
       minLength: 2,
       autoFocus: true,
       source: function(request, response) {
-        return find_autocomplete_matches(request.term, 'mixed', function(arr) {
-          console.log(arr);
-          return response(arr);
+        return find_autocomplete_matches(request.term, 'mixed', function(matches) {
+          return response(matches);
         });
       },
       position: {
@@ -166,7 +164,6 @@
         return false;
       },
       select: function(event, ui) {
-        console.log('select');
         if (ui.item.category === 'instructor') {
           window.location = dir + '/' + ui.item.category + '/' + parseInt(ui.item.path.split('/')[2]);
         } else {

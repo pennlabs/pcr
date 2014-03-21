@@ -56,10 +56,8 @@ REGEXES_BY_PRIORITY =
 # Generate a list of interesting items to show for a given search term.
 # @param user-entered search term
 # @param type of items. Should be one of 'Courses', 'Instructors', or
-#   'Departments'
-# @param items to consider showing, in sorted order
-# @param max number of items
-# @return array of items to show
+#   'Departments', 'mixed'
+# @param callback function array of items to show passed in
 find_autocomplete_matches = (search_str, category, cb) ->
   
   $.ajax 'http://api.penncoursereview.com/v1/search',
@@ -72,51 +70,36 @@ find_autocomplete_matches = (search_str, category, cb) ->
     },
     success: (data) ->
       results = JSON.parse(data).result
-      resultsArr = []
+      rv = []
      
       if results.courses
-        stuff = {}
-        for obj, i in results.courses
-          obj.category = "course"
-          if not stuff[obj.value]
-            # body...()
-            stuff[obj.value] = obj 
-            console.log(stuff)
-        for key, val of stuff
-          resultsArr.push(val)
+        # filter out duplicate semesters
+        uniqueCourses = {}
+        for course, _ in results.courses
+          course.category = "course"
+          if not uniqueCourses[course.value]
+            uniqueCourses[course.value] = course 
+        for _, val of stuff
+          rv.push(val)
         
 
       if results.instructors
-        for obj, i in results.instructors
-          obj.category = "instructor"
-          if not obj.name
-            obj.name = ""
-          resultsArr.push(obj)
+        for instructor, _ in results.instructors
+          instructor.category = "instructor"
+          instructor.name ?= ""
+          rv.push(instructor)
 
       if results.departments 
-        for obj, i in results.departments
-          obj.title = obj.value
-          obj.category = "department"
-          if not obj.name
-            obj.name = ""
-          resultsArr.push(obj)
+        for dept, _ in results.departments
+          dept.title = obj.value
+          dept.category = "department"
+          dept.name ?= ""
+          rv.push(obj)
 
-      cb(resultsArr)
+      cb(rv)
     error: (error) ->
       cb([]) 
   }
-
-  # Regexes to match against, in order of interstingness
-  # results = []
-  # for match_test in REGEXES_BY_PRIORITY[category]
-  #   for entry in sorted_entries
-  #     # this regex matches this entry  and previous regex did not
-  #     if match_test(search_str, entry) and entry not in results
-  #       results.push(entry)
-  #       if results.length is MAX_ITEMS[category]
-  #         return results
-  # return results
-
 
 # Get a list of interesting entries for a given search term
 # @param user-entered search term
@@ -156,9 +139,8 @@ window.init_search_box = (dir="", callback=null, start) ->
     autoFocus: true
     source: (request, response) ->
       # update the entries to show
-      find_autocomplete_matches(request.term, 'mixed', (arr)->
-        console.log(arr)
-        response(arr)   
+      find_autocomplete_matches(request.term, 'mixed', (matches)->
+        response(matches)   
       )
     position:
       my: "left top"
@@ -170,7 +152,9 @@ window.init_search_box = (dir="", callback=null, start) ->
       false
     select: (event, ui) ->
       # On click, go to page
-      console.log('select')
+
+      # The route for an instructor is /instructor/{num}
+      # The path in the data is of the form /instructors/{num}-{name}
       if ui.item.category == 'instructor'
         window.location = dir+'/'+ui.item.category+'/'+parseInt(ui.item.path.split('/')[2])
       else
