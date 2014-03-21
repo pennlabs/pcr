@@ -8,3 +8,4 @@ compilecoffee
 staticgenerator_output/*
 CACHES/*
 docs/_build
+lib/python2.7

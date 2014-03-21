@@ -149,7 +149,7 @@ window.init_search_box = (dir="", callback=null, start) ->
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
-    
+
   $("#searchbox").autocomplete(
     delay: 0
     minLength: 2
@@ -170,6 +170,7 @@ window.init_search_box = (dir="", callback=null, start) ->
       false
     select: (event, ui) ->
       # On click, go to page
+      console.log('select')
       if ui.item.category == 'instructor'
         window.location = dir+'/'+ui.item.category+'/'+parseInt(ui.item.path.split('/')[2])
       else

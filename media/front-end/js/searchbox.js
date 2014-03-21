@@ -166,6 +166,7 @@
         return false;
       },
       select: function(event, ui) {
+        console.log('select');
         if (ui.item.category === 'instructor') {
           window.location = dir + '/' + ui.item.category + '/' + parseInt(ui.item.path.split('/')[2]);
         } else {
