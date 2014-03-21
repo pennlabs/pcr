@@ -154,10 +154,10 @@ window.init_search_box = (dir="", callback=null, start) ->
 
       # The route for an instructor is /instructor/{num}
       # The path in the data is of the form /instructors/{num}-{name}
-      if ui.item.category == 'instructor'
-        window.location = dir+'/'+ui.item.category+'/'+parseInt(ui.item.path.split('/')[2])
-      else
-        window.location = dir+'/'+ui.item.category+'/'+ui.item.value
+      window.location = (dir + '/' + ui.item.category + 
+        if ui.item.category != 'instructor' then ui.item.value 
+        else parseInt(ui.item.path.split('/')[2])
+        )
       false
     open: (event, ui) ->
       $(".ui-autocomplete.ui-menu.ui-widget").width(

@@ -164,11 +164,7 @@
         return false;
       },
       select: function(event, ui) {
-        if (ui.item.category === 'instructor') {
-          window.location = dir + '/' + ui.item.category + '/' + parseInt(ui.item.path.split('/')[2]);
-        } else {
-          window.location = dir + '/' + ui.item.category + '/' + ui.item.value;
-        }
+        window.location = dir + '/' + ui.item.category + (ui.item.category !== 'instructor' ? ui.item.value : parseInt(ui.item.path.split('/')[2]));
         return false;
       },
       open: function(event, ui) {
