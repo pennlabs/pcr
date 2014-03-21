@@ -86,19 +86,19 @@
               instructor.name = "";
             }
           }
-          rv.concat(results.instructors);
+          rv = rv.concat(results.instructors);
         }
         if (results.departments) {
           _ref2 = results.departments;
           for (_ = _k = 0, _len2 = _ref2.length; _k < _len2; _ = ++_k) {
             dept = _ref2[_];
-            dept.title = obj.value;
+            dept.title = dept.value;
             dept.category = "department";
             if (dept.name == null) {
               dept.name = "";
             }
           }
-          rv.concat(results.departments);
+          rv = rv.concat(results.departments);
         }
         return cb(rv);
       },
@@ -150,6 +150,7 @@
       autoFocus: true,
       source: function(request, response) {
         return find_autocomplete_matches(request.term, 'mixed', function(matches) {
+          console.log(matches);
           return response(matches);
         });
       },
@@ -164,7 +165,7 @@
         return false;
       },
       select: function(event, ui) {
-        window.location = dir + '/' + ui.item.category + (ui.item.category !== 'instructor' ? ui.item.value : parseInt(ui.item.path.split('/')[2]));
+        window.location = dir + '/' + ui.item.category + '/' + (ui.item.category !== 'instructor' ? ui.item.value : parseInt(ui.item.path.split('/')[2]));
         return false;
       },
       open: function(event, ui) {

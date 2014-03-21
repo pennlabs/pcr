@@ -86,14 +86,14 @@ find_autocomplete_matches = (search_str, category, cb) ->
         for instructor, _ in results.instructors
           instructor.category = "instructor"
           instructor.name ?= ""
-        rv.concat(results.instructors)
+        rv = rv.concat(results.instructors)
 
       if results.departments 
         for dept, _ in results.departments
-          dept.title = obj.value
+          dept.title = dept.value
           dept.category = "department"
           dept.name ?= ""
-        rv.concat(results.departments)
+        rv = rv.concat(results.departments)
 
       cb(rv)
     error: (error) ->
@@ -139,6 +139,7 @@ window.init_search_box = (dir="", callback=null, start) ->
     source: (request, response) ->
       # update the entries to show
       find_autocomplete_matches(request.term, 'mixed', (matches)->
+        console.log(matches)
         response(matches)   
       )
     position:
@@ -154,7 +155,7 @@ window.init_search_box = (dir="", callback=null, start) ->
 
       # The route for an instructor is /instructor/{num}
       # The path in the data is of the form /instructors/{num}-{name}
-      window.location = (dir + '/' + ui.item.category + 
+      window.location = (dir + '/' + ui.item.category + '/' +
         if ui.item.category != 'instructor' then ui.item.value 
         else parseInt(ui.item.path.split('/')[2])
         )
