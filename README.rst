@@ -31,7 +31,7 @@ At this point, if you are editing on the server things should just work.
 
 If you are editing locally, you can run the server as follows::
 
-    python manage.py runserver --settings=local_settings
+    make run
 
 Documentation
 ================================================================================
