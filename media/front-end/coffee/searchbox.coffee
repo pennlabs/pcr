@@ -35,15 +35,30 @@ REGEXES_BY_PRIORITY =
       if endsWith search_term, " "
         false
       else
-          RegExp("\\s#{search_term}[a-z]*$", 'i').test(instructor.keywords))
+        terms = search_term.split(' ')
+        found = false
+        for term in terms
+          found = found or RegExp("\\s#{term}[a-z]*$", 'i').test(instructor.keywords)
+        return found
+    )
 
     # match first name
     ((search_term, instructor) ->
-      RegExp("^#{search_term}", 'i').test(instructor.keywords))
+      terms = search_term.split(' ')
+      found = false
+      for term in terms
+        found = found or RegExp("^#{term}", 'i').test(instructor.keywords)
+      return found
+    )
 
     # match middle name
     ((search_term, instructor) ->
-      RegExp("\\s#{search_term}", 'i').test(instructor.keywords))
+      terms = search_term.split(' ')
+      found = false
+      for term in terms
+        found = found or RegExp("\\s#{term}", 'i').test(instructor.keywords)
+      return found
+    )
   ],
   Departments: [
     ((search_term, department) ->
@@ -63,14 +78,22 @@ REGEXES_BY_PRIORITY =
 find_autocomplete_matches = (search_str, category, sorted_entries) ->
   # Regexes to match against, in order of interstingness
   results = []
-  for match_test in REGEXES_BY_PRIORITY[category]
-    for entry in sorted_entries
+  
+  for entry in sorted_entries
+    tests_passed = 0
+    for match_test in REGEXES_BY_PRIORITY[category]
       # this regex matches this entry  and previous regex did not
-      if match_test(search_str, entry) and entry not in results
-        results.push(entry)
-        if results.length is MAX_ITEMS[category]
-          return results
-  return results
+      if match_test(search_str, entry)
+        tests_passed += 1
+    if (tests_passed > 1 or (tests_passed == 1 and results.length < MAX_ITEMS[category]))
+      if(search_str == "adam grant")
+        console.log JSON.stringify({passed: tests_passed, entry: entry})
+      results.push({passed: tests_passed, entry: entry})
+  results = results.sort((a,b) ->
+    b.passed - a.passed
+    )
+  return $.map(results.slice(0, MAX_ITEMS[category]),(result) ->
+    result.entry)
 
 
 # Get a list of interesting entries for a given search term
@@ -104,7 +127,7 @@ window.init_search_box = (dir="", callback=null, start) ->
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
-  $.getJSON dir+"autocomplete_data.json/"+start.toLowerCase(), (data) ->
+  $.getJSON dir+"media/front-end/image/autocomplete_data.json", (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
