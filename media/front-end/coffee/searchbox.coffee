@@ -35,15 +35,33 @@ REGEXES_BY_PRIORITY =
       if endsWith search_term, " "
         false
       else
-          RegExp("\\s#{search_term}[a-z]*$", 'i').test(instructor.keywords))
+        # split into each word, and search each.
+        terms = search_term.split(' ')
+        found = false
+        for term in terms
+          found = found or RegExp("\\s#{term}[a-z]*$", 'i').test(instructor.keywords)
+        return found
+    )
 
     # match first name
     ((search_term, instructor) ->
-      RegExp("^#{search_term}", 'i').test(instructor.keywords))
+      # split into each word, and search each.
+      terms = search_term.split(' ')
+      found = false
+      for term in terms
+        found = found or RegExp("^#{term}", 'i').test(instructor.keywords)
+      return found
+    )
 
     # match middle name
     ((search_term, instructor) ->
-      RegExp("\\s#{search_term}", 'i').test(instructor.keywords))
+      # split into each word, and search each.
+      terms = search_term.split(' ')
+      found = false
+      for term in terms
+        found = found or RegExp("\\s#{term}", 'i').test(instructor.keywords)
+      return found
+    )
   ],
   Departments: [
     ((search_term, department) ->
@@ -63,14 +81,25 @@ REGEXES_BY_PRIORITY =
 find_autocomplete_matches = (search_str, category, sorted_entries) ->
   # Regexes to match against, in order of interstingness
   results = []
-  for match_test in REGEXES_BY_PRIORITY[category]
-    for entry in sorted_entries
+  
+  for entry in sorted_entries
+    tests_passed = 0
+    for match_test in REGEXES_BY_PRIORITY[category]
       # this regex matches this entry  and previous regex did not
-      if match_test(search_str, entry) and entry not in results
-        results.push(entry)
-        if results.length is MAX_ITEMS[category]
-          return results
-  return results
+      if match_test(search_str, entry)
+        tests_passed += 1
+    # it will push in entries with multiple matches, and ones with
+    # only one match if total entries are not at maximum yet.
+    if (tests_passed > 1 or (tests_passed == 1 and results.length < MAX_ITEMS[category]))
+      results.push({passed: tests_passed, entry: entry})
+
+  results = results.sort((a,b) ->
+    b.passed - a.passed
+    )
+
+  # get the best MAX_ITEMS entries
+  return $.map(results.slice(0, MAX_ITEMS[category]),(result) ->
+    result.entry)
 
 
 # Get a list of interesting entries for a given search term

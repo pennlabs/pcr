@@ -1,6 +1,6 @@
 # Django settings for studyspaces project.
 import os
-
+from local_settings import *
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
