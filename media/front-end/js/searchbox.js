@@ -85,12 +85,6 @@
         }
       }
       if (tests_passed > 1 || (tests_passed === 1 && results.length < MAX_ITEMS[category])) {
-        if (search_str === "adam grant") {
-          console.log(JSON.stringify({
-            passed: tests_passed,
-            entry: entry
-          }));
-        }
         results.push({
           passed: tests_passed,
           entry: entry
@@ -141,7 +135,7 @@
         return -1;
       }
     };
-    return $.getJSON(dir + "media/front-end/image/autocomplete_data.json", function(data) {
+    return $.getJSON(dir + "autocomplete_data.json/" + start.toLowerCase(), function(data) {
       var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);

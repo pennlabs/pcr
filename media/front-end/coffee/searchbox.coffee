@@ -35,6 +35,7 @@ REGEXES_BY_PRIORITY =
       if endsWith search_term, " "
         false
       else
+        # split into each word, and search each.
         terms = search_term.split(' ')
         found = false
         for term in terms
@@ -44,6 +45,7 @@ REGEXES_BY_PRIORITY =
 
     # match first name
     ((search_term, instructor) ->
+      # split into each word, and search each.
       terms = search_term.split(' ')
       found = false
       for term in terms
@@ -53,6 +55,7 @@ REGEXES_BY_PRIORITY =
 
     # match middle name
     ((search_term, instructor) ->
+      # split into each word, and search each.
       terms = search_term.split(' ')
       found = false
       for term in terms
@@ -85,13 +88,16 @@ find_autocomplete_matches = (search_str, category, sorted_entries) ->
       # this regex matches this entry  and previous regex did not
       if match_test(search_str, entry)
         tests_passed += 1
+    # it will push in entries with multiple matches, and ones with
+    # only one match if total entries are not at maximum yet.
     if (tests_passed > 1 or (tests_passed == 1 and results.length < MAX_ITEMS[category]))
-      if(search_str == "adam grant")
-        console.log JSON.stringify({passed: tests_passed, entry: entry})
       results.push({passed: tests_passed, entry: entry})
+
   results = results.sort((a,b) ->
     b.passed - a.passed
     )
+
+  # get the best MAX_ITEMS entries
   return $.map(results.slice(0, MAX_ITEMS[category]),(result) ->
     result.entry)
 
@@ -127,7 +133,7 @@ window.init_search_box = (dir="", callback=null, start) ->
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
-  $.getJSON dir+"media/front-end/image/autocomplete_data.json", (data) ->
+  $.getJSON dir+"autocomplete_data.json/"+start.toLowerCase(), (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
