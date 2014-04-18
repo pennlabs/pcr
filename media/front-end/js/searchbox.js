@@ -135,7 +135,7 @@
         return -1;
       }
     };
-    return $.getJSON(dir + "/media/front-end/image/autocomplete_data.json", function(data) {
+    return $.getJSON(dir + dir + "autocomplete_data.json/" + start.toLowerCase(), function(data) {
       var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);
