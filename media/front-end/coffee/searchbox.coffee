@@ -90,6 +90,7 @@ find_autocomplete_matches = (search_str, category, sorted_entries) ->
         tests_passed += 1
     # it will push in entries with multiple matches, and ones with
     # only one match if total entries are not at maximum yet.
+
     if (tests_passed > 1 or (tests_passed == 1 and results.length < MAX_ITEMS[category]))
       results.push({passed: tests_passed, entry: entry})
 
@@ -114,6 +115,7 @@ get_entries = (term, courses, instructors, departments) ->
   .concat(find_autocomplete_matches(term, 'Departments', departments))
 
 
+
 # Inject the category header (ex. instructor) before first result of each
 # category
 $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
@@ -133,13 +135,14 @@ window.init_search_box = (dir="", callback=null, start) ->
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
-  $.getJSON dir+"autocomplete_data.json/"+start.toLowerCase(), (data) ->
+  $.getJSON dir+"/media/front-end/image/autocomplete_data.json", (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
     console.log "have data"
 
     $("#searchbox").autocomplete(
+      appendTo: ".results"
       delay: 0
       minLength: 2
       autoFocus: true
@@ -167,9 +170,10 @@ window.init_search_box = (dir="", callback=null, start) ->
       $("<li></li>")
       .data("item.autocomplete", item)
       .append("""<a>
-                   <span class='ui-menu-item-title'>#{item.title}</span><br />
-                   <span class='ui-menu-item-desc'>#{item.desc}</span>
+                   <div class='ui-menu-item-category'>#{item.category}</div>
+                   <div class='ui-menu-item-title'>#{item.title}</div>
+                   <div class='ui-menu-item-desc'>#{item.desc}</div>
                  </a>""")
-      .appendTo(ul)
+      .appendTo(ul).fadeIn(500)
     # did the auto_complete.json have a callback? call it.
     callback() if callback?
