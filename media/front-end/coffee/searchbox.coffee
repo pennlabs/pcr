@@ -36,7 +36,7 @@ REGEXES_BY_PRIORITY =
         false
       else
         # split into each word, and search each.
-        terms = search_term.split(' ')
+        terms = search_term.trim().split(' ')
         found = false
         for term in terms
           found = found or RegExp("\\s#{term}[a-z]*$", 'i').test(instructor.keywords)
@@ -46,7 +46,7 @@ REGEXES_BY_PRIORITY =
     # match first name
     ((search_term, instructor) ->
       # split into each word, and search each.
-      terms = search_term.split(' ')
+      terms = search_term.trim().split(' ')
       found = false
       for term in terms
         found = found or RegExp("^#{term}", 'i').test(instructor.keywords)
@@ -56,7 +56,7 @@ REGEXES_BY_PRIORITY =
     # match middle name
     ((search_term, instructor) ->
       # split into each word, and search each.
-      terms = search_term.split(' ')
+      terms = search_term.trim().split(' ')
       found = false
       for term in terms
         found = found or RegExp("\\s#{term}", 'i').test(instructor.keywords)
@@ -130,19 +130,34 @@ $.widget "custom.autocomplete", $.ui.autocomplete, _renderMenu: (ul, items) ->
 
 # Initialize searchbox
 # @param base directory
-window.init_search_box = (dir="", callback=null, start) ->
+window.init_search_box = (dir="", callback=null, start, fp) ->
 
   # put the data in the right order (cis 120 before cis 500)
   sort_by_title = (first, second) ->
     if first.title > second.title then 1 else -1
-  $.getJSON dir+dir+"autocomplete_data.json/"+start.toLowerCase(), (data) ->
+
+
+  if fp
+    appendTo = ".results"
+    of_string = "#searchbar"
+  else
+    appendTo = "#results_top"
+    of_string = "#title"
+
+  console.log(of_string)
+  if dir.charAt(dir.length-1) == "/" 
+    leading = ""
+  else
+    leading = "/"
+
+  $.getJSON dir+"media/front-end/image/autocomplete_data.json", (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
     console.log "have data"
 
     $("#searchbox").autocomplete(
-      appendTo: ".results"
+      appendTo: appendTo
       delay: 0
       minLength: 2
       autoFocus: true
@@ -167,6 +182,10 @@ window.init_search_box = (dir="", callback=null, start) ->
         )
     )
     .data("autocomplete")._renderItem = (ul, item) ->
+      if not fp
+        ul.addClass("result_small")
+      else
+        ul.addClass("result_large")
       $("<li></li>")
       .data("item.autocomplete", item)
       .append("""<a>

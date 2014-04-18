@@ -139,7 +139,7 @@ input {
   height: 20px;
   background-color: rgb(240, 240, 240);
   float:left;
-  font-family: 'Lato';
+  font-family: 'Lato', helvetica, sans-serif;
   font-size: 16px;
   color: rgb(100,100,100);
   margin: 4px 0px 4px 12px;
@@ -169,6 +169,10 @@ input {
 
 /***** BANNER *****/
 
+.instructor {
+  margin-top: 90px;
+}
+
 #banner {
   margin-top: 50px;
 }
@@ -184,6 +188,8 @@ input {
   font-family: 'BebasNeueRegular'; 
   font-size:60px;
   color:#ffffff;
+  line-height: 35%;
+  padding-bottom: 15px;
 }
 #banner-info .subtitle {
   font-family: 'BebasNeueRegular'; 
@@ -195,6 +201,9 @@ input {
   font-family:Verdana, Geneva, sans-serif;
   font-size:12px;
   color:#636363;
+}
+#banner-info .nowrap {
+  white-space: nowrap;
 }
 #banner-info p.desc {
   line-height:150%;
@@ -442,6 +451,10 @@ input {
   background:#eeeeee;
 }
 
+.col_instructor > a {
+  border: none;
+}
+
 #course-table div.fold-icon {
   width:11px;
   height:11px;
@@ -582,8 +595,8 @@ The result is this, which is a little unclean, but it works.
   font-style:italic;
 }
 #faqs p.question {
-  color: #000080;
-  font-weight: bold;
+  color: #636363;
+  font-size: 24px;
 
   margin-bottom:8px;
 }

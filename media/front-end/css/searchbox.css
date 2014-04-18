@@ -27,8 +27,8 @@
 }
 
 .ui-corner-all:hover{
-  background: none !important;
-  color: rgb(100, 100, 100);
+/*  background: none !important;
+*/  color: rgb(100, 100, 100);
   margin: 0px !important;
   padding: 0px !important;
 
@@ -68,6 +68,39 @@
 
 }
 
+.result_small .ui-menu-item-category{ 
+  display: none !important;
+}
+
+.result_small .ui-menu-item-title{ 
+  font-size: 18px;
+}
+
+.result_small .ui-menu-item-desc{ 
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.result_small .ui-menu-item{
+
+  background-color: #eeeeee;
+
+}
+
+.result_small {
+  background-color: rgb(255,255,255) !important;
+  color: rgb(102, 146, 161) !important;
+  border-radius: 3px;
+}
+
+.result_small > .ui-autocomplete-category {
+  margin: 5px 10px;
+}
+
+.result_small .ui_autocomplete {
+    padding: 0px 5px !important;
+
+}
 
 .ui-state-hover span {
 

@@ -42,7 +42,6 @@ display: none;
   left: 240px;
   width: 458px;
   overflow: hidden;
-  display: none;
 }
 
 #searchbar{	
@@ -58,7 +57,7 @@ display: none;
 	height: 60px;
 	width: 760px;
 	border: none;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Lato', helvetica, sans-serif;
 	font-size: 40px;
 	color: rgb(100, 100, 100);
 	z-index: 10;

@@ -4,7 +4,7 @@
   {% if aliases|length >= 1 %}
     (Also:
     {% for alias in aliases %}
-    <a href="{{alias}}">{{alias}}</a>{% if not forloop.last %},{% endif %}
+    <span class="nowrap"><a href="{{alias}}">{{alias}}</a></span>{% if not forloop.last %},{% endif %}
     {% endfor %}
     )
   {% endif %}

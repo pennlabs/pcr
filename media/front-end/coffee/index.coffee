@@ -10,7 +10,7 @@ $(document).ready ->
   $("#searchbox").keypress( () -> setTimeout(() ->
     if $("#searchbox").val().length == 2
       $("#loading-container").show()
-      init_search_box("", callback, $("#searchbox").val())
+      init_search_box("", callback, $("#searchbox").val(), true)
     else if $("#searchbox").val().length < 2
       $("#searchbox").autocomplete("disable")
   , 10))

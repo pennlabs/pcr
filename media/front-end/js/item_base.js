@@ -155,7 +155,7 @@
       return setTimeout(function() {
         if ($("#searchbox").val().length === 2) {
           $("#loading-container").show();
-          return init_search_box("../", callback, $("#searchbox").val());
+          return init_search_box("../", callback, $("#searchbox").val(), false);
         } else if ($("#searchbox").val().length < 2) {
           return $("#searchbox").autocomplete("disable");
         }

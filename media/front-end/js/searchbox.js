@@ -34,7 +34,7 @@
         if (endsWith(search_term, " ")) {
           return false;
         } else {
-          terms = search_term.split(' ');
+          terms = search_term.trim().split(' ');
           found = false;
           for (_i = 0, _len = terms.length; _i < _len; _i++) {
             term = terms[_i];
@@ -44,7 +44,7 @@
         }
       }), (function(search_term, instructor) {
         var found, term, terms, _i, _len;
-        terms = search_term.split(' ');
+        terms = search_term.trim().split(' ');
         found = false;
         for (_i = 0, _len = terms.length; _i < _len; _i++) {
           term = terms[_i];
@@ -53,7 +53,7 @@
         return found;
       }), (function(search_term, instructor) {
         var found, term, terms, _i, _len;
-        terms = search_term.split(' ');
+        terms = search_term.trim().split(' ');
         found = false;
         for (_i = 0, _len = terms.length; _i < _len; _i++) {
           term = terms[_i];
@@ -120,8 +120,8 @@
     }
   });
 
-  window.init_search_box = function(dir, callback, start) {
-    var sort_by_title;
+  window.init_search_box = function(dir, callback, start, fp) {
+    var appendTo, leading, of_string, sort_by_title;
     if (dir == null) {
       dir = "";
     }
@@ -135,14 +135,27 @@
         return -1;
       }
     };
-    return $.getJSON(dir + dir + "autocomplete_data.json/" + start.toLowerCase(), function(data) {
+    if (fp) {
+      appendTo = ".results";
+      of_string = "#searchbar";
+    } else {
+      appendTo = "#results_top";
+      of_string = "#title";
+    }
+    console.log(of_string);
+    if (dir.charAt(dir.length - 1) === "/") {
+      leading = "";
+    } else {
+      leading = "/";
+    }
+    return $.getJSON(dir + "media/front-end/image/autocomplete_data.json", function(data) {
       var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);
       departments = data.departments.sort(sort_by_title);
       console.log("have data");
       $("#searchbox").autocomplete({
-        appendTo: ".results",
+        appendTo: appendTo,
         delay: 0,
         minLength: 2,
         autoFocus: true,
@@ -167,6 +180,11 @@
           return $(".ui-autocomplete.ui-menu.ui-widget").width($("#searchbar").width());
         }
       }).data("autocomplete")._renderItem = function(ul, item) {
+        if (!fp) {
+          ul.addClass("result_small");
+        } else {
+          ul.addClass("result_large");
+        }
         return $("<li></li>").data("item.autocomplete", item).append("<a>\n  <div class='ui-menu-item-category'>" + item.category + "</div>\n  <div class='ui-menu-item-title'>" + item.title + "</div>\n  <div class='ui-menu-item-desc'>" + item.desc + "</div>\n</a>").appendTo(ul).fadeIn(500);
       };
       if (callback != null) {
