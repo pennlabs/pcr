@@ -137,20 +137,19 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
     if first.title > second.title then 1 else -1
 
 
+
   if fp
     appendTo = ".results"
-    of_string = "#searchbar"
   else
     appendTo = "#results_top"
-    of_string = "#title"
 
-  console.log(of_string)
   if dir.charAt(dir.length-1) == "/" 
     leading = ""
   else
     leading = "/"
 
   $.getJSON dir+"media/front-end/image/autocomplete_data.json", (data) ->
+  # $.getJSON dir+dir+"autocomplete_data.json/"+start.toLowerCase(), (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)

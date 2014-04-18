@@ -121,7 +121,7 @@
   });
 
   window.init_search_box = function(dir, callback, start, fp) {
-    var appendTo, leading, of_string, sort_by_title;
+    var appendTo, leading, sort_by_title;
     if (dir == null) {
       dir = "";
     }
@@ -137,12 +137,9 @@
     };
     if (fp) {
       appendTo = ".results";
-      of_string = "#searchbar";
     } else {
       appendTo = "#results_top";
-      of_string = "#title";
     }
-    console.log(of_string);
     if (dir.charAt(dir.length - 1) === "/") {
       leading = "";
     } else {
