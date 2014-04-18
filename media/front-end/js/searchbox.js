@@ -135,13 +135,14 @@
         return -1;
       }
     };
-    return $.getJSON(dir + "autocomplete_data.json/" + start.toLowerCase(), function(data) {
+    return $.getJSON(dir + "/media/front-end/image/autocomplete_data.json", function(data) {
       var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);
       departments = data.departments.sort(sort_by_title);
       console.log("have data");
       $("#searchbox").autocomplete({
+        appendTo: ".results",
         delay: 0,
         minLength: 2,
         autoFocus: true,
@@ -166,7 +167,7 @@
           return $(".ui-autocomplete.ui-menu.ui-widget").width($("#searchbar").width());
         }
       }).data("autocomplete")._renderItem = function(ul, item) {
-        return $("<li></li>").data("item.autocomplete", item).append("<a>\n  <span class='ui-menu-item-title'>" + item.title + "</span><br />\n  <span class='ui-menu-item-desc'>" + item.desc + "</span>\n</a>").appendTo(ul);
+        return $("<li></li>").data("item.autocomplete", item).append("<a>\n  <div class='ui-menu-item-category'>" + item.category + "</div>\n  <div class='ui-menu-item-title'>" + item.title + "</div>\n  <div class='ui-menu-item-desc'>" + item.desc + "</div>\n</a>").appendTo(ul).fadeIn(500);
       };
       if (callback != null) {
         return callback();
