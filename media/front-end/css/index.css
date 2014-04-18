@@ -2,31 +2,30 @@
 /* CSS Document */
 
 #header {
-	height:10px;
+display: none;
 }
 
 #search {
-	margin:60px 0;
 }
 
-#title {
+#title{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 100px 0px;
+	font-size: 100px;
+	color: rgb(255, 255, 255);
+	width: 800px;
+	text-align: center;
+
+} {
 	margin-bottom:25px;
 }
 
 #search-loading {
 	text-align:center;
-  display:none;
+  	display:none;
 }
-#loading-bar {
-	display:inline-block;
-	margin:10px 0;
-}
-#loading-text {
-	text-align:center;
-	font-family:"Times New Roman", Times, serif;
-	font-size:14px;
-	color:#636363;
-}
+
 #search-container {
 }
 
@@ -47,35 +46,88 @@
 }
 
 #searchbar{	
-	background:#FFF;
-	width:458px;
-	border: 1px solid #000040;
-	margin:0;
-	margin-bottom:15px;
+	background-color: rgb(255, 255, 255);
+	height: 80px;
+	width: inherit;
+	border-radius: 7px;
+	z-index: 5;
+	width: 100px;
 }
-#searchbar input[type=text] {
-	width:422px;
-	height:24px;	
-	
-	border-right:1px solid #c2c2c2;	
-	padding-right: 2px;
-	margin: 3px 0px 3px 3px;
-	
-	float:left;
-	
-	font-size:14px;
+#searchbox {
+	margin: 10px 20px;
+	height: 60px;
+	width: 760px;
+	border: none;
+	font-family: 'Lato', sans-serif;
+	font-size: 40px;
+	color: rgb(100, 100, 100);
+	z-index: 10;
 }
-#searchbar input[type=submit] {
-	background:url(../image/searchbuttonlg.png) 0 0 no-repeat;
-	border:0;
-	width:30px;
-	height:30px;
-	float:left;
-	cursor:pointer;
+
+.search{
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 100px;
+	width: 800px;
+	height: 80px;
+	position: relative;
 }
-#searchbar input[type=submit]:hover {
-	background-position:0px -30px;
+.bar{
+	position: absolute;
+	top: 0px;
+	background-color: rgb(255, 255, 255);
+	height: 80px;
+	width: inherit;
+	border-radius: 7px;
+	z-index: 5;
+
+
 }
+.text{
+	margin: 10px 20px;
+	height: 60px;
+	width: 760px;
+	border: none;
+	font-family: 'Lato', sans-serif;
+	font-size: 40px;
+	color: rgb(100, 100, 100);
+	z-index: 10;
+
+}
+
+.text:focus{
+	outline: none;
+}
+
+.text + .bar{
+	background-color: red;
+}
+
+.shadow{
+	position: absolute;
+	top: 70px;
+	background-color: rgba(255, 255, 255, 0.5);
+	height: 17px;
+	width: inherit;
+	border-radius: 0px 0px 7px 7px;
+	box-shadow: none;
+}
+
+.results{
+	position: relative;
+	padding-top: 100px;
+	width: inherit;
+
+}
+
+.result-item{
+	background-color: rgb(255, 255, 255);
+	height: 50px;
+	width: inherit5
+	border-radius: 7px;
+
+}
+
 
 #subtitle {
 	text-align:center;

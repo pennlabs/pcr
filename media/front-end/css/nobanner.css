@@ -1,12 +1,13 @@
+#header{
+	display: none;
+}
+
 #content {
   background-position: 0 -2px;
   padding-top: 0px;
 }
 #content-clear {
-  background:url(../image/headershadow.png) repeat-x;
   clear: both;
   display: block;
   height: 15px;
-  overflow: hidden;
-  padding-bottom:15px;
 }

@@ -20,25 +20,26 @@
 
 
 {% block banner-content %}
-	<div id="search" class="grid_6 prefix_3 suffix_3">
-		<img id="title" src="media/front-end/image/indextitle.png" alt="Penn Course Review">
+	<div id="title">
+		<span class="BNR">Penn</span> <span class="BNL">Course Review</span>
+	</div>
+	<div id="search">
 		<div id="search-loading">			
-			<img id="loading-bar" src="media/front-end/image/loadingbar.gif" alt="loading"/>
-			<p id="loading-text">Downloading 26,709 courses, 6,588 instructors, and 47,414 reviews...</p>
 		</div>
 		<div id="search-container">
-			<div id="searchbar">
-				<input id="searchbox" type="text" value="" />
-				<input type="submit" value="" />
-				<div class="clear"></div>
+			<div class="search">
+			<div class="bar">
+				<input type = "text" id="searchbox" class = "text" placeholder = "Search for a Class or Professor">
 			</div>
-			<p id="subtitle">
-				Search for a class or a professor, e.g., Siegel, ECON001, Intro to Philosophy
-			</p>
+			<div class="shadow">
+			</div>
+				<div class="results">
+
+
+
+				</div>
+			</div>
 		</div>
-    <div id="loading-container" class="ui-menu ui-autocomplete ui-widget">
-      <img id="loading-img" src="media/front-end/image/loading.gif"/>
-    </div>
 	</div>
 	<div class="clear"></div>
 {% endblock %}
@@ -50,17 +51,17 @@
 		<h1>Welcome!</h1>
 		<p>Welcome to the new Penn Course Review!</p>
 		<p>The student-run Penn Course Review has served as a valuable guide for course selection since the 1960s. Now, we have completely redesigned the experience, making it even easier to look for your classes and professors. We hope you will enjoy it!</p>
-		<p>Interested in building something on the Penn Course Review API? Go here to <a href="https://docs.google.com/spreadsheet/viewform?hl=en_US&formkey=dGZOZkJDaVkxdmc5QURUejAteFdBZGc6MQ#gid=0">request API access</a>.</p>
+		<p>Interested in building something on the Penn Course Review API? <a href="https://docs.google.com/spreadsheet/viewform?hl=en_US&formkey=dGZOZkJDaVkxdmc5QURUejAteFdBZGc6MQ#gid=0">Request API access</a>.</p>
 	</div>
 	<div id="questions" class="prefix_1 grid_3">
 		<h1>Questions?</h1>
 		<p>If you have any questions, take a look at our <a href="faq">FAQs</a> section.</p>
 		
 		<div id="projectby">
-			<p>Developed by</p>
+			<p>Developed by</p><br>
 			<div style="margin-top:-45px; text-align:center;">
-				<a href="http://labs.pennapps.com/" style="border:none">
-					<img style="display:inline-block;" src="media/front-end/image/pennapps-sm-gray.png" alt="PennApps Labs" />
+				<a href="http://labs.pennapps.com/" style="border:none" class="logo">
+					<img style="display:inline-block;" src="media/front-end/image/labs.png" alt="PennApps Labs" width="120px" />
 				</a>
 			</div>
 		</div>

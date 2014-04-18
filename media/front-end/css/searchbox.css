@@ -1,47 +1,82 @@
-.ui-autocomplete.ui-menu.ui-widget {
-  padding: 0px;				
-  font-family: Verdana,Geneva,sans-serif;
-  font-size: 10px;				
-  line-height: 1.5;
-  
-  border:1px solid #000080;
+.ui-autocomplete {
+  position: relative !important;
+  background: none !important;
+  border: none !important;
+  color: #ffffff !important;
+  width: inherit !important;
 }
 
-.ui-menu .ui-menu-item a {
-  margin: 0;
-  padding: 5px;
-}			
+.ui-menu-item{
+  background-color: rgba(255,255,255,0.7);
+  border: none !important;
+  margin-bottom: 5px !important;
+  border-radius: 5px;
+  padding: 0px !important;
+}		
+
+.ui-menu-item:hover{
+  background-color: rgba(255,255,255,0.9);
+}     	
+
+.ui-corner-all{
+  width: inherit;
+  border: none !important;
+  height: inherit;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.ui-corner-all:hover{
+  background: none !important;
+  color: rgb(100, 100, 100);
+  margin: 0px !important;
+  padding: 0px !important;
+
+}
+
+.ui-menu-item-category {
+  display: block !important;
+  float: left;
+  font-family: 'BebasNeueRegular';
+  color: #ffffff;
+  font-size: 20px;
+  background-color: #90b8cb;
+  height: 25px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin: 10px 4px 4px 10px;0
+}
 
 .ui-menu-item-title {
-  color: #000;
+  display: block !important;
+  float: left;
+  font-family:'Lato', Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  margin: 0px 0px 4px 15px;
+
 }
 .ui-menu-item-desc {
-  color: #666;
-}
-.ui-state-hover span {
-  color: #FFF;	/* to cancel colors above */
+  display: block !important;
+  float: left;    
+  font-family: 'Lato', Helvetica, sans-serif;
+  font-weight: 200;
+  font-size: 24px;
+  margin-left: 5px;
+  margin: 6px 0px 0px 10px;
+
+
 }
 
+
+.ui-state-hover span {
+
+}
 .ui-autocomplete-category {
-  /* from ui-menu-item */
-  clear: left;
-  float: left;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  
-  /* custom */
-  background-color: #f2f2f9;
-  color: #000080;
-  font-weight: bold;
-  
-  border-top: 1px solid #DDDDDD;
-  border-bottom: 1px solid #DDDDDD;
 }
 .ui-autocomplete-category:first-child {
-  border-top: none;
+
 }
 .ui-autocomplete-category p {
-  padding: 5px;
-  margin: 0px;
+
 }

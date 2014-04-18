@@ -54,16 +54,19 @@
 </head>
 {% load templates %}
 <body>
+  <div class="background"></div>
   <div id="wrapper">
     {% block header-div %}
       <div id="header"><div id="header-bg">
         <div class="container_12">
           {% block header-content %}
-            <a href="{{base_dir}}"><div id="title" class="grid_4"></div></a>
-            <div id="linkbar" class="grid_5">
+            <a href="{{base_dir}}"><div id="title" class="header-item">
+              Penn Course Review
+            </div></a>
+            <div id="linkbar" class="header-item">
               {% links %}
             </div>
-            <div id="searchbar" class="grid_3">
+            <div id="searchbar" class="header-item">
               {% include "searchbar/searchbar.html" %}
             </div>
             <div class="clear"></div>

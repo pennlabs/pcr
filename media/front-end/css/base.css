@@ -1,6 +1,23 @@
 @charset "utf-8";
 /* CSS Document */
 
+
+.background{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: -100;
+  background-color: #90b8cb;
+  background-image: -webkit-gradient(radial, 50% 50%,200,50% 50%,20, from(rgb(102, 146, 161)), to(rgb(144, 184, 203)));
+  background-image: -webkit-radial-gradient(50% 50%, rgb(144, 184, 203), rgb(102, 146, 161));
+  background-image: -moz-radial-gradient(50% 50%, rgb(144, 184, 203), rgb(102, 146, 161));
+  background-image: -ms-radial-gradient(50% 50%, rgb(144, 184, 203), rgb(102, 146, 161));
+  background-image: radial-gradient(50% 50%, rgb(144, 184, 203), rgb(102, 146, 161));
+  background-repeat: no-repeat;
+}
+
 th, td {
   vertical-align: middle;
 }
@@ -10,18 +27,25 @@ div {
 }
 
 body {
-  font-family:Verdana, Geneva, sans-serif;
-  font-size:12px;
+  font-family:Lato, Helvetica, sans-serif;
+  font-size:15px;
+    margin: 0px;
+
+
+  color: #ffffff;
 }
 
-a {
-  color:#636363;
+a{
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 2px 4px;
+  border-radius: 2px;
+  color:#ffffff;
   text-decoration:none;
   cursor:pointer;
+
 }
 a:hover {
-  color:#000000;
-  border-bottom: 1px solid #000;
+
 }
 
 input {
@@ -59,35 +83,43 @@ input {
   display: none;
 }
 
-#wrapper a {  
-  border-bottom: 1px solid #636363;
+#content a:not(.logo){  
+  background-color: rgba(255, 255, 255, 0.15);
 }
-#wrapper a:hover {  
-  border-bottom: 1px solid #000;
+#content a:hover:not(.logo){  
+  background-color: rgba(255, 255, 255, 0.25);
 }
 #header {
-  background:url(../image/headerbg.png) repeat-x bottom;
+  background-color: #ffffff;
   height:60px;  
   color:#FFF;
 }
-#header #title {
-  background:url(../image/title.png) no-repeat;
-  height:60px;
+#title {
+  font-family: 'BebasNeueRegular';
+  font-size: 40px;
+  color: #90b8cb;
+  margin-top: 14px;
 }
 #header a {
-  color:#c2c2c2;
-  text-shadow:1px 1px #000;
+  color:#646464;
+
 }
 #header a:hover {
-  color:#FFF;
-  border-bottom: 1px solid #FFF;
+  background-color: rgb(240, 240, 240);
+
 }
+
+.header-item{
+  float: left;
+  height: 60px;
+}
+
 #linkbar {
-  margin-top:23px;
+  margin-top:18px;
   text-align:right;
+  margin-left: 40px;
 }
 #linkbar a {
-  margin: 0px 2px;
   border-bottom: none;
 }
 #linkbar a,
@@ -95,59 +127,71 @@ input {
   display: inline-block;
 }
 #searchbar{ 
-  background:#FFF;
-  margin-top:18px;
-  width:218px;
-  border: 1px solid #000040;
+  float: right;
+  margin-top: 16px;
+  background-color: rgb(240, 240, 240);
+  width: 218px;
+  height: 28px;
+  border-radius: 5px;
 }
 #searchbar input[type=text] { 
-  width:193px;
-  height:16px;
-  
-  border-right:1px solid #c2c2c2;
-  padding-right: 2px;
-  margin: 2px 0px 2px 2px;
-  
+  width:178px;
+  height: 20px;
+  background-color: rgb(240, 240, 240);
   float:left;
-}
-#searchbar input[type=submit] {
-  background:url(../image/searchbutton.png) 0 0 no-repeat;
-  border:0;
-  width:20px;
-  height:20px;
-  float:left;
-  cursor:pointer;
-}
-#searchbar input[type=submit]:hover {
-  background-position:0px -20px;
+  font-family: 'Lato';
+  font-size: 16px;
+  color: rgb(100,100,100);
+  margin: 4px 0px 4px 12px;
+  outline: none;
+
 }
 
+#searchbar input[type=text]:hover { 
+  outline: none;
+
+}
+
+#searchbar input[type=submit] {
+  background:url(../image/search.png) no-repeat;
+  background-size: 16px;
+  background-position: 6px 6px;
+  border: none;
+  background-color: #90b8cb;
+  width:28px;
+  height:28px;
+  float:left;
+  cursor:pointer;
+  border-radius: 0px 5px 5px 0px;
+}
+#searchbar input[type=submit]:hover {
+}
+
+/***** BANNER *****/
+
 #banner {
-  background:#d7d7eb;
+  margin-top: 50px;
 }
 #banner-bg {
-  background:url(../image/headershadow.png) repeat-x;
 }
 #banner-inner {
-  padding:30px 0;
 }
 #banner-info {
+  width: 600px;
+  float: left;
 }
 #banner-info .title {
-  font-family:"Times New Roman", Times, serif;
-  font-size:30px;
-  color:#000080;
-  margin-bottom:10px;
+  font-family: 'BebasNeueRegular'; 
+  font-size:60px;
+  color:#ffffff;
 }
 #banner-info .subtitle {
-  font-family:"Times New Roman", Times, serif;
-  font-size:20px;
+  font-family: 'BebasNeueRegular'; 
+  font-size:40px;
   color:#636363;
-  margin-bottom:10px;
+  margin-bottom: 20px;
 }
-#banner-info .crosslist {
-  margin-left: 10px;
-  
+#banner-info .crosslist {  
   font-family:Verdana, Geneva, sans-serif;
   font-size:12px;
   color:#636363;
@@ -156,43 +200,64 @@ input {
   line-height:150%;
 }
 #banner-score {
+  width: 360px;
+  margin: 20px 0px;
+  float: right;
 }
 .scoreboxrow {
   padding-bottom:20px;
-}
-.scoreboxrow:last-child {
-  padding-bottom:0;
+  width: inherit;
+  float: left;
 }
 .scoredesc {
-  padding-top:12px;
-  font-size:10px; 
+  width: 140px;
+  height: 60px;
+  margin-right: 10px;
+  float: left;
+  text-align: right;
 }
 .scoredesc .title {
-  color:#000;
+  margin-top: 8px;
+  color:#ffffff;
+  font-size: 20px;
 }
 .scoredesc .subtitle {
   color:#636363;
+  font-size: 14px;
+
+}
+
+.scorebox-shadow{
+  height:60px;
+  width: 60px;
+  background: rgba(255,255,255, 0.6);
+  margin-left: -60px;
+  margin-top: 5px;
+  z-index: -10;
+  float: left;
+  border-radius: 5px;
 }
 .scorebox {
-  background:#FFF;
   height:60px;
-  
+  width: 60px;
+  margin-left: 10px;
+  float: left;
+  border-radius: 5px;
   text-align:center;
+  background: rgb(255,255,255);
 }
 .scorebox .num {
-  font-family:"Times New Roman", Times, serif;
   font-size:24px;
-  color:#000080;
+  color: rgb(102, 146, 161);
   margin-top:10px;  
 }
 .scorebox .desc { 
   font-size:10px;
-  color:#404080;
+  color: rgb(102, 146, 161);
   margin-top:3px; 
 }
 
 #content {
-  background:url(../image/contentbg.png) repeat-x;
   padding-top:15px;
 }
 #content p {
@@ -200,31 +265,30 @@ input {
   margin-bottom:15px;
 }
 #content h1 {
-  font-family:"Times New Roman", Times, serif;
-  font-size:30px;
-  font-weight:normal;
-  color:#000080;
+  font-family: "BebasNeueRegular";
+  font-weight: 100;
+  font-size:70px;
   margin-bottom:15px;
 }
 
 /***** CONTENT-SETTINGS *****/
 
 #content-settings {
-  font-size:10px;
+  font-size:14px;
+  margin: 20px 0px;
 }
 #content-settings .label {
   display:inline;
   padding:2px;
 }
 #content-settings .button {
-  color:#FFF;
-  background-color:#a1a1a1;
+  color:#ffffff;
   cursor:pointer;
   display:inline;
   padding:2px;
 }
 #content-settings .button:hover {
-  background-color:#636363;
+  background-color: rgba(255,255,255,0.2);
 }
 #settings-viewmode .button,
 #settings-viewmode .label {
@@ -232,21 +296,28 @@ input {
 }
 #settings-viewmode .button {
   padding: 2px 4px;
+  border: 1px solid white;
 }
 #settings-viewmode .button.selected {
-  color:#636363;
-  background:none;
-  border: 1px solid #a1a1a1;
-  padding: 1px 3px;
+  color: rgb(102, 146, 161);
+  background: #ffffff;
+  padding: 2px 4px;
   cursor:default;
 }
 #settings-other .button {
   float:right;
   margin-left:10px;
+  border: 1px solid #ffffff;
+  border-radius: 2px;
 }
 
 #content-section {
-  padding-top:15px;
+  width: 880px;
+  padding: 40px;
+  margin: 0px;
+  background-color: rgb(255,255,255);
+  border-radius: 5px;
+
 }
 
 /***** CONTENT-TABLE *****/
@@ -260,18 +331,23 @@ input {
   /*display: none;*/
 }
 #course-table th {  
-  border-bottom: 2px solid #000080;
+  border-bottom: 2px solid #636363;
   font-weight:bold;
-  color:#000080;
-  padding:10px 5px;
+  color: rgb(102, 146, 161);
+  padding: 10px 5px;
 }
 #course-table td {  
   border-bottom: 1px solid #CCC;
-  color:#9999cc;
   color:#636363;
-  padding:10px 5px;
+  padding:20px 5px;
   width:5%;
 }
+
+#course-table a{
+  color: rgb(102, 146, 161);
+  border-color: rgb(102, 146, 161);
+}
+
 #course-table .col_icon {
   width:.01%;
 }
@@ -285,7 +361,7 @@ input {
   cursor:pointer;
 }
 #course-table tr.row_display:hover td {
-  background-color:#eeefff;
+  background-color: #eeeeee;
   color:#000000;
 }
 #course-table tr.row_hidden {
@@ -293,8 +369,8 @@ input {
 }
 #course-table td.td_hidden {
   padding: 10px 10px 10px 10px;
-  background:#fffeee;
-}
+/*  background:#fffeee;
+*/}
 #course-table .toggle_button {
   width:9px;
   height:9px;
@@ -304,23 +380,26 @@ input {
   cursor:pointer;
 }
 #course-table th.header:hover {
-  background:#eeefff;
+  background:#eeeeee;
 }
+
+
+
 #section-table {
   width: 100%;
 }
 #section-table td {
   padding:5px 5px;
-  font-size: 10px;
+  font-size: 12px;
   border-bottom-color: #CCC;
-  color:#636363;
-}
+/*  color:#636363;
+*/}
 #section-table .sec_th {
   border-bottom: 2px solid #CCC;
   font-weight:bold;
 }
 #section-table td.sec_td_hidden {
-  padding: 10px 10px 10px 10px;
+  padding: 20px 10px;
 }
 #section-table tr.sec_row_display td {
   /*cursor:pointer;*/
@@ -360,7 +439,7 @@ input {
 }
 #course-table th.header.headerSortUp,
 #course-table th.header.headerSortDown {
-  background:#eeefff;
+  background:#eeeeee;
 }
 
 #course-table div.fold-icon {
@@ -408,27 +487,25 @@ input {
 
 #footer {
   margin:15px 0px;
+  color: #ffffff;
 }
 #footer a {
   border:none;
 }
 #footer-inner {
-  border-top: 1px solid #000080;
-  padding-top:15px;
+  padding:30px 0px;
   
   text-align:center;
   font-size:10px;
 }
 #copyright {
   margin-top:5px;
-  color:#636363;
 }
 
 /***** CHOOSE COLUMNS BOX *****/
 
 #choose-cols {
   display:none;
-  
   position:absolute;
   top:0;
   left:0;
@@ -442,18 +519,17 @@ input {
 #choose-cols-content {
   background-color:#FFF;
   padding:15px;
-  border: 10px solid #CCC;
+  border-radius: 5px;
 }
 #choose-cols-content p {
   margin-bottom:10px;
+  color: #636363;
 }
 #choose-cols-content h1 {
-  font-family:"Times New Roman", Times, serif;
   font-size:24px;
   font-weight:normal;
-  color:#000080;
+  color:#636363;
   margin-bottom:15px;
-  border-bottom:1px solid #000080;
   padding-bottom:10px;
 }
 #choose-cols-content h2 {
@@ -463,7 +539,7 @@ input {
   margin-bottom:10px;
 }
 #choose-cols-content #select-all {
-  margin-bottom:15px;
+  margin-bottom:25px;
   color: #6666b3;
 }
 #choose-cols-content div.col {
@@ -477,17 +553,19 @@ input {
 #choose-cols-content input[type="button"] {
   border: 1px solid #636363;
   color: #636363;
+  background-color: #eeeeee;
   cursor: pointer;
   padding: 5px 0;
   width: 85px;
+  border-radius: 3px;
   
   display: inline-block;
   vertical-align: middle;
   margin:0 5px;
 }
 #choose-cols-content input[type=button]:hover {
-  border-color:#000080;
-  color:#000080;
+  color:#ffffff;
+  background-color: #636363;
 }
 
 div#hidden {
@@ -521,3 +599,30 @@ The result is this, which is a little unclean, but it works.
 #faqlinks li {      list-style-type: none;
   list-style-image: none;
   margin-bottom: 10px;
+}
+
+/***** FONTS *****/
+
+.BNR{
+  font-family: 'BebasNeueRegular'; 
+}
+
+.BNL{
+  font-family: 'BebasNeueLight'; 
+}
+
+@font-face{ 
+  font-family: 'BebasNeueRegular';
+  src: url('../fonts/BebasNeueRegular.otf');
+
+}
+
+@font-face{ 
+  font-family: 'BebasNeueLight';
+  src: url('../fonts/BebasNeueLight.otf');
+
+}
+
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300);
+
+
