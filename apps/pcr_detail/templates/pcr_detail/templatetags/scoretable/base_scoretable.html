@@ -12,36 +12,38 @@
     </div>
   </div>
   <div class="clear"></div>
-
   <div id="content-section" class="grid_12">
-    <table id="course-table" count="{{table.body|length}}">
-      <thead>
-        <tr>
-          <th scope="col" class="col_icon">
-            {% ifnotequal type 'department'%}
-            <div class="fold-icon" onclick="toggle_course_row_all()" title="Expand All"></div>
-            {% endifnotequal %}
-          </th>
-          {% block key %}
+    <div id="table-div">
+      <table id="course-table" count="{{table.body|length}}">
+        <thead>
+          <tr>
+            <th scope="col" class="col_icon">
+              {% ifnotequal type 'department'%}
+              <div class="fold-icon" onclick="toggle_course_row_all()" title="Expand All"></div>
+              {% endifnotequal %}
+            </th>
+            {% block key %}
+            {% endblock %}
+            <th scope="col" class="col_name">
+              <div class="sort-icon"></div>
+              <span class="th-text">Name</span>
+            </th>
+            {% for attribute in reviews|columns %}
+            <th scope="col" class="col_{{attribute}}">
+              <div class="sort-icon"></div>
+              <span class="th-text">{{attribute|reviewbit}}</span>
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% block body %}
           {% endblock %}
-          <th scope="col" class="col_name">
-            <div class="sort-icon"></div>
-            <span class="th-text">Name</span>
-          </th>
-          {% for attribute in reviews|columns %}
-          <th scope="col" class="col_{{attribute}}">
-            <div class="sort-icon"></div>
-            <span class="th-text">{{attribute|reviewbit}}</span>
-          </th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        {% block body %}
-        {% endblock %}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
+
   
 {% else %}
 <p>No reviews found.</p>
