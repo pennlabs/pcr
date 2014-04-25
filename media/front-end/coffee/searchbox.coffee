@@ -148,7 +148,7 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
   else
     leading = "/"
 
-  $.getJSON dir+"autocomplete_data.json/"+start.toLowerCase(), (data) ->
+  $.getJSON dir + "autocomplete_data.json/" + start.toLowerCase(), (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
@@ -169,7 +169,10 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
         of: "#searchbar"
         offset: "0 -1"
       focus: (event, ui) ->
-        false
+        event.preventDefault();
+        $(".focused").removeClass('focused')
+        focused = $("a.ui-state-hover")[0].parentElement
+        $(focused).addClass('focused')
       select: (event, ui) ->
         # On click, go to page
         window.location = dir+ui.item.url
