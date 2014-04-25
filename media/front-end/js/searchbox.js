@@ -72,8 +72,10 @@
   };
 
   find_autocomplete_matches = function(search_str, category, sorted_entries) {
-    var entry, match_test, results, tests_passed, _i, _j, _len, _len1, _ref;
+    var entry, match_test, max, max_entry, results, tests_passed, _i, _j, _len, _len1, _ref;
     results = [];
+    max = 0;
+    max_entry = null;
     for (_i = 0, _len = sorted_entries.length; _i < _len; _i++) {
       entry = sorted_entries[_i];
       tests_passed = 0;
@@ -85,6 +87,10 @@
         }
       }
       if (tests_passed > 1 || (tests_passed === 1 && results.length < MAX_ITEMS[category])) {
+        if (tests_passed > max) {
+          max = tests_passed;
+          max_entry = entry;
+        }
         results.push({
           passed: tests_passed,
           entry: entry
@@ -145,7 +151,7 @@
     } else {
       leading = "/";
     }
-    return $.getJSON(dir + "autocomplete_data.json/" + start.toLowerCase(), function(data) {
+    return $.getJSON("/media/autocomplete_data.json", function(data) {
       var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);
@@ -156,6 +162,7 @@
         delay: 0,
         minLength: 2,
         autoFocus: true,
+        selectFirst: true,
         source: function(request, response) {
           return response(get_entries(request.term, courses, instructors, departments));
         },
@@ -171,7 +178,9 @@
           event.preventDefault();
           $(".focused").removeClass('focused');
           focused = $("a.ui-state-hover")[0].parentElement;
-          return $(focused).addClass('focused');
+          if (!fp) {
+            return $(focused).addClass('focused');
+          }
         },
         select: function(event, ui) {
           window.location = dir + ui.item.url;
@@ -188,6 +197,7 @@
         }
         return $("<li></li>").data("item.autocomplete", item).append("<a>\n  <div class='ui-menu-item-category'>" + item.category + "</div>\n  <div class='ui-menu-item-title'>" + item.title + "</div>\n  <div class='ui-menu-item-desc'>" + item.desc + "</div>\n</a>").appendTo(ul).fadeIn(500);
       };
+      $('.ui-menu-item:first').trigger('autocompletefocus');
       if (callback != null) {
         return callback();
       }

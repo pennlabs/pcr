@@ -81,7 +81,8 @@ REGEXES_BY_PRIORITY =
 find_autocomplete_matches = (search_str, category, sorted_entries) ->
   # Regexes to match against, in order of interstingness
   results = []
-  
+  max = 0
+  max_entry = null
   for entry in sorted_entries
     tests_passed = 0
     for match_test in REGEXES_BY_PRIORITY[category]
@@ -92,6 +93,9 @@ find_autocomplete_matches = (search_str, category, sorted_entries) ->
     # only one match if total entries are not at maximum yet.
 
     if (tests_passed > 1 or (tests_passed == 1 and results.length < MAX_ITEMS[category]))
+      if(tests_passed > max)
+        max = tests_passed
+        max_entry = entry
       results.push({passed: tests_passed, entry: entry})
 
   results = results.sort((a,b) ->
@@ -148,7 +152,7 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
   else
     leading = "/"
 
-  $.getJSON dir + "autocomplete_data.json/" + start.toLowerCase(), (data) ->
+  $.getJSON "/media/autocomplete_data.json", (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
@@ -159,6 +163,7 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
       delay: 0
       minLength: 2
       autoFocus: true
+      selectFirst: true
       source: (request, response) ->
         # update the entries to show
         response(get_entries(request.term, courses, instructors, departments))
@@ -172,7 +177,8 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
         event.preventDefault();
         $(".focused").removeClass('focused')
         focused = $("a.ui-state-hover")[0].parentElement
-        $(focused).addClass('focused')
+        if not fp
+          $(focused).addClass('focused')
       select: (event, ui) ->
         # On click, go to page
         window.location = dir+ui.item.url
@@ -196,4 +202,5 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
                  </a>""")
       .appendTo(ul).fadeIn(500)
     # did the auto_complete.json have a callback? call it.
+    $('.ui-menu-item:first').trigger('autocompletefocus')
     callback() if callback?
