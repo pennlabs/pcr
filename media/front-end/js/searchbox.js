@@ -167,7 +167,11 @@
           offset: "0 -1"
         },
         focus: function(event, ui) {
-          return false;
+          var focused;
+          event.preventDefault();
+          $(".focused").removeClass('focused');
+          focused = $("a.ui-state-hover")[0].parentElement;
+          return $(focused).addClass('focused');
         },
         select: function(event, ui) {
           window.location = dir + ui.item.url;

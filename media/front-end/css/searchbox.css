@@ -14,9 +14,19 @@
   padding: 0px !important;
 }		
 
-.ui-menu-item:hover{
-  background-color: rgba(255,255,255,0.9);
-}     	
+.ui-menu-item:hover > a > .ui-menu-item-title{
+}  
+
+.ui-menu-item:hover > a > .ui-menu-item-desc{
+}  
+
+.ui-menu-item.focused > a > .ui-menu-item-title{
+  font-weight: bold;
+  font-size: 25px;
+}   	
+
+.ui-menu-item.focused > a > .ui-menu-item-desc{
+}     
 
 .ui-corner-all{
   width: inherit;
@@ -86,6 +96,11 @@
   background-color: #eeeeee;
 
 }
+.result_small .ui-menu-item:hover{
+  background-color: rgb(210, 210, 210) !important;
+
+}
+
 
 .result_small {
   background-color: rgb(255,255,255) !important;
