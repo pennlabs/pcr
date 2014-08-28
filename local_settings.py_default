@@ -23,6 +23,7 @@ DOMAIN = "http://api.penncoursereview.com/v1/"
 # Avoid weird bugs that occur wherever DOMAIN is used.
 assert DOMAIN.endswith("/")
 
+# Personal access token for the PCR API
 TOKEN = ""
 assert TOKEN, "No token provided"
 
