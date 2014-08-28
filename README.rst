@@ -15,23 +15,17 @@ PennCourseReview is a student-run publication that provides numerical ratings
 and written reviews for undergraduate courses taught at the University of
 Pennsylvania.
 
-Install
+Setup
 ================================================================================
 
-To install ``pcr``, simply::
+To set up your development environment:
 
-    virtualenv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
+1. Copy ``local_settings.py_default`` to ``local_settings.py`` and define
+   ``TOKEN`` and ``DEV_ROOT``, plus anything else you may need.
 
-Next, copy ``local_settings.py_default`` to ``local_settings.py`` and define
-``TOKEN`` and ``DEV_ROOT``, plus anything else you may need.
+2. Start the server locally, via::
 
-At this point, if you are editing on the server things should just work.
-
-If you are editing locally, you can run the server as follows::
-
-    make run
+    make server
 
 Documentation
 ================================================================================
