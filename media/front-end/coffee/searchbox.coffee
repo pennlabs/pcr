@@ -156,7 +156,6 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
-    console.log "have data"
 
     $("#searchbox").autocomplete(
       appendTo: appendTo
