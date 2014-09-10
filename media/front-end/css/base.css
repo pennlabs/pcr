@@ -18,7 +18,7 @@
   background-repeat: no-repeat;
 }
 
-p { 
+a, p { 
   font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
 }
 
@@ -640,7 +640,7 @@ The result is this, which is a little unclean, but it works.
 @font-face{ 
   font-family: 'BebasNeueLight';
   src: url('../fonts/BebasNeueLight.otf');
-
+  
 }
 
 @import url(//fonts.googleapis.com/css?family=Lato:100,300);
