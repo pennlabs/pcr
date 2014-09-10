@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import mimetypes
 import urllib2
 
-from pcrsite.lib.api import api
+from ..lib.api import api
 
 
 def static(request, page):
