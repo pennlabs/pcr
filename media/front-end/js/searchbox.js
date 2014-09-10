@@ -170,8 +170,8 @@
           my: "left top",
           at: "left bottom",
           collision: "none",
-          of: "#searchbar",
-          offset: "0 -1"
+          of: ".search",
+          offset: "0 20"
         },
         focus: function(event, ui) {
           var focused;
