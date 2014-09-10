@@ -18,6 +18,10 @@
   background-repeat: no-repeat;
 }
 
+p { 
+  font-family: Helvetica, Arial, "Nimbus Sans L", sans-serif;
+}
+
 th, td {
   vertical-align: middle;
 }
