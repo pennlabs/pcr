@@ -11,7 +11,7 @@ from local_settings import *
 
 sys.path.append(DEV_ROOT)
 sys.path.append(PCRSITE_APP_ROOT)
-os.environ['DJANGO_SETTINGS_MODULE'] = 'pcrsite.local_settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'local_settings'
 
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler()

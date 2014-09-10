@@ -12,11 +12,11 @@ from settings import *
 
 
 # i.e., pennapps.com/display_name
-DISPLAY_NAME = "pcrsite"
+DISPLAY_NAME = "pcr"
 # root of all apps you're working on
 DEV_ROOT = ""
 assert "No DEV_ROOT specified. For production, use /var/www/pennapps.com/django"
-PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcrsite")
+PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcr")
 
 # For hitting the API
 DOMAIN = "http://api.penncoursereview.com/v1/"
