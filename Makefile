@@ -19,5 +19,5 @@ docs:
 # Compile `.coffee` files into `.js` files of the same name. Rerun this command
 # if any files change.
 coffee:
-	coffee --compile media/front-end/coffee --watch --output media/front-end/js
+	coffee -o media/front-end/js -cw media/front-end/coffee
 

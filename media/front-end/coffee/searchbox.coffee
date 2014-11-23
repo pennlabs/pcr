@@ -147,12 +147,12 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
   else
     appendTo = "#results_top"
 
-  if dir.charAt(dir.length-1) == "/" 
+  if dir.charAt(dir.length-1) == "/"
     leading = ""
   else
     leading = "/"
 
-  $.getJSON "/media/autocomplete_data.json", (data) ->
+  $.getJSON dir + "autocomplete_data.json/" + start.toLowerCase(), (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)
