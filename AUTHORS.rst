@@ -21,3 +21,7 @@ PennCourseReview is written and maintained by various contributors.
 - Matthew Croop
 
 - Geoff Vedernikoff
+
+- Alex Wissmann
+
+- Derek Jobst
