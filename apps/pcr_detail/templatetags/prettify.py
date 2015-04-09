@@ -9,26 +9,26 @@ from templatetag_sugar.register import tag
 
 register = template.Library()
 
-# review attributes, ordered left-to-right 
-ATTRIBUTES = ( 
+# review attributes, ordered left-to-right
+ATTRIBUTES = (
   # general
   u"rCourseQuality",
   u"rInstructorQuality",
   u"rDifficulty",
-  
+
   # class
-  
+
   u"rAmountLearned",
   u"rWorkRequired",
   u"rReadingsValue",
-        
+
   u"rHomeworkValuable",
   u"rExamsConsistent",
   u"rAbilitiesChallenged",
   u"rSkillEmphasis",
-  
+
   # instructor
-  
+
   u"rCommAbility",
   u"rInstructorAccess",
   u"rStimulateInterest",
@@ -51,7 +51,7 @@ ATTRIBUTES = (
 )
 
 
-PRETTIFY_REVIEWBITS = { 
+PRETTIFY_REVIEWBITS = {
   u"rInstructorQuality": "Instructor Quality",
   u"rCourseQuality": "Course Quality",
   u"rDifficulty": "Difficulty",
@@ -113,7 +113,9 @@ def sectionname(reviews):
 @register.filter(name='recent')
 def recent(reviews):
   try:
-    return max(reviews, key=lambda review: review.section.course.semester)
+    most_recent = max([r.section.course.semester for r in reviews])
+    recent_courses = [r for r in reviews if r.section.course.semester == most_recent]
+    return recent_courses
   except ValueError:
     return ""
 
@@ -134,7 +136,7 @@ def average(reviews, attribute):
     return ""
 
 
-PRETTIFY_SEMESTER = { 
+PRETTIFY_SEMESTER = {
     "A": "Spring",
     "B": "Summer",
     "C": "Fall"
@@ -184,8 +186,8 @@ def capitalize(name):
   """Capitalize but account for roman numerals, so no "Calculus Iii" """
   #split into words, punctuation, and whitespace
   tokens = re.findall(r"(\w+|[\s.,?&/:\(\)]+)", name)
-  roman_numerals = set(['I', 'II', 'III', 'IV']) 
-  def cap_word(word): 
+  roman_numerals = set(['I', 'II', 'III', 'IV'])
+  def cap_word(word):
     return word.upper() if word.upper() in roman_numerals else word.capitalize()
   return "".join(cap_word(token) for token in tokens)
 
