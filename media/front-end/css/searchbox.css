@@ -15,15 +15,22 @@
 }
 
 .ui-menu-item:hover > a > .ui-menu-item-title{
-  color:white !important;
+  color:#646464 !important;
 }
 
 .ui-menu-item:hover > a > .ui-menu-item-desc{
-  color:white !important;
+  color: #646464 !important;
 
 }
 
 .ui-menu-item.focused > a > .ui-menu-item-desc{
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover,
+.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus  {
+  background: #ddd;
+  color: #646464;
+  border-radius: 5px;
 }
 
 .ui-corner-all{
@@ -67,7 +74,7 @@
 .ui-menu-item-desc {
   display: block !important;
   font-family: 'Lato', Helvetica, sans-serif;
-  font-weight: 200;
+  font-weight: 300;
   font-size: 24px;
   margin-left: 5px;
   margin: 0px 0px 0px 10px;
