@@ -13,7 +13,7 @@ def autocomplete_data(request, start=None):
   string `start` (usually two characters)."""
 
   if start:
-    start = start.lower()
+    start = start.lower().replace('.json', '')
 
   #1. Hit API up for course-history data, push into nop's desired format
   def alias_to_code(alias, sep="-"):
