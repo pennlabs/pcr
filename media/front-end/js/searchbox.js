@@ -152,7 +152,7 @@
     } else {
       leading = "/";
     }
-    return $.getJSON(dir + "autocomplete_data.json/" + start.toLowerCase(), function(data) {
+    return $.getJSON(dir + "autocomplete_data.json/" + start.toLowerCase() + ".json", function(data) {
       var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);
