@@ -24,11 +24,11 @@
       <td class="col_name">
           {{reviews|sectionname|title|capitalize_improved}}
       </td>
-          {% with reviews|recent as recent %}
+          {% with reviews|recent as recents %}
             {% for attribute in reviews|columns %}
             <td class="col_{{attribute}}">
               <span class="cell_average">{{reviews|average:attribute|floatformat:2}}</span>
-              <span class="cell_recent">{{recent.ratings|get:attribute|floatformat:2}}</span>
+              <span class="cell_recent">{{recents.0.ratings|get:attribute|floatformat:2}}</span>
             </td>
             {% endfor %}
           {% endwith %}
