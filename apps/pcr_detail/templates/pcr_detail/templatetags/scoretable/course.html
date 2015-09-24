@@ -28,8 +28,7 @@
           {% with reviews|recent as recents %}
             {% for attribute in reviews|columns %}
             <td class="col_{{attribute}}">
-              <span class="cell_average">
-              {{reviews|average:attribute|floatformat:2}}</span>
+              <span class="cell_average">{{reviews|average:attribute|floatformat:2}}</span>
               <span class="cell_recent">{{recents|average:attribute|floatformat:2}}</span>
             </td>
             {% endfor %}
