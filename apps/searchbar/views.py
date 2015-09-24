@@ -2,7 +2,7 @@ import json
 
 from django.http import HttpResponse
 
-from ..lib.api import api
+from lib.api import api
 
 
 def json_response(result_dict):
