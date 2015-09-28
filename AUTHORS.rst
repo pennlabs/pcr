@@ -25,3 +25,5 @@ PennCourseReview is written and maintained by various contributors.
 - Alex Wissmann
 
 - Derek Jobst
+
+- Prakhar Bhandari
