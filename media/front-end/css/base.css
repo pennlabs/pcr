@@ -100,9 +100,9 @@ input {
 }
 #title {
   font-family: 'BebasNeueRegular';
-  font-size: 40px;
+  font-size: 30px;
   color: #90b8cb;
-  margin-top: 14px;
+  margin-top: 17px;
 }
 #header a {
   color:#646464;
@@ -198,7 +198,7 @@ input {
 #banner-info .subtitle {
   font-family: 'BebasNeueRegular'; 
   font-size:40px;
-  color:#636363;
+  color:#595959;
   margin-bottom: 20px;
 }
 #banner-info .crosslist {  
