@@ -23,7 +23,7 @@
       </td>
         {% with reviews=group.list %}
       <td class="col_name">
-          {{reviews|sectionname|title}}
+          {{reviews|sectionname|title|capitalize_improved}}
       </td>
           {% with reviews|recent as recents %}
             {% for attribute in reviews|columns %}
