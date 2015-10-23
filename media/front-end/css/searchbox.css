@@ -69,7 +69,7 @@
   font-weight: 400;
   font-size: 30px;
   margin: 0px 0px 0px 9px;
-  width: 208px;
+  min-width: 208px;
 
 }
 .ui-menu-item-desc {
