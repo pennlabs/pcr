@@ -335,6 +335,7 @@ input {
   margin: 0px;
   background-color: rgb(255,255,255);
   border-radius: 5px;
+  font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
 }
 
 /***** CONTENT-TABLE *****/
