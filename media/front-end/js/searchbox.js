@@ -9,7 +9,7 @@
   var MAX_ITEMS, REGEXES_BY_PRIORITY, endsWith, find_autocomplete_matches, get_entries;
 
   MAX_ITEMS = {
-    Courses: 6,
+    Courses: 4,
     Instructors: 3,
     Departments: 3
   };
@@ -106,7 +106,15 @@
   };
 
   get_entries = function(term, courses, instructors, departments) {
-    return find_autocomplete_matches(term, 'Courses', courses).concat(find_autocomplete_matches(term, 'Instructors', instructors)).concat(find_autocomplete_matches(term, 'Departments', departments));
+    courses = find_autocomplete_matches(term, 'Courses', courses);
+    departments = find_autocomplete_matches(term, 'Departments', departments);
+    if (courses.length === 0 && departments.length === 0) {
+      MAX_ITEMS['Instructors'] = 6;
+    } else {
+      MAX_ITEMS['Instructors'] = 3;
+    }
+    instructors = find_autocomplete_matches(term, 'Instructors', instructors);
+    return courses.concat(instructors).concat(departments);
   };
 
   $.widget("custom.autocomplete", $.ui.autocomplete, {

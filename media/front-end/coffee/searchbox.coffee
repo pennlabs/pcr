@@ -6,7 +6,7 @@
 
 # Maximum number of items to show per type
 MAX_ITEMS =
-    Courses: 6
+    Courses: 4
     Instructors: 3
     Departments: 3
 
@@ -114,10 +114,14 @@ find_autocomplete_matches = (search_str, category, sorted_entries) ->
 # @param list of all departments
 # @return list of interesting entries
 get_entries = (term, courses, instructors, departments) ->
-  find_autocomplete_matches(term, 'Courses', courses)
-  .concat(find_autocomplete_matches(term, 'Instructors', instructors))
-  .concat(find_autocomplete_matches(term, 'Departments', departments))
-
+  courses = find_autocomplete_matches(term, 'Courses', courses)
+  departments = (find_autocomplete_matches(term, 'Departments', departments))
+  if (courses.length == 0 and departments.length == 0)
+    MAX_ITEMS['Instructors'] = 6
+  else
+    MAX_ITEMS['Instructors'] = 3
+  instructors = (find_autocomplete_matches(term, 'Instructors', instructors))
+  return courses.concat(instructors).concat(departments)
 
 
 # Inject the category header (ex. instructor) before first result of each
