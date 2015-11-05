@@ -1,16 +1,34 @@
 ###
 DOCUMENT READY
 ###
-$(document).ready ->
-  callback = () ->
-    $("#searchbox").autocomplete("enable")
-    $("#loading-container").hide()
-    $("#searchbox").autocomplete("search")
+(->
+  $(document).ready ->
+    callback = undefined
 
-  $("#searchbox").keypress( () -> setTimeout(() ->
-    if $("#searchbox").val().length == 2
-      $("#loading-container").show()
-      init_search_box("", callback, $("#searchbox").val(), true)
-    else if $("#searchbox").val().length < 2
-      $("#searchbox").autocomplete("disable")
-  , 10))
+    callback = ->
+      $('#searchbox').autocomplete 'enable'
+      $('#loading-container').hide()
+      $('#searchbox').autocomplete 'search'
+
+    $('#searchbox').live 'paste', (e) ->
+      element = undefined
+      text = undefined
+      element = this
+      setTimeout ->
+      text = $(element).val()
+      $('#loading-container').show()
+      return init_search_box('', callback, text, true)
+    , 100
+
+    $('#searchbox').keypress ->
+      setTimeout (->
+        if $('#searchbox').val().length == 2
+          $('#loading-container').show()
+          return init_search_box('', callback, $('#searchbox').val(), true)
+        else if $('#searchbox').val().length < 2
+          return $('#searchbox').autocomplete('disable')
+        return
+      ), 10
+    return
+  return
+).call this
