@@ -23,7 +23,7 @@ window.toggle_course_row = (index) ->
   else
     $("#row_display_#{index} td div.fold-icon").addClass("open")
     window.toggled_rows++
-  
+
   if window.toggled_rows == window.course_rows
     $("th div.fold-icon").addClass("open")
   else
@@ -47,7 +47,7 @@ window.submit_choose_cols = () ->
   for i in [0..(boxes.length-1)]
     if $(boxes[i]).attr("checked")?
       result.push($(boxes[i]).attr("value"))
-  
+
   $.cookie("pcr_choosecols", result.join(), {path: '/'})
   toggle_choose_cols()
   set_cols(result)
@@ -55,11 +55,11 @@ window.submit_choose_cols = () ->
 
 window.cancel_choose_cols = () ->
   $("#choose-cols input[type=checkbox]").attr("checked",false)
-  
+
   cols = $.cookie("pcr_choosecols").split(",")
   for i in [0..(cols.length-1)]
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
-    
+
   toggle_choose_cols()
 
 
@@ -128,7 +128,7 @@ $(document).ready ->
   # 1. Hide 'comments'
   $('.sec_row_hidden').hide()
   # 2. Hide 'sections'
-  window.toggle_course_row_all() 
+  window.toggle_course_row_all()
   window.toggle_course_row_all()# hack - called twice due to init bug TODO - fix
 
   window.toggled_rows = 0
@@ -147,12 +147,17 @@ $(document).ready ->
     else if $("#searchbox").val().length < 2
       $("#searchbox").autocomplete("disable")
   , 0))
+  $('#searchbox').live 'paste', (e) ->
+    setTimeout ->
+      $('#loading-container').show()
+      init_search_box('../', callback, $('#searchbox').val(), false)
+    , 0
 
   # setup view mode #
   if not $.cookie("pcr_viewmode")?
     $.cookie("pcr_viewmode", "0", {path: '/'})
   set_viewmode($.cookie("pcr_viewmode"))
-  
+
   # init table sorter
   $("#course-table").tablesorter({
     sortList: [[1,0]],  # starting sort order
@@ -173,8 +178,8 @@ $(document).ready ->
   ).bind("sortEnd",() ->
     end_sort_rows()
   )
-  
-  # setup choose columns # 
+
+  # setup choose columns #
   if not $.cookie("pcr_choosecols")?
     $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {path: '/'})
   cols = $.cookie("pcr_choosecols").split(",")
@@ -182,9 +187,9 @@ $(document).ready ->
 
   for i in [0..(cols.length-1)]
     $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
-    
+
   # auto-expand if there's only one item in course-table
   if $("#course-table").attr("count") == "1"
     toggle_course_row_all()
-    
+
   window.setup_tutorial_overlay();

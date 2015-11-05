@@ -7,6 +7,12 @@ $(document).ready ->
     $("#loading-container").hide()
     $("#searchbox").autocomplete("search")
 
+  $('#searchbox').live 'paste', (e) ->
+    setTimeout ->
+      $('#loading-container').show()
+      return init_search_box('', callback, $(this).val(), true)
+    , 10
+
   $("#searchbox").keypress( () -> setTimeout(() ->
     if $("#searchbox").val().length == 2
       $("#loading-container").show()
