@@ -162,10 +162,11 @@
       }, 0);
     });
     $('#searchbox').live('paste', function(e) {
-      setTimeout(function() {});
-      $('#loading-container').show();
-      return init_search_box('../', callback, $('#searchbox').val(), false);
-    }, 0);
+      return setTimeout(function() {
+        $('#loading-container').show();
+        return init_search_box('../', callback, $('#searchbox').val(), false);
+      }, 0);
+    });
     if ($.cookie("pcr_viewmode") == null) {
       $.cookie("pcr_viewmode", "0", {
         path: '/'
