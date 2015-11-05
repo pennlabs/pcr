@@ -18,7 +18,7 @@
   background-repeat: no-repeat;
 }
 
-a, p { 
+a, p {
   font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
 }
 
@@ -60,7 +60,7 @@ input {
 .shadow {
   box-shadow:         0px 2px 10px #808080;
   -moz-box-shadow:    0px 2px 10px #808080;
-  -webkit-box-shadow: 0px 2px 10px #808080;  
+  -webkit-box-shadow: 0px 2px 10px #808080;
 }
 
 .disable-selection {
@@ -87,15 +87,15 @@ input {
   display: none;
 }
 
-#content a:not(.logo){  
+#content a:not(.logo){
   background-color: rgba(255, 255, 255, 0.15);
 }
-#content a:hover:not(.logo){  
+#content a:hover:not(.logo){
   background-color: rgba(255, 255, 255, 0.25);
 }
 #header {
   background-color: #ffffff;
-  height:60px;  
+  height:60px;
   color:#FFF;
 }
 #title {
@@ -130,7 +130,7 @@ input {
 #linkbar span {
   display: inline-block;
 }
-#searchbar{ 
+#searchbar{
   float: right;
   margin-top: 16px;
   background-color: rgb(240, 240, 240);
@@ -138,7 +138,7 @@ input {
   height: 28px;
   border-radius: 5px;
 }
-#searchbar input[type=text] { 
+#searchbar input[type=text] {
   width:178px;
   height: 20px;
   background-color: rgb(240, 240, 240);
@@ -151,7 +151,7 @@ input {
 
 }
 
-#searchbar input[type=text]:hover { 
+#searchbar input[type=text]:hover {
   outline: none;
 
 }
@@ -189,19 +189,19 @@ input {
   float: left;
 }
 #banner-info .title {
-  font-family: 'BebasNeueRegular'; 
+  font-family: 'BebasNeueRegular';
   font-size:60px;
   color:#ffffff;
   line-height: 35%;
   padding-bottom: 15px;
 }
 #banner-info .subtitle {
-  font-family: 'BebasNeueRegular'; 
+  font-family: 'BebasNeueRegular';
   font-size:40px;
   color:#595959;
   margin-bottom: 20px;
 }
-#banner-info .crosslist {  
+#banner-info .crosslist {
   font-family:Verdana, Geneva, sans-serif;
   font-size:12px;
   color:#636363;
@@ -262,12 +262,12 @@ input {
 .scorebox .num {
   font-size:24px;
   color: rgb(102, 146, 161);
-  margin-top:10px;  
+  margin-top:10px;
 }
-.scorebox .desc { 
+.scorebox .desc {
   font-size:10px;
   color: rgb(102, 146, 161);
-  margin-top:3px; 
+  margin-top:3px;
 }
 
 #content {
@@ -295,6 +295,7 @@ input {
   padding:2px;
 }
 #content-settings .button {
+  font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
   color:#ffffff;
   cursor:pointer;
   display:inline;
@@ -334,11 +335,12 @@ input {
   margin: 0px;
   background-color: rgb(255,255,255);
   border-radius: 5px;
+  font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
 }
 
 /***** CONTENT-TABLE *****/
 
-#course-table { 
+#course-table {
   width:100%;
   position:relative;
 }
@@ -346,13 +348,13 @@ input {
 #course-table th {
   /*display: none;*/
 }
-#course-table th {  
+#course-table th {
   border-bottom: 2px solid #636363;
   font-weight:bold;
   color: rgb(102, 146, 161);
   padding: 10px 5px;
 }
-#course-table td {  
+#course-table td {
   border-bottom: 1px solid #CCC;
   color:#636363;
   padding:20px 5px;
@@ -488,7 +490,7 @@ input {
   height:12px;
   background-position: 0 0;
   cursor:pointer;
-	
+
 	background:url(../image/commentbutton.png) 0 0 no-repeat;
 }
 #section-table div.comment-icon:hover {
@@ -514,7 +516,7 @@ input {
 }
 #footer-inner {
   padding:30px 0px;
-  
+
   text-align:center;
   font-size:10px;
 }
@@ -578,7 +580,6 @@ input {
   padding: 5px 0;
   width: 85px;
   border-radius: 3px;
-  
   display: inline-block;
   vertical-align: middle;
   margin:0 5px;
@@ -624,23 +625,23 @@ The result is this, which is a little unclean, but it works.
 /***** FONTS *****/
 
 .BNR{
-  font-family: 'BebasNeueRegular'; 
+  font-family: 'BebasNeueRegular';
 }
 
 .BNL{
-  font-family: 'BebasNeueLight'; 
+  font-family: 'BebasNeueLight';
 }
 
-@font-face{ 
+@font-face{
   font-family: 'BebasNeueRegular';
   src: url('../fonts/BebasNeueRegular.otf');
 
 }
 
-@font-face{ 
+@font-face{
   font-family: 'BebasNeueLight';
   src: url('../fonts/BebasNeueLight.otf');
-  
+
 }
 
 @import url(//fonts.googleapis.com/css?family=Lato:100,300);
