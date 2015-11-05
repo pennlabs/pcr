@@ -18,7 +18,7 @@ DOCUMENT READY
       text = $(element).val()
       $('#loading-container').show()
       return init_search_box('', callback, text, true)
-    , 100
+    , 10
 
     $('#searchbox').keypress ->
       setTimeout (->
