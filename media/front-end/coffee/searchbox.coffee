@@ -115,12 +115,12 @@ find_autocomplete_matches = (search_str, category, sorted_entries) ->
 # @return list of interesting entries
 get_entries = (term, courses, instructors, departments) ->
   courses = find_autocomplete_matches(term, 'Courses', courses)
-  departments = (find_autocomplete_matches(term, 'Departments', departments))
+  departments = find_autocomplete_matches(term, 'Departments', departments)
   if (courses.length == 0 and departments.length == 0)
     MAX_ITEMS['Instructors'] = 6
   else
     MAX_ITEMS['Instructors'] = 3
-  instructors = (find_autocomplete_matches(term, 'Instructors', instructors))
+  instructors = find_autocomplete_matches(term, 'Instructors', instructors)
   return courses.concat(instructors).concat(departments)
 
 
