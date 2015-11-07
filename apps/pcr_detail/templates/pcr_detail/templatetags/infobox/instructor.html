@@ -2,4 +2,4 @@
 <p class="subtitle">{{instructor.title}}</p>
 <p class="desc">{{instructor.address}}</p>
 <p class="desc">{{instructor.phone}}</p>
-<p class="desc">{{instructor.email}}</p>
+{% if email %}<p class="desc">Email: <a href="mailto:{{email}}">{{email}}</a></p>{% endif %}
