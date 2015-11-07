@@ -78,11 +78,13 @@
       $("#view_recent").removeClass("selected");
       $(".cell_average").show();
       $(".cell_recent").hide();
+      $(".section-table tbody").find("tr:not(:first)").show();
     } else {
       $("#view_average").removeClass("selected");
       $("#view_recent").addClass("selected");
       $(".cell_average").hide();
       $(".cell_recent").show();
+      $(".section-table tbody").find("tr:not(:first)").hide();
     }
     $.cookie("pcr_viewmode", view_id, {
       path: '/'
