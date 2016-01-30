@@ -20,12 +20,12 @@
           {{coursehistory.alias}}
         </a>
       </td>
-        {% with reviews=group.list %}
+        {% with all_cols=reviews|columns reviews=group.list %}
       <td class="col_name">
           {{reviews|sectionname|title|capitalize_improved}}
       </td>
           {% with reviews|recent as recents %}
-            {% for attribute in reviews|columns %}
+            {% for attribute in all_cols %}
             <td class="col_{{attribute}}">
               <span class="cell_average">{{reviews|average:attribute|floatformat:2}}</span>
               <span class="cell_recent">{{recents|average:attribute|floatformat:2}}</span>

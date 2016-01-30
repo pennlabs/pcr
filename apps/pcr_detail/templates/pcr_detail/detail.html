@@ -20,8 +20,8 @@
   <script src="{{base_dir}}media/front-end/js/jquery.tablesorter.ie8fix.min.js"></script>
   <![endif]-->
   <script src="{{base_dir}}media/front-end/js/item_base.js"></script>
-{% endblock %}	
-  
+{% endblock %}
+
 {% block banner-content %}
   <div id="banner-info">
     {% infobox item %}
@@ -29,10 +29,10 @@
   {% ifnotequal type 'department'%}
     {% include "pcr_detail/scorecard.html" %}
   {% endifnotequal %}
-  <div class="clear"></div>	
+  <div class="clear"></div>
 {% endblock %}
 
-{% block content-content %}	
+{% block content-content %}
   {% scoretable item %}
   <div class="clear"></div>
 {% endblock %}
