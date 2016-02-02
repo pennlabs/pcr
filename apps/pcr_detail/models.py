@@ -2,7 +2,7 @@ from lib.api import api
 
 
 #we use this to provide data in the case that a course doesn't have lectures
-#if a course doesn't, it will attempt to show seminar data, else lab data, else recitation data 
+#if a course doesn't, it will attempt to show seminar data, else lab data, else recitation data
 #TODO: use this
 TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
 
@@ -143,7 +143,7 @@ class Course(object):
   @property
   def sections(self):
     return set(Section(section_id) for section_id in self.__section_ids)
-  
+
   @property
   def url(self):
     return "courses/%s" % self.id
@@ -212,7 +212,7 @@ class CourseHistory(object):
 
   def __cmp__(self, other):
     return cmp(self.id, other.id)
-  
+
   def __hash__(self):
     return hash(self.id)
 
