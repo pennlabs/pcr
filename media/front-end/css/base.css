@@ -374,6 +374,9 @@ input {
 #course-table .col_responses {
   width:2%;
 }
+#course-table .col_code {
+  width:6%;
+}
 #course-table tr.row_display td {
   cursor:pointer;
 }
