@@ -26,7 +26,7 @@ def course(request, dept, id):
     'base_dir': '../',
     'item': coursehistory,
     'reviews': reviews,
-    'show_name': False if len(set([r.section.name for r in reviews])) == 1 else True,
+    'show_name': len(set([r.section.name for r in reviews])) != 1,
     'title': title,
     'type': 'course',
     })
