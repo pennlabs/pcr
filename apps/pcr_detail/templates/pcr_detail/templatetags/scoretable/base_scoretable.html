@@ -24,10 +24,12 @@
             </th>
             {% block key %}
             {% endblock %}
+            {% if show_name %}
             <th scope="col" class="col_name">
               <div class="sort-icon"></div>
               <span class="th-text">Name</span>
             </th>
+            {% endif %}
             {% for attribute in reviews|columns %}
             <th scope="col" class="col_{{attribute}}">
               <div class="sort-icon"></div>
