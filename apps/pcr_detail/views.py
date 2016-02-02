@@ -11,6 +11,7 @@ def instructor(request, id):
     'item': instructor,
     'reviews': instructor.reviews,
     'title': instructor.name,
+    'show_name': True,
     'type': 'instructor',
   })
   return render_to_response('pcr_detail/detail.html', context)
@@ -20,10 +21,12 @@ def course(request, dept, id):
   from models import CourseHistory
   title = '%s-%s' % (dept.upper(), id)
   coursehistory = CourseHistory(title)
+  reviews = set(review for course in coursehistory.courses for section in course.sections for review in section.reviews)
   context = RequestContext(request, {
     'base_dir': '../',
     'item': coursehistory,
-    'reviews': set(review for course in coursehistory.courses for section in course.sections for review in section.reviews),
+    'reviews': reviews,
+    'show_name': False if len(set([r.section.name for r in reviews])) == 1 else True,
     'title': title,
     'type': 'course',
     })
@@ -41,6 +44,7 @@ def department(request, name):
                     for section in course.sections
                     for review in section.reviews),
     'title': name,
+    'show_name': True,
     'type': 'department',
   })
   return render_to_response('pcr_detail/detail.html', context)
