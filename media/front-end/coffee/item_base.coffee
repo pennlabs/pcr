@@ -100,6 +100,19 @@ window.set_cols = (cols) ->
 
   for i in [0..(cols.length-1)]
     $("#course-table .col_#{cols[i]}").show()
+    if cols[i] == 'rDifficulty' or cols[i] == 'rRecommendMajor' or cols[i] == 'rRecommendNonMajor'
+      difficulty = $("#course-table .col_#{cols[i]}").find(".cell_average")
+      for i in [0..(difficulty.length-1)]
+        value = difficulty[i].innerHTML
+        $(difficulty[i]).css("color", "white")
+        $(difficulty[i]).css("padding", "2px")
+        $(difficulty[i]).css("border-radius", "4px")
+        if value >= 3.00
+          $(difficulty[i]).css("background", "#66CC00")
+        else if value >= 2.00
+          $(difficulty[i]).css("background", "#F2A300")
+        else
+          $(difficulty[i]).css("background", "#E52025")
 
 
 window.start_sort_rows = () ->
