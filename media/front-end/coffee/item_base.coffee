@@ -114,6 +114,16 @@ window.set_cols = (cols) ->
         else
           $(span[i]).css("background", "#E52025")
 
+filter = (cols, attributes, low, high) ->
+  for i in [0..(cols.length-1)]
+    if cols[i] in attributes
+      span = $("#course-table .col_#{cols[i]}").find(".cell_average")
+      for i in [0..(span.length-1)]
+        value = span[i].innerHTML
+        # remove the rows that don't fit #
+        if value < low or value > high
+          $(span[i]).closest("tr").remove()
+
 
 window.start_sort_rows = () ->
   $("#course-table .row_hidden").appendTo($("div#hidden"))
