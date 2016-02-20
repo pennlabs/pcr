@@ -221,4 +221,4 @@ $(document).ready ->
         value = span[i].innerHTML
         # remove the rows that don't fit #
         if value < low or value > high
-          $(span[i]).closest("tr").remove()
+          $(span[i]).closest("tr").hide()
