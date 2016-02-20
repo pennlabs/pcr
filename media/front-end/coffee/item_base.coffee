@@ -98,32 +98,26 @@ window.set_cols = (cols) ->
   $("#course-table .td_hidden").show()
   $("#course-table .sec_td_hidden").show()
 
+  colored = ['rDifficulty', 'rRecommendMajor', 'rRecommendNonMajor']
+  colorIntensity =
+    green: "#66CC00"
+    orange: "#F2A300"
+    red: "#E52025"
   for i in [0..(cols.length-1)]
     $("#course-table .col_#{cols[i]}").show()
-    if cols[i] == 'rDifficulty' or cols[i] == 'rRecommendMajor' or cols[i] == 'rRecommendNonMajor'
+    if cols[i] in colored
       span = $("#course-table .col_#{cols[i]}").find(".cell_average")
-      for i in [0..(span.length-1)]
+      for i in [0...span.length]
         value = span[i].innerHTML
         $(span[i]).css("color", "white")
         $(span[i]).css("padding", "2px")
         $(span[i]).css("border-radius", "4px")
         if value >= 3.00
-          $(span[i]).css("background", "#66CC00")
+          $(span[i]).css("background", colorIntensity[green])
         else if value >= 2.00
-          $(span[i]).css("background", "#F2A300")
+          $(span[i]).css("background", colorIntensity[orange])
         else
-          $(span[i]).css("background", "#E52025")
-
-filter = (cols, attributes, low, high) ->
-  for i in [0..(cols.length-1)]
-    if cols[i] in attributes
-      span = $("#course-table .col_#{cols[i]}").find(".cell_average")
-      for i in [0..(span.length-1)]
-        value = span[i].innerHTML
-        # remove the rows that don't fit #
-        if value < low or value > high
-          $(span[i]).closest("tr").remove()
-
+          $(span[i]).css("background", colorIntensity[red])
 
 window.start_sort_rows = () ->
   $("#course-table .row_hidden").appendTo($("div#hidden"))
@@ -218,3 +212,13 @@ $(document).ready ->
     toggle_course_row_all()
 
   window.setup_tutorial_overlay();
+
+  filter = (cols, attributes, low, high) ->
+  for i in [0..(cols.length-1)]
+    if cols[i] in attributes
+      span = $("#course-table .col_#{cols[i]}").find(".cell_average")
+      for i in [0..(span.length-1)]
+        value = span[i].innerHTML
+        # remove the rows that don't fit #
+        if value < low or value > high
+          $(span[i]).closest("tr").remove()
