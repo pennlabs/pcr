@@ -113,11 +113,11 @@ window.set_cols = (cols) ->
         $(span[i]).css("padding", "2px")
         $(span[i]).css("border-radius", "4px")
         if value >= 3.00
-          $(span[i]).css("background", colorIntensity[green])
+          $(span[i]).css("background", colorIntensity.green)
         else if value >= 2.00
-          $(span[i]).css("background", colorIntensity[orange])
+          $(span[i]).css("background", colorIntensity.orange)
         else
-          $(span[i]).css("background", colorIntensity[red])
+          $(span[i]).css("background", colorIntensity.red)
 
 window.start_sort_rows = () ->
   $("#course-table .row_hidden").appendTo($("div#hidden"))
