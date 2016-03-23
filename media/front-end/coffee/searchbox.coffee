@@ -170,7 +170,17 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
       selectFirst: true
       source: (request, response) ->
         # update the entries to show
-        response(get_entries(request.term, courses, instructors, departments))
+        results = get_entries(request.term, courses, instructors, departments)
+        if results.length != 0
+          response(results)
+        else
+          # basic fuzzy search -- just swaps pairwise characters to find typos
+          for i in [0..request.term.length]
+            fixed_spelling = request.term[0..i-2] + request.term[i] + request.term[i-1] + request.term[i+1..request.term.length]
+            if fixed_spelling.length == request.term.length
+              new_results = get_entries(fixed_spelling, courses, instructors, departments)
+              if new_results.length != 0
+                response(new_results)
       position:
         my: "left top"
         at: "left bottom"
