@@ -113,7 +113,11 @@
           <!--[if IE 8]>
           <span style="color:#CC0000;">Best viewed in Chrome or Firefox. </span>
           <![endif]-->
-          Copyright &copy; 2016
+          Copyright &copy; XXXX
+          <script type="text/javascript">
+            var node = document.getElementById('copyright');
+            node.innerHTML = node.innerHTML.replace('XXXX', new Date().getFullYear());
+          </script>
           <a href="http://pennlabs.org"><strong>Penn Labs</strong></a>
           |
           Hosted by
