@@ -623,9 +623,12 @@ The result is this, which is a little unclean, but it works.
   margin-bottom: 10px;
 }
 .courseCart, #remove {
-  margin-top: 10px;
+  margin-left: 10px;
   font-size: 20px;
   cursor: pointer;
+  color: white;
+  margin-bottom: 8px;
+  vertical-align: 6px;
 }
 .popover-title{
 	background: #90b8cb;
@@ -636,6 +639,7 @@ The result is this, which is a little unclean, but it works.
 }
 .professorList > li > button {
 	background-color: white;
+	width: 200px;
 	border: 1px #636363 solid;
 	border-radius: 2px;
 	margin-bottom: 4px; 
