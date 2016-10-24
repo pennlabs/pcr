@@ -622,7 +622,7 @@ The result is this, which is a little unclean, but it works.
   list-style-image: none;
   margin-bottom: 10px;
 }
-.courseCart {
+.courseCart, #remove {
   margin-top: 10px;
   font-size: 20px;
   cursor: pointer;
