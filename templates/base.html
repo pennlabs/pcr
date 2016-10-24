@@ -15,26 +15,29 @@
   <link href="apple-touch-icon-120x120.png" sizes="120x120" rel="{{base_dir}}media/front-end/image/apple-touch-icon-120x120-precomposed.png">
 
   <link rel="shortcut icon" href="{{base_dir}}media/front-end/image/favicon.ico">
+  
+  <link type="text/css" href="{{base_dir}}media/front-end/css/bootstrap.min.css" rel="stylesheet" />
   <link type="text/css" href="{{base_dir}}media/front-end/css/960_12_col.css" rel="stylesheet" />
   <link type="text/css" href="{{base_dir}}media/front-end/css/reset.css" rel="stylesheet" />
   <link type="text/css" href="{{base_dir}}media/front-end/css/flick/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
-
+  
   <link type="text/css" href="{{base_dir}}media/front-end/css/base.css" rel="stylesheet" />
   <link type="text/css" href="{{base_dir}}media/front-end/css/searchbox.css" rel="stylesheet" />
 
   <link href='//fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
-
   {% block htmlheader-links %}{% endblock %}
 
   <title>{% block title %}Penn Course Review{% endblock %}</title>
-
-  <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery-1.6.2.min.js"></script>
+  
+  <script src="https://use.fontawesome.com/2f138d6ed2.js"></script>
+  <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
   <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery-ui-1.8.16.custom.min.js"></script>
   <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery.cookie.js"></script>
-
   <script type="text/javascript" src="{{base_dir}}media/front-end/js/searchbox.js"></script>
-
-  {% block htmlheader-js %}{% endblock %}
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+ 
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/1.0.2/bootstrap-native.min.js"></script>
+ {% block htmlheader-js %}{% endblock %}
 
   {% block htmlheader-style %}{% endblock %}
 

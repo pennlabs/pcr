@@ -330,7 +330,6 @@ input {
 }
 
 #content-section {
-  width: 880px;
   padding: 40px;
   margin: 0px;
   background-color: rgb(255,255,255);
@@ -623,7 +622,28 @@ The result is this, which is a little unclean, but it works.
   list-style-image: none;
   margin-bottom: 10px;
 }
-
+.courseCart {
+  margin-top: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.popover-title{
+	background: #90b8cb;
+}
+.professorList {
+	color: #636363;
+	list-style-type: none;
+}
+.professorList > li > button {
+	background-color: white;
+	border: 1px #636363 solid;
+	border-radius: 2px;
+	margin-bottom: 4px; 
+}
+.professorList > li > button:hover {
+	background-color: #90b8cb;
+	color: white;
+}
 /***** FONTS *****/
 
 .BNR{
@@ -643,7 +663,6 @@ The result is this, which is a little unclean, but it works.
 @font-face{
   font-family: 'BebasNeueLight';
   src: url('../fonts/BebasNeueLight.otf');
-
 }
 
 @import url(//fonts.googleapis.com/css?family=Lato:100,300);
