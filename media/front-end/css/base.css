@@ -630,6 +630,9 @@ The result is this, which is a little unclean, but it works.
   margin-bottom: 8px;
   vertical-align: 6px;
 }
+#remove {
+  vertical-align: 2px;
+}
 .popover-title{
 	background: #90b8cb;
 }

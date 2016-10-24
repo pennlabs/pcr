@@ -37,7 +37,7 @@ setTimeout(function(){
 	}
 	
 	var addCartButton = function() {
-		$("p.subtitle")[0].innerHTML = $("p.subtitle")[0].innerHTML + "<small class='courseCart'> <small id='popup' data-html='true' data-toggle='popover' data-content='' title='Select Professor'><i class='fa fa-plus-square-o' aria-hidden='true'></i> Add to My Cart</small></small>";
+		$("p.subtitle")[0].innerHTML = $("p.subtitle")[0].innerHTML + "<span class='button courseCart'> <small id='popup' data-html='true' data-toggle='popover' data-content='' title='Select Professor'><i class='fa fa-plus-square-o' aria-hidden='true'></i> Add to My Cart</small></span>";
 		listProfessors();
 		$("[data-toggle=popover]").popover();
 		$("[data-toggle=popover]").popover('hide');
@@ -58,7 +58,7 @@ setTimeout(function(){
 	}
 	var addRemoveButton = function() {
 		$('.courseCart').remove();
-		$('p.subtitle')[0].innerHTML = $('p.subtitle')[0].innerHTML + "<small class='courseCart'><small id='remove'><i class='fa fa-trash-o'></i> Remove from My Cart</small></small>";
+		$('p.subtitle')[0].innerHTML = $('p.subtitle')[0].innerHTML + "<span class='button courseCart'><small id='remove'><i class='fa fa-trash-o'></i> Remove from My Cart</small></span>";
 		$('#remove').click(function(){
 			$("#remove").remove();
 			addCartButton();
