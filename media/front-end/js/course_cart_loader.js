@@ -27,7 +27,7 @@ setTimeout(function(){
 		return {course: title, professor: instructor, info: data};
 	}
 	var listProfessors = function() {
-		var list = "<div id='divList'> <ul class='professorList'>";
+		var list = "<div id='divList'><ul class='professorList'>";
 		var close = "$('[data-original-title]').popover('hide');";
 		for (var i = 0; i < instructors.length; i++) {
 			list += "<li><button id='" + instructors[i].split(" ").join("") + "' onclick='addToCourseCart(instructors[" + i  +"]);'>" + instructors[i]  + "</button></li>";
@@ -37,7 +37,7 @@ setTimeout(function(){
 	}
 	
 	var addCartButton = function() {
-		$("p.subtitle")[0].innerHTML = $("p.subtitle")[0].innerHTML + "<span class='button courseCart'> <small id='popup' data-html='true' data-toggle='popover' data-content='' title='Select Professor'><i class='fa fa-plus-square-o' aria-hidden='true'></i> Add to My Cart</small></span>";
+		$("p.subtitle")[0].innerHTML = $("p.subtitle")[0].innerHTML + "<span class='button courseCart'><small id='popup' data-html='true' data-toggle='popover' data-content='' title='Select Professor'><i class='fa fa-cart-plus' aria-hidden='true'></i>  Add to My Cart</small></span>";
 		listProfessors();
 		$("[data-toggle=popover]").popover();
 		$("[data-toggle=popover]").popover('hide');

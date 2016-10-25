@@ -635,14 +635,18 @@ The result is this, which is a little unclean, but it works.
 }
 .popover-title{
 	background: #90b8cb;
+	padding: 4px;
+	margin-bottom: 3px;
 }
 .professorList {
 	color: #636363;
 	list-style-type: none;
 }
 .professorList > li > button {
+	font-size: 80%;
+	margin: 3px;
+	padding-right: 5px;
 	background-color: white;
-	width: 200px;
 	border: 1px #636363 solid;
 	border-radius: 2px;
 	margin-bottom: 4px; 
