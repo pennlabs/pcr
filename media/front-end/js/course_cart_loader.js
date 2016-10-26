@@ -9,10 +9,9 @@ setTimeout(function(){
 		if (instructors.indexOf(instructor) < 0)
 			return null;
 		var columns = [];
-		$("#course-table > thread > tr > th > .th-text").each(function(i){
-			if (i > 2) {
-				columns.push(this.innerHTML);
-			}
+		$("#course-table > thead > tr > th > .th-text:gt(0)").each(function(){
+			columns.push(this.innerHTML);
+			console.log(this.innerHTML);
 		});
 		var data = [];
 		$("#course-table > tbody > tr.row_display:eq(" + instructors.indexOf(instructor) + ") > td:gt(2) > span.cell_recent").each(
