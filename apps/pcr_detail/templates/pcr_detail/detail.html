@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load infobox %}
 {% load scoretable %}
 {% load prettify %}
@@ -30,8 +29,7 @@
     {% include "pcr_detail/scorecard.html" %}
   {% endifnotequal %}
   {% ifequal type 'course' %}
-    <script>var dir = "{{base_dir}}media/front-end/css/bootstrap.min.css";</script>
-    <script src="{{base_dir}}media/front-end/js/course_cart_loader.js"></script>
+    <script src="{{base_dir}}media/front-end/js/loader.js"></script>
   {% endifequal %}
   <div class="clear"></div>
 {% endblock %}
