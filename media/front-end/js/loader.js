@@ -13,12 +13,12 @@ setTimeout(function(){
 			columns.push(this.innerHTML);
 		});
 		var data = [];
-		$("#course-table > tbody > tr.row_display:eq(" + instructors.indexOf(instructor) + ") > td:gt(2) > span.cell_recent").each(
+		$("#course-table > tbody > tr.row_display:eq(" + instructors.indexOf(instructor) + ") > td:gt(1) > span.cell_recent").each(
 			function(i){
 				data.push({category: columns[i], recent: this.innerHTML != "" ? Number(this.innerHTML) : "N/A"});
 			});
 		
-		$("#course-table > tbody > tr.row_display:eq(" + instructors.indexOf(instructor) + ") > td:gt(2) > span.cell_average").each(
+		$("#course-table > tbody > tr.row_display:eq(" + instructors.indexOf(instructor) + ") > td:gt(1) > span.cell_average").each(
 			function(i){
 				data[i].average = this.innerHTML != "" ? Number(this.innerHTML) : "N/A";
 			});
@@ -35,12 +35,12 @@ setTimeout(function(){
 	}
 	
 	var addCartButton = function() {
-		$("p.subtitle")[0].innerHTML = $("p.subtitle")[0].innerHTML + "<span class='button courseCart'><small id='popup' data-html='true' data-toggle='popover' data-content='' title='Select Professor'><i class='fa fa-cart-plus' aria-hidden='true'></i>  Add to My Cart</small></span>";
+		$("#banner-score")[0].innerHTML = $("#banner-score")[0].innerHTML + "<span class='button courseCart'><small id='popup' data-html='true' data-toggle='popover' data-placement='left' data-content='' title='Select Professor'><i class='fa fa-cart-plus' aria-hidden='true'></i>  Add to My Cart</small></span>";
 		listProfessors();
 		$("[data-toggle=popover]").popover();
 		$("[data-toggle=popover]").popover('hide');
 		$(".courseCart").click(function() {
-			$("[data-toggle=popover]").popover();
+			$("[data-toggle=popover]").popover('left');
 			listProfessors();
 		});
 		$('body').on('hidden.bs.popover', function (e) {
@@ -56,7 +56,7 @@ setTimeout(function(){
 	}
 	var addRemoveButton = function() {
 		$('.courseCart').remove();
-		$('p.subtitle')[0].innerHTML = $('p.subtitle')[0].innerHTML + "<span class='button courseCart'><small id='remove'><i class='fa fa-trash-o'></i> Remove from My Cart</small></span>";
+		$('#banner-score')[0].innerHTML = $('#banner-score')[0].innerHTML + "<span class='button courseCart'><small id='remove'><i class='fa fa-trash-o'></i> Remove from My Cart</small></span>";
 		$('#remove').click(function(){
 			$("#remove").remove();
 			addCartButton();

@@ -663,26 +663,35 @@ The result is this, which is a little unclean, but it works.
 }
 #remove {
   vertical-align: 2px;
+  float: right;
 }
 .popover-title{
-  background: #90b8cb;
+  background: rgba(0,0,0,0);
   padding: 4px;
   margin-bottom: 3px;
+  font-family: 'BebasNeueRegular';
+  font-size: 20px;
 }
 .popover {
   cursor: default;
+  background-color: rgba(73,73,73,0.7);
+}
+#popup {
+  float: right;
+  font-size: 20px;
 }
 .professorList {
   color: #636363;
   list-style-type: none;
 }
 .professorList > li > button {
+  color: #636363;
   font-size: 80%;
   margin: 3px;
   padding-right: 5px;
   background-color: white;
   border: 1px #636363 solid;
-  border-radius: 2px;
+  border-radius: 5px;
   margin-bottom: 4px; 
   cursor: pointer;
 }
