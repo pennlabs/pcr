@@ -1,4 +1,4 @@
 Django==1.4.2
 django-templatetag-sugar==0.1
 wsgiref==0.1.2
-requests==2.1.1
+requests==2.11.1
