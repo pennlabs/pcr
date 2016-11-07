@@ -1,7 +1,10 @@
 {% extends "pcr_detail/templatetags/scoretable/base_scoretable.html" %}
 {% load prettify %}
-
 {% block key%}
+<script>
+  instructors = [] 
+  instructor_data = {} 
+</script>
 <th scope="col" class="col_instructor">
   <div class="sort-icon"></div>
   <span class="th-text">Instructor</span>
@@ -12,6 +15,7 @@
   {% regroup reviews|dictsort:"instructor.last_name" by instructor as instructor_list %}
   {% for group in instructor_list %}
     {% with instructor=group.grouper %}
+    <script>instructors.push("{{instructor.name}}")</script>
     <tr id="row_display_{{forloop.counter0}}" class="row_display" onclick="toggle_course_row({{forloop.counter0}})">
       <td class="col_icon">
         <div class="fold-icon" title="Expand"></div>
@@ -24,12 +28,22 @@
       {% with all_cols=reviews|columns reviews=group.list %}
         {% if show_name %}
         <td class="col_name">
-          {{reviews|sectionname|capitalize_improved|safe}}
+	  {{reviews|sectionname|capitalize_improved|safe}}
         </td>
         {% endif %}
         {% with reviews|recent as recents %}
+	<script>
+	  instructor_data['{{instructor.name}}'] = {};
+	  instructor_data['{{instructor.name}}'].course = title;
+	  instructor_data['{{instructor.name}}'].professor = "{{instructor.name}}";
+	  instructor_data['{{instructor.name}}'].info = [];
+
+	</script>
+	
           {% for attribute in all_cols %}
-          <td class="col_{{attribute}}">
+	  <script>instructor_data['{{instructor.name}}'].info.push({category: "{{attribute}}", recent: parseFloat({{reviews|average:attribute|floatformat:3}}) , average: parseFloat({{reviews|average:attribute|floatformat:3}})})</script>
+	  <td class="col_{{attribute}}">
+	      
             <span class="cell_average">{{reviews|average:attribute|floatformat:2}}</span>
             <span class="cell_recent">{{recents|average:attribute|floatformat:2}}</span>
           </td>
@@ -42,4 +56,12 @@
       {% endwith %}
     {% endwith %}
   {% endfor %}
+  <script>
+  	if (typeof(Storage) !== "undefined" && localStorage.getItem(title)) {
+		addRemoveButton();
+	} else {
+		addCartButton();
+			
+	}
+  </script>
 {% endblock %}

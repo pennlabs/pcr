@@ -19,7 +19,7 @@ var update = function() {
 				}
 			}
 		}
-		var listings=[["Course Quality","courseNum"],["Instructor Quality","instructorNum"],["Difficulty","difficultyNum"],["Amount of Work","workloadNum"]];
+		var listings=[["rCourseQuality","courseNum"],["rInstructorQuality","instructorNum"],["rDifficulty","difficultyNum"],["rWorkRequired","workloadNum"]];
 		for (var i = 0; i < listings.length; i++) {
 			if (count[listings[i][0]]) {
 				$("#"+listings[i][1])[0].innerHTML=(sum_average[listings[i][0]]/count[listings[i][0]]).toFixed(1); 
@@ -57,13 +57,13 @@ var display = function() {
 		var workload;
 		if (course.info) {
 			for (var i = 0; i < course.info.length; i++) {
-				if (course.info[i].category == "Course Quality") {
+				if (course.info[i].category == "rCourseQuality") {
 					quality = course.info[i].average;
-				} else if (course.info[i].category == "Instructor Quality") {
+				} else if (course.info[i].category == "rInstructorQuality") {
 					instructor = course.info[i].average;
-				} else if (course.info[i].category == "Difficulty") {
+				} else if (course.info[i].category == "rDifficulty") {
 					difficulty = course.info[i].average;
-				} else if (course.info[i].category == "Amount of Work"){
+				} else if (course.info[i].category == "rWorkRequired"){
 					workload = course.info[i].average;
 				}
 			}

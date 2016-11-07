@@ -699,6 +699,27 @@ The result is this, which is a little unclean, but it works.
   background-color: #90b8cb;
   color: white;
 }
+.professorList > tbody> tr > td > button {
+  color: #636363;
+  width: 27px;
+  font-size: 80%;
+  margin: 3px;
+  background-color: white;
+  border: 1px #636363 solid;
+  border-radius: 5px;
+  margin-bottom: 4px; 
+  cursor: pointer;
+}
+.professorList > tbody > tr > td > button:hover {
+  background-color: #90b8cb;
+  color: white;
+}
+.professorList > tbody > tr > td > button.grayedOut:hover, .professorList > tbody > tr > td > button.grayedOut {
+  background-color: gray;
+  color: #303030;
+  cursor: default;
+}
+
 /***** TOOLTIPS **/
 
 .tooltip {
