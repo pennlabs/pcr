@@ -37,7 +37,6 @@
 	  instructor_data['{{instructor.name}}'].course = title;
 	  instructor_data['{{instructor.name}}'].professor = "{{instructor.name}}";
 	  instructor_data['{{instructor.name}}'].info = [];
-
 	</script>
 	
           {% for attribute in all_cols %}
@@ -57,11 +56,9 @@
     {% endwith %}
   {% endfor %}
   <script>
-  	if (typeof(Storage) !== "undefined" && localStorage.getItem(title)) {
+    if (typeof(Storage) !== "undefined" && localStorage.getItem(title))
 		addRemoveButton();
-	} else {
-		addCartButton();
-			
-	}
+    else 
+		addCartButton();	
   </script>
 {% endblock %}
