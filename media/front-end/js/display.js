@@ -33,19 +33,9 @@ var display = function() {
 		var nospaces = name.split(" ").join("");
 		var html = "<div onclick='$(\"#" + nospaces + "\").toggleClass(\"courseInBoxGrayed\"); update();'"
 			+ "id='"+ nospaces +"' class='tooltip courseInBox'>"
-			+ '<i onclick="$(\'#'+ nospaces + '\').remove();localStorage.removeItem(\'' + name + '\')i;update();" class="fa fa-times" aria-hidden="true"></i>'
-			+ name
-			+ '<span class="tooltiptext">'
-			+ "Course Quality: " 
-			+ v1
-			+ "<br> Instructor Quality: " 
-			+ v2 
-			+ "<br> Difficulty: " 
-			+ v3
-			+ "<br> Workload: "
-			+ v4
-			+ "</span>"
-			+ "</div>";
+			+ '<i onclick="$(\'#'+ nospaces + '\').remove();localStorage.removeItem(\'' + name + '\');update();" class="fa fa-times" aria-hidden="true"></i>'
+			+ name + '<span class="tooltiptext">' + "Course Quality: " + v1 + "<br> Instructor Quality: " + v2 + "<br> Difficulty: " + v3 + "<br> Workload: "
+			+ v4 + "</span>" + "</div>";
 		return html;
 	}
 
