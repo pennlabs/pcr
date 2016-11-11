@@ -139,9 +139,9 @@ input {
   display: inline-block;
 }
 #searchbar{
-  float: right;
+  /*float: right;
   margin-top: 16px;
-  background-color: rgb(240, 240, 240);
+  */background-color: rgb(240, 240, 240);
   width: 218px;
   height: 28px;
   border-radius: 5px;
@@ -178,6 +178,24 @@ input {
 }
 #searchbar input[type=submit]:hover {
 }
+#searchAndCart {
+  float: right;
+  margin-top: 16px;
+}
+#searchAndCart > a {
+  color: #646464;
+  margin-left: 10px;
+  font-size: 23px;
+  padding-top: 2px;
+}
+#searchAndCart > a:hover {
+  color: #90b8cb;
+  cursor: pointer;
+}
+#searchAndCart > a {
+  text-decoration: none;
+}
+
 
 /***** BANNER *****/
 
