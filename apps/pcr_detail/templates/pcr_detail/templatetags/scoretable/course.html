@@ -32,17 +32,15 @@
         </td>
         {% endif %}
         {% with reviews|recent as recents %}
-	<script>
-	  instructor_data['{{instructor.name}}'] = {};
-	  instructor_data['{{instructor.name}}'].course = title;
-	  instructor_data['{{instructor.name}}'].professor = "{{instructor.name}}";
-	  instructor_data['{{instructor.name}}'].info = [];
-	</script>
-	
+	  <script>
+	    instructor_data['{{instructor.name}}'] = {};
+	    instructor_data['{{instructor.name}}'].course = title;
+	    instructor_data['{{instructor.name}}'].professor = "{{instructor.name}}";
+	    instructor_data['{{instructor.name}}'].info = [];
+	  </script>
           {% for attribute in all_cols %}
-	  <script>instructor_data['{{instructor.name}}'].info.push({category: "{{attribute}}", recent: parseFloat({{reviews|average:attribute|floatformat:3}}) , average: parseFloat({{reviews|average:attribute|floatformat:3}})})</script>
-	  <td class="col_{{attribute}}">
-	      
+	    <script>instructor_data['{{instructor.name}}'].info.push({category: "{{attribute}}", recent: parseFloat({{reviews|average:attribute|floatformat:3}}) , average: parseFloat({{reviews|average:attribute|floatformat:3}})})</script>
+	    <td class="col_{{attribute}}">
             <span class="cell_average">{{reviews|average:attribute|floatformat:2}}</span>
             <span class="cell_recent">{{recents|average:attribute|floatformat:2}}</span>
           </td>
@@ -57,8 +55,8 @@
   {% endfor %}
   <script>
     if (typeof(Storage) !== "undefined" && localStorage.getItem(title))
-		addRemoveButton();
-    else 
-		addCartButton();	
+      addRemoveButton();
+    else if (typeof(Storage) !== "undefined") 
+      addCartButton();	
   </script>
 {% endblock %}

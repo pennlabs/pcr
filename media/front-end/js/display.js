@@ -1,11 +1,11 @@
-var update = function() {
-    var sum_recent = {};
-    var sum_average = {};
-    var count = {};
-    for (var key in localStorage) {
-      var course = JSON.parse(localStorage.getItem(key));
+const update = function() {
+    let sum_recent = {};
+    let sum_average = {};
+    let count = {};
+    for (let key in localStorage) {
+      const course = JSON.parse(localStorage.getItem(key));
       if (course.info) {
-        for (var i = 0; i < course.info.length; i++) {
+        for (let i = 0; i < course.info.length; i++) {
           if (course.info[i].recent >= 0 && !$("#" + 
           course.course.split(" ").join("")).hasClass("courseInBoxGrayed")) {
             if (sum_recent[course.info[i].category]) {
@@ -21,11 +21,11 @@ var update = function() {
         }
       }
     }
-    var listings=[["rCourseQuality","courseNum"],
+    const listings=[["rCourseQuality","courseNum"],
                   ["rInstructorQuality","instructorNum"],
       ["rDifficulty","difficultyNum"],
       ["rWorkRequired","workloadNum"]];
-    for (var i = 0; i < listings.length; i++) {
+    for (let i = 0; i < listings.length; i++) {
       if (count[listings[i][0]]) {
         $("#"+listings[i][1])[0].innerHTML =
           (sum_average[listings[i][0]] / count[listings[i][0]]).toFixed(1); 
@@ -34,10 +34,10 @@ var update = function() {
       }
     }
   }
-var display = function() {  
-  var formCourse = function(name, v1, v2, v3, v4) {
-    var nospaces = name.split(" ").join("");
-    var html = "<div onclick='$(\"#" + nospaces + 
+const display = function() {  
+  const formCourse = function(name, v1, v2, v3, v4) {
+    const nospaces = name.split(" ").join("");
+    const html = "<div onclick='$(\"#" + nospaces + 
                "\").toggleClass(\"courseInBoxGrayed\"); update();'" +
                "id='" + nospaces + "' class='tooltip courseInBox'>" +
                '<i onclick="$(\'#'+ nospaces + 
@@ -50,14 +50,14 @@ var display = function() {
     return html;
   }
 
-  for (var key in localStorage) {
-    var course = JSON.parse(localStorage.getItem(key));
-    var quality;
-    var instructor;
-    var difficulty;
-    var workload;
+  for (let key in localStorage) {
+    const course = JSON.parse(localStorage.getItem(key));
+    let quality;
+    let instructor;
+    let difficulty;
+    let workload;
     if (course.info) {
-      for (var i = 0; i < course.info.length; i++) {
+      for (let i = 0; i < course.info.length; i++) {
         if (course.info[i].category == "rCourseQuality") {
           quality = course.info[i].average;
         } else if (course.info[i].category == "rInstructorQuality") {

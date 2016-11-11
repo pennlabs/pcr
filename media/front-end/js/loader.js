@@ -1,6 +1,6 @@
-var listProfessors = function() {
-  var list = "<div id='divList'><ul class='professorList'>";
-  for (var i = 0; i < instructors.length; i++) {
+const listProfessors = function() {
+  let list = "<div id='divList'><ul class='professorList'>";
+  for (let i = 0; i < instructors.length; i++) {
     list += "<li><button id='" + instructors[i].split(" ").join("") + 
       "' onclick='addToCourseCart(instructors[" + i  +"]);'>" +
       instructors[i]  + "</button></li>";
@@ -9,20 +9,16 @@ var listProfessors = function() {
   $("#popup").attr("data-content",list);
 }
 
-var listAlphabet = function(num) {
-  var table = '<p>Filter by Last Name:</p><table class="professorList"><tr>';
-  for (var i = 1; i <= 26; i++) {
-    var character = String.fromCharCode(i+64)
+const listAlphabet = function(c) {
+  let table = '<p>Filter by Last Name:</p><table class="professorList"><tr>';
+  for (let i = 1; i <= 26; i++) {
+    const character = String.fromCharCode(i+64)
     table += '<td><button id="letter' + character + '">' +
               character + '</button></td>';
-    if (!instructors.reduce(
-          function(a,b){
-            return new RegExp("(\\s" + character 
-                + "[A-Z])").test(b) || a
-          }, false)) {
+    if (!instructors.reduce((a,b) => b.split(" ").pop()[0] == character || a, false)) {
       $("#letter" + character).addClass('grayedOut'); 
     } else {
-      var command = "listAlphabet('" + character + "');";
+      const command = "listAlphabet('" + character + "');";
       $("#letter" + character).attr("onclick", command);
     }
     if (i%6 == 0)
@@ -30,23 +26,22 @@ var listAlphabet = function(num) {
   }
   table += '</tr></table><div id="filteredProfessors"></div>';
   $("#popup").attr("data-content", table);
-  if (num) {
+  if (c) {
     $("#filteredProfessors").html(instructors.reduce(
-          function(a,b){
-            return new RegExp("(\\s" + num + "[A-Z])").test(b) ?  a + 
+          (a,b) =>  b.split(" ").pop()[0] == c ?  a + 
               "<li><button id='" + b.split(" ").join("") + 
               "' onclick='addToCourseCart(\""+b+"\");'>"+ b +
               "</button></li>" : a
-          }, "<ul class='professorList'>") + "</ul>");
+          , "<ul class='professorList'>") + "</ul>");
     $("div.arrow").css("top", "103px");
   }
 }
 
-var addCartButton = function() {
+const addCartButton = function() {
   $("#banner-score")[0].innerHTML = $("#banner-score")[0].innerHTML +
     "<span class='button courseCart'><small id='popup' data-html='true'" +
     " data-toggle='popover' data-placement='left' data-content=''" + 
-    "title='Select Professor'><i class='fa fa-cart-plus' aria-hidden='true'></i>i" +
+    "title='Select Professor'><i class='fa fa-cart-plus' aria-hidden='true'></i>" +
     "  Add to My Cart</small></span>";
   if (instructors.length <= 15)
     listProfessors();
@@ -75,7 +70,7 @@ var addCartButton = function() {
     }
   });
 }
-var addRemoveButton = function() {
+const addRemoveButton = function() {
   $('.courseCart').remove();
   $('#banner-score')[0].innerHTML = $('#banner-score')[0].innerHTML +
     "<span class='button courseCart'>" +
