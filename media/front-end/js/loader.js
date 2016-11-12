@@ -1,9 +1,9 @@
 const listProfessors = function() {
   let list = "<div id='divList'><ul class='professorList'>";
-  for (let i = 0; i < instructors.length; i++) {
-    list += "<li><button id='" + instructors[i].split(" ").join("") + 
-      "' onclick='addToCourseCart(instructors[" + i  +"]);'>" +
-      instructors[i]  + "</button></li>";
+  for (let i = 0; i < COURSE_DATA.instructors.length; i++) {
+    list += "<li><button id='" + COURSE_DATA.instructors[i].split(" ").join("") + 
+      "' onclick='addToCourseCart(COURSE_DATA.instructors[" + i  +"]);'>" +
+      COURSE_DATA.instructors[i]  + "</button></li>";
   }
   list += "</ul></div>";
   $("#popup").attr("data-content",list);
@@ -19,7 +19,8 @@ const listAlphabet = function(c) {
     /*check to see if instructors exist with a last name starting with 'character'
     If so, leave the button clickable and functional; otherwise, gray it out.*/
 
-    if (!instructors.reduce((a,b) => b.split(" ").pop()[0] == character || a, false)) {
+    if (!COURSE_DATA.instructors.reduce(
+                     (a,b) => b.split(" ").pop()[0] == character || a, false)) {
       $("#letter" + character).addClass('grayedOut'); 
     } else {
       const command = "listAlphabet('" + character + "');";
@@ -32,7 +33,7 @@ const listAlphabet = function(c) {
   table += '</tr></table><div id="filteredProfessors"></div>';
   $("#popup").attr("data-content", table);
   if (c) {
-    $("#filteredProfessors").html(instructors.reduce(
+    $("#filteredProfessors").html(COURSE_DATA.instructors.reduce(
           (a,b) =>  b.split(" ").pop()[0] == c ?  a + 
               "<li><button id='" + b.split(" ").join("") + 
               "' onclick='addToCourseCart(\""+b+"\");'>"+ b +
@@ -48,7 +49,7 @@ const addCartButton = function() {
     " data-toggle='popover' data-placement='left' data-content=''" + 
     "title='Select Professor'><i class='fa fa-cart-plus' aria-hidden='true'></i>" +
     "  Add to My Cart</small></span>";
-  if (instructors.length <= 15)
+  if (COURSE_DATA.instructors.length <= 15)
     listProfessors();
   else
     listAlphabet(null);
@@ -57,7 +58,7 @@ const addCartButton = function() {
   $("[data-toggle=popover]").popover('hide');
   $(".courseCart").click(function() {
     $("[data-toggle=popover]").popover();
-    if (instructors.length <= 15)
+    if (COURSE_DATA.instructors.length <= 15)
       listProfessors();
     else 
       listAlphabet(null);
@@ -90,7 +91,8 @@ const addRemoveButton = function() {
 addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
   if (typeof(Storage) !== "undefined") {
-    localStorage.setItem(title, JSON.stringify(instructor_data[instructor]));
+    localStorage.setItem(title, 
+	JSON.stringify(COURSE_DATA.instructor_data[instructor]));
     addRemoveButton();
   } else {
     alert("Sorry! Your browser does not support this feature." +
