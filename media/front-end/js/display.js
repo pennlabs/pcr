@@ -15,7 +15,7 @@ const update = function() {
               sum_recent[course.info[i].category] = course.info[i].recent;
               sum_average[course.info[i].category] = course.info[i].average;
             }
-      const cat = count[course.info[i].category]
+            const cat = count[course.info[i].category]
             count[course.info[i].category] = cat ? cat + 1 : 1;
           }
         }
@@ -35,7 +35,7 @@ const update = function() {
     }
   }
 const display = function() {  
-  const formCourse = function(name, v1, v2, v3, v4) {
+    const formCourse = function(name, v1, v2, v3, v4) {
     const nospaces = name.split(" ").join("");
     const html = "<div onclick='$(\"#" + nospaces + 
                "\").toggleClass(\"courseInBoxGrayed\"); update();'" +
@@ -69,9 +69,10 @@ const display = function() {
         }
       }
     }
-    if (course.course)
+    if (course.course) {
       $("#courseBox").html($("#courseBox").html() + 
         formCourse(course.course, quality, instructor, difficulty, workload));
+    }
   }  
   update();
   setInterval(update, 1000);

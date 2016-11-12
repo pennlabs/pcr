@@ -15,12 +15,17 @@ const listAlphabet = function(c) {
     const character = String.fromCharCode(i+64)
     table += '<td><button id="letter' + character + '">' +
               character + '</button></td>';
+
+    /*check to see if instructors exist with a last name starting with 'character'
+    If so, leave the button clickable and functional; otherwise, gray it out.*/
+
     if (!instructors.reduce((a,b) => b.split(" ").pop()[0] == character || a, false)) {
       $("#letter" + character).addClass('grayedOut'); 
     } else {
       const command = "listAlphabet('" + character + "');";
       $("#letter" + character).attr("onclick", command);
     }
+    
     if (i%6 == 0)
       table += '</tr><tr>';
   }
