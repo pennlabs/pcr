@@ -9,6 +9,8 @@ const listProfessors = function() {
   $("#popup").attr("data-content",list);
 }
 
+/* purpose of this function is to create
+ * a grid of the alphabet to filter profs */
 const listAlphabet = function(c) {
   let table = '<p>Filter by Last Name:</p><table class="professorList"><tr>';
   for (let i = 1; i <= 26; i++) {
@@ -27,12 +29,18 @@ const listAlphabet = function(c) {
       $("#letter" + character).attr("onclick", command);
     }
     
-    if (i%6 == 0)
+    //breaklike for alphabet grid
+    if (i%6 == 0) {
       table += '</tr><tr>';
+    }
   }
   table += '</tr></table><div id="filteredProfessors"></div>';
   $("#popup").attr("data-content", table);
   if (c) {
+
+     /*check to see if instructors exist with a last name starting with 'character'
+    If so, leave the button clickable and functional; otherwise, gray it out.*/
+
     $("#filteredProfessors").html(COURSE_DATA.instructors.reduce(
           (a,b) =>  b.split(" ").pop()[0] == c ?  a + 
               "<li><button id='" + b.split(" ").join("") + 
@@ -67,9 +75,12 @@ const addCartButton = function() {
     $(e.target).data("bs.popover").inState = { click: false, hover: false, focus: false }
   });
   $('html').on('click', function(e) {
+	  //if click outside the cart close it.
     if (typeof $(e.target).data('original-title') == 'undefined' &&
         !$(e.target).is('button')  && 
         !$(e.target).parents().is('.popover.in')) {
+
+      //must be toggled twice to avoid having to click twicei when opening again
       $('[data-original-title]').popover('hide');
       $('[data-original-title]').popover();
       $('[data-original-title]').popover('hide');
