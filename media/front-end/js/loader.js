@@ -1,22 +1,23 @@
-//function to list professors in popover, when there are < 15 profs
+//variable holding the content of the popover
 let popoverContent = null;
 
+//function to list professors when there are <= 15
 const listProfessors = function() {
   let outerDiv = $('<div>');
   outerDiv.attr('id', 'divList');
   let listOfProfessors = $('<ul>');
   listOfProfessors.addClass('professorList');
   for (let i = 0; i < COURSE_DATA.instructors.length; i++) {
-	  let prof = COURSE_DATA.instructors[i].replace(/&/g, '&amp;');
-	  let listItem = $('<li>');
-	  let button = $('<button>');
-	  button.click(
-            function(){
-              addToCourseCart(prof);
-            });
-          button.text(COURSE_DATA.instructors[i]);
-	  listItem.append(button);
-	  listOfProfessors.append(listItem);
+    let prof = COURSE_DATA.instructors[i];
+    let listItem = $('<li>');
+    let button = $('<button>');
+    button.click(
+      function(){
+        addToCourseCart(prof);
+      });
+    button.append(prof);
+    listItem.append(button);
+    listOfProfessors.append(listItem);
   }
   outerDiv.append(listOfProfessors);
   
@@ -25,13 +26,16 @@ const listProfessors = function() {
 }
 
 /* purpose of this function is to create
- * a grid of the alphabet to filter profs */
+ * a grid of the alphabet to filter profs 
+ * and display filtered profs*/
 const listAlphabet = function(c) {
   let head = $('<p>')
   head.text("Filter by Last Name: ");
   let table = $('<table>');
   table.addClass("professorList");
   let tr = $('<tr>');
+
+  //create the grid of buttons of the alphabet
   for (let i = 1; i <= 26; i++) {
     const character = String.fromCharCode(i+64)
     let button = $('<button>');
@@ -63,7 +67,9 @@ const listAlphabet = function(c) {
   filteredProfs.attr('id', 'filteredProfs');
   table.add(filteredProfs);
   head.add(table);
-  //variable is referenced in slighlty tweaked bootstrap.js
+
+  //if we have passed in a character, we will search for professors 
+  //whose last names start with that letter and add them to the list
   if (c) {
 
      /*check to see if instructors exist with a last name starting with 'character'
@@ -93,6 +99,8 @@ const listAlphabet = function(c) {
   popoverContent = $('<span>').append(head).append(table).append(filteredProfs); 
 }
 
+//put the cart button under the scoreboxes
+//fill the popover with professors/filtering interface
 const addCartButton = function() {
   let addSpan = $('<span>');
   addSpan.addClass('button');
@@ -125,12 +133,13 @@ const addCartButton = function() {
       listAlphabet(null);
   });
   $('html').on('click', function(e) {
-	  //if click outside the cart close it.
+
+    //if click outside the cart close it.
     if (typeof $(e.target).data('original-title') == 'undefined' &&
         !$(e.target).is('button')  && 
         !$(e.target).parents().is('.popover.in')) {
 
-      //must be toggled twice to avoid having to click twicei when opening again
+      //must be toggled twice to avoid having to click twice when opening again
       $('[data-original-title]').popover('hide');
       $('[data-original-title]').popover();
       $('[data-original-title]').popover('hide');
@@ -138,6 +147,8 @@ const addCartButton = function() {
   });
 }
 
+//remove the addCart button and replace it 
+//with a remove from cart option
 const addRemoveButton = function() {
   $('.courseCart').remove();
   let removeSpan = $('<span>');
@@ -158,6 +169,9 @@ const addRemoveButton = function() {
   $('#banner-score').append(removeSpan);
 }
 
+//when a professor is selected, add the remove button and 
+//add the class to localStorage. If the user's browser cannot
+//handle localStorage usage, alert them.
 addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
   if (typeof(Storage) !== "undefined") {
