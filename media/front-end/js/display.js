@@ -8,7 +8,7 @@ const update = function() {
         for (let i = 0; i < course.info.length; i++) {
          //check to see if the class should be included in the average
         if (course.info[i].recent >= 0 && !$("#" + 
-            course.course.split(" ").join("")).hasClass("courseInBoxGrayed")) {
+            course.course.replace(/ /g, '')).hasClass("courseInBoxGrayed")) {
 	    //add it to the sum to be averaged
             if (sum_recent[course.info[i].category]) {
               sum_recent[course.info[i].category] += course.info[i].recent;
@@ -34,25 +34,51 @@ const update = function() {
     //for the appropriate html element corresponding to the data
     //the value input is the average of the property (sum / count)
     for (let property in listings) {
-	$("#" + listings[property]).html((sum_average[property] / 
-			                 count[property]).toFixed(1));
+      if (!count[property]) {
+        $("#" + listings[property]).html("0.0");
+      } else {
+        $("#" + listings[property]).html((sum_average[property] / 
+			                  count[property]).toFixed(1));
+      }
     }
   }
 const display = function() {  
-    const formCourse = function(name, courseQuality, instructorQuality, difficulty, workload) {
-                          const nospaces = name.split(' ').join('');
-                          const html = "<div onclick='$(\"#" + nospaces + 
-                            "\").toggleClass(\"courseInBoxGrayed\"); update();'" +
-                            "id='" + nospaces + "' class='tooltip courseInBox'>" +
-                            '<i onclick="$(\'#'+ nospaces + 
-                            '\').remove();localStorage.removeItem(\'' +
-                            name + '\');update();" class="fa fa-times" aria-hidden="true"></i>' +
-                            name + '<span class="tooltiptext">' + "Course Quality: " +
-                            courseQuality + "<br> Instructor Quality: " + instructorQuality + 
-                            "<br> Difficulty: " + difficulty + "<br> Workload: "
-                            + workload + "</span>" + "</div>";
-    return html;
-  }
+  const formCourse = 
+    function(name, courseQuality, instructorQuality, difficulty, workload) {
+      let div = $('<div>');
+      div.click(
+        function() {
+          div.toggleClass('courseInBoxGrayed');
+          update();
+        });
+      div.attr('id', name.replace(/ /g, ''));
+      div.addClass('tooltip');
+      div.addClass('courseInBox');
+      let fontAwesome = $('<i>');
+      fontAwesome.click(
+        function() {
+          div.remove();
+          localStorage.removeItem(name);
+        });
+      fontAwesome.addClass('fa');
+      fontAwesome.addClass('fa-times');
+      fontAwesome.attr('aria-hidden', 'true');
+      div.append(fontAwesome);
+      div.append(' ' + name);
+      let hoverSpan = $('<span>');
+      hoverSpan.addClass('tooltiptext');
+      let innerSpan = $('<div>');
+      innerSpan.append("Course Quality: " + courseQuality);
+      innerSpan.append($('<br>'));
+      innerSpan.append("Instructor Quality: " + instructorQuality);
+      innerSpan.append($('<br>'));
+      innerSpan.append("Difficulty: " + difficulty);
+      innerSpan.append($('<br>'));
+      innerSpan.append("Workload: " + workload);
+      hoverSpan.html(innerSpan.html());
+      div.append(hoverSpan);
+      return div;
+    }
 
   for (let key in localStorage) {
     const course = JSON.parse(localStorage.getItem(key));
@@ -74,8 +100,8 @@ const display = function() {
       }
     }
     if (course.course) {
-      $("#courseBox").html($("#courseBox").html() + 
-        formCourse(course.course, quality, instructor, difficulty, workload));
+      $("#courseBox").append(formCourse(course.course, quality, 
+			     instructor, difficulty, workload));
     }
   }  
   update();
