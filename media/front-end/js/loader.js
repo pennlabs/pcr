@@ -46,6 +46,7 @@ const listAlphabet = function(c) {
     } else {
       button.click(
         function() {
+	  $('#filteredProfs').html('');
           listAlphabet(character);
 	});
     }
@@ -76,7 +77,7 @@ const listAlphabet = function(c) {
             button.attr('id', b.replace(/ /g, ''));
             button.click(
               function() {
-                addToCourseCart(b.replace(/&/g, '&amp;'));
+                addToCourseCart(b);
               });
             button.append(b);
             listItem.append(button);
@@ -116,7 +117,6 @@ const addCartButton = function() {
     listAlphabet(null);
 
   $('.courseCart').click(function() {
-    console.log("asdf");
     $('#popup').popover({title: "Select Professor", content: popoverContent, placement: "left"});
     $('#popup').popover('show');
     if (COURSE_DATA.instructors.length <= 15)
