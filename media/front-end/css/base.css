@@ -379,6 +379,7 @@ input {
 
 #content-section {
   padding: 40px;
+  width: 880px;
   margin: 0px;
   background-color: rgb(255,255,255);
   border-radius: 5px;
