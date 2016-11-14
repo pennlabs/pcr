@@ -8,7 +8,7 @@ const update = function() {
         for (let i = 0; i < course.info.length; i++) {
          //check to see if the class should be included in the average
         if (course.info[i].recent >= 0 && !$("#" + 
-            course.course.replace(/ /g,'')).hasClass("courseInBoxGrayed")) {
+            course.course.split(" ").join("")).hasClass("courseInBoxGrayed")) {
 	    //add it to the sum to be averaged
             if (sum_recent[course.info[i].category]) {
               sum_recent[course.info[i].category] += course.info[i].recent;
@@ -26,23 +26,21 @@ const update = function() {
     }
     let listings={};
     listings.rCourseQuality = "courseNum";
-    lsitings.rInstructorQuality = "instructorNum";
-    lisitings.rDifficulty = "difficultyNum";
+    listings.rInstructorQuality = "instructorNum";
+    listings.rDifficulty = "difficultyNum";
     listings.rWorkRequired = "workloadNum";
 
     //go through each of the properties in listings and set the innerHTML
     //for the appropriate html element corresponding to the data
     //the value input is the average of the property (sum / count)
     for (let property in listings) {
-      if (listings.hasOwnProperty(property)) {
-        $("#" + listings[property]).html(sum_average[listings[property]] / 
-			                 count[listings[property]]).toFixed(1);
-      }
+	$("#" + listings[property]).html((sum_average[property] / 
+			                 count[property]).toFixed(1));
     }
   }
 const display = function() {  
     const formCourse = function(name, courseQuality, instructorQuality, difficulty, workload) {
-                          const nospaces = name.split(" ").join("");
+                          const nospaces = name.split(' ').join('');
                           const html = "<div onclick='$(\"#" + nospaces + 
                             "\").toggleClass(\"courseInBoxGrayed\"); update();'" +
                             "id='" + nospaces + "' class='tooltip courseInBox'>" +

@@ -182,17 +182,17 @@ input {
   float: right;
   margin-top: 16px;
 }
-#searchAndCart > a {
+#cartIcon {
   color: #646464;
   margin-left: 10px;
   font-size: 23px;
   padding-top: 2px;
 }
-#searchAndCart > a:hover {
+#cartIcon:hover {
   color: #90b8cb;
   cursor: pointer;
 }
-#searchAndCart > a {
+#cartIcon {
   text-decoration: none;
 }
 

@@ -1,67 +1,126 @@
+jQuery.fn.outerHTML = function() {
+	   return (this[0]) ? this[0].outerHTML : '';  
+};
+
+//function to list professors in popover, when there are < 15 profs
 const listProfessors = function() {
-  let list = "<div id='divList'><ul class='professorList'>";
+  let outerDiv = $('<div>');
+  outerDiv.attr('id', 'divList');
+  let listOfProfessors = $('<ul>');
+  listOfProfessors.addClass('professorList');
   for (let i = 0; i < COURSE_DATA.instructors.length; i++) {
-    list += "<li><button id='" + COURSE_DATA.instructors[i].split(" ").join("") + 
-      "' onclick='addToCourseCart(COURSE_DATA.instructors[" + i  +"]);'>" +
-      COURSE_DATA.instructors[i]  + "</button></li>";
+	  let prof = COURSE_DATA.instructors[i].replace('/&/g', '&amp;');
+	  let listItem = $('<li>');
+	  let button = $('<button>');
+	  button.click(
+            function(){
+              addToCourseCart(prof);
+            });
+          button.text(COURSE_DATA.instructors[i]);
+	  listItem.append(button);
+	  listOfProfessors.append(listItem);
   }
-  list += "</ul></div>";
-  $("#popup").attr("data-content",list);
+  outerDiv.append(listOfProfessors);
+  
+  //variable is referenced in slighlty tweaked bootstrap.js
+  popoverContent = outerDiv;
 }
 
 /* purpose of this function is to create
  * a grid of the alphabet to filter profs */
 const listAlphabet = function(c) {
-  let table = '<p>Filter by Last Name:</p><table class="professorList"><tr>';
+  let head = $('<p>')
+  head.text("Filter by Last Name: ");
+  let table = $('<table>');
+  table.addClass("professorList");
+  let tr = $('<tr>');
   for (let i = 1; i <= 26; i++) {
     const character = String.fromCharCode(i+64)
-    table += '<td><button id="letter' + character + '">' +
-              character + '</button></td>';
+    let button = $('<button>');
+    button.text(character);
+    let td = $('<td>');
 
     /*check to see if instructors exist with a last name starting with 'character'
     If so, leave the button clickable and functional; otherwise, gray it out.*/
-
     if (!COURSE_DATA.instructors.reduce(
                      (a,b) => b.split(" ").pop()[0] == character || a, false)) {
-      $("#letter" + character).addClass('grayedOut'); 
+      button.addClass('grayedOut'); 
     } else {
-      const command = "listAlphabet('" + character + "');";
-      $("#letter" + character).attr("onclick", command);
+      button.click(
+        function() {
+          listAlphabet(character);
+	});
     }
-    
-    //breaklike for alphabet grid
+    td.append(button);
+    tr.append(td);
+    //break for alphabet grid
     if (i%6 == 0) {
-      table += '</tr><tr>';
+      table.append(tr);
+      tr = $('<tr>') 
     }
   }
-  table += '</tr></table><div id="filteredProfessors"></div>';
-  $("#popup").attr("data-content", table);
+  table.append(tr);
+  filteredProfs = $('<div>');
+  filteredProfs.attr('id', 'filteredProfs');
+  table.add(filteredProfs);
+  head.add(table);
+  //variable is referenced in slighlty tweaked bootstrap.js
   if (c) {
 
      /*check to see if instructors exist with a last name starting with 'character'
     If so, leave the button clickable and functional; otherwise, gray it out.*/
-
-    $("#filteredProfessors").html(COURSE_DATA.instructors.reduce(
-          (a,b) =>  b.split(" ").pop()[0] == c ?  a + 
-              "<li><button id='" + b.split(" ").join("") + 
-              "' onclick='addToCourseCart(\""+b+"\");'>"+ b +
-              "</button></li>" : a
-          , "<ul class='professorList'>") + "</ul>");
+    listOfProfessors = 
+      COURSE_DATA.instructors.reduce(
+        function(a, b) {
+          if (b.split(" ").pop()[0] == c) {
+            let listItem = $('<li>');
+            let button = $('<button>');
+            button.attr('id', b.replace(/ /g, ''));
+            button.click(
+              function() {
+                addToCourseCart(b.replace('/&/g', '&amp;'));
+              });
+            button.append(b);
+            listItem.append(button);
+            a.append(listItem);
+	    return a;
+          } else {
+            return a;
+          }
+        }, $('<ul>').addClass('professorList'));
+    $('#filteredProfs').append(listOfProfessors);
     $("div.arrow").css("top", "103px");
   }
+  popoverContent = $('<span>').append(head).append(table).append(filteredProfs); 
 }
 
 const addCartButton = function() {
-  $("#banner-score")[0].innerHTML = $("#banner-score")[0].innerHTML +
-    "<span class='button courseCart'><small id='popup' data-html='true'" +
-    " data-toggle='popover' data-placement='left' data-content=''" + 
-    "title='Select Professor'><i class='fa fa-cart-plus' aria-hidden='true'></i>" +
-    "  Add to My Cart</small></span>";
+  let addSpan = $('<span>');
+  addSpan.addClass('button');
+  addSpan.addClass('courseCart');
+  
+  let addSmall = $('<small>');
+  addSmall.attr('id', 'popup');
+  addSmall.attr('data-html', 'true');
+  addSmall.attr('data-toggle', 'popover');
+  addSmall.attr('data-placement', 'left');
+  addSmall.attr('data-content', '');
+  addSmall.attr('title', 'Select Professor');
+  
+  let fontAwesome = $('<i>');
+  fontAwesome.addClass('fa');
+  fontAwesome.addClass('fa-cart-plus');
+  fontAwesome.attr('aria-hidden', 'true');
+  addSmall.append(fontAwesome);
+  addSmall.append(" Add to My Cart");
+  addSpan.append(addSmall);
+  $('#banner-score').append(addSpan);
+
   if (COURSE_DATA.instructors.length <= 15)
     listProfessors();
   else
     listAlphabet(null);
-  
+
   $("[data-toggle=popover]").popover();
   $("[data-toggle=popover]").popover('hide');
   $(".courseCart").click(function() {
@@ -87,18 +146,27 @@ const addCartButton = function() {
     }
   });
 }
+
 const addRemoveButton = function() {
   $('.courseCart').remove();
-  $('#banner-score')[0].innerHTML = $('#banner-score')[0].innerHTML +
-    "<span class='button courseCart'>" +
-    "<small id='remove'><i class='fa fa-trash-o'></i>" +
-    " Remove from My Cart</small></span>";
-  $('#remove').click(function(){
-    $("#remove").remove();
-    addCartButton();
-    localStorage.removeItem(title);
-  });
+  let removeSpan = $('<span>');
+  let removeSmall = $('<small>');
+  removeSmall.attr('id', 'remove');
+  let fontAwesome = $('<i>');
+  fontAwesome.addClass('fa');
+  fontAwesome.addClass('fa-trash-o');
+  removeSmall.append(fontAwesome);
+  removeSmall.append(" Remove from My Cart");
+  removeSmall.click(
+    function() {
+      removeSmall.remove();
+      addCartButton();
+      localStorage.removeItem(title);
+    });
+  removeSpan.append(removeSmall);
+  $('#banner-score').append(removeSpan);
 }
+
 addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
   if (typeof(Storage) !== "undefined") {
