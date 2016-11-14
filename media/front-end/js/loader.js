@@ -20,8 +20,6 @@ const listProfessors = function() {
     listOfProfessors.append(listItem);
   }
   outerDiv.append(listOfProfessors);
-  
-  //variable is referenced in slighlty tweaked bootstrap.js
   popoverContent = outerDiv;
 }
 
