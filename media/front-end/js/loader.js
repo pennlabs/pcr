@@ -1,15 +1,13 @@
-jQuery.fn.outerHTML = function() {
-	   return (this[0]) ? this[0].outerHTML : '';  
-};
-
 //function to list professors in popover, when there are < 15 profs
+let popoverContent = null;
+
 const listProfessors = function() {
   let outerDiv = $('<div>');
   outerDiv.attr('id', 'divList');
   let listOfProfessors = $('<ul>');
   listOfProfessors.addClass('professorList');
   for (let i = 0; i < COURSE_DATA.instructors.length; i++) {
-	  let prof = COURSE_DATA.instructors[i].replace('/&/g', '&amp;');
+	  let prof = COURSE_DATA.instructors[i].replace(/&/g, '&amp;');
 	  let listItem = $('<li>');
 	  let button = $('<button>');
 	  button.click(
@@ -78,7 +76,7 @@ const listAlphabet = function(c) {
             button.attr('id', b.replace(/ /g, ''));
             button.click(
               function() {
-                addToCourseCart(b.replace('/&/g', '&amp;'));
+                addToCourseCart(b.replace(/&/g, '&amp;'));
               });
             button.append(b);
             listItem.append(button);
@@ -102,10 +100,6 @@ const addCartButton = function() {
   let addSmall = $('<small>');
   addSmall.attr('id', 'popup');
   addSmall.attr('data-html', 'true');
-  addSmall.attr('data-toggle', 'popover');
-  addSmall.attr('data-placement', 'left');
-  addSmall.attr('data-content', '');
-  addSmall.attr('title', 'Select Professor');
   
   let fontAwesome = $('<i>');
   fontAwesome.addClass('fa');
@@ -121,17 +115,14 @@ const addCartButton = function() {
   else
     listAlphabet(null);
 
-  $("[data-toggle=popover]").popover();
-  $("[data-toggle=popover]").popover('hide');
-  $(".courseCart").click(function() {
-    $("[data-toggle=popover]").popover();
+  $('.courseCart').click(function() {
+    console.log("asdf");
+    $('#popup').popover({title: "Select Professor", content: popoverContent, placement: "left"});
+    $('#popup').popover('show');
     if (COURSE_DATA.instructors.length <= 15)
       listProfessors();
     else 
       listAlphabet(null);
-  });
-  $('body').on('hidden.bs.popover', function (e) {
-    $(e.target).data("bs.popover").inState = { click: false, hover: false, focus: false }
   });
   $('html').on('click', function(e) {
 	  //if click outside the cart close it.
