@@ -35,7 +35,7 @@
         {% endif %}
 	  {% with reviews|recent as recents %}
 	    <script>
-              let profName = '{{instructor.name}}';
+              profName = '{{instructor.name}}';
 	      COURSE_DATA.instructor_data[profName] = {};
 	      COURSE_DATA.instructor_data[profName].course = title;
 	      COURSE_DATA.instructor_data[profName].info = [];
