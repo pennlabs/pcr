@@ -1,20 +1,20 @@
 //create object to convert the property names to html ids
-let mode = "average";
+let mode = 'average';
 
 let listings={};
-listings.courseBoxOne = "rCourseQuality";
-listings.courseBoxTwo = "rInstructorQuality";
-listings.courseBoxThree = "rDifficulty";
-listings.courseBoxFour = "rWorkRequired";
+listings.courseBoxOne = 'rCourseQuality';
+listings.courseBoxTwo = 'rInstructorQuality';
+listings.courseBoxThree = 'rDifficulty';
+listings.courseBoxFour = 'rWorkRequired';
 
 //names to be used in the four boxes (length is limited)
 const propertyShortNames = {
-  rCourseQuality: "Course", rInstructorQuality: "Instructor",
-  rDifficulty: "Difficulty", rAmountLearned: "Learned",
-  rWorkRequired: "Workload", rReadingsValue: "Reading",
-  rCommAbility: "Instr Comm", rInstructorAccess: "Access",
-  rStimulateInterest: "Interest", rTAQuality: "TA Quality",
-  rRecommendMajor: "Major", rRecommendNonMajor: "Non-Major"
+  rCourseQuality: 'Course', rInstructorQuality: 'Instructor',
+  rDifficulty: 'Difficulty', rAmountLearned: 'Learned',
+  rWorkRequired: 'Workload', rReadingsValue: 'Reading',
+  rCommAbility: 'Instr Comm', rInstructorAccess: 'Access',
+  rStimulateInterest: 'Interest', rTAQuality: 'TA Quality',
+  rRecommendMajor: 'Major', rRecommendNonMajor: 'Non-Major'
 };
 
 //check which values are to be included in the average,
@@ -204,4 +204,17 @@ const display = function() {
 //function for closing the choose categories popup
 let cancel_choose_cols = function() {
   $('#choose-cols').css('display', 'none');
+}
+
+let set_viewmode = function(n) {
+  if (n == 1) {
+    $('#view_average').removeClass('selected');
+    $('#view_recent').addClass('selected');
+    mode = 'recent';
+  } else if (n == 0) {
+    $('#view_average').addClass('selected');
+    $('#view_recent').removeClass('selected');
+    mode = 'average';
+  }
+  update();
 }

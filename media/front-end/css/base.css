@@ -831,6 +831,32 @@ The result is this, which is a little unclean, but it works.
 #boxHelpTag {
   margin-top: 35px;
 }
+#toggleView {
+  margin-top: 10px;
+  font-size: 14px;
+  font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
+  color:#ffffff;
+  cursor:pointer;
+  display:inline;
+  padding:2px;
+
+}
+.heightFifteen {
+  height: 15px;
+}
+#toggleView .button {
+  padding: 2px 4px;
+  border: 1px solid white;
+  border-radius: 2px;
+  cursor: pointer;
+}
+#toggleView .button.selected {
+  color: rgb(102, 146, 161);
+  background: #ffffff;
+  padding: 2px 4px;
+  cursor:default;
+}
+
 
 /***** FONTS *****/
 
