@@ -24,7 +24,7 @@ const listProfessors = function() {
 }
 
 /* purpose of this function is to create
- * a grid of the alphabet to filter profs 
+ * a grid of the alphabet to filter profs
  * and display filtered profs*/
 const listAlphabet = function(c) {
   let head = $('<p>')
@@ -44,20 +44,20 @@ const listAlphabet = function(c) {
     If so, leave the button clickable and functional; otherwise, gray it out.*/
     if (!COURSE_DATA.instructors.reduce(
                      (a,b) => b.split(" ").pop()[0] == character || a, false)) {
-      button.addClass('grayedOut'); 
+      button.addClass('grayedOut');
     } else {
       button.click(
         function() {
-	  $('#filteredProfs').html('');
+    $('#filteredProfs').html('');
           listAlphabet(character);
-	});
+  });
     }
     td.append(button);
     tr.append(td);
     //break for alphabet grid
     if (i%6 == 0) {
       table.append(tr);
-      tr = $('<tr>') 
+      tr = $('<tr>')
     }
   }
   table.append(tr);
@@ -66,13 +66,13 @@ const listAlphabet = function(c) {
   table.add(filteredProfs);
   head.add(table);
 
-  //if we have passed in a character, we will search for professors 
+  //if we have passed in a character, we will search for professors
   //whose last names start with that letter and add them to the list
   if (c) {
 
      /*check to see if instructors exist with a last name starting with 'character'
     If so, leave the button clickable and functional; otherwise, gray it out.*/
-    listOfProfessors = 
+    listOfProfessors =
       COURSE_DATA.instructors.reduce(
         function(a, b) {
           if (b.split(" ").pop()[0] == c) {
@@ -86,7 +86,7 @@ const listAlphabet = function(c) {
             button.append(b);
             listItem.append(button);
             a.append(listItem);
-	    return a;
+      return a;
           } else {
             return a;
           }
@@ -94,7 +94,7 @@ const listAlphabet = function(c) {
     $('#filteredProfs').append(listOfProfessors);
     $("div.arrow").css("top", "103px");
   }
-  popoverContent = $('<span>').append(head).append(table).append(filteredProfs); 
+  popoverContent = $('<span>').append(head).append(table).append(filteredProfs);
 }
 
 //put the cart button under the scoreboxes
@@ -103,11 +103,11 @@ const addCartButton = function() {
   let addSpan = $('<span>');
   addSpan.addClass('button');
   addSpan.addClass('courseCart');
-  
+
   let addSmall = $('<small>');
   addSmall.attr('id', 'popup');
   addSmall.attr('data-html', 'true');
-  
+
   let fontAwesome = $('<i>');
   fontAwesome.addClass('fa');
   fontAwesome.addClass('fa-cart-plus');
@@ -127,14 +127,14 @@ const addCartButton = function() {
     $('#popup').popover('show');
     if (COURSE_DATA.instructors.length <= 15)
       listProfessors();
-    else 
+    else
       listAlphabet(null);
   });
   $('html').on('click', function(e) {
 
     //if click outside the cart close it.
     if (typeof $(e.target).data('original-title') == 'undefined' &&
-        !$(e.target).is('button')  && 
+        !$(e.target).is('button')  &&
         !$(e.target).parents().is('.popover.in')) {
 
       //must be toggled twice to avoid having to click twice when opening again
@@ -145,7 +145,7 @@ const addCartButton = function() {
   });
 }
 
-//remove the addCart button and replace it 
+//remove the addCart button and replace it
 //with a remove from cart option
 const addRemoveButton = function() {
   $('.courseCart').remove();
@@ -167,14 +167,14 @@ const addRemoveButton = function() {
   $('#banner-score').append(removeSpan);
 }
 
-//when a professor is selected, add the remove button and 
+//when a professor is selected, add the remove button and
 //add the class to localStorage. If the user's browser cannot
 //handle localStorage usage, alert them.
 addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
   if (typeof(Storage) !== "undefined") {
-    localStorage.setItem(title, 
-	JSON.stringify(COURSE_DATA.instructor_data[instructor]));
+    localStorage.setItem(title,
+  JSON.stringify(COURSE_DATA.instructor_data[instructor]));
     addRemoveButton();
   } else {
     alert("Sorry! Your browser does not support this feature." +

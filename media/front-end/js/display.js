@@ -18,11 +18,11 @@ const propertyShortNames = {
 };
 
 //check which values are to be included in the average,
-//calculate the average of quality, instructor quality, 
-//difficulty, workload and then set the values of the 
+//calculate the average of quality, instructor quality,
+//difficulty, workload and then set the values of the
 //boxes to the new average
 const update = function() {
-  //objects holding the sums of each proprty within courses 
+  //objects holding the sums of each proprty within courses
   let sum_recent = {};
   let sum_average = {};
   //holds the count for each property in the courses
@@ -30,7 +30,7 @@ const update = function() {
 
   //run through the courses in localStorage
   for (let key in localStorage) {
-    
+
     //get the object for the course stored in localStorage
     const course = JSON.parse(localStorage.getItem(key));
 
@@ -42,10 +42,10 @@ const update = function() {
       for (let i = 0; i < course.info.length; i++) {
 
         //check to see if the class should be included in the average
-        if (course.info[i].recent > 0 && !$("#" + 
+        if (course.info[i].recent > 0 && !$("#" +
           course.course.replace(/ /g, '')).hasClass("courseInBoxGrayed")) {
-	  
-	  //add it to the sum to be averaged
+
+    //add it to the sum to be averaged
           if (sum_recent[course.info[i].category]) {
             sum_recent[course.info[i].category] += course.info[i].recent;
             sum_average[course.info[i].category] += course.info[i].average;
@@ -54,13 +54,13 @@ const update = function() {
             sum_average[course.info[i].category] = course.info[i].average;
           }
 
-	  //increase/set the count for each property
+    //increase/set the count for each property
           const cat = count[course.info[i].category];
           count[course.info[i].category] = cat ? cat + 1 : 1;
         }
       }
     }
-  } 
+  }
 
   //go through each of the properties in listings and set the innerHTML
   //for the appropriate html element corresponding to the data
@@ -69,19 +69,19 @@ const update = function() {
     if (!count[listings[property]]) {
       $("#" + property).html("N/A");
     } else if (mode == 'average') {
-      $("#" + property).html((sum_average[listings[property]] / 
-                 	                count[listings[property]]).toFixed(1));
+      $("#" + property).html((sum_average[listings[property]] /
+                                  count[listings[property]]).toFixed(1));
     } else {
-      $("#" + property).html((sum_recent[listings[property]] / 
-                 	                count[listings[property]]).toFixed(1));
+      $("#" + property).html((sum_recent[listings[property]] /
+                                  count[listings[property]]).toFixed(1));
     }
   }
 }
 
 //function to display all courses in the box,
 //and call update every 1000 ms as well on event
-const display = function() {  
-  const formCourse = 
+const display = function() {
+  const formCourse =
     function(name, courseQuality, instructorQuality, difficulty, workload) {
       let div = $('<div>');
       div.click(
@@ -138,10 +138,10 @@ const display = function() {
       }
     }
     if (course.course) {
-      $("#courseBox").append(formCourse(course.course, quality, 
-			     instructor, difficulty, workload));
+      $("#courseBox").append(formCourse(course.course, quality,
+           instructor, difficulty, workload));
     }
-  } 
+  }
 
   $('#categoriesButton').click(function() {
     $('#choose-cols').css('display', 'block');
@@ -168,7 +168,7 @@ const display = function() {
 
     //otherwise close the popup
     $('#choose-cols').css('display', 'none');
-    
+
     //set the new categories to be averaged
     listings.courseBoxOne = checked[0];
     listings.courseBoxTwo = checked[1];
@@ -182,7 +182,7 @@ const display = function() {
 
     update();
   });
- 
+
   //set the defaults to be checked
   $('#rDifficulty').prop('checked', true);
   $('#rCourseQuality').prop('checked', true);
