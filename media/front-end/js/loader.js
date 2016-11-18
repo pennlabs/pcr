@@ -48,9 +48,9 @@ const listAlphabet = function(c) {
     } else {
       button.click(
         function() {
-    $('#filteredProfs').html('');
+          $('#filteredProfs').html('');
           listAlphabet(character);
-  });
+        });
     }
     td.append(button);
     tr.append(td);
@@ -86,7 +86,7 @@ const listAlphabet = function(c) {
             button.append(b);
             listItem.append(button);
             a.append(listItem);
-      return a;
+            return a;
           } else {
             return a;
           }
