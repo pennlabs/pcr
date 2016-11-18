@@ -36,12 +36,12 @@
 	  {% with reviews|recent as recents %}
 	    <script>
               profName = '{{instructor.name}}';
-	      COURSE_DATA.instructor_data[profName] = {};
-	      COURSE_DATA.instructor_data[profName].course = title;
-	      COURSE_DATA.instructor_data[profName].info = [];
+              COURSE_DATA.instructor_data[profName] = {};
+              COURSE_DATA.instructor_data[profName].course = title;
+              COURSE_DATA.instructor_data[profName].info = [];
 	    </script>
             {% for attribute in all_cols %}
-	      <script>COURSE_DATA.instructor_data['{{instructor.name}}'].info.push({category: "{{attribute}}", recent: parseFloat({{recents|average:attribute|floatformat:2}}) , average: parseFloat({{reviews|average:attribute|floatformat:2}})})</script>
+	      <script>COURSE_DATA.instructor_data['{{instructor.name}}'].info.push({category: '{{attribute}}', recent: parseFloat({{recents|average:attribute|floatformat:2}}), average: parseFloat({{reviews|average:attribute|floatformat:2}})})</script>
 	      <td class="col_{{attribute}}">
                 <span class="cell_average">{{reviews|average:attribute|floatformat:2}}</span>
                 <span class="cell_recent">{{recents|average:attribute|floatformat:2}}</span>

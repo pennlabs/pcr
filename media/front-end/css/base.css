@@ -829,7 +829,7 @@ The result is this, which is a little unclean, but it works.
   color: #f45942;
 }
 #boxHelpTag {
-  margin-top: 35px;
+  margin-top: 25px;
 }
 #toggleView {
   margin-top: 10px;
@@ -839,7 +839,6 @@ The result is this, which is a little unclean, but it works.
   cursor:pointer;
   display:inline;
   padding:2px;
-
 }
 .heightFifteen {
   height: 15px;

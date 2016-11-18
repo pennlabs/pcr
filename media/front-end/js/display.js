@@ -206,7 +206,7 @@ let cancel_choose_cols = function() {
   $('#choose-cols').css('display', 'none');
 }
 
-let set_viewmode = function(n) {
+const set_datamode = function(n) {
   if (n == 1) {
     $('#view_average').removeClass('selected');
     $('#view_recent').addClass('selected');
