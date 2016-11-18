@@ -1,4 +1,6 @@
 //create object to convert the property names to html ids
+let mode = "average";
+
 let listings={};
 listings.courseBoxOne = "rCourseQuality";
 listings.courseBoxTwo = "rInstructorQuality";
@@ -40,7 +42,7 @@ const update = function() {
       for (let i = 0; i < course.info.length; i++) {
 
         //check to see if the class should be included in the average
-        if (course.info[i].recent >= 0 && !$("#" + 
+        if (course.info[i].recent > 0 && !$("#" + 
           course.course.replace(/ /g, '')).hasClass("courseInBoxGrayed")) {
 	  
 	  //add it to the sum to be averaged
@@ -65,9 +67,12 @@ const update = function() {
   //the value input is the average of the property (sum / count)
   for (let property in listings) {
     if (!count[listings[property]]) {
-      $("#" + property).html("0.0");
-    } else {
+      $("#" + property).html("N/A");
+    } else if (mode == 'average') {
       $("#" + property).html((sum_average[listings[property]] / 
+                 	                count[listings[property]]).toFixed(1));
+    } else {
+      $("#" + property).html((sum_recent[listings[property]] / 
                  	                count[listings[property]]).toFixed(1));
     }
   }
