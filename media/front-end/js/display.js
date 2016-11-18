@@ -158,7 +158,6 @@ const display = function() {
     //if the user has not selected four categories, do not close
     // and alert them
     if (checked.length < 4) {
-      alert("Please select 4 categories.");
       return;
     }
 
