@@ -175,6 +175,8 @@ const display = function() {
     for (let i = 0; i < 4; i++) {
       $('.desc')[i].innerHTML = propertyShortNames[checked[i]];
     }
+
+    update();
   });
  
   //set the defaults to be checked
