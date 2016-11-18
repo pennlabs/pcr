@@ -1,3 +1,20 @@
+//create object to convert the property names to html ids
+let listings={};
+listings.courseBoxOne = "rCourseQuality";
+listings.courseBoxTwo = "rInstructorQuality";
+listings.courseBoxThree = "rDifficulty";
+listings.courseBoxFour = "rWorkRequired";
+
+//names to be used in the four boxes (length is limited)
+const propertyShortNames = {
+  rCourseQuality: "Course", rInstructorQuality: "Instructor",
+  rDifficulty: "Difficulty", rAmountLearned: "Learned",
+  rWorkRequired: "Workload", rReadingsValue: "Reading",
+  rCommAbility: "Instr Comm", rInstructorAccess: "Access",
+  rStimulateInterest: "Interest", rTAQuality: "TA Quality",
+  rRecommendMajor: "Major", rRecommendNonMajor: "Non-Major"
+};
+
 //check which values are to be included in the average,
 //calculate the average of quality, instructor quality, 
 //difficulty, workload and then set the values of the 
@@ -41,24 +58,17 @@ const update = function() {
         }
       }
     }
-  }
-
-  //create object to convert the property names to html ids
-  let listings={};
-  listings.rCourseQuality = "courseNum";
-  listings.rInstructorQuality = "instructorNum";
-  listings.rDifficulty = "difficultyNum";
-  listings.rWorkRequired = "workloadNum";
+  } 
 
   //go through each of the properties in listings and set the innerHTML
   //for the appropriate html element corresponding to the data
   //the value input is the average of the property (sum / count)
   for (let property in listings) {
-    if (!count[property]) {
-      $("#" + listings[property]).html("0.0");
+    if (!count[listings[property]]) {
+      $("#" + property).html("0.0");
     } else {
-      $("#" + listings[property]).html((sum_average[property] / 
-                 	                count[property]).toFixed(1));
+      $("#" + property).html((sum_average[listings[property]] / 
+                 	                count[listings[property]]).toFixed(1));
     }
   }
 }
@@ -126,7 +136,66 @@ const display = function() {
       $("#courseBox").append(formCourse(course.course, quality, 
 			     instructor, difficulty, workload));
     }
-  }  
+  } 
+
+  $('#categoriesButton').click(function() {
+    $('#choose-cols').css('display', 'block');
+  });
+
+  //array holding checked checkboxes
+  let checked = [];
+
+  //on click of submit
+  $('[value=Submit]').click(function() {
+    //clear checked
+    checked = [];
+
+    //fill checked
+    $('.col > p > input:checkbox:checked').map(function() {
+      checked.push(this.value);
+    });
+
+    //if the user has not selected four categories, do not close
+    // and alert them
+    if (checked.length < 4) {
+      alert("Please select 4 categories.");
+      return;
+    }
+
+    //otherwise close the popup
+    $('#choose-cols').css('display', 'none');
+    
+    //set the new categories to be averaged
+    listings.courseBoxOne = checked[0];
+    listings.courseBoxTwo = checked[1];
+    listings.courseBoxThree = checked[2];
+    listings.courseBoxFour = checked[3];
+
+    //change the text in the boxes displaying the averages
+    for (let i = 0; i < 4; i++) {
+      $('.desc')[i].innerHTML = propertyShortNames[checked[i]];
+    }
+  });
+ 
+  //set the defaults to be checked
+  $('#rDifficulty').prop('checked', true);
+  $('#rCourseQuality').prop('checked', true);
+  $('#rInstructorQuality').prop('checked', true);
+  $('#rWorkRequired').prop('checked', true);
+
+  //block of code to make sure no more than 4 are checked at once
+  const limit = 4;
+  $('.col > p > input').on('change', function() {
+    if($('.col > p> input:checked').length > limit) {
+      this.checked = false;
+    }
+  });
+
   update();
   setInterval(update, 1000);
+}
+
+//function for closing the choose categories popup
+let cancel_choose_cols = function() {
+  $('#choose-cols').css('display', 'none');
 }

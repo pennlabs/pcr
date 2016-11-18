@@ -139,9 +139,7 @@ input {
   display: inline-block;
 }
 #searchbar{
-  /*float: right;
-  margin-top: 16px;
-  */background-color: rgb(240, 240, 240);
+  background-color: rgb(240, 240, 240);
   width: 218px;
   height: 28px;
   border-radius: 5px;
@@ -583,6 +581,7 @@ input {
   left:0;
   height:100%;
   width:100%;
+  z-index: 10;
 }
 #choose-cols-inner {
   position:absolute;
@@ -778,6 +777,23 @@ The result is this, which is a little unclean, but it works.
 }
 /***** COURSE CART EXTRAS ***/
 
+#categoriesButton {
+  border: 1px #FFFFFF solid;
+  border-radius: 2px;
+  margin-top: 7px;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+#categoriesButton:hover {
+  background-color: #FFFFFF;
+  color: #90b8cb;
+  cursor: pointer;
+}
+.fillerBox {
+  height: 12px;
+}
 #courseBox {
   text-align: left;
   margin-top: 5px;
