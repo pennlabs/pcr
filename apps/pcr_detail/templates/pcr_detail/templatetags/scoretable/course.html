@@ -2,7 +2,7 @@
 {% load prettify %}
 {% block key%}
 <script>
-  COURSE_DATA = {}
+  let COURSE_DATA = {}
   COURSE_DATA.instructors = [] 
   COURSE_DATA.instructor_data = {} 
 </script>
@@ -35,7 +35,7 @@
         {% endif %}
 	  {% with reviews|recent as recents %}
 	    <script>
-              profName = '{{instructor.name}}';
+              let profName = '{{instructor.name}}';
 	      COURSE_DATA.instructor_data[profName] = {};
 	      COURSE_DATA.instructor_data[profName].course = title;
 	      COURSE_DATA.instructor_data[profName].info = [];
