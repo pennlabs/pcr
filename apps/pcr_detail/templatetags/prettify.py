@@ -104,7 +104,6 @@ def attributes(reviews):
 @register.filter(name="sectionname")
 def sectionname(reviews):
   names = set(review.section.name.strip() for review in reviews)
-  print(names)
   if len(names) > 1:
     return "Various"
   else:
