@@ -104,6 +104,7 @@ def attributes(reviews):
 @register.filter(name="sectionname")
 def sectionname(reviews):
   names = set(review.section.name.strip() for review in reviews)
+  print(names)
   if len(names) > 1:
     return "Various"
   else:
@@ -162,7 +163,7 @@ def no_hyphen(title):
 def subtitle(coursehistory):
   names = set(section.name for course in coursehistory.courses for section in course.sections)
   if len(names - set(["RECITATATION", "Recitation", "LECTURE", "Lecture"])) > 1:
-    return "(Recent Example) %s" % coursehistory.name
+    return "(Recent Title) %s" % coursehistory.name
   else:
     return coursehistory.name
 
