@@ -162,7 +162,7 @@ def no_hyphen(title):
 def subtitle(coursehistory):
   names = set(section.name for course in coursehistory.courses for section in course.sections)
   if len(names - set(["RECITATATION", "Recitation", "LECTURE", "Lecture"])) > 1:
-    return "(Recent Example) %s" % coursehistory.name
+    return "(Recent Title) %s" % coursehistory.name
   else:
     return coursehistory.name
 
