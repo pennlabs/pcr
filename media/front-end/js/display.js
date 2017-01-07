@@ -80,7 +80,8 @@ const update = function() {
 
 //function to display all courses in the box,
 //and call update every 1000 ms as well on event
-const display = function() {
+const display = function(toGray) {
+  toGray = toGray || [];
   const formCourse =
     function(name, courseQuality, instructorQuality, difficulty, workload) {
       let div = $('<div>');
@@ -89,6 +90,9 @@ const display = function() {
           div.toggleClass('courseInBoxGrayed');
           update();
         });
+      if (toGray.includes(name.replace(/ /g, ''))) {
+      	div.toggleClass('courseInBoxGrayed');
+      }
       div.attr('id', name.replace(/ /g, ''));
       div.addClass('tooltip');
       div.addClass('courseInBox');
@@ -142,7 +146,6 @@ const display = function() {
            instructor, difficulty, workload));
     }
   }
-
   $('#categoriesButton').click(function() {
     $('#choose-cols').css('display', 'block');
   });
@@ -199,6 +202,22 @@ const display = function() {
 
   update();
   setInterval(update, 1000);
+  
+  //refresh courses in courseBox
+  setInterval(
+    function() {
+      //courses currently grayed
+      const grayedCourses = $('.courseInBoxGrayed');
+      let ids = [];
+      for (var i = 0; i < grayedCourses.length; i++) {
+        ids.push(grayedCourses[i].id);
+      }
+      $('#courseBox').html('');
+      
+      //pass the ids of the grayed ones to display 
+      //so it can gray them out on refresh
+      display(ids);
+    }, 3000);
 }
 
 //function for closing the choose categories popup
