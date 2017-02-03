@@ -201,23 +201,7 @@ const display = function(toGray) {
   });
 
   update();
-  setInterval(update, 1000);
-  
-  //refresh courses in courseBox
-  setInterval(
-    function() {
-      //courses currently grayed
-      const grayedCourses = $('.courseInBoxGrayed');
-      let ids = [];
-      for (var i = 0; i < grayedCourses.length; i++) {
-        ids.push(grayedCourses[i].id);
-      }
-      $('#courseBox').html('');
-      
-      //pass the ids of the grayed ones to display 
-      //so it can gray them out on refresh
-      display(ids);
-    }, 3000);
+  setInterval(update, 1000); 
 }
 
 //function for closing the choose categories popup
