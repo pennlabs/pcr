@@ -1,6 +1,8 @@
 //create object to convert the property names to html ids
 let mode = 'average';
 
+let toGray = [];
+
 let listings={};
 listings.courseBoxOne = 'rCourseQuality';
 listings.courseBoxTwo = 'rInstructorQuality';
@@ -80,14 +82,18 @@ const update = function() {
 
 //function to display all courses in the box,
 //and call update every 1000 ms as well on event
-const display = function(toGray) {
-  toGray = toGray || [];
+const drawCourses = function() {
   const formCourse =
     function(name, courseQuality, instructorQuality, difficulty, workload) {
       let div = $('<div>');
       div.click(
         function() {
           div.toggleClass('courseInBoxGrayed');
+	  if (toGray.includes(name)) {
+	    toGray.pop(name);
+	  } else {
+	    toGray.push(name);
+	  }
           update();
         });
       if (toGray.includes(name.replace(/ /g, ''))) {
@@ -110,18 +116,18 @@ const display = function(toGray) {
       let hoverSpan = $('<span>');
       hoverSpan.addClass('tooltiptext');
       let innerSpan = $('<div>');
-      innerSpan.append("Course Quality: " + courseQuality);
+      innerSpan.append('Course Quality: ' + courseQuality);
       innerSpan.append($('<br>'));
-      innerSpan.append("Instructor Quality: " + instructorQuality);
+      innerSpan.append('Instructor Quality: ' + instructorQuality);
       innerSpan.append($('<br>'));
-      innerSpan.append("Difficulty: " + difficulty);
+      innerSpan.append('Difficulty: ' + difficulty);
       innerSpan.append($('<br>'));
-      innerSpan.append("Workload: " + workload);
+      innerSpan.append('Workload: ' + workload);
       hoverSpan.html(innerSpan.html());
       div.append(hoverSpan);
       return div;
     }
-
+  $('#courseBox').html('');
   for (let key in localStorage) {
     const course = JSON.parse(localStorage.getItem(key));
     let quality;
@@ -132,11 +138,11 @@ const display = function(toGray) {
       for (let i = 0; i < course.info.length; i++) {
         if (course.info[i].category == "rCourseQuality") {
           quality = course.info[i].average;
-        } else if (course.info[i].category == "rInstructorQuality") {
+        } else if (course.info[i].category == 'rInstructorQuality') {
           instructor = course.info[i].average;
-        } else if (course.info[i].category == "rDifficulty") {
+        } else if (course.info[i].category == 'rDifficulty') {
           difficulty = course.info[i].average;
-        } else if (course.info[i].category == "rWorkRequired"){
+        } else if (course.info[i].category == 'rWorkRequired'){
           workload = course.info[i].average;
         }
       }
@@ -220,4 +226,8 @@ const set_datamode = function(n) {
     mode = 'average';
   }
   update();
+}
+
+const display = function() {  
+ setInterval(drawCourses, 3000);
 }
