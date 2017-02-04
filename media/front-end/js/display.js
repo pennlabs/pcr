@@ -96,7 +96,7 @@ const drawCourses = function() {
 	  }
           update();
         });
-      if (toGray.includes(name.replace(/ /g, ''))) {
+      if (toGray.includes(name)) {
       	div.toggleClass('courseInBoxGrayed');
       }
       div.attr('id', name.replace(/ /g, ''));
