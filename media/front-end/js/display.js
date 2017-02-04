@@ -229,5 +229,6 @@ const set_datamode = function(n) {
 }
 
 const display = function() {  
- setInterval(drawCourses, 3000);
+  drawCourses();
+  setInterval(drawCourses, 3000);
 }
