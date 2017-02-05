@@ -198,7 +198,7 @@ input {
 /***** BANNER *****/
 
 .instructor {
-  margin-top: 90px;
+  margin-top: 70px;
 }
 
 #banner {
@@ -216,7 +216,7 @@ input {
   font-family: 'BebasNeueRegular';
   font-size:60px;
   color:#ffffff;
-  line-height: 35%;
+  line-height: 100%;
   padding-bottom: 15px;
 }
 #banner-info .subtitle {
