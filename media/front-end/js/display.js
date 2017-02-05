@@ -44,7 +44,8 @@ const update = function() {
       for (let i = 0; i < course.info.length; i++) {
 
         //check to see if the class should be included in the average
-        if (course.info[i].recent > 0 && !toGray.includes(course.course)) {
+        if (course.info[i].recent > 0 && !$("#" +
+          course.course.replace(/ /g, '')).hasClass("courseInBoxGrayed")) {
 
     //add it to the sum to be averaged
           if (sum_recent[course.info[i].category]) {
