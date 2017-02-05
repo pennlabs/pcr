@@ -172,7 +172,8 @@ const drawCourses = function() {
     //if the user has not selected four categories, do not close
     // and alert them
     if (checked.length < 4) {
-      return;
+        
+        return;
     }
 
     //otherwise close the popup
@@ -230,5 +231,5 @@ const set_datamode = function(n) {
 
 const display = function() {  
   drawCourses();
-  setInterval(drawCourses, 3000);
+  window.addEventListener('storage', drawCourses);
 }
