@@ -172,8 +172,10 @@ const drawCourses = function() {
     //if the user has not selected four categories, do not close
     // and alert them
     if (checked.length < 4) {
-        
-        return;
+      $('#submitCategoriesPopup').css('opacity', 1);       
+      return;
+    } else {
+      $('#submitCategoriesPopup').css('opacity', 0);
     }
 
     //otherwise close the popup
@@ -192,12 +194,6 @@ const drawCourses = function() {
 
     update();
   });
-
-  //set the defaults to be checked
-  $('#rDifficulty').prop('checked', true);
-  $('#rCourseQuality').prop('checked', true);
-  $('#rInstructorQuality').prop('checked', true);
-  $('#rWorkRequired').prop('checked', true);
 
   //block of code to make sure no more than 4 are checked at once
   const limit = 4;
@@ -229,7 +225,14 @@ const set_datamode = function(n) {
   update();
 }
 
-const display = function() {  
+const display = function() { 
+  //set the defaults to be checked
+  $('[name=rDifficulty]').prop('checked', true);
+  $('[name=rCourseQuality]').prop('checked', true);
+  $('[name=rInstructorQuality]').prop('checked', true);
+  $('[name=rWorkRequired]').prop('checked', true);
+
+  $('#submitCategoriesPopup').css('opacity', 0);
   drawCourses();
   window.addEventListener('storage', drawCourses);
 }
