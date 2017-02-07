@@ -37,17 +37,16 @@ const update = function() {
     const course = JSON.parse(localStorage.getItem(key));
 
     //check to make sure that it is an actual object to filter
-    //out extraneous info that is storage in localStorage
+    //out extraneous info that is stored in localStorage
     if (course.info) {
 
       //run through all the properties in the course
       for (let i = 0; i < course.info.length; i++) {
 
         //check to see if the class should be included in the average
-        if (course.info[i].recent > 0 && !$("#" +
-          course.course.replace(/ /g, '')).hasClass("courseInBoxGrayed")) {
-
-    //add it to the sum to be averaged
+        if (course.info[i].recent > 0 && !toGray.includes(course.course)) { 
+          
+          //add it to the sum to be averaged
           if (sum_recent[course.info[i].category]) {
             sum_recent[course.info[i].category] += course.info[i].recent;
             sum_average[course.info[i].category] += course.info[i].average;
@@ -56,7 +55,7 @@ const update = function() {
             sum_average[course.info[i].category] = course.info[i].average;
           }
 
-    //increase/set the count for each property
+          //increase/set the count for each property
           const cat = count[course.info[i].category];
           count[course.info[i].category] = cat ? cat + 1 : 1;
         }
@@ -90,7 +89,7 @@ const drawCourses = function() {
         function() {
           div.toggleClass('courseInBoxGrayed');
 	  if (toGray.includes(name)) {
-	    toGray.pop(name);
+	    toGray.splice(toGray.indexOf(name),1);
 	  } else {
 	    toGray.push(name);
 	  }
@@ -105,6 +104,9 @@ const drawCourses = function() {
       let fontAwesome = $('<i>');
       fontAwesome.click(
         function() {
+	  if (toGray.includes(name)) {
+	    toGray.splice(toGray.indexOf(name), 1);
+	  }
           div.remove();
           localStorage.removeItem(name);
         });
@@ -198,8 +200,12 @@ const drawCourses = function() {
   //block of code to make sure no more than 4 are checked at once
   const limit = 4;
   $('.col > p > input').on('change', function() {
-    if($('.col > p> input:checked').length > limit) {
+    const checked = $('.col > p > input:checked').length
+    if (checked > limit) {
       this.checked = false;
+    } 
+    else if (checked == limit) {
+      $("#submitCategoriesPopup").css('opacity', 0);
     }
   });
 
@@ -226,7 +232,17 @@ const set_datamode = function(n) {
 }
 
 const display = function() { 
-  //set the defaults to be checked
+
+  $("#choose-cols-content > div > p > input").click(
+    function() {
+      let clicked = 0;
+      $("#choose-cols-content > div > p > input").each(
+        function() {
+          clicked += $(this).prop('checked') ? 1 : 0;
+        });
+    });
+
+  //set the defaults to be checked  
   $('[name=rDifficulty]').prop('checked', true);
   $('[name=rCourseQuality]').prop('checked', true);
   $('[name=rInstructorQuality]').prop('checked', true);
