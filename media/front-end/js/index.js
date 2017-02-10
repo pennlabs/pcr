@@ -12,7 +12,7 @@ DOCUMENT READY
       $("#loading-container").hide();
       return $("#searchbox").autocomplete("search");
     };
-    $('#searchbox').live('paste', function(e) {
+    $('#searchbox').on('paste', function(e) {
       return setTimeout(function() {
         $('#loading-container').show();
         return init_search_box('', callback, $(this).val(), true);

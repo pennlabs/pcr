@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% load infobox %}
 {% load scoretable %}
 {% load prettify %}
@@ -29,6 +28,9 @@
   {% ifnotequal type 'department'%}
     {% include "pcr_detail/scorecard.html" %}
   {% endifnotequal %}
+  {% ifequal type 'course' %}
+    <script src="{{base_dir}}media/front-end/js/loader.js"></script>
+  {% endifequal %}
   <div class="clear"></div>
 {% endblock %}
 

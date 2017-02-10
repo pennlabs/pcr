@@ -163,7 +163,7 @@
         }
       }, 0);
     });
-    $('#searchbox').live('paste', function(e) {
+    $('#searchbox').on('paste', function(e) {
       return setTimeout(function() {
         $('#loading-container').show();
         return init_search_box('../', callback, $('#searchbox').val(), false);

@@ -104,9 +104,17 @@ input {
   color: #90b8cb;
   margin-top: 17px;
 }
+.courseCartHeader {
+  margin-top: -20px;
+  font-size: 40px;
+}
+.courseCartDesc {
+  max-width: 650px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
 #header a {
   color:#646464;
-
 }
 #header #linkbar a:hover {
   background-color: rgb(240, 240, 240);
@@ -131,8 +139,6 @@ input {
   display: inline-block;
 }
 #searchbar{
-  float: right;
-  margin-top: 16px;
   background-color: rgb(240, 240, 240);
   width: 218px;
   height: 28px;
@@ -170,6 +176,24 @@ input {
 }
 #searchbar input[type=submit]:hover {
 }
+#searchAndCart {
+  float: right;
+  margin-top: 16px;
+}
+#cartIcon {
+  color: #646464;
+  margin-left: 10px;
+  font-size: 23px;
+  padding-top: 2px;
+}
+#cartIcon:hover {
+  color: #90b8cb;
+  cursor: pointer;
+}
+#cartIcon {
+  text-decoration: none;
+}
+
 
 /***** BANNER *****/
 
@@ -222,12 +246,35 @@ input {
   width: inherit;
   float: left;
 }
+.courseCartRow > .scorebox {
+  height: 90px;
+  width: 90px;
+}
+.courseCartRow > .scorebox-shadow {
+  height: 90px;
+  width: 90px;
+  margin-left: -90px;
+}
+.courseCartRow {
+  margin-top: 20px;
+  width: 440px;
+  padding-left: -200px;
+  margin-left: 29px; 
+  float: none;
+}
 .scoredesc {
   width: 140px;
   height: 60px;
   margin-right: 10px;
   float: left;
   text-align: right;
+}
+.courseCartRow > .scorebox > .desc {
+  font-size: 15px;
+  margin-top: -21px;
+}
+.courseCartRow > .scorebox > .num {
+  font-size: 36px;
 }
 .scoredesc .title {
   margin-top: 8px;
@@ -239,7 +286,6 @@ input {
   font-size: 14px;
 
 }
-
 .scorebox-shadow{
   height:60px;
   width: 60px;
@@ -330,8 +376,8 @@ input {
 }
 
 #content-section {
-  width: 880px;
   padding: 40px;
+  width: 880px;
   margin: 0px;
   background-color: rgb(255,255,255);
   border-radius: 5px;
@@ -535,6 +581,7 @@ input {
   left:0;
   height:100%;
   width:100%;
+  z-index: 10;
 }
 #choose-cols-inner {
   position:absolute;
@@ -623,6 +670,192 @@ The result is this, which is a little unclean, but it works.
   list-style-image: none;
   margin-bottom: 10px;
 }
+.courseCart, #remove {
+  white-space: nowrap;
+  margin-left: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  margin-bottom: 8px;
+  vertical-align: 6px;
+}
+#remove {
+  vertical-align: 2px;
+  float: right;
+}
+.popover-title{
+  background: rgba(0,0,0,0);
+  padding: 4px;
+  margin-bottom: 3px;
+  font-family: 'BebasNeueRegular';
+  font-size: 20px;
+}
+.popover {
+  cursor: default;
+  background-color: rgba(73,73,73,0.7);
+}
+#popup {
+  float: right;
+  font-size: 20px;
+}
+.professorList {
+  color: #636363;
+  list-style-type: none;
+}
+.professorList > li > button {
+  color: #636363;
+  font-size: 80%;
+  margin: 3px;
+  padding-right: 5px;
+  background-color: white;
+  border: 1px #636363 solid;
+  border-radius: 5px;
+  margin-bottom: 4px; 
+  cursor: pointer;
+}
+.professorList > li > button:hover {
+  background-color: #90b8cb;
+  color: white;
+}
+.professorList > tbody> tr > td > button {
+  color: #636363;
+  width: 27px;
+  font-size: 80%;
+  margin: 3px;
+  background-color: white;
+  border: 1px #636363 solid;
+  border-radius: 5px;
+  margin-bottom: 4px; 
+  cursor: pointer;
+}
+.professorList > tbody > tr > td > button:hover {
+  background-color: #90b8cb;
+  color: white;
+}
+.professorList > tbody > tr > td > button.grayedOut:hover, .professorList > tbody > tr > td > button.grayedOut {
+  background-color: gray;
+  color: #303030;
+  cursor: default;
+}
+
+/***** TOOLTIPS **/
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  background-color: #595959;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%; 
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #595959 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+/***** COURSE CART EXTRAS ***/
+
+#categoriesButton {
+  border: 1px #FFFFFF solid;
+  border-radius: 2px;
+  margin-top: 7px;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+#categoriesButton:hover {
+  background-color: #FFFFFF;
+  color: #90b8cb;
+  cursor: pointer;
+}
+.fillerBox {
+  height: 12px;
+}
+#courseBox {
+  text-align: left;
+  margin-top: 5px;
+  background-color: #90b8cb;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 10px;
+  min-height: 150px;
+  width: 470px;
+}
+.courseInBox {
+  margin-bottom: 6px;
+  padding-left: 7px;
+  padding-right: 10px;
+  border: 1px solid white;
+  border-radius: 1px;
+  margin-right: 6px;
+}
+.courseInBox:hover {
+  background: white;
+  color: #90b8cb;
+  cursor: pointer;
+}
+.courseInBoxGrayed {
+  background-color: #cecece;
+  color: #a8a8a8; 
+}
+.courseInBox > .fa-times {
+  margin-bottom: 2px;
+  margin-right: 4px;
+}
+.courseInBox > .fa-times:hover {
+  color: #f45942;
+}
+#boxHelpTag {
+  margin-top: 25px;
+}
+#toggleView {
+  margin-top: 10px;
+  font-size: 14px;
+  font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
+  color:#ffffff;
+  cursor:pointer;
+  display:inline;
+  padding:2px;
+}
+.heightFifteen {
+  height: 15px;
+}
+#toggleView .button {
+  padding: 2px 4px;
+  border: 1px solid white;
+  border-radius: 2px;
+  cursor: pointer;
+}
+#toggleView .button.selected {
+  color: rgb(102, 146, 161);
+  background: #ffffff;
+  padding: 2px 4px;
+  cursor:default;
+}
+
 
 /***** FONTS *****/
 
@@ -643,7 +876,6 @@ The result is this, which is a little unclean, but it works.
 @font-face{
   font-family: 'BebasNeueLight';
   src: url('../fonts/BebasNeueLight.otf');
-
 }
 
 @import url(//fonts.googleapis.com/css?family=Lato:100,300);

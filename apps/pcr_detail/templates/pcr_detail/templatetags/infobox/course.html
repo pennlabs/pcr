@@ -1,5 +1,6 @@
 {% load prettify %}
 <p class="title">{{title|no_hyphen}}
+<script>let title = "{{title|no_hyphen}}"</script>
 <span class="crosslist">
   {% if aliases|length >= 1 %}
     (Also:
