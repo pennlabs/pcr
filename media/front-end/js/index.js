@@ -15,7 +15,7 @@ DOCUMENT READY
     $('#searchbox').on('paste', function(e) {
       return setTimeout(function() {
         $('#loading-container').show();
-        return init_search_box('', callback, $(this).val(), true);
+        return init_search_box('', callback, $(this).val().slice(0, 2), true);
       }, 10);
     });
     return $("#searchbox").keypress(function() {

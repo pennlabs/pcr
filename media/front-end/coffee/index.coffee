@@ -10,7 +10,7 @@ $(document).ready ->
   $('#searchbox').live 'paste', (e) ->
     setTimeout ->
       $('#loading-container').show()
-      return init_search_box('', callback, $(this).val(), true)
+      return init_search_box('', callback, $(this).val()[0...2], true)
     , 10
 
   $("#searchbox").keypress( () -> setTimeout(() ->
