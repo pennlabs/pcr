@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block body %}
-  {% regroup reviews|dictsort:"instructor.last_name" by instructor as instructor_list %}
+  {% regroup reviews|dictsort:"instructor" by instructor as instructor_list %}
   <script>let profname = ""</script>
   {% for group in instructor_list %}
     {% with instructor=group.grouper %}
