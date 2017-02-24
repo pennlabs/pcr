@@ -8,7 +8,6 @@ Author: AMK, Dec 27, 2010"""
 
 import os
 
-DISPLAY_NAME = "pcr" # i.e., pennapps.com/display_name
 DEV_ROOT = "/var/www/pennapps.com/django" # root of all apps you're working on
 PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcr")
 
