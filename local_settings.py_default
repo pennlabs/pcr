@@ -29,6 +29,3 @@ if DO_STATICGENERATOR:
     # not staticgenerator-specific, but that's all that needs it
     SERVER_NAME = 'pennapps.com'
     STATIC_GENERATOR_URLS = ('.*',)
-
-# Path to local staticfiles
-STATIC_DOC_ROOT = os.path.join(os.getcwd(), "media")

@@ -62,6 +62,9 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 MEDIA_URL = ''
 
+# Path to local staticfiles
+STATIC_DOC_ROOT = os.path.join(os.getcwd(), "media")
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^'
 
