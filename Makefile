@@ -1,15 +1,12 @@
 .PHONY: coffee docs server
 
 # Start the server
-server: venv | local_settings.py
-	. $</bin/activate && python manage.py runserver --settings=local_settings
+server: venv
+	. $</bin/activate && python manage.py runserver
 
 venv: requirements.txt
 	virtualenv $@
 	. $@/bin/activate && pip install --requirement $< || (rm -r $@ && exit 1)
-
-local_settings.py:
-	cp local_settings.py_default local_settings.py
 
 # Build the documentation
 docs:

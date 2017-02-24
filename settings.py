@@ -99,3 +99,12 @@ INSTALLED_APPS = (
     'apps.searchbar',
     'apps.static',
 )
+
+if DO_STATICGENERATOR:
+    MIDDLEWARE_CLASSES += \
+            ('staticgenerator.middleware.StaticGeneratorMiddleware',)
+    # I think WEB_ROOT is staticgenerator-specific
+    WEB_ROOT = os.path.join(PROJECT_PATH, "staticgenerator_output/write")
+    # not staticgenerator-specific, but that's all that needs it
+    SERVER_NAME = 'pennapps.com'
+    STATIC_GENERATOR_URLS = ('.*',)
