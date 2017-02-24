@@ -159,8 +159,13 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
   $.getJSON dir + "autocomplete_data.json/" + start.toLowerCase() + ".json", (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
+    fixedCourses = {}
+    for row in courses
+      fixedCourses[row.title] = row
+    courses2 = (value for key, value of fixedCourses)
+    courses = courses2
     departments = data.departments.sort(sort_by_title)
-
+    
     $("#searchbox").autocomplete(
       appendTo: appendTo
       delay: 0
