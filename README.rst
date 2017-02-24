@@ -21,7 +21,7 @@ Setup
 To set up your development environment:
 
 1. Copy ``local_settings.py_default`` to ``local_settings.py`` and define
-   ``TOKEN`` and ``DEV_ROOT``, plus anything else you may need.
+   ``PCR_API_TOKEN`` and ``DEV_ROOT``, plus anything else you may need.
 
 2. Start the server locally, via::
 

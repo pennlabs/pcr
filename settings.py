@@ -8,6 +8,12 @@ assert DOMAIN.endswith("/")
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+# Do static caching (true only in production)
+DO_STATICGENERATOR = DEBUG
+
+# Personal access token for the PCR API
+PCR_API_TOKEN = ""
+assert PCR_API_TOKEN, "No token provided"
 
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/

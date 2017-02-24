@@ -18,10 +18,6 @@ DEV_ROOT = ""
 assert "No DEV_ROOT specified. For production, use /var/www/pennapps.com/django"
 PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcr")
 
-# Personal access token for the PCR API
-TOKEN = ""
-assert TOKEN, "No token provided"
-
 # Do static caching (true only in production)
 DO_STATICGENERATOR = False
 
