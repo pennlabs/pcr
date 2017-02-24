@@ -21,6 +21,7 @@ Setup
 To set up your development environment:
 
 1. Define ``PCR_API_TOKEN`` plus anything else you may need in ``settings.py``.
+   You can also define this as an environment variable (``$PCR_API_TOKEN``).
 
 2. Start the server locally, via::
 
