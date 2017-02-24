@@ -18,11 +18,6 @@ DEV_ROOT = ""
 assert "No DEV_ROOT specified. For production, use /var/www/pennapps.com/django"
 PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcr")
 
-# For hitting the API
-DOMAIN = "http://api.penncoursereview.com/v1/"
-# Avoid weird bugs that occur wherever DOMAIN is used.
-assert DOMAIN.endswith("/")
-
 # Personal access token for the PCR API
 TOKEN = ""
 assert TOKEN, "No token provided"

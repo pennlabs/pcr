@@ -1,5 +1,10 @@
-# Django settings for studyspaces project.
+# Django settings for PCR
 import os
+
+# For hitting the API
+DOMAIN = "http://api.penncoursereview.com/v1/"
+# Otherwise, weird bugs occur wherever DOMAIN is used.
+assert DOMAIN.endswith("/")
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

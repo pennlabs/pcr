@@ -12,9 +12,6 @@ DISPLAY_NAME = "pcr" # i.e., pennapps.com/display_name
 DEV_ROOT = "/var/www/pennapps.com/django" # root of all apps you're working on
 PCRSITE_APP_ROOT = os.path.join(DEV_ROOT, "pcr")
 
-#For hitting the API
-DOMAIN = "http://pennapps.com/courses/"
-assert DOMAIN.endswith("/") # Else, weird bugs occur wherever DOMAIN is used.
 TOKEN = "this-is-not-a-token" # fill in
 
 # Do static caching (true only in production)
