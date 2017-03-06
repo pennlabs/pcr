@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import Context, loader, RequestContext
+from models import Instructor, CourseHistory, Department
 
 
 def instructor(request, id):
-  from models import Instructor
   instructor = Instructor(id)
   context = RequestContext(request, {
     'base_dir': '../',
@@ -18,7 +18,6 @@ def instructor(request, id):
 
 
 def course(request, dept, id):
-  from models import CourseHistory
   title = '%s-%s' % (dept.upper(), id)
   coursehistory = CourseHistory(title)
   reviews = set(review for course in coursehistory.courses for section in course.sections for review in section.reviews)
@@ -34,7 +33,6 @@ def course(request, dept, id):
 
 
 def department(request, name):
-  from models import Department
   department = Department(name)
   context = RequestContext(request, {
     'base_dir': '../',
