@@ -39,10 +39,10 @@
   };
 
   window.toggle_choose_cols_all = function() {
-    if ($("#choose-cols input[type='checkbox'][name='all']").attr("checked")) {
-      return $("#choose-cols input[type='checkbox']").attr("checked", true);
+    if ($("#choose-cols input[type='checkbox'][name='all']").prop("checked")) {
+      return $("#choose-cols input[type='checkbox']").prop("checked", true);
     } else {
-      return $("#choose-cols input[type='checkbox']").attr("checked", false);
+      return $("#choose-cols input[type='checkbox']").prop("checked", false);
     }
   };
 
@@ -51,7 +51,7 @@
     boxes = $("#choose-cols input[type='checkbox']");
     result = [];
     for (i = j = 0, ref = boxes.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      if ($(boxes[i]).attr("checked") != null) {
+      if ($(boxes[i]).prop("checked")) {
         result.push($(boxes[i]).attr("value"));
       }
     }
@@ -64,10 +64,10 @@
 
   window.cancel_choose_cols = function() {
     var cols, i, j, ref;
-    $("#choose-cols input[type=checkbox]").attr("checked", false);
+    $("#choose-cols input[type=checkbox]").prop("checked", false);
     cols = $.cookie("pcr_choosecols").split(",");
     for (i = j = 0, ref = cols.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
+      $("#choose-cols input[name='" + cols[i] + "']").prop("checked", true);
     }
     return toggle_choose_cols();
   };
@@ -209,7 +209,7 @@
     cols = $.cookie("pcr_choosecols").split(",");
     set_cols(cols);
     for (i = j = 0, ref = cols.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      $("#choose-cols input[name='" + cols[i] + "']").attr("checked", true);
+      $("#choose-cols input[name='" + cols[i] + "']").prop("checked", true);
     }
     if ($("#course-table").attr("count") === "1") {
       toggle_course_row_all();
