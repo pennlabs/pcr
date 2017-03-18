@@ -3,6 +3,11 @@
 {% block htmlheader-js %}
   <script type="text/javascript">
     $(document).ready(function() {
+    callback = function() {
+        $("#searchbox").autocomplete("enable");
+        $("#loading-container").hide();
+        return $("#searchbox").autocomplete("search");
+      };
       init_search_box("../");
     });
   </script>
