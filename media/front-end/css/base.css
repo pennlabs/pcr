@@ -193,7 +193,10 @@ input {
 #cartIcon {
   text-decoration: none;
 }
-
+i.fa.fa-cart-plus {
+    position: relative;
+    z-index: -5;
+}
 
 /***** BANNER *****/
 
