@@ -69,7 +69,7 @@ const listAlphabet = function(c) {
   head.add(table);
 
   //if we have passed in a character, we will search for professors
-  //whose last names start with that varter and add them to the list
+  //whose last names start with that letter and add them to the list
   if (c) {
 
      /*check to see if instructors exist with a last name starting with 'character'
