@@ -296,7 +296,7 @@ i.fa.fa-cart-plus {
   background: rgba(255,255,255, 0.6);
   margin-left: -60px;
   margin-top: 5px;
-  z-index: -10;
+  z-index: 1;
   float: left;
   border-radius: 5px;
 }
@@ -308,6 +308,7 @@ i.fa.fa-cart-plus {
   border-radius: 5px;
   text-align:center;
   background: rgb(255,255,255);
+  z-index: 2;
 }
 .scorebox .num {
   font-size:24px;
