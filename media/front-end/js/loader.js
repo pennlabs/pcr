@@ -32,7 +32,7 @@ const listAlphabet = function(c) {
   var table = $('<table>');
   table.addClass("professorList");
   var tr = $('<tr>');
-
+ 
   //create the grid of buttons of the alphabet
   for (var i = 1; i <= 26; i++) {
     const character = String.fromCharCode(i+64)
@@ -42,10 +42,11 @@ const listAlphabet = function(c) {
 
     /*check to see if instructors exist with a last name starting with 'character'
     If so, leave the button clickable and functional; otherwise, gray it out.*/
+    var containsCharAfterSpace = function(a, b) {
+      return (b.split(" ").pop()[0] == character) || a;
+    }
     
-    
-    if (!COURSE_DATA.instructors.reduce(
-                     function (a,b) { return b.split(" ").pop()[0] == character || a }, false)) {
+    if (!COURSE_DATA.instructors.reduce(containsCharAfterSpace, false)) {
       button.addClass('grayedOut');
     } else {
       button.click(
