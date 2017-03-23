@@ -9,7 +9,7 @@ const listProfessors = function() {
   listOfProfessors.addClass('professorList');
   var avgButton = $('<button>AVERAGE PROFESSOR</button>');
   avgButton.click(function(){
-    addToCourseCart("average");
+    addToCourseCart('average');
   });
   listOfProfessors.append($('<li>').append(avgButton));
   for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
@@ -33,11 +33,21 @@ const listProfessors = function() {
  * and display filtered profs*/
 const listAlphabet = function(c) {
   var head = $('<p>')
-  head.text("Filter by Last Name: ");
+  head.text('Or Filter by Last Name: ');
   var table = $('<table>');
   table.addClass("professorList");
   var tr = $('<tr>');
- 
+  var avgSection = $('<button>AVERAGE PROFESSOR</button>');
+  avgSection.click(function() {
+    addToCourseCart('average');
+  });
+  avgList = $('<ul>');
+  avgList.addClass('professorList');
+  avgListitem = $('<li>');
+  avgListitem.addClass('average');
+  avgSection = avgList.append($(avgListitem).append(avgSection))
+  head.prepend(avgSection);
+
   //create the grid of buttons of the alphabet
   for (var i = 1; i <= 26; i++) {
     const character = String.fromCharCode(i+64)
@@ -48,7 +58,7 @@ const listAlphabet = function(c) {
     /*check to see if instructors exist with a last name starting with 'character'
     If so, leave the button clickable and functional; otherwise, gray it out.*/
     var containsCharAfterSpace = function(a, b) {
-      return (b.split(" ").pop()[0] == character) || a;
+      return (b.split(' ').pop()[0] == character) || a;
     }
     
     if (!COURSE_DATA.instructors.reduce(containsCharAfterSpace, false)) {
@@ -83,7 +93,7 @@ const listAlphabet = function(c) {
     listOfProfessors =
       COURSE_DATA.instructors.reduce(
         function(a, b) {
-          if (b.split(" ").pop()[0] == c) {
+          if (b.split(' ').pop()[0] == c) {
             var listItem = $('<li>');
             var button = $('<button>');
             button.attr('id', b.replace(/ /g, ''));
@@ -100,7 +110,7 @@ const listAlphabet = function(c) {
           }
         }, $('<ul>').addClass('professorList'));
     $('#filteredProfs').append(listOfProfessors);
-    $("div.arrow").css("top", "103px");
+    $('div.arrow').css('top', '103px');
   }
   popoverContent = $('<span>').append(head).append(table).append(filteredProfs);
 }
@@ -123,7 +133,7 @@ const addCartButton = function() {
   fontAwesome.addClass('fa-cart-plus');
   fontAwesome.attr('aria-hidden', 'true');
   addSmall.append(fontAwesome);
-  addSmall.append(" Add to My Cart");
+  addSmall.append(' Add to My Cart');
   addSpan.append(addSmall);
   $('#banner-score').append(addSpan);
 
@@ -133,7 +143,7 @@ const addCartButton = function() {
     listAlphabet(null);
 
   $('.courseCart').click(function() {
-    $('#popup').popover({title: "Select Professor", content: popoverContent, placement: "left"});
+    $('#popup').popover({title: 'Select Professor', content: popoverContent, placement: 'left'});
     $('#popup').popover('show');
     if (COURSE_DATA.instructors.length <= 15)
       listProfessors();
@@ -166,7 +176,7 @@ const addRemoveButton = function() {
   fontAwesome.addClass('fa');
   fontAwesome.addClass('fa-trash-o');
   removeSmall.append(fontAwesome);
-  removeSmall.append(" Remove from My Cart");
+  removeSmall.append(' Remove from My Cart');
   removeSmall.click(
     function() {
       removeSmall.remove();
@@ -182,12 +192,12 @@ const addRemoveButton = function() {
 //handle localStorage usage, alert them.
 addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
-  if (typeof(Storage) !== "undefined") {
+  if (typeof(Storage) !== 'undefined') {
     localStorage.setItem(title,
   JSON.stringify(COURSE_DATA.instructor_data[instructor]));
     addRemoveButton();
   } else {
-    alert("Sorry! Your browser does not support this feature." +
-        " Please try again with a different browser.");
+    alert('Sorry! Your browser does not support this feature.' +
+        ' Please try again with a different browser.');
   }
 }
