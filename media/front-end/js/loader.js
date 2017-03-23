@@ -7,6 +7,11 @@ const listProfessors = function() {
   outerDiv.attr('id', 'divList');
   var listOfProfessors = $('<ul>');
   listOfProfessors.addClass('professorList');
+  var avgButton = $('<button>AVERAGE PROFESSOR</button>');
+  avgButton.click(function(){
+    addToCourseCart("average");
+  });
+  listOfProfessors.append($('<li>').append(avgButton));
   for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
     var prof = COURSE_DATA.instructors[i];
     var listItem = $('<li>');
@@ -103,6 +108,8 @@ const listAlphabet = function(c) {
 //put the cart button under the scoreboxes
 //fill the popover with professors/filtering interface
 const addCartButton = function() {
+  $('#remove').remove();
+
   var addSpan = $('<span>');
   addSpan.addClass('button');
   addSpan.addClass('courseCart');
@@ -151,7 +158,7 @@ const addCartButton = function() {
 //remove the addCart button and replace it
 //with a remove from cart option
 const addRemoveButton = function() {
-  $('.courseCart').remove();
+  $('#popup').remove();
   var removeSpan = $('<span>');
   var removeSmall = $('<small>');
   removeSmall.attr('id', 'remove');
