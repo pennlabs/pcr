@@ -1,9 +1,9 @@
 //create object to convert the property names to html ids
-let mode = 'average';
+var mode = 'average';
 
-let toGray = [];
+var toGray = [];
 
-let listings={};
+var listings={};
 listings.courseBoxOne = 'rCourseQuality';
 listings.courseBoxTwo = 'rInstructorQuality';
 listings.courseBoxThree = 'rDifficulty';
@@ -25,13 +25,13 @@ const propertyShortNames = {
 //boxes to the new average
 const update = function() {
   //objects holding the sums of each proprty within courses
-  let sum_recent = {};
-  let sum_average = {};
+  var sum_recent = {};
+  var sum_average = {};
   //holds the count for each property in the courses
-  let count = {};
+  var count = {};
 
   //run through the courses in localStorage
-  for (let key in localStorage) {
+  for (var key in localStorage) {
 
     //get the object for the course stored in localStorage
     const course = JSON.parse(localStorage.getItem(key));
@@ -41,7 +41,7 @@ const update = function() {
     if (course.info) {
 
       //run through all the properties in the course
-      for (let i = 0; i < course.info.length; i++) {
+      for (var i = 0; i < course.info.length; i++) {
 
         //check to see if the class should be included in the average
         if (course.info[i].recent > 0 && !toGray.includes(course.course)) { 
@@ -66,7 +66,7 @@ const update = function() {
   //go through each of the properties in listings and set the innerHTML
   //for the appropriate html element corresponding to the data
   //the value input is the average of the property (sum / count)
-  for (let property in listings) {
+  for (var property in listings) {
     if (!count[listings[property]]) {
       $("#" + property).html("N/A");
     } else if (mode == 'average') {
@@ -84,7 +84,7 @@ const update = function() {
 const drawCourses = function() {
   const formCourse =
     function(name, courseQuality, instructorQuality, difficulty, workload) {
-      let div = $('<div>');
+      var div = $('<div>');
       div.click(
         function() {
           div.toggleClass('courseInBoxGrayed');
@@ -101,7 +101,7 @@ const drawCourses = function() {
       div.attr('id', name.replace(/ /g, ''));
       div.addClass('tooltip');
       div.addClass('courseInBox');
-      let fontAwesome = $('<i>');
+      var fontAwesome = $('<i>');
       fontAwesome.click(
         function() {
 	  if (toGray.includes(name)) {
@@ -115,9 +115,9 @@ const drawCourses = function() {
       fontAwesome.attr('aria-hidden', 'true');
       div.append(fontAwesome);
       div.append(' ' + name);
-      let hoverSpan = $('<span>');
+      var hoverSpan = $('<span>');
       hoverSpan.addClass('tooltiptext');
-      let innerSpan = $('<div>');
+      var innerSpan = $('<div>');
       innerSpan.append('Course Quality: ' + courseQuality);
       innerSpan.append($('<br>'));
       innerSpan.append('Instructor Quality: ' + instructorQuality);
@@ -130,14 +130,14 @@ const drawCourses = function() {
       return div;
     }
   $('#courseBox').html('');
-  for (let key in localStorage) {
+  for (var key in localStorage) {
     const course = JSON.parse(localStorage.getItem(key));
-    let quality;
-    let instructor;
-    let difficulty;
-    let workload;
+    var quality;
+    var instructor;
+    var difficulty;
+    var workload;
     if (course.info) {
-      for (let i = 0; i < course.info.length; i++) {
+      for (var i = 0; i < course.info.length; i++) {
         if (course.info[i].category == "rCourseQuality") {
           quality = course.info[i].average;
         } else if (course.info[i].category == 'rInstructorQuality') {
@@ -159,7 +159,7 @@ const drawCourses = function() {
   });
 
   //array holding checked checkboxes
-  let checked = [];
+  var checked = [];
 
   //on click of submit
   $('[value=Submit]').click(function() {
@@ -190,7 +190,7 @@ const drawCourses = function() {
     listings.courseBoxFour = checked[3];
 
     //change the text in the boxes displaying the averages
-    for (let i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
       $('.desc')[i].innerHTML = propertyShortNames[checked[i]];
     }
 
@@ -214,7 +214,7 @@ const drawCourses = function() {
 }
 
 //function for closing the choose categories popup
-let cancel_choose_cols = function() {
+var cancel_choose_cols = function() {
   $('#choose-cols').css('display', 'none');
 }
 
@@ -235,7 +235,7 @@ const display = function() {
 
   $("#choose-cols-content > div > p > input").click(
     function() {
-      let clicked = 0;
+      var clicked = 0;
       $("#choose-cols-content > div > p > input").each(
         function() {
           clicked += $(this).prop('checked') ? 1 : 0;

@@ -2,7 +2,7 @@
 {% load prettify %}
 {% block key%}
 <script>
-  let COURSE_DATA = {}
+  var COURSE_DATA = {}
   COURSE_DATA.instructors = [] 
   COURSE_DATA.instructor_data = {} 
 </script>
@@ -14,7 +14,7 @@
 
 {% block body %}
   {% regroup reviews|dictsort:"instructor" by instructor as instructor_list %}
-  <script>let profname = ""</script>
+  <script>var profname = ""</script>
   {% for group in instructor_list %}
     {% with instructor=group.grouper %}
       <script>COURSE_DATA.instructors.push("{{instructor.name}}")</script>

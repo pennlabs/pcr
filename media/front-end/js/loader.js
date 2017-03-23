@@ -1,16 +1,16 @@
 //variable holding the content of the popover
-let popoverContent = null;
+var popoverContent = null;
 
 //function to list professors when there are <= 15
 const listProfessors = function() {
-  let outerDiv = $('<div>');
+  var outerDiv = $('<div>');
   outerDiv.attr('id', 'divList');
-  let listOfProfessors = $('<ul>');
+  var listOfProfessors = $('<ul>');
   listOfProfessors.addClass('professorList');
-  for (let i = 0; i < COURSE_DATA.instructors.length; i++) {
-    let prof = COURSE_DATA.instructors[i];
-    let listItem = $('<li>');
-    let button = $('<button>');
+  for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
+    var prof = COURSE_DATA.instructors[i];
+    var listItem = $('<li>');
+    var button = $('<button>');
     button.click(
       function(){
         addToCourseCart(prof);
@@ -27,23 +27,26 @@ const listProfessors = function() {
  * a grid of the alphabet to filter profs
  * and display filtered profs*/
 const listAlphabet = function(c) {
-  let head = $('<p>')
+  var head = $('<p>')
   head.text("Filter by Last Name: ");
-  let table = $('<table>');
+  var table = $('<table>');
   table.addClass("professorList");
-  let tr = $('<tr>');
-
+  var tr = $('<tr>');
+ 
   //create the grid of buttons of the alphabet
-  for (let i = 1; i <= 26; i++) {
+  for (var i = 1; i <= 26; i++) {
     const character = String.fromCharCode(i+64)
-    let button = $('<button>');
+    var button = $('<button>');
     button.text(character);
-    let td = $('<td>');
+    var td = $('<td>');
 
     /*check to see if instructors exist with a last name starting with 'character'
     If so, leave the button clickable and functional; otherwise, gray it out.*/
-    if (!COURSE_DATA.instructors.reduce(
-                     (a,b) => b.split(" ").pop()[0] == character || a, false)) {
+    var containsCharAfterSpace = function(a, b) {
+      return (b.split(" ").pop()[0] == character) || a;
+    }
+    
+    if (!COURSE_DATA.instructors.reduce(containsCharAfterSpace, false)) {
       button.addClass('grayedOut');
     } else {
       button.click(
@@ -76,8 +79,8 @@ const listAlphabet = function(c) {
       COURSE_DATA.instructors.reduce(
         function(a, b) {
           if (b.split(" ").pop()[0] == c) {
-            let listItem = $('<li>');
-            let button = $('<button>');
+            var listItem = $('<li>');
+            var button = $('<button>');
             button.attr('id', b.replace(/ /g, ''));
             button.click(
               function() {
@@ -100,15 +103,15 @@ const listAlphabet = function(c) {
 //put the cart button under the scoreboxes
 //fill the popover with professors/filtering interface
 const addCartButton = function() {
-  let addSpan = $('<span>');
+  var addSpan = $('<span>');
   addSpan.addClass('button');
   addSpan.addClass('courseCart');
 
-  let addSmall = $('<small>');
+  var addSmall = $('<small>');
   addSmall.attr('id', 'popup');
   addSmall.attr('data-html', 'true');
 
-  let fontAwesome = $('<i>');
+  var fontAwesome = $('<i>');
   fontAwesome.addClass('fa');
   fontAwesome.addClass('fa-cart-plus');
   fontAwesome.attr('aria-hidden', 'true');
@@ -149,10 +152,10 @@ const addCartButton = function() {
 //with a remove from cart option
 const addRemoveButton = function() {
   $('.courseCart').remove();
-  let removeSpan = $('<span>');
-  let removeSmall = $('<small>');
+  var removeSpan = $('<span>');
+  var removeSmall = $('<small>');
   removeSmall.attr('id', 'remove');
-  let fontAwesome = $('<i>');
+  var fontAwesome = $('<i>');
   fontAwesome.addClass('fa');
   fontAwesome.addClass('fa-trash-o');
   removeSmall.append(fontAwesome);
