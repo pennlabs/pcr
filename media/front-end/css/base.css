@@ -691,7 +691,8 @@ The result is this, which is a little unclean, but it works.
 .popover-title{
   background: rgba(0,0,0,0);
   padding: 4px;
-  margin-bottom: 3px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
   font-family: 'BebasNeueRegular';
   font-size: 20px;
 }
@@ -702,6 +703,10 @@ The result is this, which is a little unclean, but it works.
 #popup {
   float: right;
   font-size: 20px;
+}
+li.average {
+  text-align: center;
+  margin-bottom: 1px;
 }
 .professorList {
   color: #636363;
