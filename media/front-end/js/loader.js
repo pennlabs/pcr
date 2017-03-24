@@ -1,6 +1,7 @@
 //variable holding the content of the popover
 var popoverContent = null;
 
+
 //function to list professors when there are <= 15
 const listProfessors = function() {
   var outerDiv = $('<div>');
@@ -10,6 +11,7 @@ const listProfessors = function() {
   var avgButton = $('<button>AVERAGE PROFESSOR</button>');
   avgButton.click(function(){
     addToCourseCart('average');
+    addRemoveButton();
   });
   listOfProfessors.append($('<li>').append(avgButton));
   for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
@@ -19,6 +21,7 @@ const listProfessors = function() {
     button.click(
       function(){
         addToCourseCart(prof);
+	addRemoveButton();
       });
     button.append(prof);
     listItem.append(button);
@@ -40,6 +43,7 @@ const listAlphabet = function(c) {
   var avgSection = $('<button>AVERAGE PROFESSOR</button>');
   avgSection.click(function() {
     addToCourseCart('average');
+    addRemoveButton();
   });
   avgList = $('<ul>');
   avgList.addClass('professorList');
@@ -100,6 +104,7 @@ const listAlphabet = function(c) {
             button.click(
               function() {
                 addToCourseCart(b);
+		addRemoveButton();
               });
             button.append(b);
             listItem.append(button);
@@ -118,8 +123,10 @@ const listAlphabet = function(c) {
 //put the cart button under the scoreboxes
 //fill the popover with professors/filtering interface
 const addCartButton = function() {
+  
+  $("small").remove();
   $('#remove').remove();
-
+  
   var addSpan = $('<span>');
   addSpan.addClass('button');
   addSpan.addClass('courseCart');
@@ -179,9 +186,8 @@ const addRemoveButton = function() {
   removeSmall.append(' Remove from My Cart');
   removeSmall.click(
     function() {
-      removeSmall.remove();
-      addCartButton();
       localStorage.removeItem(title);
+      addCartButton();
     });
   removeSpan.append(removeSmall);
   $('#banner-score').append(removeSpan);
@@ -192,12 +198,21 @@ const addRemoveButton = function() {
 //handle localStorage usage, alert them.
 addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
-  if (typeof(Storage) !== 'undefined') {
-    localStorage.setItem(title,
-  JSON.stringify(COURSE_DATA.instructor_data[instructor]));
+  localStorage.setItem(title,
+    JSON.stringify(COURSE_DATA.instructor_data[instructor]));
+}
+
+const setCartButtonVisibility = function(inCart) {
+  if (inCart && $("#popup").length) {
     addRemoveButton();
-  } else {
-    alert('Sorry! Your browser does not support this feature.' +
-        ' Please try again with a different browser.');
+  } else if (!inCart && $("#remove").length){
+    addCartButton();
+  }
+}
+const initializeCartButton = function(inCart) {
+  if (inCart) {
+    addRemoveButton();
+  } else if (!inCart){
+    addCartButton();
   }
 }

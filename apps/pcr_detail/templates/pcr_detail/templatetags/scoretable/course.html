@@ -63,14 +63,10 @@
   {% endfor %}
   <script>
     var placeButton = function() {
-      if (typeof(Storage) !== "undefined" && localStorage.getItem(title)) {
-        addRemoveButton();
-      }
-      else if (typeof(Storage) !== "undefined") { 
-        addCartButton();
-      }
+      setCartButtonVisibility(!!localStorage.getItem(title));
     }
-    placeButton();
+    initializeCartButton(!!localStorage.getItem(title));
     window.addEventListener('storage', placeButton);
+    
   </script>
 {% endblock %}
