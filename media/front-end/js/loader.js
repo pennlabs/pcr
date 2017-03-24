@@ -123,10 +123,8 @@ const listAlphabet = function(c) {
 //put the cart button under the scoreboxes
 //fill the popover with professors/filtering interface
 const addCartButton = function() {
-  
-  $("small").remove();
   $('#remove').remove();
-  
+
   var addSpan = $('<span>');
   addSpan.addClass('button');
   addSpan.addClass('courseCart');
