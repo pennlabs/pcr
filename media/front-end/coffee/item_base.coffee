@@ -35,17 +35,17 @@ window.toggle_choose_cols = () ->
 
 
 window.toggle_choose_cols_all = () ->
-  if($("#choose-cols input[type='checkbox'][name='all']").attr("checked"))
-    $("#choose-cols input[type='checkbox']").attr("checked", true)
+  if($("#choose-cols input[type='checkbox'][name='all']").prop("checked"))
+    $("#choose-cols input[type='checkbox']").prop("checked", true)
   else
-    $("#choose-cols input[type='checkbox']").attr("checked", false)
+    $("#choose-cols input[type='checkbox']").prop("checked", false)
 
 window.submit_choose_cols = () ->
   boxes = $("#choose-cols input[type='checkbox']")
   result = []
 
   for i in [0..(boxes.length-1)]
-    if $(boxes[i]).attr("checked")?
+    if $(boxes[i]).prop("checked")
       result.push($(boxes[i]).attr("value"))
 
   $.cookie("pcr_choosecols", result.join(), {path: '/'})
@@ -54,11 +54,11 @@ window.submit_choose_cols = () ->
 
 
 window.cancel_choose_cols = () ->
-  $("#choose-cols input[type=checkbox]").attr("checked",false)
+  $("#choose-cols input[type=checkbox]").prop("checked",false)
 
   cols = $.cookie("pcr_choosecols").split(",")
   for i in [0..(cols.length-1)]
-    $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
+    $("#choose-cols input[name='#{cols[i]}']").prop("checked", true)
 
   toggle_choose_cols()
 
@@ -188,7 +188,7 @@ $(document).ready ->
   set_cols(cols)
 
   for i in [0..(cols.length-1)]
-    $("#choose-cols input[name='#{cols[i]}']").attr("checked", true)
+    $("#choose-cols input[name='#{cols[i]}']").prop("checked", true)
 
   # auto-expand if there's only one item in course-table
   if $("#course-table").attr("count") == "1"
