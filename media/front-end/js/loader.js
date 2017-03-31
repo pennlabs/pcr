@@ -1,12 +1,19 @@
 //variable holding the content of the popover
 var popoverContent = null;
 
+
 //function to list professors when there are <= 15
 const listProfessors = function() {
   var outerDiv = $('<div>');
   outerDiv.attr('id', 'divList');
   var listOfProfessors = $('<ul>');
   listOfProfessors.addClass('professorList');
+  var avgButton = $('<button>AVERAGE PROFESSOR</button>');
+  avgButton.click(function(){
+    addToCourseCart('average');
+    addRemoveButton();
+  });
+  listOfProfessors.append($('<li>').append(avgButton));
   for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
     var prof = COURSE_DATA.instructors[i];
     var listItem = $('<li>');
@@ -14,6 +21,7 @@ const listProfessors = function() {
     button.click(
       function(){
         addToCourseCart(prof);
+	addRemoveButton();
       });
     button.append(prof);
     listItem.append(button);
@@ -28,11 +36,22 @@ const listProfessors = function() {
  * and display filtered profs*/
 const listAlphabet = function(c) {
   var head = $('<p>')
-  head.text("Filter by Last Name: ");
+  head.text('Or Filter by Last Name: ');
   var table = $('<table>');
   table.addClass("professorList");
   var tr = $('<tr>');
- 
+  var avgSection = $('<button>AVERAGE PROFESSOR</button>');
+  avgSection.click(function() {
+    addToCourseCart('average');
+    addRemoveButton();
+  });
+  avgList = $('<ul>');
+  avgList.addClass('professorList');
+  avgListitem = $('<li>');
+  avgListitem.addClass('average');
+  avgSection = avgList.append($(avgListitem).append(avgSection))
+  head.prepend(avgSection);
+
   //create the grid of buttons of the alphabet
   for (var i = 1; i <= 26; i++) {
     const character = String.fromCharCode(i+64)
@@ -43,7 +62,7 @@ const listAlphabet = function(c) {
     /*check to see if instructors exist with a last name starting with 'character'
     If so, leave the button clickable and functional; otherwise, gray it out.*/
     var containsCharAfterSpace = function(a, b) {
-      return (b.split(" ").pop()[0] == character) || a;
+      return (b.split(' ').pop()[0] == character) || a;
     }
     
     if (!COURSE_DATA.instructors.reduce(containsCharAfterSpace, false)) {
@@ -78,13 +97,14 @@ const listAlphabet = function(c) {
     listOfProfessors =
       COURSE_DATA.instructors.reduce(
         function(a, b) {
-          if (b.split(" ").pop()[0] == c) {
+          if (b.split(' ').pop()[0] == c) {
             var listItem = $('<li>');
             var button = $('<button>');
             button.attr('id', b.replace(/ /g, ''));
             button.click(
               function() {
                 addToCourseCart(b);
+		addRemoveButton();
               });
             button.append(b);
             listItem.append(button);
@@ -95,7 +115,7 @@ const listAlphabet = function(c) {
           }
         }, $('<ul>').addClass('professorList'));
     $('#filteredProfs').append(listOfProfessors);
-    $("div.arrow").css("top", "103px");
+    $('div.arrow').css('top', '103px');
   }
   popoverContent = $('<span>').append(head).append(table).append(filteredProfs);
 }
@@ -103,6 +123,8 @@ const listAlphabet = function(c) {
 //put the cart button under the scoreboxes
 //fill the popover with professors/filtering interface
 const addCartButton = function() {
+  $('#remove').remove();
+
   var addSpan = $('<span>');
   addSpan.addClass('button');
   addSpan.addClass('courseCart');
@@ -116,7 +138,7 @@ const addCartButton = function() {
   fontAwesome.addClass('fa-cart-plus');
   fontAwesome.attr('aria-hidden', 'true');
   addSmall.append(fontAwesome);
-  addSmall.append(" Add to My Cart");
+  addSmall.append(' Add to My Cart');
   addSpan.append(addSmall);
   $('#banner-score').append(addSpan);
 
@@ -126,7 +148,7 @@ const addCartButton = function() {
     listAlphabet(null);
 
   $('.courseCart').click(function() {
-    $('#popup').popover({title: "Select Professor", content: popoverContent, placement: "left"});
+    $('#popup').popover({title: 'Select Professor', content: popoverContent, placement: 'left'});
     $('#popup').popover('show');
     if (COURSE_DATA.instructors.length <= 15)
       listProfessors();
@@ -151,7 +173,7 @@ const addCartButton = function() {
 //remove the addCart button and replace it
 //with a remove from cart option
 const addRemoveButton = function() {
-  $('.courseCart').remove();
+  $('#popup').remove();
   var removeSpan = $('<span>');
   var removeSmall = $('<small>');
   removeSmall.attr('id', 'remove');
@@ -159,12 +181,11 @@ const addRemoveButton = function() {
   fontAwesome.addClass('fa');
   fontAwesome.addClass('fa-trash-o');
   removeSmall.append(fontAwesome);
-  removeSmall.append(" Remove from My Cart");
+  removeSmall.append(' Remove from My Cart');
   removeSmall.click(
     function() {
-      removeSmall.remove();
-      addCartButton();
       localStorage.removeItem(title);
+      addCartButton();
     });
   removeSpan.append(removeSmall);
   $('#banner-score').append(removeSpan);
@@ -175,12 +196,21 @@ const addRemoveButton = function() {
 //handle localStorage usage, alert them.
 addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
-  if (typeof(Storage) !== "undefined") {
-    localStorage.setItem(title,
-  JSON.stringify(COURSE_DATA.instructor_data[instructor]));
+  localStorage.setItem(title,
+    JSON.stringify(COURSE_DATA.instructor_data[instructor]));
+}
+
+const setCartButtonVisibility = function(inCart) {
+  if (inCart && $("#popup").length) {
     addRemoveButton();
-  } else {
-    alert("Sorry! Your browser does not support this feature." +
-        " Please try again with a different browser.");
+  } else if (!inCart && $("#remove").length){
+    addCartButton();
+  }
+}
+const initializeCartButton = function(inCart) {
+  if (inCart) {
+    addRemoveButton();
+  } else if (!inCart){
+    addCartButton();
   }
 }

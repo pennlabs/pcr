@@ -2,9 +2,15 @@
 {% load prettify %}
 {% block key%}
 <script>
-  var COURSE_DATA = {}
-  COURSE_DATA.instructors = [] 
-  COURSE_DATA.instructor_data = {} 
+  var COURSE_DATA = {};
+  COURSE_DATA.instructors = [];
+  COURSE_DATA.instructor_data = {};
+  COURSE_DATA.instructor_data["average"] = {};
+  COURSE_DATA.instructor_data["average"].course = title;
+  COURSE_DATA.instructor_data["average"].info = [];
+  {% for attribute in reviews|columns %}
+    COURSE_DATA.instructor_data["average"].info.push({category: '{{attribute}}', recent: parseFloat({{reviews|recent|average:attribute|floatformat:2}}), average: parseFloat({{reviews|average:attribute|floatformat:2}})}); 
+  {% endfor %}
 </script>
 <th scope="col" class="col_instructor">
   <div class="sort-icon"></div>
@@ -56,11 +62,11 @@
     {% endwith %}
   {% endfor %}
   <script>
-  if (typeof(Storage) !== "undefined" && localStorage.getItem(title)) {
-    addRemoveButton();
-  }
-  else if (typeof(Storage) !== "undefined") { 
-    addCartButton();
-  }
+    var placeButton = function() {
+      setCartButtonVisibility(!!localStorage.getItem(title));
+    }
+    initializeCartButton(!!localStorage.getItem(title));
+    window.addEventListener('storage', placeButton);
+    
   </script>
 {% endblock %}
