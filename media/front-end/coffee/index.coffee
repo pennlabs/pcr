@@ -7,7 +7,7 @@ $(document).ready ->
     $("#loading-container").hide()
     $("#searchbox").autocomplete("search")
 
-  $('#searchbox').live 'paste', (e) ->
+  $('#searchbox').on 'paste', (e) ->
     setTimeout ->
       $('#loading-container').show()
       return init_search_box('', callback, $(this).val()[0...2], true)
