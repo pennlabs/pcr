@@ -6,13 +6,15 @@
  */
 
 (function() {
-  var MAX_ITEMS, REGEXES_BY_PRIORITY, endsWith, find_autocomplete_matches, get_entries;
+  var MAX_ITEMS, REGEXES_BY_PRIORITY, SITE_URL, endsWith, find_autocomplete_matches, get_entries;
 
   MAX_ITEMS = {
     Courses: 4,
     Instructors: 3,
     Departments: 3
   };
+
+  SITE_URL = "https://penncoursereview.com/";
 
   endsWith = function(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length !== -1);
@@ -155,12 +157,8 @@
     } else {
       appendTo = "#results_top";
     }
-    if (dir.charAt(dir.length - 1) === "/") {
-      leading = "";
-    } else {
-      leading = "/";
-    }
-    return $.getJSON(dir + "autocomplete_data.json/" + start.toLowerCase() + ".json", function(data) {
+    leading = "";
+    return $.getJSON(SITE_URL + dir + "autocomplete_data.json/" + start.toLowerCase() + ".json", function(data) {
       var courses, departments, instructors;
       instructors = data.instructors.sort(sort_by_title);
       courses = data.courses.sort(sort_by_title);
