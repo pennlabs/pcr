@@ -10,6 +10,7 @@ MAX_ITEMS =
     Instructors: 3
     Departments: 3
 
+SITE_URL = "https://penncoursereview.com/"
 
 endsWith = (str, suffix) ->
     str.indexOf suffix, str.length - suffix.length != -1
@@ -151,12 +152,9 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
   else
     appendTo = "#results_top"
 
-  if dir.charAt(dir.length-1) == "/"
-    leading = ""
-  else
-    leading = "/"
-
-  $.getJSON dir + "autocomplete_data.json/" + start.toLowerCase() + ".json", (data) ->
+  leading = ""
+  
+  $.getJSON SITE_URL + dir + "autocomplete_data.json/" + start.toLowerCase() + ".json", (data) ->
     instructors = data.instructors.sort(sort_by_title)
     courses = data.courses.sort(sort_by_title)
     departments = data.departments.sort(sort_by_title)

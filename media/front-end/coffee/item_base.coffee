@@ -149,7 +149,7 @@ $(document).ready ->
     else if $("#searchbox").val().length < 2
       $("#searchbox").autocomplete("disable")
   , 0))
-  $('#searchbox').live 'paste', (e) ->
+  $('#searchbox').on 'paste', (e) ->
     setTimeout ->
       $('#loading-container').show()
       init_search_box('../', callback, $('#searchbox').val(), false)
