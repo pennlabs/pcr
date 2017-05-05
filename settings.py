@@ -12,7 +12,7 @@ TEMPLATE_DEBUG = DEBUG
 DO_STATICGENERATOR = DEBUG
 
 # Personal access token for the PCR API
-PCR_API_TOKEN = os.getenv("PCR_AUTH_TOKEN")
+PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
 assert PCR_API_TOKEN, "No token provided"
 
 # making template path relative to allow for modular development
