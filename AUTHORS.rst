@@ -27,3 +27,5 @@ PennCourseReview is written and maintained by various contributors.
 - Derek Jobst
 
 - Prakhar Bhandari
+
+- Adel Qalieh
