@@ -4,7 +4,7 @@ from django.conf import settings
 import mimetypes
 import urllib2
 
-from ..lib.api import api
+from lib.api import api
 
 
 def static(request, page):
