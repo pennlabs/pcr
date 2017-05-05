@@ -17,4 +17,4 @@ def api(domain, *args, **kwargs):
   except urllib2.HTTPError as e:
     raise ValueError("invalid path: %s", path)
   return json.loads(response.read())['result']
-api = functools.partial(api, settings.DOMAIN, token=settings.TOKEN)
+api = functools.partial(api, settings.DOMAIN, token=settings.PCR_API_TOKEN)

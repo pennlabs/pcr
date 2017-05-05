@@ -1,8 +1,19 @@
-# Django settings for studyspaces project.
+# Django settings for PCR
 import os
+
+# For hitting the API
+DOMAIN = "http://api.penncoursereview.com/v1/"
+# Otherwise, weird bugs occur wherever DOMAIN is used.
+assert DOMAIN.endswith("/")
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+# Do static caching (true only in production)
+DO_STATICGENERATOR = DEBUG
+
+# Personal access token for the PCR API
+PCR_API_TOKEN = os.getenv("PCR_AUTH_TOKEN")
+assert PCR_API_TOKEN, "No token provided"
 
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
@@ -51,6 +62,9 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 MEDIA_URL = ''
 
+# Path to local staticfiles
+STATIC_DOC_ROOT = os.path.join(os.getcwd(), "media")
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^'
 
@@ -85,3 +99,12 @@ INSTALLED_APPS = (
     'apps.searchbar',
     'apps.static',
 )
+
+if DO_STATICGENERATOR:
+    MIDDLEWARE_CLASSES += \
+            ('staticgenerator.middleware.StaticGeneratorMiddleware',)
+    # I think WEB_ROOT is staticgenerator-specific
+    WEB_ROOT = os.path.join(PROJECT_PATH, "staticgenerator_output/write")
+    # not staticgenerator-specific, but that's all that needs it
+    SERVER_NAME = 'pennapps.com'
+    STATIC_GENERATOR_URLS = ('.*',)

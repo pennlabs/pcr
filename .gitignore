@@ -50,7 +50,6 @@ coverage.xml
 *,cover
 
 venv
-local_settings.py
 compilecoffee
 staticgenerator_output/*
 CACHES/*

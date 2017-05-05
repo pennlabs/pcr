@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
+from django.conf import settings
 import mimetypes
 import urllib2
 
@@ -16,7 +17,7 @@ def static(request, page):
 
 
 def proxy(request, path):
-    url = '%s%s%s' % ('http://api.penncoursereview.com/v1/', path, '?token=D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ')
+    url = '%s%s%s' % (settings.DOMAIN, path, '?token=D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ')
     try:
         proxied_request = urllib2.urlopen(url)
         status_code = proxied_request.code
