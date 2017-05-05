@@ -9,7 +9,7 @@ assert DOMAIN.endswith("/")
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 # Do static caching (true only in production)
-DO_STATICGENERATOR = DEBUG
+DO_STATICGENERATOR = not DEBUG
 
 # Personal access token for the PCR API
 PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
