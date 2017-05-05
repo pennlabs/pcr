@@ -6,7 +6,7 @@ DOMAIN = "http://api.penncoursereview.com/v1/"
 # Otherwise, weird bugs occur wherever DOMAIN is used.
 assert DOMAIN.endswith("/")
 
-DEBUG = True
+DEBUG = os.getenv("DEBUG", 'True') == 'True'
 TEMPLATE_DEBUG = DEBUG
 # Do static caching (true only in production)
 DO_STATICGENERATOR = not DEBUG
