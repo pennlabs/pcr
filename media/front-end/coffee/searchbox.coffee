@@ -3,6 +3,7 @@
   every page.  Uses the jQuery UI autocomplete plugin.
 ###
 
+ENTER_KEYCODE = 13
 
 # Maximum number of items to show per type
 MAX_ITEMS =
@@ -202,6 +203,24 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
                    <div class='ui-menu-item-desc'>#{item.desc}</div>
                  </a>""")
       .appendTo(ul).fadeIn(500)
+
+    $("#search-submit").click ->
+       # On search button click, check if query returns any results, if so, go to first returned result (by default)
+        query = $("#searchbox").val()
+        results = get_entries(query, courses, instructors, departments)
+        if results.length != 0
+          window.location = dir+results[0].url
+
+    $("#searchbox").keypress (event) ->
+      key = event.which
+      # Check if the enter key was pressed
+      if key == ENTER_KEYCODE
+        # On search button click, check if query returns any results, if so, go to first returned result (by default)
+        query = $("#searchbox").val()
+        results = get_entries(query, courses, instructors, departments)
+        if results.length != 0
+          window.location = dir+results[0].url
+
     # did the auto_complete.json have a callback? call it.
     $('.ui-menu-item:first').trigger('autocompletefocus')
     callback() if callback?
