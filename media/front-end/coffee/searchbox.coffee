@@ -3,6 +3,7 @@
   every page.  Uses the jQuery UI autocomplete plugin.
 ###
 
+ENTER_KEYCODE = 13
 
 # Maximum number of items to show per type
 MAX_ITEMS =
@@ -167,7 +168,17 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
       selectFirst: true
       source: (request, response) ->
         # update the entries to show
-        response(get_entries(request.term, courses, instructors, departments))
+        results = get_entries(request.term, courses, instructors, departments)
+        if results.length != 0
+          response(results)
+        else
+          # basic fuzzy search -- just swaps pairwise characters to find typos
+          for i in [0..request.term.length]
+            fixed_spelling = request.term[0..i-2] + request.term[i] + request.term[i-1] + request.term[i+1..request.term.length]
+            if fixed_spelling.length == request.term.length
+              new_results = get_entries(fixed_spelling, courses, instructors, departments)
+              if new_results.length != 0
+                response(new_results)
       position:
         my: "left top"
         at: "left bottom"
@@ -202,6 +213,24 @@ window.init_search_box = (dir="", callback=null, start, fp) ->
                    <div class='ui-menu-item-desc'>#{item.desc}</div>
                  </a>""")
       .appendTo(ul).fadeIn(500)
+
+    $("#search-submit").click ->
+       # On search button click, check if query returns any results, if so, go to first returned result (by default)
+        query = $("#searchbox").val()
+        results = get_entries(query, courses, instructors, departments)
+        if results.length != 0
+          window.location = dir+results[0].url
+
+    $("#searchbox").keypress (event) ->
+      key = event.which
+      # Check if the enter key was pressed
+      if key == ENTER_KEYCODE
+        # On search button click, check if query returns any results, if so, go to first returned result (by default)
+        query = $("#searchbox").val()
+        results = get_entries(query, courses, instructors, departments)
+        if results.length != 0
+          window.location = dir+results[0].url
+
     # did the auto_complete.json have a callback? call it.
     $('.ui-menu-item:first').trigger('autocompletefocus')
     callback() if callback?
