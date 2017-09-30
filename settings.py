@@ -3,16 +3,25 @@ import os
 
 # For hitting the API
 DOMAIN = "http://api.penncoursereview.com/v1/"
-# Otherwise, weird bugs occur wherever DOMAIN is used.
-assert DOMAIN.endswith("/")
 
 DEBUG = os.getenv("DEBUG", 'True') == 'True'
+
+# Personal access token for the PCR API
+PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
+
+try:
+    from secret import *  # noqa
+except ImportError:
+    pass
+
 TEMPLATE_DEBUG = DEBUG
 # Do static caching (true only in production)
 DO_STATICGENERATOR = not DEBUG
 
-# Personal access token for the PCR API
-PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
+# Make sure DOMAIN ends with a slash, otherwise weird bugs occur wherever DOMAIN is used.
+assert DOMAIN.endswith("/")
+
+# Make sure API token is set
 assert PCR_API_TOKEN, "No token provided"
 
 # making template path relative to allow for modular development
