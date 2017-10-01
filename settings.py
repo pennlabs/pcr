@@ -1,9 +1,6 @@
 # Django settings for PCR
 import os
 
-# For hitting the API
-DOMAIN = "http://api.penncoursereview.com/v1/"
-
 DEBUG = os.getenv("DEBUG", 'True') == 'True'
 
 # Personal access token for the PCR API
