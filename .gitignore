@@ -55,5 +55,3 @@ staticgenerator_output/*
 CACHES/*
 docs/_build
 autocomplete_data.json/
-
-secret.py
