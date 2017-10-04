@@ -1,10 +1,11 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import url
+
+from . import views
 
 
-urlpatterns = patterns('',
-    (r'(about)', 'apps.static.views.static'),
-    (r'(cart)', 'apps.static.views.static'),
-    (r'(faq)', 'apps.static.views.static'),
-    (r'^chrome/api/(?P<path>.*)$', 'apps.static.views.proxy')
-)
-
+urlpatterns = [
+    url(r'(about)', views.static),
+    url(r'(cart)', views.static),
+    url(r'(faq)', views.static),
+    url(r'^chrome/api/(?P<path>.*)$', views.proxy)
+]
