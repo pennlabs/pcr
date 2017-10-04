@@ -9,16 +9,16 @@
 {% endblock %}
 
 {% block htmlheader-links %}
-  <link type="text/css" href="{{base_dir}}media/front-end/css/tutorial_overlay.css" rel="stylesheet" />
+  <link type="text/css" href="{% static "front-end/css/tutorial_overlay.css" %}" rel="stylesheet" />
 {% endblock %}
 
 {% block htmlheader-js %}
   <![if ! IE 7]>
-  <script src="{{base_dir}}media/front-end/js/jquery.tablesorter.min.js"></script>
+  <script src="{% static "front-end/js/jquery.tablesorter.min.js" %}"></script>
   <![endif]><!--[if IE 7]>
-  <script src="{{base_dir}}media/front-end/js/jquery.tablesorter.ie8fix.min.js"></script>
+  <script src="{% static "front-end/js/jquery.tablesorter.ie8fix.min.js" %}"></script>
   <![endif]-->
-  <script src="{{base_dir}}media/front-end/js/item_base.js"></script>
+  <script src="{% static "front-end/js/item_base.js" %}"></script>
 {% endblock %}
 
 {% block banner-content %}
@@ -29,7 +29,7 @@
     {% include "pcr_detail/scorecard.html" %}
   {% endifnotequal %}
   {% ifequal type 'course' %}
-    <script src="{{base_dir}}media/front-end/js/loader.js"></script>
+    <script src="{% static "front-end/js/loader.js" %}"></script>
   {% endifequal %}
   <div class="clear"></div>
 {% endblock %}
