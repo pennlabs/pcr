@@ -1,13 +1,8 @@
-from collections import namedtuple
-
 from django import template
 from django.http import Http404
 from django.template.loader import render_to_string
 
-from templatetag_sugar.register import tag
-from templatetag_sugar.parser import Variable, Optional, Constant, Name
-
-from apps.pcr_detail.models import CourseHistory, Instructor, Department
+from ..models import CourseHistory, Instructor, Department
 
 import requests
 
@@ -15,7 +10,7 @@ import requests
 register = template.Library()
 
 
-@tag(register, [Variable()])
+@register.simple_tag(takes_context=True)
 def infobox(context, item):
   '''Create a scorecard.'''
   if type(item) == CourseHistory:
