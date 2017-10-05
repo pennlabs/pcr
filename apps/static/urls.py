@@ -4,8 +4,8 @@ from . import views
 
 
 urlpatterns = [
-    url(r'(about)', views.static),
-    url(r'(cart)', views.static),
-    url(r'(faq)', views.static),
+    url(r'about', views.about, name="about"),
+    url(r'cart', views.cart, name="cart"),
+    url(r'faq', views.faq, name="faq"),
     url(r'^chrome/api/(?P<path>.*)$', views.proxy)
 ]

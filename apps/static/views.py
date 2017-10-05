@@ -9,11 +9,21 @@ from lib.api import api
 
 def static(request, page):
   context = {
-      'base_dir': './',
       'content': api('pcrsite-static', page)
     }
   return render(request, 'static.html', context)
 
+
+def about(request):
+    return static(request, "about")
+
+
+def faq(request):
+    return static(request, "faq")
+
+
+def cart(request):
+    return static(request, "cart")
 
 
 def proxy(request, path):

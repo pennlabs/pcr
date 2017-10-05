@@ -8,7 +8,6 @@ register = template.Library()
 @register.simple_tag(takes_context=True)
 def links(context):
   new_context = {
-    'base_dir': context['base_dir'] if 'base_dir' in context else ""
   }
   return render_to_string('pcr_detail/templatetags/links.html', new_context)
 

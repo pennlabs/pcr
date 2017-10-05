@@ -6,7 +6,6 @@ from models import Instructor, CourseHistory, Department
 def instructor(request, id):
   instructor = Instructor(id)
   context = {
-    'base_dir': '../',
     'item': instructor,
     'reviews': instructor.reviews,
     'title': instructor.name,
@@ -21,7 +20,6 @@ def course(request, dept, id):
   coursehistory = CourseHistory(title)
   reviews = set(review for course in coursehistory.courses for section in course.sections for review in section.reviews)
   context = {
-    'base_dir': '../',
     'item': coursehistory,
     'reviews': reviews,
     'show_name': len(set([r.section.name for r in reviews])) != 1,
@@ -34,7 +32,6 @@ def course(request, dept, id):
 def department(request, name):
   department = Department(name)
   context = {
-    'base_dir': '../',
     'item': department,
     'reviews': set(review for coursehistory in department.coursehistories
                     for course in coursehistory.courses
