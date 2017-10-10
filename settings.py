@@ -14,6 +14,9 @@ DO_STATICGENERATOR = not DEBUG
 PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
 assert PCR_API_TOKEN, "No token provided"
 
+# Used for the /chrome/api proxy endpoint
+PROXY_TOKEN = "D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ"
+
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))

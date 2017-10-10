@@ -27,7 +27,7 @@ def cart(request):
 
 
 def proxy(request, path):
-    url = '%s%s%s' % (settings.DOMAIN, path, '?token=D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ')
+    url = '%s%s%s%s' % (settings.DOMAIN, path, '?token=', settings.PROXY_TOKEN)
     try:
         proxied_request = urllib2.urlopen(url)
         status_code = proxied_request.code
