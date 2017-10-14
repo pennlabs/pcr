@@ -8,10 +8,10 @@ from lib.api import api
 
 
 def static(request, page):
-  context = {
-      'content': api('pcrsite-static', page)
+    context = {
+        'content': api('pcrsite-static', page)
     }
-  return render(request, 'static.html', context)
+    return render(request, 'static.html', context)
 
 
 def about(request):
@@ -31,7 +31,8 @@ def proxy(request, path):
     try:
         proxied_request = urllib2.urlopen(url)
         status_code = proxied_request.code
-        mimetype = proxied_request.headers.typeheader or mimetypes.guess_type(url)
+        mimetype = proxied_request.headers.typeheader or mimetypes.guess_type(
+            url)
         content = proxied_request.read()
     except urllib2.HTTPError as e:
         return HttpResponse(e.msg, status=e.code, mimetype='text/plain')

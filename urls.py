@@ -13,4 +13,5 @@ urlpatterns = [
 
 # Enable static file in local development
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_DOC_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_DOC_ROOT)
