@@ -2,7 +2,7 @@
 import os
 
 # For hitting the API
-DOMAIN = "http://api.penncoursereview.com/v1/"
+DOMAIN = os.getenv("DOMAIN", "http://api.penncoursereview.com/v1/")
 # Otherwise, weird bugs occur wherever DOMAIN is used.
 assert DOMAIN.endswith("/")
 
