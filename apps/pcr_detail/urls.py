@@ -1,8 +1,9 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import url
 
+from . import views
 
-urlpatterns = patterns('apps.pcr_detail.views',
-  (r'^instructor/(.*)$', 'instructor'),
-  (r'^course/(\w+)-(\w+)$', 'course'),
-  (r'^department/(\w+)$', 'department'),
-)
+urlpatterns = [
+    url(r'^instructor/(.*)$', views.instructor),
+    url(r'^course/(\w+)-(\w+)$', views.course),
+    url(r'^department/(\w+)$', views.department),
+]

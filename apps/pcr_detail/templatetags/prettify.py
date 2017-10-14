@@ -3,9 +3,6 @@ import re
 
 from django import template
 
-from templatetag_sugar.parser import Variable
-from templatetag_sugar.register import tag
-
 
 register = template.Library()
 

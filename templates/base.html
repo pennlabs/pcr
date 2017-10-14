@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +6,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 
   <meta name="description" content="Penn Course Review is a tool for students at the University of Pennsylvania to search for the best professor and classes on campus. ">
-  <link href="apple-touch-icon-57x57.png" sizes="57x57" rel="{{base_dir}}media/front-end/image/apple-touch-icon-57x57-precomposed.png">
-  <link href="apple-touch-icon-72x72.png" sizes="72x72" rel="{{base_dir}}media/front-end/image/apple-touch-icon-72x72-precomposed.png">
-  <link href="apple-touch-icon-114x114.png" sizes="114x114" rel="{{base_dir}}media/front-end/image/apple-touch-icon-114x114-precomposed.png">
-  <link href="apple-touch-icon-144x144.png" sizes="144x144" rel="{{base_dir}}media/front-end/image/apple-touch-icon-144x144-precomposed.png">
-  <link href="apple-touch-icon-76x76.png" sizes="76x76" rel="{{base_dir}}media/front-end/image/apple-touch-icon-76x76-precomposed.png">
-  <link href="apple-touch-icon-60x60.png" sizes="60x60" rel="{{base_dir}}media/front-end/image/apple-touch-icon-60x60-precomposed.png">
-  <link href="apple-touch-icon-152x152.png" sizes="152x152" rel="{{base_dir}}media/front-end/image/apple-touch-icon-152x152-precomposed.png">
-  <link href="apple-touch-icon-120x120.png" sizes="120x120" rel="{{base_dir}}media/front-end/image/apple-touch-icon-120x120-precomposed.png">
+  <link href="apple-touch-icon-57x57.png" sizes="57x57" rel="{% static "front-end/image/apple-touch-icon-57x57-precomposed.png" %}">
+  <link href="apple-touch-icon-72x72.png" sizes="72x72" rel="{% static "front-end/image/apple-touch-icon-72x72-precomposed.png" %}">
+  <link href="apple-touch-icon-114x114.png" sizes="114x114" rel="{% static "front-end/image/apple-touch-icon-114x114-precomposed.png" %}">
+  <link href="apple-touch-icon-144x144.png" sizes="144x144" rel="{% static "front-end/image/apple-touch-icon-144x144-precomposed.png" %}">
+  <link href="apple-touch-icon-76x76.png" sizes="76x76" rel="{% static "front-end/image/apple-touch-icon-76x76-precomposed.png" %}">
+  <link href="apple-touch-icon-60x60.png" sizes="60x60" rel="{% static "front-end/image/apple-touch-icon-60x60-precomposed.png" %}">
+  <link href="apple-touch-icon-152x152.png" sizes="152x152" rel="{% static "front-end/image/apple-touch-icon-152x152-precomposed.png" %}">
+  <link href="apple-touch-icon-120x120.png" sizes="120x120" rel="{% static "front-end/image/apple-touch-icon-120x120-precomposed.png" %}">
 
-  <link rel="shortcut icon" href="{{base_dir}}media/front-end/image/favicon.ico">
+  <link rel="shortcut icon" href="{% static "front-end/image/favicon.ico" %}">
 
-  <link type="text/css" href="{{base_dir}}media/front-end/css/bootstrap.min.css" rel="stylesheet" />
-  <link type="text/css" href="{{base_dir}}media/front-end/css/960_12_col.css" rel="stylesheet" />
-  <link type="text/css" href="{{base_dir}}media/front-end/css/reset.css" rel="stylesheet" />
-  <link type="text/css" href="{{base_dir}}media/front-end/css/flick/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+  <link type="text/css" href="{% static "front-end/css/bootstrap.min.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "front-end/css/960_12_col.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "front-end/css/reset.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "front-end/css/flick/jquery-ui-1.8.16.custom.css" %}" rel="stylesheet" />
 
-  <link type="text/css" href="{{base_dir}}media/front-end/css/base.css" rel="stylesheet" />
-  <link type="text/css" href="{{base_dir}}media/front-end/css/searchbox.css" rel="stylesheet" />
+  <link type="text/css" href="{% static "front-end/css/base.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "front-end/css/searchbox.css" %}" rel="stylesheet" />
   <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
   <link href='//fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
@@ -31,12 +32,12 @@
   <title>{% block title %}Penn Course Review{% endblock %}</title>
 
   <script src="https://code.jquery.com/jquery-1.9.1.min.js" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery.cookie.js"></script>
-  <script type="text/javascript" src="{{base_dir}}media/front-end/js/jquery-ui-1.8.16.custom.min.js"></script>
-  <script type="text/javascript" src="{{base_dir}}media/front-end/js/searchbox.js"></script>
-  <script type="text/javascript" src="{{base_dir}}media/front-end/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="{{base_dir}}media/front-end/js/display.js"></script>
-  <script type="text/javascript" src="{{base_dir}}media/front-end/js/additional-jQuery.js"></script>
+  <script type="text/javascript" src="{% static "front-end/js/jquery.cookie.js" %}"></script>
+  <script type="text/javascript" src="{% static "front-end/js/jquery-ui-1.8.16.custom.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "front-end/js/searchbox.js" %}"></script>
+  <script type="text/javascript" src="{% static "front-end/js/bootstrap.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "front-end/js/display.js" %}"></script>
+  <script type="text/javascript" src="{% static "front-end/js/additional-jQuery.js" %}"></script>
 
   {% block htmlheader-js %}{% endblock %}
 
@@ -77,7 +78,7 @@
       <div id="header"><div id="header-bg">
         <div class="container_12">
           {% block header-content %}
-            <a href="{{base_dir}}"><div id="title" class="header-item">
+            <a href="{% url "index" %}"><div id="title" class="header-item">
               Penn Course Review
             </div></a>
             <div id="linkbar" class="header-item">
@@ -85,9 +86,9 @@
             </div>
 	    <span id="searchAndCart">
 	      <div id="searchbar" class="header-item">
-                {% include "searchbar/searchbar.html" %}
-              </div>
-	      <a id="cartIcon" href="{{base_dir}}cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            {% include "searchbar/searchbar.html" %}
+          </div>
+          <a id="cartIcon" href="{% url "cart" %}"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
 	    </span>
 	    <div class="clear"></div>
           {% endblock %}

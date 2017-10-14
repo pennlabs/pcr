@@ -7,13 +7,17 @@ DOMAIN = "http://api.penncoursereview.com/v1/"
 assert DOMAIN.endswith("/")
 
 DEBUG = os.getenv("DEBUG", 'True') == 'True'
-TEMPLATE_DEBUG = DEBUG
 # Do static caching (true only in production)
 DO_STATICGENERATOR = not DEBUG
 
 # Personal access token for the PCR API
 PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
 assert PCR_API_TOKEN, "No token provided"
+
+# Used for the /chrome/api proxy endpoint
+PROXY_TOKEN = "D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ"
+
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]", "penncoursereview.com", "www.penncoursereview.com"]
 
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
@@ -62,18 +66,15 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 MEDIA_URL = ''
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATIC_URL = '/media/'
+
 # Path to local staticfiles
 STATIC_DOC_ROOT = os.path.join(os.getcwd(), "media")
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^'
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader',
-)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -83,11 +84,23 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'urls'
 
-TEMPLATE_DIRS = (
-  os.path.join(PROJECT_PATH, 'templates'),
-  os.path.join(PROJECT_PATH, 'apps/pcr_detail/templates'),
-  os.path.join(PROJECT_PATH, 'apps/searchbar/templates'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(PROJECT_PATH, 'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ]
+        }
+    }
+]
 
 INSTALLED_APPS = (
     'django.contrib.auth',

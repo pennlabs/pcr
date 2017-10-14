@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block htmlheader-links %}
-	<link rel="stylesheet" href="{{base_dir}}media/front-end/css/nobanner.css" />
+	<link rel="stylesheet" href="{% static "front-end/css/nobanner.css" %}" />
 {% endblock %}
 
 {% block banner-div %}
@@ -9,10 +10,10 @@
 
 {% block content-div %}
 <div id="content">
-	<div id="content-clear"></div>
-	<div class="container_12">		
-		{% block content-content %}
-		{% endblock %}
-	</div>
+    <div id="content-clear"></div>
+    <div class="container_12">
+        {% block content-content %}
+        {% endblock %}
+    </div>
 </div>
 {% endblock %}

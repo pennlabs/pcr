@@ -1,18 +1,16 @@
 from django.conf import settings
-from django.conf.urls.defaults import patterns, include
-from django.views.generic.simple import direct_to_template
+from django.conf.urls import include, url
+from django.views.generic import TemplateView
+from django.conf.urls.static import static
 
 
-urlpatterns = patterns('',
-    (r'^$', direct_to_template, {'template': 'index.html'}),
-    (r'^', include('apps.pcr_detail.urls')),
-    (r'^', include('apps.searchbar.urls')),
-    (r'^', include('apps.static.urls')),
-)
+urlpatterns = [
+    url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
+    url(r'^', include('apps.pcr_detail.urls')),
+    url(r'^', include('apps.searchbar.urls')),
+    url(r'^', include('apps.static.urls')),
+]
 
 # Enable static file in local development
 if settings.DEBUG:
-    urlpatterns += patterns('',
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-                 {'document_root': settings.STATIC_DOC_ROOT}),
-    )
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_DOC_ROOT)
