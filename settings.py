@@ -17,7 +17,8 @@ assert PCR_API_TOKEN, "No token provided"
 # Used for the /chrome/api proxy endpoint
 PROXY_TOKEN = "D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ"
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]", "penncoursereview.com", "www.penncoursereview.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]",
+                 "penncoursereview.com", "www.penncoursereview.com"]
 
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
@@ -115,7 +116,7 @@ INSTALLED_APPS = (
 
 if DO_STATICGENERATOR:
     MIDDLEWARE_CLASSES += \
-            ('staticgenerator.middleware.StaticGeneratorMiddleware',)
+        ('staticgenerator.middleware.StaticGeneratorMiddleware',)
     # I think WEB_ROOT is staticgenerator-specific
     WEB_ROOT = os.path.join(PROJECT_PATH, "staticgenerator_output/write")
     # not staticgenerator-specific, but that's all that needs it
