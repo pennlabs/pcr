@@ -133,3 +133,7 @@
 .ui-autocomplete-category p {
 
 }
+
+#results_top {
+    z-index: 10;
+}
