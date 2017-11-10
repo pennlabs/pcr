@@ -24,19 +24,6 @@ body {
     color: #4a4a4a;
 }
 
-a{
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 2px 4px;
-  border-radius: 2px;
-  color:#ffffff;
-  text-decoration:none;
-  cursor:pointer;
-
-}
-a:hover {
-
-}
-
 #header {
     background-color: white;
     min-height: 80px;
@@ -77,6 +64,10 @@ a:hover {
 }
 .optgroup-header {
     font-weight: bold;
+}
+.selectize-dropdown .sub {
+    font-size: 12px;
+    color: #aaa;
 }
 .selectize-input input:focus {
     border: none;
@@ -161,12 +152,6 @@ input {
   display: none;
 }
 
-#content a:not(.logo){
-  background-color: rgba(255, 255, 255, 0.15);
-}
-#content a:hover:not(.logo){
-  background-color: rgba(255, 255, 255, 0.25);
-}
 #title {
   font-family: 'BebasNeueRegular';
   font-size: 30px;
@@ -256,10 +241,6 @@ i.fa.fa-cart-plus {
 }
 
 /***** BANNER *****/
-
-.title.instructor {
-  margin-top: 70px;
-}
 
 #banner-info .title {
     font-size: 30px;

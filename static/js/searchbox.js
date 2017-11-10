@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#search input[type='text']").selectize({
         labelField: 'title',
-        searchField: 'keywords',
+        searchField: ['title', 'keywords'],
         valueField: 'url',
         create: false,
         options: [],
@@ -10,13 +10,14 @@ $(document).ready(function() {
             {"value": "Courses", "label": "Courses"},
             {"value": "Instructors", "label": "Instructors"},
         ],
+        maxOptions: 10,
         optgroupField: 'category',
         render: {
             optgroup_header: function(data, esc) {
                 return "<div class='optgroup-header'>" + esc(data.label) + "</div>";
             },
             option: function(item, esc) {
-                return "<div>" + esc(item.title) + "</div>";
+                return "<div>" + esc(item.title) + " <span class='sub'>"  + esc(item.desc) + "</span></div>";
             }
         },
         load: function(query, callback) {
