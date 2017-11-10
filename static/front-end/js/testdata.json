@@ -1,0 +1,48 @@
+{
+	"courses": [
+		{
+			"category": "Courses",
+			"title": "CIS 120",
+			"desc": "Programming Techniques II",
+			"url": "course/CIS-120",
+			"keywords": "cis 120 cis120 cis-120 programming techniques ii"
+		},
+		{
+			"category": "Courses",
+			"title": "CIS 240",
+			"desc": "Computer Architecture",
+			"url": "course/CIS-240",
+			"keywords": "cis 240 cis240 cis-240 computer architecture"
+		},
+		{			
+			"category": "Courses",
+			"title": "CIS 262",
+			"desc": "Languages and Automata",
+			"url": "course/CIS-262",
+			"keywords": "cis 262 cis262 cis-262 languages and automata"
+		}
+	],
+	"instructors": [
+		{
+			"category": "Instructors",
+			"title": "Rajeev Alur",
+			"desc": "CIS",
+			"url": "",
+			"keywords": "rajeev alur"
+		},
+		{
+			"category": "Instructors",
+			"title": "C.J. Taylor",
+			"desc": "CSE",
+			"url": "",
+			"keywords": "c.j. taylor"
+		},
+		{			
+			"category": "Instructors",
+			"title": "Mitch Marcus",
+			"desc": "CIS",
+			"url": "",
+			"keywords": "mitch marcus"
+		}
+	]
+}

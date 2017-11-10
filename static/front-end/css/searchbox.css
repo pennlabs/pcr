@@ -1,0 +1,139 @@
+.ui-autocomplete {
+  position: relative !important;
+  background: none !important;
+  border: none !important;
+  color: #ffffff !important;
+  width: inherit !important;
+}
+
+.ui-menu-item{
+  background-color: rgba(255,255,255,0.7);
+  border: none !important;
+  margin-bottom: 5px !important;
+  border-radius: 5px;
+  padding: 0px !important;
+}
+
+.ui-menu-item:hover > a > .ui-menu-item-title{
+  color:#646464 !important;
+}
+
+.ui-menu-item:hover > a > .ui-menu-item-desc{
+  color: #646464 !important;
+
+}
+
+.ui-menu-item.focused > a > .ui-menu-item-desc{
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover,
+.ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus  {
+  background: #ddd;
+  color: #646464;
+  border-radius: 5px;
+}
+
+.ui-corner-all{
+  width: inherit;
+  border: none !important;
+  height: inherit;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+/*.ui-corner-all:hover{
+  background: none !important;
+
+  color: rgb(0, 0, 0);
+  margin: 0px !important;
+  padding: 0px !important;
+
+}
+*/
+.ui-menu-item-category {
+  display: block !important;
+  float: left;
+  font-family: 'BebasNeueRegular';
+  color: #ffffff;
+  font-size: 20px;
+  background-color: #90b8cb;
+  height: 25px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin: 10px 4px 4px 10px;0
+}
+
+.ui-menu-item-title {
+  display: block !important;
+  font-family:'Lato', Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  margin: 0px 0px 0px 9px;
+  min-width: 208px;
+
+}
+.ui-menu-item-desc {
+  display: block !important;
+  font-family: 'Lato', Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 24px;
+  margin-left: 5px;
+  margin: 0px 0px 0px 10px;
+
+
+}
+
+.result_small .ui-menu-item-category{
+  display: none !important;
+}
+
+.result_small .ui-menu-item-title{
+  font-size: 18px;
+}
+
+.result_small .ui-menu-item-desc{
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.result_small .ui-menu-item{
+
+  background-color: #eeeeee;
+
+}
+.result_small .ui-menu-item:hover{
+  background-color: rgb(210, 210, 210) !important;
+
+}
+
+
+.result_small {
+  background-color: rgb(255,255,255) !important;
+  color: rgb(102, 146, 161) !important;
+  border-radius: 3px;
+}
+
+.result_small > .ui-autocomplete-category {
+  margin: 5px 10px;
+}
+
+.result_small .ui_autocomplete {
+    padding: 0px 5px !important;
+
+}
+
+.ui-state-hover span {
+
+}
+.ui-autocomplete-category {
+}
+.ui-autocomplete-category:first-child {
+
+}
+.ui-autocomplete-category p {
+
+}
+
+#results_top {
+    z-index: 10;
+}

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block htmlheader-links %}
-	<link rel="stylesheet" href="media/front-end/css/index.css" />
+    <link rel="stylesheet" href="{% static "front-end/css/index.css" %}" />
 {% endblock %}
 
 {% block htmlheader-js %}
-	<script type="text/javascript" src="media/front-end/js/index.js"></script>
+    <script type="text/javascript" src="{% static "front-end/js/index.js" %}"></script>
 {% endblock %}
 
 
@@ -62,7 +63,7 @@
 			<p>Developed by</p><br>
 			<div style="margin-top:-45px; text-align:center;">
 				<a href="http://pennlabs.org" style="border:none" class="logo">
-					<img style="display:inline-block;float:left;margin-top:25px;" src="media/front-end/image/labs.png" alt="Penn Labs" width="120px" />
+                    <img style="display:inline-block;float:left;margin-top:25px;" src="{% static "front-end/image/labs.png" %}" alt="Penn Labs" width="120px" />
 				</a>
 			</div>
 		</div>
