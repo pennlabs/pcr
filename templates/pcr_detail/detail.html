@@ -9,17 +9,12 @@
   Penn Course Review - {{title}}
 {% endblock %}
 
-{% block htmlheader-links %}
-  <link type="text/css" href="{% static "css/tutorial_overlay.css" %}" rel="stylesheet" />
-{% endblock %}
-
 {% block htmlheader-js %}
   <![if ! IE 7]>
   <script src="{% static "js/jquery.tablesorter.min.js" %}"></script>
   <![endif]><!--[if IE 7]>
   <script src="{% static "js/jquery.tablesorter.ie8fix.min.js" %}"></script>
   <![endif]-->
-  <script src="{% static "js/item_base.js" %}"></script>
 {% endblock %}
 
 {% block banner-content %}
@@ -32,15 +27,10 @@
   {% ifequal type 'course' %}
     <script src="{% static "js/loader.js" %}"></script>
   {% endifequal %}
-  <div class="clear"></div>
 {% endblock %}
 
 {% block content-content %}
+<div class="box">
   {% scoretable item %}
-  <div class="clear"></div>
-{% endblock %}
-
-{% block non-wrapper %}
-  {% choose_cols_box reviews|columns %}
-  {% include "pcr_detail/tutorial_overlay.html" with type=type%}
+</div>
 {% endblock %}

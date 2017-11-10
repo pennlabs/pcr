@@ -1,55 +1,44 @@
 {% load prettify %}
 {% if reviews|length > 0 %}
 <div id="banner-score">
-    <div class="scoreboxrow">
-      <div class="scoredesc">
+    <div class="scoredesc">
         <p class="title">Average</p>
         <p class="subtitle">{{reviews|length}} Section{{reviews|length|pluralize}}</p>
-      </div>
-
-      <div class="scorebox">
+    </div>
+    <div class="scoreboxrow col clearfix">
+      <div class="scorebox course">
         <p class="num">{{reviews|average:"rCourseQuality"|floatformat:1}}</p>
         <p class="desc">Course</p>
       </div>
-      <div class="scorebox-shadow"></div>
-
-      <div class="scorebox">
+      <div class="scorebox instructor">
         <p class="num">{{reviews|average:"rInstructorQuality"|floatformat:1}}</p>
         <p class="desc">Instructor</p>
       </div>
-      <div class="scorebox-shadow"></div>
-
-      <div class="scorebox">
+      <div class="scorebox difficulty">
         <p class="num">{{reviews|average:"rDifficulty"|floatformat:1}}</p>
         <p class="desc">Difficulty</p>
       </div>
-      <div class="scorebox-shadow"></div>
-
     </div>
-    <div class="scoreboxrow">
-      {% with recents=reviews|recent %}
-      <div class="scoredesc">
-        <p class="title">Most Recent</p>
+    <div class="scoredesc">
+        <p class="title">Recent</p>
         <p class="subtitle">{{recents.0.section.course.semester|semester}}</p>
-      </div>
-
-      <div class="scorebox">
+    </div>
+    <div class="scoreboxrow col clearfix">
+      {% with recents=reviews|recent %}
+      <div class="scorebox course">
         <p class="num">{{recents|average:"rCourseQuality"|floatformat:1}}</p>
         <p class="desc">Course</p>
       </div>
-      <div class="scorebox-shadow"></div>
 
-      <div class="scorebox">
+      <div class="scorebox instructor">
         <p class="num">{{recents|average:"rInstructorQuality"|floatformat:1}}</p>
         <p class="desc">Instructor</p>
       </div>
-      <div class="scorebox-shadow"></div>
 
-      <div class="scorebox">
+      <div class="scorebox difficulty">
         <p class="num">{{recents|average:"rDifficulty"|floatformat:1}}</p>
         <p class="desc">Difficulty</p>
       </div>
-      <div class="scorebox-shadow"></div>
       {% endwith %}
     </div>
 </div>

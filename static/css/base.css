@@ -1,21 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
 
-
-.background{
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  height: 100%;
-  width: 100%;
-  z-index: -100;
-  background-color: #90b8cb;
-  background-image: -webkit-gradient(radial, 50% 50%,200,50% 50%,20, from(rgb(102, 146, 161)), to(rgb(144, 184, 203)));
-  background-image: -webkit-radial-gradient(50% 50%, rgb(144, 184, 203), rgb(102, 146, 161));
-  background-image: -moz-radial-gradient(50% 50%, rgb(144, 184, 203), rgb(102, 146, 161));
-  background-image: -ms-radial-gradient(50% 50%, rgb(144, 184, 203), rgb(102, 146, 161));
-  background-image: radial-gradient(50% 50%, rgb(144, 184, 203), rgb(102, 146, 161));
-  background-repeat: no-repeat;
+body {
+    background-color: #fafcff;
 }
 
 a, p, span {
@@ -31,12 +18,10 @@ div {
 }
 
 body {
-  font-family:Lato, Helvetica, sans-serif;
-  font-size:15px;
+    font-family:Lato, Helvetica, sans-serif;
+    font-size:15px;
     margin: 0px;
-
-
-  color: #ffffff;
+    color: #4a4a4a;
 }
 
 a{
@@ -52,9 +37,82 @@ a:hover {
 
 }
 
+#header {
+    background-color: white;
+    min-height: 80px;
+    padding: 20px;
+    box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.07);
+    border: solid 1px #f3f3f3;
+}
+#logo {
+    display: inline-block;
+    width: 68px;
+    height: 37px;
+    background-color: #d8d8d8;
+    margin-left: 30px;
+    margin-right: 25px;
+}
+#search {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+#search input[type="text"] {
+    display: inline-block;
+    min-width: 514px;
+    height: 37px;
+    background-color: #f8f8f8;
+    border-radius: 63px;
+    padding: 15px;
+    transition: box-shadow 0.2s ease-in-out;
+}
+#search input[type="text"]:focus {
+    outline: 0;
+    box-shadow: 0px 0px 10px #ddd;
+    transition: box-shadow 0.2s ease-in-out;
+}
+#search button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    position: absolute;
+    top: 2px;
+    right: 9px;
+    color: #d8d8d8;
+    font-size: 20px;
+}
+#search button:focus {
+    outline: 0;
+}
+#cart {
+    font-size: 37px;
+    margin-right: 10px;
+    color: #ccc;
+}
+#cart:hover {
+    color: #888;
+    cursor: pointer;
+}
+
+.box-wrapper {
+    padding: 15px;
+    padding-top: 0px;
+    padding-bottom: 30px;
+}
+
+.box {
+    padding: 35px;
+    background-color: #ffffff;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
+}
+
+#content {
+    padding: 50px;
+}
+
 input {
   font-family:Verdana, Geneva, sans-serif;
-  font-size:12px;
+  font-size:16px;
 }
 
 .shadow {
@@ -93,11 +151,6 @@ input {
 #content a:hover:not(.logo){
   background-color: rgba(255, 255, 255, 0.25);
 }
-#header {
-  background-color: #ffffff;
-  height:60px;
-  color:#FFF;
-}
 #title {
   font-family: 'BebasNeueRegular';
   font-size: 30px;
@@ -113,19 +166,6 @@ input {
   margin-top: 20px;
   margin-bottom: 30px;
 }
-#header a {
-  color:#646464;
-}
-#header #linkbar a:hover {
-  background-color: rgb(240, 240, 240);
-
-}
-
-.header-item{
-  float: left;
-  height: 60px;
-}
-
 #linkbar {
   margin-top:18px;
   text-align:right;
@@ -201,33 +241,20 @@ i.fa.fa-cart-plus {
 
 /***** BANNER *****/
 
-.instructor {
+.title.instructor {
   margin-top: 70px;
 }
 
-#banner {
-  margin-top: 50px;
-}
-#banner-bg {
-}
-#banner-inner {
-}
-#banner-info {
-  width: 600px;
-  float: left;
-}
 #banner-info .title {
-  font-family: 'BebasNeueRegular';
-  font-size:60px;
-  color:#ffffff;
-  line-height: 100%;
-  padding-bottom: 15px;
+    font-size: 30px;
+    letter-spacing: -0.7px;
+    margin-bottom: 0px;
+    font-weight: 500;
 }
 #banner-info .subtitle {
-  font-family: 'BebasNeueRegular';
-  font-size:40px;
-  color:#595959;
-  margin-bottom: 20px;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    font-weight: normal;
 }
 #banner-info .crosslist {
   font-family:Verdana, Geneva, sans-serif;
@@ -238,26 +265,21 @@ i.fa.fa-cart-plus {
   white-space: nowrap;
 }
 #banner-info p.desc {
-  line-height:150%;
-}
-#banner-score {
-  width: 360px;
-  margin: 20px 0px;
-  float: right;
+  line-height: 150%;
+  margin-bottom: 15px;
 }
 .scoreboxrow {
-  padding-bottom:20px;
-  width: inherit;
-  float: left;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
 }
-.courseCartRow > .scorebox {
-  height: 90px;
-  width: 90px;
+.scorebox.course {
+    background-color: #6274f1;
 }
-.courseCartRow > .scorebox-shadow {
-  height: 90px;
-  width: 90px;
-  margin-left: -90px;
+.scorebox.instructor {
+    background-color: #ffc107;
+}
+.scorebox.difficulty {
+    background-color: #76bf96;
 }
 .courseCartRow {
   margin-top: 20px;
@@ -267,11 +289,9 @@ i.fa.fa-cart-plus {
   float: none;
 }
 .scoredesc {
-  width: 140px;
-  height: 60px;
-  margin-right: 10px;
-  float: left;
-  text-align: right;
+    padding-bottom: 4px;
+    margin-bottom: 9px;
+    border-bottom: 1px solid #dbdbdb;
 }
 .courseCartRow > .scorebox > .desc {
   font-size: 15px;
@@ -281,53 +301,37 @@ i.fa.fa-cart-plus {
   font-size: 36px;
 }
 .scoredesc .title {
-  margin-top: 8px;
-  color:#ffffff;
-  font-size: 20px;
+    display: inline-block;
+    font-size: 17px;
 }
 .scoredesc .subtitle {
-  color:#636363;
-  font-size: 14px;
-
-}
-.scorebox-shadow{
-  height:60px;
-  width: 60px;
-  background: rgba(255,255,255, 0.6);
-  margin-left: -60px;
-  margin-top: 5px;
-  z-index: 1;
-  float: left;
-  border-radius: 5px;
+    display: inline-block;
+    font-size: 15px;
+    color: #737373;
 }
 .scorebox {
-  height:60px;
-  width: 60px;
+  margin-left: 15px;
+  margin-right: 15px;
+  height: 70px;
+  width: 70px;
   margin-left: 10px;
   float: left;
-  border-radius: 5px;
+  border-radius: 4px;
   text-align:center;
   background: rgb(255,255,255);
   z-index: 2;
 }
 .scorebox .num {
-  font-size:24px;
-  color: rgb(102, 146, 161);
-  margin-top:10px;
+    color: white;
+    margin-top: 16px;
+    font-size: 25px;
 }
 .scorebox .desc {
-  font-size:10px;
-  color: rgb(102, 146, 161);
-  margin-top:3px;
+  font-size:15px;
+  letter-spacing: -0.3px;
+  margin-top: 20px;
 }
 
-#content {
-  padding-top:15px;
-}
-#content p {
-  line-height:150%;
-  margin-bottom:15px;
-}
 #content h1 {
   font-family: "BebasNeueRegular";
   font-weight: 100;
@@ -375,21 +379,8 @@ i.fa.fa-cart-plus {
   border: 1px solid #ffffff;
   border-radius: 2px;
 }
-#table-div {
-  width: 880px;
-  overflow: scroll;
-}
-
-#content-section {
-  padding: 40px;
-  width: 880px;
-  margin: 0px;
-  background-color: rgb(255,255,255);
-  border-radius: 5px;
-}
 
 /***** CONTENT-TABLE *****/
-
 #course-table {
   width:100%;
   position:relative;
