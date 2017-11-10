@@ -57,14 +57,26 @@ a:hover {
     display: inline-block;
     vertical-align: top;
 }
-#search input[type="text"] {
+#search input[type="text"], #search .selectize-input {
     display: inline-block;
     min-width: 514px;
     height: 37px;
     background-color: #f8f8f8;
     border-radius: 63px;
-    padding: 15px;
     transition: box-shadow 0.2s ease-in-out;
+    border: none;
+    box-shadow: none;
+    padding: 0px 16px;
+}
+.selectize-input input {
+    font-size: 16px;
+}
+.selectize-dropdown {
+    width: 500px;
+    margin-left: 15px;
+}
+.selectize-input input:focus {
+    border: none;
 }
 #search input[type="text"]:focus {
     outline: 0;
@@ -80,6 +92,7 @@ a:hover {
     right: 9px;
     color: #d8d8d8;
     font-size: 20px;
+    z-index: 5;
 }
 #search button:focus {
     outline: 0;
