@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% load infobox %}
+{% load scoretable %}
+{% load prettify %}
+{% load templates %}
+
+{% block title %}
+  Penn Course Review - {{title}}
+{% endblock %}
+
+{% block htmlheader-links %}
+  <link type="text/css" href="{% static "front-end/css/tutorial_overlay.css" %}" rel="stylesheet" />
+{% endblock %}
+
+{% block htmlheader-js %}
+  <![if ! IE 7]>
+  <script src="{% static "front-end/js/jquery.tablesorter.min.js" %}"></script>
+  <![endif]><!--[if IE 7]>
+  <script src="{% static "front-end/js/jquery.tablesorter.ie8fix.min.js" %}"></script>
+  <![endif]-->
+  <script src="{% static "front-end/js/item_base.js" %}"></script>
+{% endblock %}
+
+{% block banner-content %}
+  <div id="banner-info">
+    {% infobox item %}
+  </div>
+  {% ifnotequal type 'department'%}
+    {% include "pcr_detail/scorecard.html" %}
+  {% endifnotequal %}
+  {% ifequal type 'course' %}
+    <script src="{% static "front-end/js/loader.js" %}"></script>
+  {% endifequal %}
+  <div class="clear"></div>
+{% endblock %}
+
+{% block content-content %}
+  {% scoretable item %}
+  <div class="clear"></div>
+{% endblock %}
+
+{% block non-wrapper %}
+  {% choose_cols_box reviews|columns %}
+  {% include "pcr_detail/tutorial_overlay.html" with type=type%}
+{% endblock %}
