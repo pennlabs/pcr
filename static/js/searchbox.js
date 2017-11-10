@@ -5,7 +5,16 @@ $(document).ready(function() {
         valueField: 'url',
         create: false,
         options: [],
+        optgroups: [
+            {"value": "Departments", "label": "Departments"},
+            {"value": "Courses", "label": "Courses"},
+            {"value": "Instructors", "label": "Instructors"},
+        ],
+        optgroupField: 'category',
         render: {
+            optgroup_header: function(data, esc) {
+                return "<div class='optgroup-header'>" + esc(data.label) + "</div>";
+            },
             option: function(item, esc) {
                 return "<div>" + esc(item.title) + "</div>";
             }

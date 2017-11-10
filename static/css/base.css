@@ -75,6 +75,9 @@ a:hover {
     width: 500px;
     margin-left: 15px;
 }
+.optgroup-header {
+    font-weight: bold;
+}
 .selectize-input input:focus {
     border: none;
 }
