@@ -179,44 +179,7 @@ input {
 #linkbar span {
   display: inline-block;
 }
-#searchbar{
-  background-color: rgb(240, 240, 240);
-  width: 218px;
-  height: 28px;
-  border-radius: 5px;
-}
-#searchbar input[type=text] {
-  width:178px;
-  height: 20px;
-  background-color: rgb(240, 240, 240);
-  float:left;
-  font-family: 'Lato', helvetica, sans-serif;
-  font-size: 16px;
-  color: rgb(100,100,100);
-  margin: 4px 0px 4px 12px;
-  outline: none;
 
-}
-
-#searchbar input[type=text]:hover {
-  outline: none;
-
-}
-
-#searchbar input[type=submit] {
-  background:url(../image/search.png) no-repeat;
-  background-size: 16px;
-  background-position: 6px 6px;
-  border: none;
-  background-color: #90b8cb;
-  width:28px;
-  height:28px;
-  float:left;
-  cursor:pointer;
-  border-radius: 0px 5px 5px 0px;
-}
-#searchbar input[type=submit]:hover {
-}
 #searchAndCart {
   float: right;
   margin-top: 16px;
