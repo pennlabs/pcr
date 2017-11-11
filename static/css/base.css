@@ -227,10 +227,16 @@ i.fa.fa-cart-plus {
 #banner-info p.desc {
   line-height: 150%;
   margin-bottom: 15px;
+  /*font-family: AvenirNext;*/
+  font-size: 15px;
+  letter-spacing: -0.3px;
+}
+
 }
 .scoreboxrow {
     padding-bottom: 20px;
     margin-bottom: 15px;
+    width: 100%;
 }
 .scorebox.course {
     background-color: #6274f1;
@@ -249,6 +255,7 @@ i.fa.fa-cart-plus {
   float: none;
 }
 .scoredesc {
+    margin-top: 25px;
     padding-bottom: 4px;
     margin-bottom: 9px;
     border-bottom: 1px solid #dbdbdb;
@@ -274,10 +281,9 @@ i.fa.fa-cart-plus {
   margin-right: 15px;
   height: 70px;
   width: 70px;
-  margin-left: 10px;
   float: left;
   border-radius: 4px;
-  text-align:center;
+  text-align: center;
   background: rgb(255,255,255);
   z-index: 2;
 }
@@ -816,7 +822,6 @@ li.average {
   padding: 2px 4px;
   cursor:default;
 }
-
 
 /***** FONTS *****/
 
