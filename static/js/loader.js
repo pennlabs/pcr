@@ -127,6 +127,9 @@ const addCartButton = function() {
   addSpan.addClass('button');
   addSpan.addClass('courseCart');
 
+  /* var addDiv = $('<div>');
+  addDiv.addClass('add-course-cart'); */
+
   var addSmall = $('<small>');
   addSmall.attr('id', 'popup');
   addSmall.attr('data-html', 'true');
