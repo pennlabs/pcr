@@ -1,6 +1,6 @@
+
 //create object to convert the property names to html ids
 var mode = 'average';
-
 var toGray = [];
 
 var listings={};
@@ -44,8 +44,8 @@ const update = function() {
       for (var i = 0; i < course.info.length; i++) {
 
         //check to see if the class should be included in the average
-        if (course.info[i].recent > 0 && !toGray.includes(course.course)) { 
-          
+        if (course.info[i].recent > 0 && !toGray.includes(course.course)) {
+
           //add it to the sum to be averaged
           if (sum_recent[course.info[i].category]) {
             sum_recent[course.info[i].category] += course.info[i].recent;
@@ -174,7 +174,7 @@ const drawCourses = function() {
     //if the user has not selected four categories, do not close
     // and alert them
     if (checked.length < 4) {
-      $('#submitCategoriesPopup').css('opacity', 1);       
+      $('#submitCategoriesPopup').css('opacity', 1);
       return;
     } else {
       $('#submitCategoriesPopup').css('opacity', 0);
@@ -203,14 +203,14 @@ const drawCourses = function() {
     const checked = $('.col > p > input:checked').length
     if (checked > limit) {
       this.checked = false;
-    } 
+    }
     else if (checked == limit) {
       $("#submitCategoriesPopup").css('opacity', 0);
     }
   });
 
   update();
-  setInterval(update, 1000); 
+  setInterval(update, 1000);
 }
 
 //function for closing the choose categories popup
@@ -231,7 +231,7 @@ const set_datamode = function(n) {
   update();
 }
 
-const display = function() { 
+const display = function() {
 
   $("#choose-cols-content > div > p > input").click(
     function() {
@@ -242,7 +242,7 @@ const display = function() {
         });
     });
 
-  //set the defaults to be checked  
+  //set the defaults to be checked
   $('[name=rDifficulty]').prop('checked', true);
   $('[name=rCourseQuality]').prop('checked', true);
   $('[name=rInstructorQuality]').prop('checked', true);

@@ -9,7 +9,7 @@
   COURSE_DATA.instructor_data["average"].course = title;
   COURSE_DATA.instructor_data["average"].info = [];
   {% for attribute in reviews|columns %}
-    COURSE_DATA.instructor_data["average"].info.push({category: '{{attribute}}', recent: parseFloat({{reviews|recent|average:attribute|floatformat:2}}), average: parseFloat({{reviews|average:attribute|floatformat:2}})}); 
+    COURSE_DATA.instructor_data["average"].info.push({category: '{{attribute}}', recent: parseFloat({{reviews|recent|average:attribute|floatformat:2}}), average: parseFloat({{reviews|average:attribute|floatformat:2}})});
   {% endfor %}
 </script>
 <th scope="col" class="col_instructor">
@@ -19,11 +19,9 @@
 {% endblock %}
 
 {% block body %}
-  {% regroup reviews|dictsort:"instructor" by instructor as instructor_list %}
   <script>var profname = ""</script>
-  {% for group in instructor_list %}
-    {% with instructor=group.grouper %}
-      <script>COURSE_DATA.instructors.push("{{instructor.name}}")</script>
+  {% for instructor, group in instructor_list.items %}
+      <script>COURSE_DATA.instructors.push("{{instructor.name}}");</script>
       <tr id="row_display_{{forloop.counter0}}" class="row_display" onclick="toggle_course_row({{forloop.counter0}})">
         <td class="col_icon">
           <div class="fold-icon" title="Expand"></div>
@@ -33,7 +31,7 @@
             {{instructor.name}}
           </a>
         </td>
-      {% with all_cols=reviews|columns reviews=group.list %}
+      {% with all_cols=reviews|columns reviews=group %}
         {% if show_name %}
         <td class="col_name">
 	  {{reviews|sectionname|capitalize_improved|safe}}
@@ -59,7 +57,6 @@
         <td class="td_hidden" colspan="50">{% include "pcr_detail/templatetags/scoretable/section_table.html" %}</td>
       </tr>
       {% endwith %}
-    {% endwith %}
   {% endfor %}
   <script>
     var placeButton = function() {
