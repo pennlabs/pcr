@@ -175,6 +175,32 @@
       });
     }
     set_viewmode($.cookie("pcr_viewmode"));
+    $("#course-table").tablesorter({
+      sortList: [[1, 1]],
+      headers: {
+        0: {
+            sorter: false
+        }
+      },
+      textExtraction: function(node) {
+        var element;
+        element = (function() {
+          switch (node.children.length) {
+            case 0:
+              return node;
+            case 1:
+              return node.children[0];
+            default:
+              return node.children[viewmode()];
+          }
+        })();
+        return element.innerHTML;
+      }
+    }).bind("sortStart", function() {
+      return start_sort_rows();
+    }).bind("sortEnd", function() {
+      return end_sort_rows();
+    });
 
     if ($.cookie("pcr_choosecols") == null) {
       $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {
