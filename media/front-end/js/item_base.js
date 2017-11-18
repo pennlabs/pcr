@@ -176,10 +176,10 @@
     }
     set_viewmode($.cookie("pcr_viewmode"));
     $("#course-table").tablesorter({
-      sortList: [[1, 0]],
+      sortList: [[1, 1]],
       headers: {
         0: {
-          sorter: false
+            sorter: false
         }
       },
       textExtraction: function(node) {
@@ -201,6 +201,7 @@
     }).bind("sortEnd", function() {
       return end_sort_rows();
     });
+
     if ($.cookie("pcr_choosecols") == null) {
       $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {
         path: '/'

@@ -1,7 +1,5 @@
 //variable holding the content of the popover
 var popoverContent = null;
-
-
 //function to list professors when there are <= 15
 const listProfessors = function() {
   var outerDiv = $('<div>');
@@ -64,7 +62,7 @@ const listAlphabet = function(c) {
     var containsCharAfterSpace = function(a, b) {
       return (b.split(' ').pop()[0] == character) || a;
     }
-    
+
     if (!COURSE_DATA.instructors.reduce(containsCharAfterSpace, false)) {
       button.addClass('grayedOut');
     } else {

@@ -22,6 +22,9 @@
               <div class="fold-icon" onclick="toggle_course_row_all()" title="Expand All"></div>
               {% endifnotequal %}
             </th>
+            <th scope="col" class="col_recent_sem" style="display: none">
+                <span class="th-text"> Recency </span>
+            </th>
             {% block key %}
             {% endblock %}
             {% if show_name %}
