@@ -26,7 +26,7 @@
         <td class="col_icon">
           <div class="fold-icon" title="Expand"></div>
         </td>
-        <td id="most_recent_sem" style="">
+        <td id="most_recent_sem" style="display: none">
             {% with group|last as last %}
                 <p> {{last.section.course.semester}}  </p>
             {% endwith %}
