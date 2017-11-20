@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 import mimetypes
@@ -24,6 +24,10 @@ def faq(request):
 
 def cart(request):
     return static(request, "cart")
+
+
+def logout(request):
+    return redirect("https://idp.pennkey.upenn.edu/logout")
 
 
 def proxy(request, path):
