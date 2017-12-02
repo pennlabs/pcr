@@ -119,6 +119,10 @@ body {
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
 }
 
+#banner-score {
+  margin-bottom: 25px;
+}
+
 #content {
     padding: 50px;
 }
@@ -218,6 +222,7 @@ i.fa.fa-cart-plus {
     letter-spacing: -0.7px;
     margin-bottom: 0px;
     font-weight: 500;
+    /* text-transform: capitalize; */
 }
 #banner-info .subtitle {
     font-size: 20px;

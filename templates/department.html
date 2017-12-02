@@ -19,8 +19,16 @@
 {% endblock %}
 
 
+// JQuery Table
 {% block content-content %}
-	<div id="content-settings" class="grid_12">
+	<table id="data-table">
+		<thead>
+			<tr>Course Quality</tr>
+			<tr>Instructor Quality</tr>
+			<tr>Difficulty</tr>
+		</thead>
+	</table>
+	<!--div id="content-settings" class="grid_12">
 		<div class="grid_4 suffix_4 alpha">
 			View:&nbsp;
 			<a href="">Average</a>
@@ -33,5 +41,5 @@
 	</div>
 	<div class="clear"></div>
 	{% course_table score_table %}
-  <div class="clear"></div>
+  <div class="clear"></div-->
 {% endblock %}
