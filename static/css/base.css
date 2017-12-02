@@ -55,6 +55,12 @@ body {
     box-shadow: none;
     padding: 0px 16px;
 }
+@media (max-width: 800px) {
+    #search input[type="text"], #search .selectize-input {
+        min-width: unset;
+        width: calc(100vw - 270px);
+    }
+}
 .selectize-input input {
     font-size: 16px;
 }
