@@ -1,23 +1,20 @@
 import functools
-import urllib
-import urllib2
+import requests
 import json
 
 from django.conf import settings
 
-from memoize import memoize
 
-
-@memoize
+@functools.lru_cache(maxsize=None)
 def api(domain, *args, **kwargs):
     assert domain.endswith("/")
     path = "".join(
-        (domain, "/".join([str(arg) for arg in args]), "?", urllib.urlencode(kwargs)))
+        (domain, "/".join([str(arg) for arg in args])))
     try:
-        response = urllib2.build_opener().open(path)
-    except urllib2.HTTPError as e:
+        response = requests.get(path, params=kwargs)
+    except Exception:
         raise ValueError("invalid path: %s", path)
-    return json.loads(response.read())['result']
+    return response.json()['result']
 
 
 api = functools.partial(api, settings.DOMAIN, token=settings.PCR_API_TOKEN)

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
-from models import Instructor, CourseHistory, Department
+from .models import Instructor, CourseHistory, Department
 from collections import OrderedDict
 
 def instructor(request, id):
