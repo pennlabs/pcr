@@ -812,23 +812,22 @@ li.average {
     margin-top: 10px;
     font-size: 14px;
     font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
-    color:#ffffff;
-    cursor:pointer;
-    display:inline;
-    padding:2px;
+    cursor: pointer;
+    display: inline;
+    padding: 2px;
 }
 .heightFifteen {
     height: 15px;
 }
 #toggleView .button {
     padding: 2px 4px;
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 2px;
     cursor: pointer;
 }
 #toggleView .button.selected {
     color: rgb(102, 146, 161);
-    background: #ffffff;
+    background: #eee;
     padding: 2px 4px;
     cursor:default;
 }

@@ -1,4 +1,7 @@
-<center>
+{% extends "base.html" %}
+
+{% block content %}
+<center style="margin: 0 auto">
   <p class="courseCartHeader title">My Course Cart</p>
   <p class="courseCartDesc">The course cart is a feature for you to see all the relevant reviews for your selected courses at once with at-a-glance statistics. Search for courses to add them to your cart.</p>
   <div id="bannerScore">
@@ -63,6 +66,4 @@
   <div id="boxHelpTag">Click a course to exclude it from the average.</div>
   <div id="courseBox"></div>
 </center>
-<script>
-  display();
-</script>
+{% endblock %}

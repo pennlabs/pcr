@@ -5,26 +5,17 @@ from django.conf import settings
 import requests
 import mimetypes
 
-from lib.api import api
-
-
-def static(request, page):
-    context = {
-        'content': api('pcrsite-static', page)
-    }
-    return render(request, 'static.html', context)
-
 
 def about(request):
-    return static(request, "about")
+    return render(request, "about.html")
 
 
 def faq(request):
-    return static(request, "faq")
+    return render(request, "faq.html")
 
 
 def cart(request):
-    return static(request, "cart")
+    return render(request, "cart.html")
 
 
 def logout(request):
