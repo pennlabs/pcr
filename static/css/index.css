@@ -43,6 +43,7 @@
     margin-bottom: 100px;
     width: 600px;
     position: relative;
+    display: block;
 }
 
 #search .selectize-input {
