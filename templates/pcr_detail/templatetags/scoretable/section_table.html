@@ -2,17 +2,17 @@
 <table id="section-table" class="section-table">
   <thead>
     <tr>
-      <td class="sec_th col_icon">
+      <th class="sec_th col_icon">
         <div title="Comments"></div>
-      </td>
-      <td class="sec_th col_semester">Semester</td>
-      <td class="sec_th col_name">Name</td>
-      <td class="sec_th col_section">Section</td>
-      <td class="sec_th col_responses">Responses</td>
+      </th>
+      <th class="sec_th col_semester">Semester</th>
+      <th class="sec_th col_name">Name</th>
+      <th class="sec_th col_section">Section</th>
+      <th class="sec_th col_responses">Responses</th>
       {% for attribute in reviews|columns %}
-      <td class="sec_th col_{{attribute}}">
+      <th class="sec_th col_{{attribute}}">
         {{attribute|reviewbit}}
-      </td>
+      </th>
       {% endfor %}
     </tr>
   </thead>

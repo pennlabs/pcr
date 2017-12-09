@@ -8,15 +8,16 @@
             {% block key %}
             {% endblock %}
             {% if show_name %}
-            <th scope="col" class="col_name">
+            <th class="col_name">
               <span class="th-text">Name</span>
             </th>
             {% endif %}
             {% for attribute in reviews|columns %}
-            <th scope="col" class="col_{{attribute}}">
+            <th class="col_{{attribute}}">
               <span class="th-text">{{attribute|reviewbit}}</span>
             </th>
             {% endfor %}
+          <th>Section</th>
           </tr>
         </thead>
         <tbody>
