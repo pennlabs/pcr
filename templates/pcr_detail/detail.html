@@ -9,12 +9,12 @@
   Penn Course Review - {{title}}
 {% endblock %}
 
+{% block htmlheader-style %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/jquery.dataTables.min.css" %}" />
+{% endblock %}
+
 {% block htmlheader-js %}
-  <![if ! IE 7]>
-  <script src="{% static "js/jquery.tablesorter.min.js" %}"></script>
-  <![endif]><!--[if IE 7]>
-  <script src="{% static "js/jquery.tablesorter.ie8fix.min.js" %}"></script>
-  <![endif]-->
+  <script src="{% static "js/jquery.dataTables.min.js" %}"></script>
 {% endblock %}
 
 {% block banner-content %}
