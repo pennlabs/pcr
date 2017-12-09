@@ -19,7 +19,7 @@ const listProfessors = function() {
     button.click(
       function(){
         addToCourseCart(prof);
-	addRemoveButton();
+        addRemoveButton();
       });
     button.append(prof);
     listItem.append(button);
@@ -40,8 +40,8 @@ const listAlphabet = function(c) {
   var tr = $('<tr>');
   var avgSection = $('<button>AVERAGE PROFESSOR</button>');
   avgSection.click(function() {
-    addToCourseCart('average');
-    addRemoveButton();
+      addToCourseCart('average');
+      addRemoveButton();
   });
   avgList = $('<ul>');
   avgList.addClass('professorList');
@@ -102,7 +102,7 @@ const listAlphabet = function(c) {
             button.click(
               function() {
                 addToCourseCart(b);
-		addRemoveButton();
+                addRemoveButton();
               });
             button.append(b);
             listItem.append(button);
@@ -141,48 +141,27 @@ const addCartButton = function() {
     listProfessors();
   else
     listAlphabet(null);
-
-  $('.courseCart').click(function() {
-    $('#popup').popover({title: 'Select Professor', content: popoverContent, placement: 'left'});
-    $('#popup').popover('show');
-    if (COURSE_DATA.instructors.length <= 15)
-      listProfessors();
-    else
-      listAlphabet(null);
-  });
-  $('html').on('click', function(e) {
-
-    //if click outside the cart close it.
-    if (typeof $(e.target).data('original-title') == 'undefined' &&
-        !$(e.target).is('button')  &&
-        !$(e.target).parents().is('.popover.in')) {
-
-      //must be toggled twice to avoid having to click twice when opening again
-      $('[data-original-title]').popover('hide');
-      $('[data-original-title]').popover();
-      $('[data-original-title]').popover('hide');
-    }
-  });
 }
 
 //remove the addCart button and replace it
 //with a remove from cart option
 const addRemoveButton = function() {
-  $('#popup').remove();
-  var removeSpan = $('.courseCart');
-  var removeSmall = $('<small>');
-  removeSmall.attr('id', 'remove');
-  var fontAwesome = $('<i>');
-  fontAwesome.addClass('fa');
-  fontAwesome.addClass('fa-trash-o');
-  removeSmall.append(fontAwesome);
-  removeSmall.append(' Remove from My Cart');
-  removeSmall.click(
-    function() {
-      localStorage.removeItem(title);
-      addCartButton();
+    $('#popup').remove();
+    var removeSpan = $('.courseCart');
+    var removeSmall = $('<small>');
+    removeSmall.attr('id', 'remove');
+    var fontAwesome = $('<i>');
+    fontAwesome.addClass('fa');
+    fontAwesome.addClass('fa-trash-o');
+    removeSmall.append(fontAwesome);
+    removeSmall.append(' Remove from My Cart');
+    removeSmall.click(function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        localStorage.removeItem(title);
+        addCartButton();
     });
-  removeSpan.append(removeSmall);
+    removeSpan.append(removeSmall);
 }
 
 //when a professor is selected, add the remove button and
@@ -208,3 +187,27 @@ const initializeCartButton = function(inCart) {
     addCartButton();
   }
 }
+
+$(document).ready(function() {
+    $('.courseCart').click(function() {
+        $('#popup').popover({title: 'Select Professor', content: popoverContent, placement: 'left'});
+        $('#popup').popover('show');
+        if (COURSE_DATA.instructors.length <= 15)
+            listProfessors();
+        else
+            listAlphabet(null);
+    });
+    $('html').on('click', function(e) {
+
+        //if click outside the cart close it.
+        if (typeof $(e.target).data('original-title') == 'undefined' &&
+                !$(e.target).is('button')  &&
+                !$(e.target).parents().is('.popover.in')) {
+
+            //must be toggled twice to avoid having to click twice when opening again
+            $('[data-original-title]').popover('hide');
+            $('[data-original-title]').popover();
+            $('[data-original-title]').popover('hide');
+        }
+    });
+});
