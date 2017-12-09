@@ -547,10 +547,11 @@ i.fa.fa-cart-plus {
     z-index: 10;
 }
 #choose-cols-inner {
-    position:absolute;
     top:75px;
 }
 #choose-cols-content {
+    max-width: 600px;
+    margin: 0 auto;
     background-color:#FFF;
     padding:15px;
     border-radius: 5px;
