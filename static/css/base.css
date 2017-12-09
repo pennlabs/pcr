@@ -59,7 +59,7 @@ body {
 @media (max-width: 800px) {
     #search input[type="text"], #search .selectize-input {
         min-width: unset;
-        width: calc(100vw - 270px);
+        width: calc(100vw - 250px);
     }
 }
 .selectize-input input {
