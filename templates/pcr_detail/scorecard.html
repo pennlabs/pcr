@@ -5,7 +5,7 @@
         <p class="title">Average</p>
         <p class="subtitle">{{reviews|length}} Section{{reviews|length|pluralize}}</p>
     </div>
-    <div class="scoreboxrow col clearfix">
+    <div class="scoreboxrow">
       <div class="scorebox course">
         <p class="num">{{reviews|average:"rCourseQuality"|floatformat:1}}</p>
         <p class="desc">Course</p>
@@ -23,7 +23,7 @@
         <p class="title">Recent</p>
         <p class="subtitle">{{recents.0.section.course.semester|semester}}</p>
     </div>
-    <div class="scoreboxrow col clearfix">
+    <div class="scoreboxrow">
       {% with recents=reviews|recent %}
       <div class="scorebox course">
         <p class="num">{{recents|average:"rCourseQuality"|floatformat:1}}</p>

@@ -10,14 +10,16 @@
     margin-right: auto;
     padding-top: 50px;
     padding-bottom: 25px;
-    font-size: 100px;
-    width: 800px;
+    font-size: 3rem;
+    font-weight: 500;
+    color: #4a4a4a;
+    width: 700px;
     text-align: center;
 }
 
 #title img {
-    width: 128px;
-    height: 128px;
+    width: 64px;
+    height: 64px;
 }
 
 #searchbox {

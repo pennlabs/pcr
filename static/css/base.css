@@ -152,8 +152,6 @@ input {
 }
 
 #title {
-    font-family: 'BebasNeueRegular';
-    font-size: 30px;
     color: #90b8cb;
     margin-top: 17px;
 }
@@ -237,7 +235,6 @@ i.fa.fa-cart-plus {
 .scoreboxrow {
     padding-bottom: 20px;
     margin-bottom: 15px;
-    width: 100%;
 }
 .scorebox.course {
     background-color: #6274f1;
@@ -279,11 +276,11 @@ i.fa.fa-cart-plus {
     color: #ffffff;
 }
 .scorebox {
-    margin-left: 15px;
-    margin-right: 15px;
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
     height: 70px;
     width: 70px;
-    float: left;
     border-radius: 4px;
     text-align: center;
     background: rgb(255,255,255);
