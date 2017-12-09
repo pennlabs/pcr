@@ -33,9 +33,10 @@ body {
 }
 #logo {
     display: inline-block;
-    width: 68px;
+    width: 37px;
     height: 37px;
-    background-color: #d8d8d8;
+    background: url(../image/logo.png);
+    background-size: cover;
     margin-left: 30px;
     margin-right: 25px;
 }
