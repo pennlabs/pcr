@@ -30,14 +30,11 @@ def logout(request):
 
 
 def proxy(request, path):
-    url = '%s%s%s%s' % (settings.DOMAIN, path)
+    url = '%s%s' % (settings.DOMAIN, path)
     try:
         proxied_request = requests.get(url, params={"token": settings.PROXY_TOKEN})
-        status_code = proxied_request.status_code
-        if status_code != 200:
-            return HttpResponse(proxied_request.text, status=status_code, mimetype='text/plain')
-        mimetype = proxied_request.headers.typeheader or mimetypes.guess_type(
-            url)
+        proxied_request.raise_for_status()
+        mimetype = proxied_request.headers.typeheader or mimetypes.guess_type(url)
         content = proxied_request.text
     except requests.exceptions.RequestException as e:
         return HttpResponse(str(e), status=500, mimetype='text/plain')
