@@ -16,37 +16,13 @@
 {% endblock %}
 
 
-{% block header-content %}
-{% endblock %}
-
-
-{% block banner-content %}
-	<div id="title">
-		<span class="BNR">Penn</span> <span class="BNL">Course Review</span>
-	</div>
-	<div id="search">
-		<div id="search-loading">
-		</div>
-		<div id="search-container">
-			<div class="search">
-			<div class="bar">
-				<input type = "text" id="searchbox" class = "text" placeholder = "Search for a Class or Professor" autofocus>
-			</div>
-			<div class="shadow">
-			</div>
-				<div class="results">
-
-
-
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="clear"></div>
-{% endblock %}
-
-
-{% block content-content %}
+{% block content %}
+<div id="title">
+    <img src="{% static "image/logo.png" %}" alt="Penn Course Review" /> enn Course Review
+</div>
+<div id="search">
+    <input type = "text" id="searchbox" class="text" placeholder="Search for a Class or Professor" autofocus>
+</div>
 	<div class="clear" style="margin-top:15px"></div>
 	<div class="grid_8">
 		<h1>Welcome!</h1>
