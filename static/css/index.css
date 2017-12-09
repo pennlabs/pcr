@@ -20,14 +20,6 @@
     height: 128px;
 }
 
-#searchbar {
-    background-color: rgb(255, 255, 255);
-    height: 80px;
-    width: inherit;
-    border-radius: 7px;
-    z-index: 5;
-    width: 100px;
-}
 #searchbox {
     margin: 10px 20px;
     height: 60px;
@@ -56,7 +48,6 @@
 
 #search .selectize-input input[type="text"] {
     font-size: 30px;
-    height: inherit;
 }
 
 #subtitle {

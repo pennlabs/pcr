@@ -44,11 +44,12 @@ body {
     position: relative;
     display: inline-block;
     vertical-align: top;
+    height: 37px;
 }
 #search input[type="text"], #search .selectize-input {
     display: inline-block;
     min-width: 514px;
-    height: 37px;
+    height: inherit;
     background-color: #f8f8f8;
     border-radius: 63px;
     transition: box-shadow 0.2s ease-in-out;
@@ -61,6 +62,9 @@ body {
         min-width: unset;
         width: calc(100vw - 250px);
     }
+}
+.selectize-control {
+    height: inherit;
 }
 .selectize-input input {
     font-size: 16px;
