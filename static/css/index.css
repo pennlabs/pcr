@@ -58,6 +58,16 @@
     width: inherit !important;
 }
 
+@media only screen and (max-width: 500px) {
+    .title-text {
+        display: none;
+    }
+    #title img {
+        width: 128px;
+        height: 128px;
+    }
+}
+
 #subtitle {
     text-align:center;
     font-family:"Times New Roman", Times, serif;
