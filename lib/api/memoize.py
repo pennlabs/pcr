@@ -7,7 +7,7 @@ def memoize(func):
 
     @functools.wraps(func)
     def memoized(*args, **kwargs):
-        hash_ = cPickle.dumps((args, set(kwargs.iteritems())))
+        hash_ = cPickle.dumps((args, set(kwargs.items())))
         try:
             return cache[hash_]
         except KeyError:
