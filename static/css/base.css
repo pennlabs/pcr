@@ -646,7 +646,7 @@ The result is this, which is a little unclean, but it works.
   list-style-image: none;
   margin-bottom: 10px;
 }
-.courseCart, #remove {
+.courseCart {
   white-space: nowrap;
   margin-left: 10px;
   font-size: 20px;
@@ -659,11 +659,7 @@ The result is this, which is a little unclean, but it works.
   text-align: center;
 }
 
-#remove {
-  vertical-align: 2px;
-  float: right;
-}
-.popover-title{
+.popover-title {
   background: rgba(0,0,0,0);
   padding: 4px;
   padding-bottom: 0px;
@@ -681,16 +677,11 @@ The result is this, which is a little unclean, but it works.
   background-color: #dbdbdb;
 }
 
-#popup {
-  /* float: right; */
+#popup, #remove {
   font-size: 17px;
   color: white;
   background-color: #dbdbdb;
   padding: 10px;
-  /*margin: 0 auto;
-  margin-top: 60px;
-  display: block;*/
-  /* clear: both; */
 }
 
 li.average {

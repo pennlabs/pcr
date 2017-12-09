@@ -26,7 +26,8 @@
     {% include "pcr_detail/scorecard.html" %}
   {% endifnotequal %}
   {% ifequal type 'course' %}
-    <script src="{% static "js/loader.js" %}"></script>
+  <span class="button courseCart"></span>
+  <script src="{% static "js/loader.js" %}"></script>
   {% endifequal %}
 {% endblock %}
 

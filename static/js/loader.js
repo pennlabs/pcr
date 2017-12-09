@@ -123,12 +123,7 @@ const listAlphabet = function(c) {
 const addCartButton = function() {
   $('#remove').remove();
 
-  var addSpan = $('<span>');
-  addSpan.addClass('button');
-  addSpan.addClass('courseCart');
-
-  /* var addDiv = $('<div>');
-  addDiv.addClass('add-course-cart'); */
+  var addSpan = $('.courseCart');
 
   var addSmall = $('<small>');
   addSmall.attr('id', 'popup');
@@ -141,7 +136,6 @@ const addCartButton = function() {
   addSmall.append(fontAwesome);
   addSmall.append(' Add to My Cart');
   addSpan.append(addSmall);
-  $('#banner-score').append(addSpan);
 
   if (COURSE_DATA.instructors.length <= 15)
     listProfessors();
@@ -175,7 +169,7 @@ const addCartButton = function() {
 //with a remove from cart option
 const addRemoveButton = function() {
   $('#popup').remove();
-  var removeSpan = $('<span>');
+  var removeSpan = $('.courseCart');
   var removeSmall = $('<small>');
   removeSmall.attr('id', 'remove');
   var fontAwesome = $('<i>');
@@ -189,7 +183,6 @@ const addRemoveButton = function() {
       addCartButton();
     });
   removeSpan.append(removeSmall);
-  $('#banner-score').append(removeSpan);
 }
 
 //when a professor is selected, add the remove button and
