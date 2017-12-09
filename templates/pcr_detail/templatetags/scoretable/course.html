@@ -25,8 +25,8 @@
     <script>COURSE_DATA.instructors.push("{{instructor.name}}")</script>
     <tr id="row_display_{{forloop.counter0}}" class="row_display">
         <td class="col_instructor">
-            <a href="../instructor/{{instructor.id}}">
-                {{instructor.name}}
+            <a href="{% url "instructor" instructor.id %}">
+                {{instructor.name|title}}
             </a>
         </td>
         {% with all_cols=reviews|columns reviews=group.list %}

@@ -13,7 +13,7 @@
       {% with coursehistory=group.grouper %}
         <tr id="row_display_{{forloop.counter0}}" class="row_display">
             <td class="col_code">
-                <a href="../course/{{coursehistory.alias}}">
+                <a href="{% url "course" coursehistory.alias %}">
                     {{coursehistory.alias}}
                 </a>
             </td>
