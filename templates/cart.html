@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block htmlheader-js %}
+<script type="text/javascript" src="{% static "js/coursecart.js" %}"></script>
+{% endblock %}
 
 {% block content %}
 <center style="margin: 0 auto">
