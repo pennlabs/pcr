@@ -17,6 +17,10 @@
     text-align: center;
 }
 
+#searchbox-selectized::placeholder {
+    color: #b2b2b2;
+}
+
 #title img {
     width: 64px;
     height: 64px;
