@@ -351,9 +351,8 @@ i.fa.fa-cart-plus {
     width:100%;
     position:relative;
 }
-#course-table td,
-#course-table th {
-    /*display: none;*/
+#table-div .dataTable thead th {
+    border-bottom: 1px solid #979797;
 }
 #course-table th {
     border-bottom: 2px solid #636363;
@@ -362,9 +361,7 @@ i.fa.fa-cart-plus {
     padding: 10px 5px;
 }
 #course-table td {
-    border-bottom: 1px solid #CCC;
     color:#636363;
-    padding:20px 5px;
     width:5%;
 }
 
