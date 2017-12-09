@@ -130,6 +130,7 @@ body {
 
 #content {
     padding: 50px;
+    margin: 0;
 }
 
 input {
@@ -298,9 +299,9 @@ i.fa.fa-cart-plus {
 }
 
 #content h1 {
-    font-family: "BebasNeueRegular";
     font-weight: 100;
-    font-size:70px;
+    font-size:30px;
+    margin-top: 15px;
     margin-bottom:15px;
 }
 
