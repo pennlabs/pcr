@@ -31,6 +31,7 @@ $(document).ready(function() {
         },
         onItemAdd: function(value) {
             window.location.href = "/" + value;
+            this.clear();
             this.disable();
         }
     });
