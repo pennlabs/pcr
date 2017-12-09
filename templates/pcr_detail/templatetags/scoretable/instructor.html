@@ -3,7 +3,6 @@
 
 {% block key %}
   <th scope="col" class="col_code">
-    <div class="sort-icon"></div>
     <span class="th-text">Code</span>
   </th>
 {% endblock %}
@@ -13,9 +12,6 @@
   {% for group in course_list %}
     {% with coursehistory=group.grouper %}
     <tr id="row_display_{{forloop.counter0}}" class="row_display" onclick="toggle_course_row({{forloop.counter0}})">
-      <td class="col_icon">
-        <div class="fold-icon" title="Expand"></div>
-      </td>
       <td class="col_code">
         <a href="../course/{{coursehistory|get_alias:item}}" onclick="toggle_course_row({{forloop.counter0}})">
           {{coursehistory|get_alias:item}}

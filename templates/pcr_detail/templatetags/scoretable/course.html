@@ -13,7 +13,6 @@
   {% endfor %}
 </script>
 <th scope="col" class="col_instructor">
-  <div class="sort-icon"></div>
   <span class="th-text">Instructor</span>
 </th>
 {% endblock %}
@@ -25,9 +24,6 @@
     {% with instructor=group.grouper %}
       <script>COURSE_DATA.instructors.push("{{instructor.name}}")</script>
       <tr id="row_display_{{forloop.counter0}}" class="row_display" onclick="toggle_course_row({{forloop.counter0}})">
-        <td class="col_icon">
-          <div class="fold-icon" title="Expand"></div>
-        </td>
         <td class="col_instructor">
           <a href="../instructor/{{instructor.id}}" onclick="toggle_course_row({{forloop.counter0}})">
             {{instructor.name}}

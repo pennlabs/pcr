@@ -1,38 +1,19 @@
 {% load prettify %}
 {% if reviews|length > 0 %}
-  <div id="content-settings" class="grid_12">
-    <div id="settings-viewmode" class="grid_4 alpha">
-      <span class="label">View:&nbsp;</span>
-      <span id="view_average" class="button selected" onclick="set_viewmode(0)">Average</span>
-      <span id="view_recent" class="button" onclick="set_viewmode(1)">Most Recent</span>
-    </div>
-    <div id="settings-other" class="grid_8 omega">
-      <span class="button" onclick="$('#tutorial_overlay').show()">&nbsp;<strong>?</strong>&nbsp;</span>
-      <span class="button" onclick="toggle_choose_cols()">Choose Columns</span>
-    </div>
-  </div>
-  <div class="clear"></div>
   <div id="content-section" class="grid_12">
     <div id="table-div">
       <table id="course-table" count="{{table.body|length}}">
         <thead>
           <tr>
-            <th scope="col" class="col_icon">
-              {% ifnotequal type 'department'%}
-              <div class="fold-icon" onclick="toggle_course_row_all()" title="Expand All"></div>
-              {% endifnotequal %}
-            </th>
             {% block key %}
             {% endblock %}
             {% if show_name %}
             <th scope="col" class="col_name">
-              <div class="sort-icon"></div>
               <span class="th-text">Name</span>
             </th>
             {% endif %}
             {% for attribute in reviews|columns %}
             <th scope="col" class="col_{{attribute}}">
-              <div class="sort-icon"></div>
               <span class="th-text">{{attribute|reviewbit}}</span>
             </th>
             {% endfor %}
