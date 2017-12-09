@@ -39,7 +39,7 @@ def proxy(request, path):
         mimetype = proxied_request.headers.typeheader or mimetypes.guess_type(
             url)
         content = proxied_request.text
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         return HttpResponse(str(e), status=500, mimetype='text/plain')
     else:
         return HttpResponse(content, status=status_code, mimetype=mimetype)
