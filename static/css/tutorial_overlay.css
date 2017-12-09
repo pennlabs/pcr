@@ -10,7 +10,7 @@
   height:100%;
   width:100%;
   
-  background:url(../image/bg-pix-75.png) repeat;
+  background-color: rgba(0, 0, 0, 191);
   color:#FFF;
 }
 
