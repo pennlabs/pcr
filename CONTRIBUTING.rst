@@ -2,7 +2,7 @@
 Contributing
 ================================================================================
 
-staticjinja is under active development, and contributions are more than
+penn course review is under active development, and contributions are more than
 welcome!
 
 #. Check for open issues or open a fresh issue to start a discussion around a
