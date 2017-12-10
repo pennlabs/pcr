@@ -22,10 +22,14 @@ def infobox(context, item):
         return render_to_string('pcr_detail/templatetags/infobox/course.html', new_context)
     elif type(item) == Instructor:
         email = None
-        r = requests.get(
-            "http://api.pennlabs.org/directory/search", params={"name": item.name})
-        if len(r.json()['result_data']) == 1:
-            email = r.json()['result_data'][0]['list_email'].lower()
+        try:
+            r = requests.get(
+                "http://api.pennlabs.org/directory/search", params={"name": item.name})
+            r.raise_for_status()
+            if len(r.json()['result_data']) == 1:
+                email = r.json()['result_data'][0]['list_email'].lower()
+        except requests.exceptions.RequestException:
+            pass
         new_context = {
             'instructor': item,
             'email': email,
