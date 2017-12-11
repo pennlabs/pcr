@@ -1,12 +1,8 @@
 import json
 
-from django.http import HttpResponse
+from django.http import JsonResponse
 
 from lib.api import api
-
-
-def json_response(result_dict):
-    return HttpResponse(content=json.dumps(result_dict))
 
 
 def autocomplete_data(request, start=None):
@@ -61,5 +57,5 @@ def autocomplete_data(request, start=None):
                    or start in department['name'].lower()]
 
     # 4. Respond in JSON
-    return json_response({"courses": courses, "instructors": instructors,
+    return JsonResponse({"courses": courses, "instructors": instructors,
                           "departments": departments})
