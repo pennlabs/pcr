@@ -89,7 +89,6 @@ body {
     transition: box-shadow 0.2s ease-in-out;
 }
 #search button {
-    cursor: pointer;
     border: none;
     background: none;
     position: absolute;
