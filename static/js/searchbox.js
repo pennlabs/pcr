@@ -36,8 +36,10 @@ $(document).ready(function() {
                 $("#search .selectize-control").hide();
             }
             else {
-                this.clear();
+                this.setTextboxValue(value);
                 this.disable();
+                $("#search button .fa.fa-search").removeClass("fa-search").addClass("fa-spinner fa-spin");
+                $("#search button").prop("disabled", true);
             }
         }
     });
