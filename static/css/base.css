@@ -209,7 +209,6 @@ i.fa.fa-cart-plus {
     letter-spacing: -0.7px;
     margin-bottom: 0px;
     font-weight: 500;
-    /* text-transform: capitalize; */
 }
 #banner-info .subtitle {
     font-size: 20px;
@@ -230,8 +229,6 @@ i.fa.fa-cart-plus {
     /*font-family: AvenirNext;*/
     font-size: 15px;
     letter-spacing: -0.3px;
-}
-
 }
 .scoreboxrow {
     padding-bottom: 20px;
