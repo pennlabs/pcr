@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
+
+import requests
 import mimetypes
 
 from lib.api import api
@@ -36,7 +38,6 @@ def proxy(request, path):
         proxied_request.raise_for_status()
         mimetype = proxied_request.headers.typeheader or mimetypes.guess_type(url)
         content = proxied_request.text
+        return HttpResponse(content, status=proxied_request.status_code, mimetype=mimetype)
     except requests.exceptions.RequestException as e:
         return HttpResponse(str(e), status=500, mimetype='text/plain')
-    else:
-        return HttpResponse(content, status=status_code, mimetype=mimetype)
