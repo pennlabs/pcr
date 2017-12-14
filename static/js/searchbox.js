@@ -31,8 +31,14 @@ $(document).ready(function() {
         },
         onItemAdd: function(value) {
             window.location.href = "/" + value;
-            this.clear();
-            this.disable();
+            if ($("#loading").length) {
+                $("#loading").show();
+                $("#search .selectize-control").hide();
+            }
+            else {
+                this.clear();
+                this.disable();
+            }
         }
     });
 });
