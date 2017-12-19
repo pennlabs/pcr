@@ -125,6 +125,8 @@ if DO_STATICGENERATOR:
     SERVER_NAME = 'pennapps.com'
     STATIC_GENERATOR_URLS = ('.*',)
 
+
+# Sentry error reporting
 if 'SENTRY_DSN' in os.environ:
     RAVEN_CONFIG = {
         'dsn': os.getenv('SENTRY_DSN'),
