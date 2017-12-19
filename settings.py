@@ -1,5 +1,6 @@
 # Django settings for PCR
 import os
+import raven
 
 # For hitting the API
 DOMAIN = os.getenv("DOMAIN", "http://api.penncoursereview.com/v1/")
@@ -112,6 +113,7 @@ INSTALLED_APPS = (
     'apps.pcr_detail',
     'apps.searchbar',
     'apps.static',
+    'raven.contrib.django.raven_compat'
 )
 
 if DO_STATICGENERATOR:
@@ -122,3 +124,9 @@ if DO_STATICGENERATOR:
     # not staticgenerator-specific, but that's all that needs it
     SERVER_NAME = 'pennapps.com'
     STATIC_GENERATOR_URLS = ('.*',)
+
+if 'SENTRY_DSN' in os.environ:
+    RAVEN_CONFIG = {
+        'dsn': os.getenv('SENTRY_DSN'),
+        'release': raven.fetch_git_sha(os.path.abspath(os.curdir))
+    }
