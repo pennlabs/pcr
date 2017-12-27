@@ -102,47 +102,22 @@
       });
     }
     set_viewmode($.cookie("pcr_viewmode"));
-    $("#course-table").tablesorter({
-      sortList: [[1, 1]],
-      headers: {
-        0: {
-            sorter: false
-        }
-      },
-      textExtraction: function(node) {
-        var element;
-        element = (function() {
-          switch (node.children.length) {
-            case 0:
-              return node;
-            case 1:
-              return node.children[0];
-            default:
-              return node.children[viewmode()];
-          }
-        })();
-        return element.innerHTML;
-      }
-    }).bind("sortStart", function() {
-      return start_sort_rows();
-    }).bind("sortEnd", function() {
-      return end_sort_rows();
-    });
 
-    if ($.cookie("pcr_choosecols") == null) {
-      $.cookie("pcr_choosecols", "name,rCourseQuality,rInstructorQuality,rDifficulty", {
-        path: '/'
-      });
-    }
-    cols = $.cookie("pcr_choosecols").split(",");
-    set_cols(cols);
-    for (i = j = 0, ref = cols.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      $("#choose-cols input[name='" + cols[i] + "']").prop("checked", true);
-    }
-    if ($("#course-table").attr("count") === "1") {
-      toggle_course_row_all();
-    }
-    return window.setup_tutorial_overlay();
+    const table = $("#course-table").DataTable({
+        columnDefs: [
+            {
+                targets: [-1],
+                visible: false
+            }
+        ],
+        autoWidth: false,
+        language: {
+            searchPlaceholder: "Search Table",
+            search: ""
+        }
+    });
+    table.columns().visible(false);
+    table.columns([0, 1, 2, 3, 4]).visible(true);
   });
 
 }).call(this);

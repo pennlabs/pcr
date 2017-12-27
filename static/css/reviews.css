@@ -9,3 +9,24 @@
         padding-top: 25px;
     }
 }
+
+#table-div {
+    overflow-x: auto;
+}
+input[type=search] {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px 5px;
+    font-family: inherit;
+}
+input[type=search]:focus {
+    outline: none;
+}
+#course-table_length label {
+    margin: 6px 0;
+}
+#course-table_length select {
+    background-color: inherit;
+    border-radius: 3px;
+    margin: 0 3px;
+}
