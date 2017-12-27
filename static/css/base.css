@@ -288,6 +288,13 @@ i.fa.fa-cart-plus {
     margin-top: 16px;
     font-size: 25px;
 }
+#bannerScore .scorebox .num {
+    color: black;
+    font-size: 1.5em;
+}
+#bannerScore .scorebox .desc {
+    margin-top: 0;
+}
 .scorebox .desc {
     font-size:15px;
     letter-spacing: -0.3px;
@@ -712,6 +719,7 @@ li.average {
 .tooltip {
     position: relative;
     display: inline-block;
+    opacity: 1;
 }
 
 .tooltip .tooltiptext {

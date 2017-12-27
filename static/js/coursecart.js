@@ -36,6 +36,10 @@ const update = function() {
         //get the object for the course stored in localStorage
         const course = JSON.parse(localStorage.getItem(key));
 
+        if (!course) {
+            continue;
+        }
+
         //check to make sure that it is an actual object to filter
         //out extraneous info that is stored in localStorage
         if (course.info) {
@@ -132,6 +136,9 @@ const drawCourses = function() {
     $('#courseBox').html('');
     for (var key in localStorage) {
         const course = JSON.parse(localStorage.getItem(key));
+        if (!course) {
+            continue;
+        }
         var quality;
         var instructor;
         var difficulty;
