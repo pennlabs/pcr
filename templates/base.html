@@ -29,7 +29,7 @@
   <link type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
   <link href='//fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
-  {% block htmlheader-links %}{% endblock %}
+  {% block css %}{% endblock %}
 
   <title>{% block title %}Penn Course Review{% endblock %}</title>
 
@@ -40,9 +40,7 @@
   <script type="text/javascript" src="{% static "js/tether.min.js" %}"></script>
   <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
 
-  {% block htmlheader-js %}{% endblock %}
-
-  {% block htmlheader-style %}{% endblock %}
+  {% block js %}{% endblock %}
 
   <!-- start Mixpanel -->
   <script type="text/javascript">var mpq=[];mpq.push(["init","9aa52fc2877144ac5d5d92002694f984"]);(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push([f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links","track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<d.length;c++){mpq[d[c]]=e(d[c])}})();
