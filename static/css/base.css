@@ -270,8 +270,9 @@ i.fa.fa-cart-plus {
 .scoredesc .subtitle {
     display: inline-block;
     font-size: 15px;
-    /* color: #737373; */
-    color: #ffffff;
+    color: #868686;
+    /*color: #ffffff;
+    color: ;*/
 }
 .scorebox {
     display: inline-block;
