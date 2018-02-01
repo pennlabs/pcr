@@ -1,9 +1,8 @@
-
 //create object to convert the property names to html ids
-var mode = 'average';
-var toGray = [];
+let mode = 'average';
+let toGray = [];
 
-var listings={};
+let listings = {};
 listings.courseBoxOne = 'rCourseQuality';
 listings.courseBoxTwo = 'rInstructorQuality';
 listings.courseBoxThree = 'rDifficulty';
@@ -25,23 +24,23 @@ const propertyShortNames = {
 //boxes to the new average
 const update = function() {
   //objects holding the sums of each proprty within courses
-  var sum_recent = {};
-  var sum_average = {};
+  let sum_recent = {};
+  let sum_average = {};
   //holds the count for each property in the courses
-  var count = {};
+  let count = {};
 
   //run through the courses in localStorage
-  for (var key in localStorage) {
+  for (let key in localStorage) {
 
     //get the object for the course stored in localStorage
     const course = JSON.parse(localStorage.getItem(key));
 
     //check to make sure that it is an actual object to filter
     //out extraneous info that is stored in localStorage
-    if (course.info) {
+    if (course && course.info) {
 
       //run through all the properties in the course
-      for (var i = 0; i < course.info.length; i++) {
+      for (let i = 0; i < course.info.length; i++) {
 
         //check to see if the class should be included in the average
         if (course.info[i].recent > 0 && !toGray.includes(course.course)) {
@@ -66,15 +65,15 @@ const update = function() {
   //go through each of the properties in listings and set the innerHTML
   //for the appropriate html element corresponding to the data
   //the value input is the average of the property (sum / count)
-  for (var property in listings) {
+  for (let property in listings) {
     if (!count[listings[property]]) {
       $("#" + property).html("N/A");
-    } else if (mode == 'average') {
+    } else if (mode === 'average') {
       $("#" + property).html((sum_average[listings[property]] /
-                                  count[listings[property]]).toFixed(1));
+        count[listings[property]]).toFixed(1));
     } else {
       $("#" + property).html((sum_recent[listings[property]] /
-                                  count[listings[property]]).toFixed(1));
+        count[listings[property]]).toFixed(1));
     }
   }
 }
@@ -84,29 +83,29 @@ const update = function() {
 const drawCourses = function() {
   const formCourse =
     function(name, courseQuality, instructorQuality, difficulty, workload) {
-      var div = $('<div>');
+      let div = $('<div>');
       div.click(
         function() {
           div.toggleClass('courseInBoxGrayed');
-	  if (toGray.includes(name)) {
-	    toGray.splice(toGray.indexOf(name),1);
-	  } else {
-	    toGray.push(name);
-	  }
+          if (toGray.includes(name)) {
+            toGray.splice(toGray.indexOf(name), 1);
+          } else {
+            toGray.push(name);
+          }
           update();
         });
       if (toGray.includes(name)) {
-      	div.toggleClass('courseInBoxGrayed');
+        div.toggleClass('courseInBoxGrayed');
       }
       div.attr('id', name.replace(/ /g, ''));
       div.addClass('tooltip');
       div.addClass('courseInBox');
-      var fontAwesome = $('<i>');
+      let fontAwesome = $('<i>');
       fontAwesome.click(
         function() {
-	  if (toGray.includes(name)) {
-	    toGray.splice(toGray.indexOf(name), 1);
-	  }
+          if (toGray.includes(name)) {
+            toGray.splice(toGray.indexOf(name), 1);
+          }
           div.remove();
           localStorage.removeItem(name);
         });
@@ -115,9 +114,9 @@ const drawCourses = function() {
       fontAwesome.attr('aria-hidden', 'true');
       div.append(fontAwesome);
       div.append(' ' + name);
-      var hoverSpan = $('<span>');
+      let hoverSpan = $('<span>');
       hoverSpan.addClass('tooltiptext');
-      var innerSpan = $('<div>');
+      let innerSpan = $('<div>');
       innerSpan.append('Course Quality: ' + courseQuality);
       innerSpan.append($('<br>'));
       innerSpan.append('Instructor Quality: ' + instructorQuality);
@@ -130,28 +129,28 @@ const drawCourses = function() {
       return div;
     }
   $('#courseBox').html('');
-  for (var key in localStorage) {
+  for (let key in localStorage) {
     const course = JSON.parse(localStorage.getItem(key));
-    var quality;
-    var instructor;
-    var difficulty;
-    var workload;
-    if (course.info) {
-      for (var i = 0; i < course.info.length; i++) {
-        if (course.info[i].category == "rCourseQuality") {
+    let quality;
+    let instructor;
+    let difficulty;
+    let workload;
+    if (course && course.info) {
+      for (let i = 0; i < course.info.length; i++) {
+        if (course.info[i].category === "rCourseQuality") {
           quality = course.info[i].average;
-        } else if (course.info[i].category == 'rInstructorQuality') {
+        } else if (course.info[i].category === 'rInstructorQuality') {
           instructor = course.info[i].average;
-        } else if (course.info[i].category == 'rDifficulty') {
+        } else if (course.info[i].category === 'rDifficulty') {
           difficulty = course.info[i].average;
-        } else if (course.info[i].category == 'rWorkRequired'){
+        } else if (course.info[i].category === 'rWorkRequired') {
           workload = course.info[i].average;
         }
       }
     }
-    if (course.course) {
+    if (course && course.course) {
       $("#courseBox").append(formCourse(course.course, quality,
-           instructor, difficulty, workload));
+        instructor, difficulty, workload));
     }
   }
   $('#categoriesButton').click(function() {
@@ -159,7 +158,7 @@ const drawCourses = function() {
   });
 
   //array holding checked checkboxes
-  var checked = [];
+  let checked = [];
 
   //on click of submit
   $('[value=Submit]').click(function() {
@@ -190,7 +189,7 @@ const drawCourses = function() {
     listings.courseBoxFour = checked[3];
 
     //change the text in the boxes displaying the averages
-    for (var i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
       $('.desc')[i].innerHTML = propertyShortNames[checked[i]];
     }
 
@@ -203,8 +202,7 @@ const drawCourses = function() {
     const checked = $('.col > p > input:checked').length
     if (checked > limit) {
       this.checked = false;
-    }
-    else if (checked == limit) {
+    } else if (checked === limit) {
       $("#submitCategoriesPopup").css('opacity', 0);
     }
   });
@@ -214,16 +212,16 @@ const drawCourses = function() {
 }
 
 //function for closing the choose categories popup
-var cancel_choose_cols = function() {
+let cancel_choose_cols = function() {
   $('#choose-cols').css('display', 'none');
 }
 
 const set_datamode = function(n) {
-  if (n == 1) {
+  if (n === 1) {
     $('#view_average').removeClass('selected');
     $('#view_recent').addClass('selected');
     mode = 'recent';
-  } else if (n == 0) {
+  } else if (n === 0) {
     $('#view_average').addClass('selected');
     $('#view_recent').removeClass('selected');
     mode = 'average';
@@ -235,7 +233,7 @@ const display = function() {
 
   $("#choose-cols-content > div > p > input").click(
     function() {
-      var clicked = 0;
+      let clicked = 0;
       $("#choose-cols-content > div > p > input").each(
         function() {
           clicked += $(this).prop('checked') ? 1 : 0;
