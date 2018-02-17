@@ -1,7 +1,7 @@
 {% load prettify %}
 <div class="title">{{title|no_hyphen}} 
 	<span class="alert-btn">
-		<input type="button" class="btn btn-primary btn-sm" value="Get Alerted" onclick="location.href = 'http://www.penncoursealert.com';">
+		<input type="button" class="btn btn-primary btn-sm" value="Get Alerted" onclick=" window.open('http://penncoursealert.com','_blank')">
 	</span>
 </div>
 <script>var title = "{{title|no_hyphen}}"</script>
