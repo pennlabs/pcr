@@ -63,6 +63,13 @@ body {
         width: calc(100vw - 250px);
     }
 }
+
+@media (min-width: 768px) and (max-width: 950px) {
+    .alert-btn {
+        display: inline-block;
+    }
+}
+
 .selectize-control {
     height: inherit;
 }
@@ -136,6 +143,11 @@ body {
 input {
     font-family:Verdana, Geneva, sans-serif;
     font-size:16px;
+}
+
+input[type="button"] {
+    float: right;
+    margin-top: 9px;
 }
 
 .shadow {

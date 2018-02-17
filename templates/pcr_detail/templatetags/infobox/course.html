@@ -1,5 +1,9 @@
 {% load prettify %}
-<p class="title">{{title|no_hyphen}}
+<div class="title">{{title|no_hyphen}} 
+	<span class="alert-btn">
+		<input type="button" class="btn btn-primary btn-sm" value="Get Alerted" onclick="location.href = 'http://www.penncoursealert.com';">
+	</span>
+</div>
 <script>var title = "{{title|no_hyphen}}"</script>
 <div class="crosslist">
   {% if aliases|length >= 1 %}
