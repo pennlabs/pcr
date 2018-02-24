@@ -1,10 +1,12 @@
 {% load prettify %}
 <div class="title">{{title|no_hyphen}} 
 	<span class="alert-btn">
-		<input type="button" class="btn btn-primary btn-sm" value="Get Alerted" onclick=" window.open('http://penncoursealert.com','_blank')">
+		<input type="button" class="btn btn-primary btn-sm" value="Get Alerted" onclick="window.open('http://penncoursealert.com/?course=' + title1 + '&source=pcr', '_blank');">
 	</span>
 </div>
-<script>var title = "{{title|no_hyphen}}"</script>
+<script>var title = "{{title|no_hyphen}}"
+        var title1 = "{{title}}"
+</script>
 <div class="crosslist">
   {% if aliases|length >= 1 %}
     (Also:
