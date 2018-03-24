@@ -1,7 +1,7 @@
 {% load prettify %}
 <div class="title">{{title|no_hyphen}} 
 	<span class="alert-btn">
-		<input type="button" class="btn btn-primary btn-sm" value="Get Alerted" onclick="window.open('http://penncoursealert.com/?course=' + title1 + '&source=pcr', '_blank');">
+		<input type="button" class="btn btn-primary btn-sm" value="Get Alerted" style="cursor : pointer" onclick="window.open('http://penncoursealert.com/?course=' + title1 + '&source=pcr', '_blank');">
 	</span>
 </div>
 <script>var title = "{{title|no_hyphen}}"
