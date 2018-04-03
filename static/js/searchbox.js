@@ -21,10 +21,10 @@ $(document).ready(function() {
             }
         },
         load: function(query, callback) {
-            if (!query.length) {
+            if (query.length < 2) {
                 return callback();
             }
-            $.getJSON("/autocomplete_data.json/" + query.toLowerCase() + ".json", function(data) {
+            $.getJSON("/autocomplete_data.json/" + query.toLowerCase().substring(0, 2) + ".json", function(data) {
                 var out = data.courses.concat(data.departments).concat(data.instructors);
                 callback(out);
             });
