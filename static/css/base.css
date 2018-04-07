@@ -132,7 +132,7 @@ body {
 }
 
 #banner-score {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 #content {
@@ -243,8 +243,8 @@ i.fa.fa-cart-plus {
     letter-spacing: -0.3px;
 }
 .scoreboxrow {
-    padding-bottom: 20px;
-    margin-bottom: 15px;
+    /*padding-bottom: 15px;
+    margin-bottom: 15px;*/
 }
 .scorebox.course {
     background-color: #6274f1;
@@ -263,7 +263,7 @@ i.fa.fa-cart-plus {
     float: none;
 }
 .scoredesc {
-    margin-top: 25px;
+    margin-top: 15px;
     padding-bottom: 4px;
     margin-bottom: 9px;
     border-bottom: 1px solid #dbdbdb;
