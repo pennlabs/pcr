@@ -133,198 +133,36 @@
     btn.innerHTML = "<i class='fa fa-plus'></i>"
     $( ".btn-group.dropleft" ).prepend( btn );
     // create a div element for the drop down menu
-    var div = document.createElement("div");
-    // set atrributes for div element 
-    div.setAttribute("class", "dropdown-menu");
-    div.setAttribute("aria-labelledby", "dropdownMenuButton");
+    var div = $("<div id='column-selector' class='dropdown-menu' aria-labelledby='dropDownMenuButton' />");
     // create dropdown menu inside div
-    div.innerHTML = "<a class='dropdown-item' id='course'>Course Quality</a> \
-    <a class='dropdown-item' id='instructor-quality'>Instructor Quality</a> \
-    <a class='dropdown-item' id='difficulty'>Difficulty</a> \
-    <a class='dropdown-item' id='learned'>Amount Learned</a> \
-    <a class='dropdown-item' id='work'>Amount of Work</a> \
-    <a class='dropdown-item' id='value'>Value of Readings</a> \
-    <a class='dropdown-item' id='communication'>Instructor Communication</a> \
-    <a class='dropdown-item' id='accessibility'>Instructor Accessibility</a> \
-    <a class='dropdown-item' id='interest'>Ability to Stimulate Interest</a> \
-    <a class='dropdown-item' id='ta'>TA Quality</a> \
-    <a class='dropdown-item' id='majors'>Recommended for Majors</a> \
-    <a class='dropdown-item' id='non-majors'>Recommended for Non-Majors</a>"
-    $( ".btn-group.dropleft" ).prepend( div );
-    // $('.dropdown-item').bind('click', function (e) { e.stopPropagation});
-    $('.dropdown-menu').click(function(e) {
-      e.stopPropagation();
+    table.columns().every(function() {
+        var title = $(this.header()).text().trim();
+        var item = $("<a class='dropdown-item' data-id='" + this.index() + "'>" + title + "</a>");
+        if (title == "Instructor" || title == "Section") {
+            return;
+        }
+        div.append(item);
+        if (this.visible()) {
+            item.addClass("selected");
+        }
+    });
+    $(".btn-group.dropleft").prepend(div);
+    $('#column-selector .dropdown-menu').click(function(e) {
+        e.stopPropagation();
     });
 
-    // 4 columns are visible by default and should be highlighted gray in the dropdown menu
-    // be default
-    $('#course').css("background-color", "rgb(211,211,211,0.5)");
-    $('#instructor-quality').css("background-color", "rgb(211,211,211,0.5)");
-    $('#difficulty').css("background-color", "rgb(211,211,211,0.5)");
-    $('#learned').css("background-color", "rgb(211,211,211,0.5)");
-
-    var col_ids = ['.', 'course', 'instructor-quality', 'difficulty', 'learned', 'work', 'value', 
-    'communication','accessibility', 'interest', 'ta', 'majors', 'non-majors'];
-    // attempt to condense code in a for loop
-     /*for (var i = 1; i < 13; i++) {
-      $('#' + col_ids[i]).click(function() {
-        // get current visibility
-        var visible = table.column(i).visible();
+    $('#column-selector .dropdown-item').click(function() {
+        var id = $(this).attr("data-id");
+        var visible = table.column(id).visible();
         if (visible) {
-          table.column(i).visible(false);
-          $('#' + col_ids[i]).css("background-color", "white");
+            table.column(id).visible(false);
+            $(this).addClass("selected");
         }
         else {
-          table.column(i).visible(true);
-          $('#' + col_ids[i]).css("background-color", "rgb(211,211,211,0.5)");
-        }
-      });
-    } */
-
-    // event handler for dropdown-item
-    // get id of whatever's being clicked
-    // toggle accordingly 
-    /*$('.dropdown-item').click(toggle); 
-
-    var toggle = function() {
-        table.column(col_ids.indexOf(this.id)) === true ? 
-        table.column(col_ids.indexOf(this.id)).visible(false) 
-        : table.column(col_ids.indexOf(this.id)).visible(true); 
-    };*/
-
-    $('#course').click(function() {
-        // get current visibility
-        var visible = table.column(1).visible();
-        if (visible) {
-          table.column(1).visible(false);
-          $('#course').css("background-color", "white");
-        }
-        else {
-          table.column(1).visible(true);
-          $('#course').css("background-color", "rgb(211,211,211,0.5)");
+            table.column(id).visible(true);
+            $(this).removeClass("selected");
         }
     });
-    $('#instructor-quality').click(function() {
-        var visible = table.column(2).visible();
-        if (visible) {
-          table.column(2).visible(false);
-          $('#instructor-quality').css("background-color", "white");
-        }
-        else {
-          table.column(2).visible(true);
-          $('#instructor-quality').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#difficulty').click(function() {
-        var visible = table.column(3).visible();
-        if (visible) {
-          table.column(3).visible(false);
-          $('#difficulty').css("background-color", "white");
-        }
-        else {
-          table.column(3).visible(true);
-          $('#difficulty').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#learned').click(function() {
-        var visible = table.column(4).visible();
-        if (visible) {
-          table.column(4).visible(false);
-          $('#learned').css("background-color", "white");
-        }
-        else {
-          table.column(4).visible(true);
-          $('#learned').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#work').click(function() {
-        var visible = table.column(5).visible();
-        if (visible) {
-          table.column(5).visible(false);
-          $('#work').css("background-color", "white");
-        }
-        else {
-          table.column(5).visible(true);
-          $('#work').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#value').click(function() {
-        var visible = table.column(6).visible();
-        if (visible) {
-          table.column(6).visible(false);
-          $('#value').css("background-color", "white");
-        }
-        else {
-          table.column(6).visible(true);
-          $('#value').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#communication').click(function() {
-        var visible = table.column(7).visible();
-        if (visible) {
-          table.column(7).visible(false);
-          $('#communication').css("background-color", "white");
-        }
-        else {
-          table.column(7).visible(true);
-          $('#communication').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#accessibility').click(function() {
-        var visible = table.column(8).visible();
-        if (visible) {
-          table.column(8).visible(false);
-          $('#accessibility').css("background-color", "white");
-        }
-        else {
-          table.column(8).visible(true);
-          $('#accessibility').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#interest').click(function() {
-        var visible = table.column(9).visible();
-        if (visible) {
-          table.column(9).visible(false);
-          $('#interest').css("background-color", "white");
-        }
-        else {
-          table.column(9).visible(true);
-          $('#interest').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#ta').click(function() {
-        var visible = table.column(10).visible();
-        if (visible) {
-          table.column(10).visible(false);
-          $('#ta').css("background-color", "white");
-        }
-        else {
-          table.column(10).visible(true);
-          $('#ta').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#majors').click(function() {
-        var visible = table.column(11).visible();
-        if (visible) {
-          table.column(11).visible(false);
-          $('#majors').css("background-color", "white");
-        }
-        else {
-          table.column(11).visible(true);
-          $('#majors').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    });
-    $('#non-majors').click(function() {
-        var visible = table.column(12).visible();
-        if (visible) {
-          table.column(12).visible(false);
-          $('#non-majors').css("background-color", "white");
-        }
-        else {
-          table.column(12).visible(true);
-          $('#non-majors').css("background-color", "rgb(211,211,211,0.5)");
-        }
-    }); 
   });
 
 }).call(this);
