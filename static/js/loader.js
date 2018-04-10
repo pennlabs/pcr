@@ -134,7 +134,7 @@ const addCartButton = function() {
   fontAwesome.addClass('fa-cart-plus');
   fontAwesome.attr('aria-hidden', 'true');
   addSmall.append(fontAwesome);
-  addSmall.append(' Add to My Cart');
+  addSmall.append(' Add to Course Cart');
   addSpan.append(addSmall);
 
   if (COURSE_DATA.instructors.length <= 15)
@@ -190,7 +190,7 @@ const initializeCartButton = function(inCart) {
 
 $(document).ready(function() {
     $('.courseCart').click(function() {
-        $('#popup').popover({title: 'Select Professor', content: popoverContent, placement: 'left'});
+        $('#popup').popover({title: 'Select Professor', content: popoverContent, placement: 'right'});
         $('#popup').popover('show');
         if (COURSE_DATA.instructors.length <= 15)
             listProfessors();

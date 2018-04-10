@@ -364,6 +364,34 @@ i.fa.fa-cart-plus {
 }
 
 /***** CONTENT-TABLE *****/
+/* initially intended to make room for buttom */
+/*#content-section {
+    width: calc(100% - 20px);
+}*/
+
+/* make sure the scoretable doesn't get too big */
+.box.clearfix {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.fa.fa-plus {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#dropdownMenuButton {
+    /* position: static; */
+    top: -2px;
+    border-radius: 50%;
+    left: -5px;
+}
+
+.dropdown-item {
+    font-size: 11px;
+    cursor: pointer;
+}
+
 #course-table {
     width:100%;
     position:relative;
