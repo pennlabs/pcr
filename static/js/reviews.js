@@ -154,11 +154,11 @@
         var visible = table.column(id).visible();
         if (visible) {
             table.column(id).visible(false);
-            $(this).addClass("selected");
+            $(this).removeClass("selected");
         }
         else {
             table.column(id).visible(true);
-            $(this).removeClass("selected");
+            $(this).addClass("selected");
         }
     });
   });
