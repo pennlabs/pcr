@@ -147,11 +147,9 @@
         }
     });
     $(".btn-group.dropleft").prepend(div);
-    $('#column-selector .dropdown-menu').click(function(e) {
-        e.stopPropagation();
-    });
 
-    $('#column-selector .dropdown-item').click(function() {
+    $('#column-selector .dropdown-item').click(function(e) {
+        e.stopPropagation();
         var id = $(this).attr("data-id");
         var visible = table.column(id).visible();
         if (visible) {
