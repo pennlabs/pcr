@@ -25,7 +25,7 @@ body {
 }
 
 .btn-secondary {
-    background-color: #ccc;
+    background-color: #b2b2b2;
     color: white;
     border: none;
     padding: 0.5rem 0.7rem;
@@ -122,7 +122,7 @@ body {
 #cart {
     font-size: 37px;
     margin-right: 10px;
-    color: #ccc;
+    color: #b2b2b2;
 }
 #cart:hover {
     color: #888;
@@ -472,11 +472,11 @@ i.fa.fa-cart-plus {
 #section-table td {
     padding:5px 5px;
     font-size: 12px;
-    border-bottom-color: #CCC;
+    border-bottom-color: #b2b2b2;
     /*  color:#636363;
      */}
 #section-table .sec_th {
-    border-bottom: 2px solid #CCC;
+    border-bottom: 2px solid #b2b2b2;
     font-weight:bold;
 }
 #section-table td.sec_td_hidden {
@@ -711,8 +711,8 @@ li.average {
 }
 .professorList > li > button {
     width: 100%;
-    border: 1px solid #ccc;
-    color: #ccc;
+    border: 1px solid #b2b2b2;
+    color: #b2b2b2;
     padding: 6px 12px;
     border-radius: 3px;
     cursor: pointer;
