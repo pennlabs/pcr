@@ -45,7 +45,7 @@ const listProfessors = function() {
  * and display filtered profs*/
 const listAlphabet = function(c) {
   var head = $('<p>')
-  head.html('<span class="label">Or Filter by Last Name:</span>');
+  head.html('<span class="label">Filter by last name:</span>');
   var table = $('<table>');
   table.addClass("professorList");
   var tr = $('<tr>');

@@ -734,12 +734,12 @@ li.average {
     outline: 0;
 }
 .professorList > tbody > tr > td > button {
-    color: #aaa;
+    color: #b2b2b2;
     width: 27px;
     font-size: 80%;
     margin: 3px;
     background-color: white;
-    border: 1px #aaa solid;
+    border: 1px #b2b2b2 solid;
     border-radius: 5px;
     margin-bottom: 4px;
     cursor: pointer;
@@ -752,8 +752,8 @@ li.average {
     color: white;
 }
 .professorList > tbody > tr > td > button.grayedOut:hover, .professorList > tbody > tr > td > button.grayedOut {
-    color: #eee;
-    border-color: #eee;
+    color: #eaeaea;
+    border-color: #eaeaea;
     cursor: default;
     background-color: white;
 }
