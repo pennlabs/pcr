@@ -26,7 +26,7 @@
   <link type="text/css" href="{% static "css/selectize.css" %}" rel="stylesheet" />
   <link type="text/css" href="{% static "css/base.css" %}" rel="stylesheet" />
   <link type="text/css" href="{% static "css/searchbox.css" %}" rel="stylesheet" />
-  <link type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
 
   <link href='//fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
   {% block css %}{% endblock %}
@@ -64,14 +64,14 @@
   <div id="wrapper">
     {% block header-div %}
     <div id="header">
-        <span class="pull-left">
+        <span class="float-left">
             <a href="/"><div id="logo"></div></a>
             <form id="search">
                 <input type="text" />
                 <button><i class="fa fa-search"></i></button>
             </form>
         </span>
-        <span class="pull-right">
+        <span class="float-right">
             <a href="{% url "cart" %}"><i id="cart" class="fa fa-shopping-cart"></i></a>
         </span>
     </div>

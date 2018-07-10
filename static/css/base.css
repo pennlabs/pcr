@@ -24,6 +24,17 @@ body {
     color: #4a4a4a;
 }
 
+.btn-secondary {
+    background-color: #ccc;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #6274f1;
+    color: white;
+}
+
 #header {
     background-color: white;
     min-height: 80px;
@@ -61,12 +72,6 @@ body {
     #search input[type="text"], #search .selectize-input {
         min-width: unset;
         width: calc(100vw - 250px);
-    }
-}
-
-@media (min-width: 768px) and (max-width: 950px) {
-    .alert-btn {
-        display: inline-block;
     }
 }
 
