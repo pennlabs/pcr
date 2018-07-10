@@ -682,18 +682,16 @@ list-style: none inside none;    }
     margin-bottom: 10px;
 }
 
-.popover-title {
-    background: rgba(0,0,0,0);
-    padding: 4px;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-    font-family: 'BebasNeueRegular';
-    font-size: 20px;
+.popover {
+    padding: 15px;
+    background-color: white;
+    border: none;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
+    cursor: default;
 }
 
-.popover {
-    cursor: default;
-    background-color: rgba(73,73,73,0.7);
+.popover.bs-tether-element-attached-left::before, .popover.popover-right::before {
+    border-right-color: rgba(0, 0, 0, 0.07);
 }
 
 .add-course-cart {

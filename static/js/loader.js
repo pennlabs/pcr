@@ -6,14 +6,19 @@ const listProfessors = function() {
   outerDiv.attr('id', 'divList');
   var listOfProfessors = $('<ul>');
   listOfProfessors.addClass('professorList');
-  var avgButton = $('<button>AVERAGE PROFESSOR</button>');
+  var avgButton = $('<button>Average professor</button>');
   avgButton.click(function(){
     addToCourseCart('average');
     addRemoveButton();
   });
   listOfProfessors.append($('<li>').append(avgButton));
   for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
-    var prof = COURSE_DATA.instructors[i];
+    var profParts = $.trim(COURSE_DATA.instructors[i]).split(" ");
+    var prof = [];
+    for (var j = 0; j < profParts.length; j++) {
+        prof.push(profParts[j][0].toUpperCase() + profParts[j].substr(1).toLowerCase());
+    }
+    prof = prof.join(" ");
     var listItem = $('<li>');
     var button = $('<button>');
     button.click(
@@ -162,7 +167,6 @@ $(document).ready(function() {
         }
         else {
             $('#popup').popover({
-                title: 'Select Professor',
                 content: popoverContent,
                 placement: $(window).width() >= 768 ? 'right' : 'left',
                 html: true,
