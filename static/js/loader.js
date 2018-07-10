@@ -121,21 +121,7 @@ const listAlphabet = function(c) {
 //put the cart button under the scoreboxes
 //fill the popover with professors/filtering interface
 const addCartButton = function() {
-  $('#remove').remove();
-
-  var addSpan = $('.courseCart');
-
-  var addSmall = $('<small>');
-  addSmall.attr('id', 'popup');
-  addSmall.attr('data-html', 'true');
-
-  var fontAwesome = $('<i>');
-  fontAwesome.addClass('fa');
-  fontAwesome.addClass('fa-cart-plus');
-  fontAwesome.attr('aria-hidden', 'true');
-  addSmall.append(fontAwesome);
-  addSmall.append(' Add to Course Cart');
-  addSpan.append(addSmall);
+  $('.courseCart').removeClass("d-none").find("i").addClass("fa-cart-plus").removeClass("fa-trash-o");
 
   if (COURSE_DATA.instructors.length <= 15)
     listProfessors();
@@ -146,22 +132,7 @@ const addCartButton = function() {
 //remove the addCart button and replace it
 //with a remove from cart option
 const addRemoveButton = function() {
-    $('#popup').remove();
-    var removeSpan = $('.courseCart');
-    var removeSmall = $('<small>');
-    removeSmall.attr('id', 'remove');
-    var fontAwesome = $('<i>');
-    fontAwesome.addClass('fa');
-    fontAwesome.addClass('fa-trash-o');
-    removeSmall.append(fontAwesome);
-    removeSmall.append(' Remove from My Cart');
-    removeSmall.click(function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        localStorage.removeItem(title);
-        addCartButton();
-    });
-    removeSpan.append(removeSmall);
+    $('.courseCart').removeClass("d-none").find("i").addClass("fa-trash-o").removeClass("fa-cart-plus");
 }
 
 //when a professor is selected, add the remove button and
@@ -189,24 +160,27 @@ const initializeCartButton = function(inCart) {
 }
 
 $(document).ready(function() {
-    $('.courseCart').click(function() {
-        $('#popup').popover({title: 'Select Professor', content: popoverContent, placement: 'right'});
-        $('#popup').popover('show');
-        if (COURSE_DATA.instructors.length <= 15)
-            listProfessors();
-        else
-            listAlphabet(null);
+    $('.courseCart').click(function(e) {
+        e.preventDefault();
+        if ($('.courseCart').find('.fa').hasClass('.fa-trash-o')) {
+            localStorage.removeItem(title);
+            addCartButton();
+        }
+        else {
+            $('#popup').popover({
+                title: 'Select Professor',
+                content: popoverContent,
+                placement: window.innerWidth >= 768 ? 'right' : 'left'
+            });
+            $('#popup').popover('show');
+            if (COURSE_DATA.instructors.length <= 15)
+                listProfessors();
+            else
+                listAlphabet(null);
+        }
     });
     $('html').on('click', function(e) {
-
-        //if click outside the cart close it.
-        if (typeof $(e.target).data('original-title') == 'undefined' &&
-                !$(e.target).is('button')  &&
-                !$(e.target).parents().is('.popover.in')) {
-
-            //must be toggled twice to avoid having to click twice when opening again
-            $('[data-original-title]').popover('hide');
-            $('[data-original-title]').popover();
+        if (typeof $(e.target).attr("data-original-title") == 'undefined' && !$(e.target).is('button') && !$(e.target).parents().is('.popover')) {
             $('[data-original-title]').popover('hide');
         }
     });

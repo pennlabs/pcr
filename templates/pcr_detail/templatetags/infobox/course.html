@@ -1,7 +1,8 @@
 {% load prettify %}
 <div class="title">{{title|no_hyphen}}
   <span class="float-right">
-    <a target="_blank" href="http://penncoursealert.com/?course={{ title }}&source=pcr" class="btn btn-secondary"><i class="fas fa-bell"></i></a>
+    <span id="popup" class="courseCart d-none btn btn-secondary"><i class="fa fa-fw"></i></span>
+    <a target="_blank" href="http://penncoursealert.com/?course={{ title }}&source=pcr" class="btn btn-secondary"><i class="fas fa-fw fa-bell"></i></a>
   </span>
 </div>
 <script>var title = "{{title|no_hyphen}}"

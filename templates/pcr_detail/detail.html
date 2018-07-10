@@ -31,7 +31,6 @@
   {% endifnotequal %}
   {% ifequal type 'course' %}
   <p class="desc">{{item.description|default_if_none:""}}</p>
-  <span class="button courseCart"></span>
   <script src="{% static "js/loader.js" %}"></script>
   {% endifequal %}
 {% endblock %}

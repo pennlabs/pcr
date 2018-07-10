@@ -28,10 +28,12 @@ body {
     background-color: #ccc;
     color: white;
     border: none;
+    padding: 0.5rem 0.7rem;
+    cursor: pointer;
 }
 
 .btn-secondary:hover {
-    background-color: #6274f1;
+    background-color: #84B8BA;
     color: white;
 }
 
@@ -679,18 +681,6 @@ list-style: none inside none;    }
     list-style-image: none;
     margin-bottom: 10px;
 }
-.courseCart {
-    white-space: nowrap;
-    margin-left: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    color: black;
-    margin-bottom: 8px;
-    vertical-align: 6px;
-    display: block;
-    margin-top: 25px;
-    text-align: center;
-}
 
 .popover-title {
     background: rgba(0,0,0,0);
@@ -708,13 +698,6 @@ list-style: none inside none;    }
 
 .add-course-cart {
     background-color: #dbdbdb;
-}
-
-#popup, #remove {
-    font-size: 17px;
-    color: white;
-    background-color: #dbdbdb;
-    padding: 10px;
 }
 
 li.average {
