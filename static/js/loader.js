@@ -1,5 +1,16 @@
 //variable holding the content of the popover
 var popoverContent = null;
+
+// function to titleize strings
+const titleize = function(str) {
+    var profParts = $.trim(str).split(" ");
+    var prof = [];
+    for (var j = 0; j < profParts.length; j++) {
+        prof.push(profParts[j][0].toUpperCase() + profParts[j].substr(1).toLowerCase());
+    }
+    return prof.join(" ");
+}
+
 //function to list professors when there are <= 15
 const listProfessors = function() {
   var outerDiv = $('<div>');
@@ -13,12 +24,7 @@ const listProfessors = function() {
   });
   listOfProfessors.append($('<li>').append(avgButton));
   for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
-    var profParts = $.trim(COURSE_DATA.instructors[i]).split(" ");
-    var prof = [];
-    for (var j = 0; j < profParts.length; j++) {
-        prof.push(profParts[j][0].toUpperCase() + profParts[j].substr(1).toLowerCase());
-    }
-    prof = prof.join(" ");
+    var prof = titleize(COURSE_DATA.instructors[i]);
     var listItem = $('<li>');
     var button = $('<button>');
     button.click(
@@ -39,11 +45,11 @@ const listProfessors = function() {
  * and display filtered profs*/
 const listAlphabet = function(c) {
   var head = $('<p>')
-  head.text('Or Filter by Last Name: ');
+  head.html('<span class="label">Or Filter by Last Name:</span>');
   var table = $('<table>');
   table.addClass("professorList");
   var tr = $('<tr>');
-  var avgSection = $('<button>AVERAGE PROFESSOR</button>');
+  var avgSection = $('<button>Average professor</button>');
   avgSection.click(function() {
       addToCourseCart('average');
       addRemoveButton();
@@ -109,7 +115,7 @@ const listAlphabet = function(c) {
                 addToCourseCart(b);
                 addRemoveButton();
               });
-            button.append(b);
+            button.append(titleize(b));
             listItem.append(button);
             a.append(listItem);
             return a;

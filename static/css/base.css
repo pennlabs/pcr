@@ -717,6 +717,7 @@ li.average {
     border-radius: 3px;
     cursor: pointer;
     background-color: transparent;
+    font-family: Lato, Helvetica, sans-serif;
 }
 .professorList > li {
     margin-bottom: 5px;
@@ -732,25 +733,37 @@ li.average {
 .professorList > li > button:focus {
     outline: 0;
 }
-.professorList > tbody> tr > td > button {
-    color: #636363;
+.professorList > tbody > tr > td > button {
+    color: #aaa;
     width: 27px;
     font-size: 80%;
     margin: 3px;
     background-color: white;
-    border: 1px #636363 solid;
+    border: 1px #aaa solid;
     border-radius: 5px;
-    margin-bottom: 4px; 
+    margin-bottom: 4px;
     cursor: pointer;
+    font-family: Lato, Helvetica, sans-serif;
 }
-.professorList > tbody > tr > td > button:hover {
-    background-color: #90b8cb;
+.professorList > tbody > tr > td > button:hover, .professorList > tbody > tr > td > button:focus {
+    outline: none;
+    background-color: #84B8BA;
+    border-color: #84B8BA;
     color: white;
 }
 .professorList > tbody > tr > td > button.grayedOut:hover, .professorList > tbody > tr > td > button.grayedOut {
-    background-color: gray;
-    color: #303030;
+    color: #eee;
+    border-color: #eee;
     cursor: default;
+    background-color: white;
+}
+table.professorList {
+    margin-bottom: 12px;
+}
+.popover-content .label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 3px;
 }
 
 /***** TOOLTIPS **/
