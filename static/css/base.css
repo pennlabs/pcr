@@ -37,6 +37,10 @@ body {
     color: white;
 }
 
+.btn-secondary:focus {
+    color: white;
+}
+
 #header {
     background-color: white;
     min-height: 80px;
@@ -703,23 +707,30 @@ li.average {
     margin-bottom: 1px;
 }
 .professorList {
-    color: #636363;
     list-style-type: none;
 }
 .professorList > li > button {
-    color: #636363;
-    font-size: 80%;
-    margin: 3px;
-    padding-right: 5px;
-    background-color: white;
-    border: 1px #636363 solid;
-    border-radius: 5px;
-    margin-bottom: 4px; 
+    width: 100%;
+    border: 1px solid #ccc;
+    color: #ccc;
+    padding: 6px 12px;
+    border-radius: 3px;
     cursor: pointer;
+    background-color: transparent;
+}
+.professorList > li {
+    margin-bottom: 5px;
+}
+.professorList > li:last-child {
+    margin-bottom: 0;
 }
 .professorList > li > button:hover {
-    background-color: #90b8cb;
+    background-color: #84B8BA;
+    border-color: #84B8BA;
     color: white;
+}
+.professorList > li > button:focus {
+    outline: 0;
 }
 .professorList > tbody> tr > td > button {
     color: #636363;
