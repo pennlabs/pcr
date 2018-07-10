@@ -181,6 +181,7 @@ $(document).ready(function() {
     $('html').on('click', function(e) {
         if (typeof $(e.target).attr("data-original-title") == 'undefined' && !$(e.target).is('button') && !$(e.target).parents().is('.popover')) {
             $('[data-original-title]').popover('hide');
+            $('[data-original-title]').popover('hide');
         }
     });
 });
