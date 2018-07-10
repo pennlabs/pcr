@@ -711,8 +711,8 @@ li.average {
 }
 .professorList > li > button {
     width: 100%;
-    border: 1px solid #ccc;
-    color: #ccc;
+    border: 1px solid #b2b2b2;
+    color: #b2b2b2;
     padding: 6px 12px;
     border-radius: 3px;
     cursor: pointer;
