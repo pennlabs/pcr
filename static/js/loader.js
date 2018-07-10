@@ -121,7 +121,7 @@ const listAlphabet = function(c) {
 //put the cart button under the scoreboxes
 //fill the popover with professors/filtering interface
 const addCartButton = function() {
-  $('.courseCart').removeClass("d-none").find("i").addClass("fa-cart-plus").removeClass("fa-trash-o");
+  $('.courseCart').removeClass("d-none").find("i").addClass("fa-cart-plus").removeClass("fa-trash-alt");
 
   if (COURSE_DATA.instructors.length <= 15)
     listProfessors();
@@ -132,7 +132,8 @@ const addCartButton = function() {
 //remove the addCart button and replace it
 //with a remove from cart option
 const addRemoveButton = function() {
-    $('.courseCart').removeClass("d-none").find("i").addClass("fa-trash-o").removeClass("fa-cart-plus");
+    $('.courseCart').removeClass("d-none").find("i").addClass("fa-trash-alt").removeClass("fa-cart-plus");
+    $('#popup').popover('hide');
 }
 
 //when a professor is selected, add the remove button and
@@ -144,13 +145,6 @@ addToCourseCart = function(instructor) {
     JSON.stringify(COURSE_DATA.instructor_data[instructor]));
 }
 
-const setCartButtonVisibility = function(inCart) {
-  if (inCart && $("#popup").length) {
-    addRemoveButton();
-  } else if (!inCart && $("#remove").length){
-    addCartButton();
-  }
-}
 const initializeCartButton = function(inCart) {
   if (inCart) {
     addRemoveButton();
@@ -162,7 +156,7 @@ const initializeCartButton = function(inCart) {
 $(document).ready(function() {
     $('.courseCart').click(function(e) {
         e.preventDefault();
-        if ($('.courseCart').find('.fa').hasClass('.fa-trash-o')) {
+        if ($('.courseCart').find('.fa').hasClass('fa-trash-alt')) {
             localStorage.removeItem(title);
             addCartButton();
         }
@@ -170,9 +164,10 @@ $(document).ready(function() {
             $('#popup').popover({
                 title: 'Select Professor',
                 content: popoverContent,
-                placement: window.innerWidth >= 768 ? 'right' : 'left'
-            });
-            $('#popup').popover('show');
+                placement: $(window).width() >= 768 ? 'right' : 'left',
+                html: true,
+                animation: false
+            }).popover('show');
             if (COURSE_DATA.instructors.length <= 15)
                 listProfessors();
             else
