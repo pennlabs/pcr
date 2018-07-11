@@ -450,6 +450,45 @@ i.fa.fa-cart-plus {
     margin-left: 0;
 }
 
+#course-table_paginate {
+    padding-top: 0.5rem;
+}
+
+#course-table_paginate > .paginate_button:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#course-table_paginate .paginate_button {
+    border: 1px solid #84B8BA;
+    color: #84B8BA !important;
+    border-right: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0.2em 0.6em;
+}
+
+#course-table_paginate .paginate_button:active {
+    outline: 0;
+    box-shadow: none;
+}
+
+#course-table_paginate .paginate_button:not(.disabled):hover, #course-table_paginate .paginate_button.current {
+    color: white !important;
+    background: none;
+    background-color: #84B8BA;
+}
+
+#course-table_paginate .paginate_button.disabled {
+    color: #ddd !important;
+}
+
+#course-table_paginate > .paginate_button:last-child {
+    border-right: 1px solid #84B8BA;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
 .dropdown-item {
     font-size: 11px;
     cursor: pointer;
