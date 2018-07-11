@@ -468,10 +468,15 @@ i.fa.fa-cart-plus {
     padding: 0.2em 0.6em;
 }
 
+#course-table_info {
+    color: #b2b2b2;
+}
+
 #course-table_paginate .ellipsis {
     border: 1px solid #84B8BA;
     border-right: none;
     padding: 0.35em 0.7em;
+    color: #b2b2b2;
 }
 
 #course-table_paginate .paginate_button:active {
@@ -486,7 +491,7 @@ i.fa.fa-cart-plus {
 }
 
 #course-table_paginate .paginate_button.disabled {
-    color: #ddd !important;
+    color: #b2b2b2 !important;
 }
 
 #course-table_paginate > .paginate_button:last-child {
