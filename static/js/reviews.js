@@ -99,6 +99,12 @@
             details_table.find(".sec_row_hidden p").appendTo($("#course-details-comments").find("table"));
             details_table.find(".sec_row_hidden").remove();
             details_table.DataTable({
+                columnDefs: [
+                    {
+                        targets: [0],
+                        visible: false
+                    }
+                ],
                 autoWidth: false,
                 displayLength: 5,
                 dom: '<"toolbar">frtip',
