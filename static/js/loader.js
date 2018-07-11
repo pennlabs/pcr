@@ -152,10 +152,10 @@ const addRemoveButton = function() {
 //when a professor is selected, add the remove button and
 //add the class to localStorage. If the user's browser cannot
 //handle localStorage usage, alert them.
-addToCourseCart = function(instructor) {
+const addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
   localStorage.setItem(title,
-    JSON.stringify(COURSE_DATA.instructor_data[instructor]));
+    JSON.stringify(COURSE_DATA.instructor_data[instructor.toUpperCase()]));
 }
 
 const initializeCartButton = function(inCart) {

@@ -34,7 +34,14 @@ const update = function() {
     for (var key in localStorage) {
 
         //get the object for the course stored in localStorage
-        const course = JSON.parse(localStorage.getItem(key));
+        var course;
+        try {
+          course = JSON.parse(localStorage.getItem(key));
+        }
+        catch (e) {
+          console.warn(e);
+          continue;
+        }
 
         if (!course) {
             continue;
@@ -135,7 +142,14 @@ const drawCourses = function() {
         }
     $('#courseBox').html('');
     for (var key in localStorage) {
-        const course = JSON.parse(localStorage.getItem(key));
+        var course;
+        try {
+          course = JSON.parse(localStorage.getItem(key));
+        }
+        catch (e) {
+          console.warn(e);
+          continue;
+        }
         if (!course) {
             continue;
         }
