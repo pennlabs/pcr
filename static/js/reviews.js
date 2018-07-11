@@ -112,7 +112,6 @@
         ],
         autoWidth: false,
         language: {
-            searchPlaceholder: "Search Table",
             search: ""
         }
     });
