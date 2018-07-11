@@ -120,7 +120,8 @@ body {
     outline: 0;
 }
 #cart {
-    font-size: 37px;
+    font-size: 30px;
+    line-height: 37px;
     margin-right: 10px;
     color: #ccc;
 }
