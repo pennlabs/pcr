@@ -503,9 +503,18 @@ i.fa.fa-cart-plus {
     border-bottom-left-radius: 3px;
 }
 
-#course-table_paginate .paginate_button, #course-details-table_paginate .paginate_button {
+#course-table_paginate .paginate_button {
     border: 1px solid #84B8BA;
     color: #84B8BA !important;
+    border-right: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0.2em 0.6em;
+}
+
+#course-details-table_paginate .paginate_button {
+    border: 1px solid #ABAAF1;
+    color: #ABAAF1 !important;
     border-right: none;
     border-radius: 0;
     margin: 0;
@@ -528,11 +537,16 @@ i.fa.fa-cart-plus {
     box-shadow: none;
 }
 
-#course-table_paginate .paginate_button:not(.disabled):hover, #course-table_paginate .paginate_button.current,
-#course-details-table_paginate .paginate_button:not(.disabled):hover, #course-details-table_paginate .paginate_button.current {
+#course-table_paginate .paginate_button:not(.disabled):hover, #course-table_paginate .paginate_button.current {
     color: white !important;
     background: none;
     background-color: #84B8BA;
+}
+
+#course-details-table_paginate .paginate_button:not(.disabled):hover, #course-details-table_paginate .paginate_button.current {
+    color: white !important;
+    background: none;
+    background-color: #ABAAF1;
 }
 
 #course-table_paginate > .paginate_button.disabled, #course-details-table_paginate > .paginate_button.disabled {
@@ -543,6 +557,10 @@ i.fa.fa-cart-plus {
     border-right: 1px solid #84B8BA;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
+}
+
+#course-details-table_paginate > .paginate_button:last-child {
+    border-right: 1px solid #ABAAF1;
 }
 
 .dropdown-item {
