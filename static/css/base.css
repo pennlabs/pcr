@@ -504,6 +504,31 @@ i.fa.fa-cart-plus {
 
 #course-table_wrapper .th-text {
     margin-right: 10px;
+    font-family: Lato, Helvetica, sans-serif;
+}
+
+#course-table_wrapper .sorting_asc, #course-table_wrapper .sorting, #course-table_wrapper .sorting_desc,
+#course-details-table_wrapper .sorting {
+    font-family: "Font Awesome 5 Free", Lato, Helvetica, sans-serif;
+    background: none;
+}
+
+#course-table_wrapper .sorting_asc::after {
+    content: "\f0de";
+    float: right;
+    color: #1F5355;
+}
+
+#course-table_wrapper .sorting_desc::after {
+    content: "\f0dd";
+    float: right;
+    color: #1F5355;
+}
+
+#course-table_wrapper .sorting::after, #course-details-table_wrapper .sorting::after {
+    content: "\f0dc";
+    float: right;
+    color: #b2b2b2;
 }
 
 #course-table_wrapper div.toolbar {
