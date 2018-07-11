@@ -6,7 +6,7 @@
     var result = [];
     boxes.each(function() {
       if ($(this).hasClass("selected")) {
-        result.push($(this).attr("data-id"));
+        result.push($(this).attr("data-name"));
       }
     });
     $.cookie("pcr_choosecols", result.join(), {
@@ -28,15 +28,15 @@
           num_cols.push(cols[i]);
         }
       }
-      if (text_cols.length > 0) {
-        $.cookie("pcr_choosecols", "1,2,3", {
-          path: '/'
-        });
-        return window.set_cols([1, 2, 3]);
-      }
-      else {
-        table.columns(num_cols).visible(true);
-      }
+      table.columns().every(function() {
+        var headerClass = $.grep(this.header().className.split(" "), function(v, i) {
+          return v.indexOf("col_") === 0;
+        }).join().substr(4);
+        if (text_cols.indexOf(headerClass) !== -1) {
+          num_cols.push(this.index());
+        }
+      });
+      table.columns(num_cols).visible(true);
   };
 
   window.set_viewmode = function(view_id) {
@@ -118,6 +118,9 @@
     table.columns().every(function() {
         var title = $(this.header()).text().trim();
         var item = $("<a class='dropdown-item' data-id='" + this.index() + "'>" + title + "</a>");
+        item.attr("data-name", $.grep(this.header().className.split(" "), function(v, i) {
+          return v.indexOf('col_') === 0;
+        }).join().substr(4));
         if (title == "Instructor" || title == "Section") {
             return;
         }
