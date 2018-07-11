@@ -109,6 +109,7 @@
                     }
                 }
             });
+            $("#course-details-data").find("input[type=search]").addClass("form-control form-control-sm");
         }
     });
 

@@ -40,6 +40,28 @@ body {
     border: 1px solid #84B8BA;
 }
 
+.btn-sub-primary {
+    background-color: #ABAAF1;
+    color: white;
+    border: 1px solid #ABAAF1;
+}
+
+.btn-sub-primary:hover {
+    background-color: #C5C4FF;
+    border-color: #C5C4FF;
+}
+
+.btn-sub-secondary {
+    color: #ABAAF1;
+    background-color: white;
+    border: 1px solid #ABAAF1;
+}
+
+.btn-sub-secondary:hover {
+    color: #C5C4FF;
+    border-color: #C5C4FF;
+}
+
 .btn-primary:hover, .show>.btn-primary.dropdown-toggle {
     background-color: #9ED2D4;
     color: white;
@@ -433,13 +455,22 @@ i.fa.fa-cart-plus {
     margin-bottom: 10px;
 }
 
-#course-table_filter label {
+#course-details-data {
+    margin-top: -27px;
+}
+
+#course-details-wrapper > span {
+    position: relative;
+    z-index: 1;
+}
+
+#course-table_filter label, #course-details-table_filter label {
     position: relative;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
 }
 
-#course-table_filter label::after {
+#course-table_filter label::after, #course-details-table_filter label::after {
     position: absolute;
     content: '\f002';
     top: 3px;
@@ -459,21 +490,21 @@ i.fa.fa-cart-plus {
     display: none;
 }
 
-#course-table_filter label input {
+#course-table_filter label input, #course-details-table_filter label input {
     font-family: Lato, Helvetica, sans-serif;
     margin-left: 0;
 }
 
-#course-table_paginate {
+#course-table_paginate, #course-details-table_paginate {
     padding-top: 0.5rem;
 }
 
-#course-table_paginate > .paginate_button:first-child {
+#course-table_paginate > .paginate_button:first-child, #course-details-table_paginate > .paginate_button:first-child {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }
 
-#course-table_paginate .paginate_button {
+#course-table_paginate .paginate_button, #course-details-table_paginate .paginate_button {
     border: 1px solid #84B8BA;
     color: #84B8BA !important;
     border-right: none;
@@ -482,33 +513,34 @@ i.fa.fa-cart-plus {
     padding: 0.2em 0.6em;
 }
 
-#course-table_info {
+#course-table_info, #course-details-table_info {
     color: #b2b2b2;
 }
 
-#course-table_paginate .ellipsis {
+#course-table_paginate .ellipsis, #course-details-table_paginate .ellipsis {
     border: 1px solid #84B8BA;
     border-right: none;
     padding: 0.35em 0.7em;
     color: #b2b2b2;
 }
 
-#course-table_paginate .paginate_button:active {
+#course-table_paginate .paginate_button:active, #course-details-table_paginate .paginate_button:active {
     outline: 0;
     box-shadow: none;
 }
 
-#course-table_paginate .paginate_button:not(.disabled):hover, #course-table_paginate .paginate_button.current {
+#course-table_paginate .paginate_button:not(.disabled):hover, #course-table_paginate .paginate_button.current,
+#course-details-table_paginate .paginate_button:not(.disabled):hover, #course-details-table_paginate .paginate_button.current {
     color: white !important;
     background: none;
     background-color: #84B8BA;
 }
 
-#course-table_paginate > .paginate_button.disabled {
+#course-table_paginate > .paginate_button.disabled, #course-details-table_paginate > .paginate_button.disabled {
     display: none;
 }
 
-#course-table_paginate > .paginate_button:last-child {
+#course-table_paginate > .paginate_button:last-child, #course-details-table_paginate > .paginate_button:last-child {
     border-right: 1px solid #84B8BA;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
