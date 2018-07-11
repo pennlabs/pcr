@@ -439,7 +439,7 @@ i.fa.fa-cart-plus {
     vertical-align: middle;
 }
 
-#dropdownMenuButton {
+#course-dropdown, #course-details-dropdown {
     top: -2px;
     left: -5px;
 }

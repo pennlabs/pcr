@@ -115,7 +115,7 @@
                 var is_ratings = $(this).attr("id") == "view_ratings";
                 $("#view_ratings").toggleClass("btn-sub-primary", is_ratings).toggleClass("btn-sub-secondary", !is_ratings);
                 $("#view_comments").toggleClass("btn-sub-primary", !is_ratings).toggleClass("btn-sub-secondary", is_ratings);
-                $("#course-details-data").toggle(is_ratings);
+                $("#course-details-data, #course-details-dropdown").toggle(is_ratings);
                 $("#course-details-comments").toggle(!is_ratings);
             });
         }
@@ -144,7 +144,7 @@
     var btn_div = document.createElement("div");
     btn_div.setAttribute("class", "btn-group dropleft");
     $("#course-table_filter").prepend( btn_div );
-    $("#course-table_wrapper div.toolbar").append("<button id='dropdownMenuButton' class='btn btn-primary btn-sm dropdown-toggle' data-toggle='dropdown'><i class='fa fa-plus'></i></button>");
+    $("#course-table_wrapper div.toolbar").append("<button id='course-dropdown' class='btn btn-primary btn-sm dropdown-toggle' data-toggle='dropdown'><i class='fa fa-plus'></i></button>");
     // create a div element for the drop down menu
     var div = $("<div id='column-selector' class='dropdown-menu' aria-labelledby='dropDownMenuButton' />");
     // create dropdown menu inside div
