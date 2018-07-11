@@ -860,9 +860,9 @@ table.professorList {
     padding: 5px 0;
     position: absolute;
     z-index: 1;
-    bottom: 150%;
+    bottom: 140%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: -80px;
 }
 
 .tooltip .tooltiptext::after {
@@ -903,6 +903,7 @@ table.professorList {
     color: white;
     background-color: #84B8BA;
     cursor: pointer;
+    z-index: 0;
 }
 .courseInBox:hover {
     background: #9ED2D4;
