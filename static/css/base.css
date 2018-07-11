@@ -508,7 +508,7 @@ i.fa.fa-cart-plus {
 }
 
 #course-table_wrapper .sorting_asc, #course-table_wrapper .sorting, #course-table_wrapper .sorting_desc,
-#course-details-table_wrapper .sorting {
+#course-details-table_wrapper .sorting, #course-details-table_wrapper .sorting_asc, #course-details-table_wrapper .sorting_desc {
     font-family: "Font Awesome 5 Free", Lato, Helvetica, sans-serif;
     background: none;
 }
@@ -519,10 +519,22 @@ i.fa.fa-cart-plus {
     color: #1F5355;
 }
 
+#course-details-table_wrapper .sorting_asc::after {
+    content: "\f0de";
+    float: right;
+    color: #7978BF;
+}
+
 #course-table_wrapper .sorting_desc::after {
     content: "\f0dd";
     float: right;
     color: #1F5355;
+}
+
+#course-details-table_wrapper .sorting_desc::after {
+    content: "\f0dd";
+    float: right;
+    color: #7978BF;
 }
 
 #course-table_wrapper .sorting::after, #course-details-table_wrapper .sorting::after {
