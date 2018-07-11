@@ -490,8 +490,8 @@ i.fa.fa-cart-plus {
     background-color: #84B8BA;
 }
 
-#course-table_paginate .paginate_button.disabled {
-    color: #b2b2b2 !important;
+#course-table_paginate > .paginate_button.disabled {
+    display: none;
 }
 
 #course-table_paginate > .paginate_button:last-child {
