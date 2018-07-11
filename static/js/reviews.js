@@ -196,7 +196,7 @@
     $("#course-table_filter").prepend( btn_div );
     $("#course-table_wrapper div.toolbar").append("<button id='course-dropdown' class='btn btn-primary btn-sm dropdown-toggle' data-toggle='dropdown'><i class='fa fa-plus'></i></button>");
     // create a div element for the drop down menu
-    var div = $("<div id='column-selector' class='dropdown-menu' aria-labelledby='dropDownMenuButton' />");
+    var div = $("<div id='column-selector' class='column-selector dropdown-menu' aria-labelledby='course-dropdown' />");
     // create dropdown menu inside div
     table.columns().every(function() {
         var title = $(this.header()).text().trim();
@@ -214,15 +214,24 @@
     });
     $("#course-table_wrapper div.toolbar").prepend(div);
 
-      // if there are a lot of columns, insert a scrollable div
-      var table_wrapper = $("<div style='width: 100%; overflow-x: auto' />");
-      table_wrapper.insertAfter($("#course-table"));
-      $("#course-table").appendTo(table_wrapper);
+    // if there are a lot of columns, insert a scrollable div
+    var table_wrapper = $("<div style='width: 100%; overflow-x: auto' />");
+    table_wrapper.insertAfter($("#course-table"));
+    $("#course-table").appendTo(table_wrapper);
+
+    div.clone().attr("id", "details-column-selector").insertAfter("#course-details-dropdown");
+    $("#course-details-dropdown").addClass("dropdown-toggle").attr("data-toggle", "dropdown");
 
     $('#column-selector .dropdown-item').click(function(e) {
         e.stopPropagation();
         $(this).toggleClass("selected");
+        $("#details-column-selector .dropdown-item[data-name='" + $(this).attr("data-name") + "']").toggleClass("selected");
         window.submit_choose_cols();
+    });
+
+    $("#details-column-selector .dropdown-item").click(function(e) {
+        e.stopPropagation();
+        $('#column-selector .dropdown-item[data-name="' + $(this).attr("data-name") + '"]').click();
     });
   });
 

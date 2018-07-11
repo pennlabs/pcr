@@ -510,7 +510,7 @@ i.fa.fa-cart-plus {
     display: inline-block;
 }
 
-#course-table_wrapper div.toolbar .dropdown-toggle::after {
+.dropdown-toggle::after {
     display: none;
 }
 

@@ -23,14 +23,14 @@ input[type=search]:focus {
     margin: 0 3px;
 }
 
-#column-selector {
+#wrapper .column-selector {
     border: none;
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
     padding: 15px;
     margin-top: 10px;
 }
 
-#column-selector .dropdown-item {
+#wrapper .column-selector .dropdown-item {
     color: #b2b2b2;
     border: 1px solid #b2b2b2;
     border-radius: 3px;
@@ -38,21 +38,31 @@ input[type=search]:focus {
     margin-bottom: 5px;
 }
 
-#column-selector .dropdown-item:hover {
+#wrapper .column-selector .dropdown-item:hover {
     color: white;
     background-color: #b2b2b2;
 }
 
-#column-selector .dropdown-item.selected:hover {
+#wrapper .column-selector .dropdown-item.selected:hover {
     color: white;
     background-color: #9ED2D4;
     border-color: #9ED2D4;
 }
 
-#column-selector .selected {
+#wrapper .column-selector .selected {
     background-color: #84B8BA;
     border-color: #84B8BA;
     color: white;
+}
+
+#wrapper #details-column-selector .selected {
+    background-color: #ABAAF1;
+    border-color: #ABAAF1;
+}
+
+#wrapper #details-column-selector .selected:hover {
+    background-color: #C5C4FF;
+    border-color: #C5C4FF;
 }
 
 #select-prof-text {
