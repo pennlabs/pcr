@@ -125,6 +125,15 @@ const drawCourses = function() {
             fontAwesome.addClass('fa-times');
             fontAwesome.attr('aria-hidden', 'true');
             div.append(name + ' ');
+
+            var openLink = $('<i class="fa fa-external-link-alt"></i>');
+            openLink.click(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open("/course/" + $.trim(name).replace(" ", "-"), "_blank");
+            });
+            div.append(openLink);
+
             div.append(fontAwesome);
             var hoverSpan = $('<span>');
             hoverSpan.addClass('tooltiptext');

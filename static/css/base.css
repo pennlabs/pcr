@@ -916,10 +916,18 @@ table.professorList {
 }
 .courseInBox > .fa-times {
     margin-top: 2px;
-    margin-left: 4px;
+    margin-left: 8px;
 }
 .courseInBox > .fa-times:hover {
     color: #df5d56;
+}
+.courseInBox > .fa-external-link-alt {
+    margin-top: 2px;
+    margin-left: 4px;
+    font-size: 0.9em;
+}
+.courseInBox > .fa-external-link-alt:hover {
+    color: #76BF96;
 }
 #boxHelpTag {
     margin-top: 25px;
