@@ -436,6 +436,10 @@ i.fa.fa-cart-plus {
     color: #ccc;
 }
 
+#course-table_wrapper .th-text {
+    margin-right: 10px;
+}
+
 #course-table_wrapper div.toolbar {
     display: inline-block;
 }
