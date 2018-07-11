@@ -1,5 +1,5 @@
 (function() {
-  var table;
+  var table, details_table;
 
   window.submit_choose_cols = function() {
     var boxes = $("#column-selector .dropdown-item");
@@ -95,8 +95,25 @@
             $("#select-prof").hide();
             $("#course-details-wrapper").show().find("h3").text($.trim($(data[0]).text()));
             $("#course-details-data").html(details);
-            var details_table = $("#course-details-data").find("table").attr("id", "course-details-table");
-            details_table.find(".sec_row_hidden p").appendTo($("#course-details-comments").find("table"));
+            details_table = $("#course-details-data").find("table").attr("id", "course-details-table");
+            $("#course-details-comments .comments").children().remove();
+            details_table.find(".sec_row_hidden p").appendTo("#course-details-comments .comments");
+            var comment_list = $("#course-details-comments .list")
+            comment_list.children().remove();
+            $("#course-details-comments .comments p").each(function() {
+                $(this).find("br").remove();
+                var sem = $("<div />").text($(this).attr("data-semester"));
+                sem.click(function(e) {
+                    $("#course-details-comments .list div").removeClass("selected");
+                    $("#course-details-comments .comments p").hide();
+                    $(this).addClass("selected");
+                    $("#course-details-comments .comments p[data-semester='" + $(this).text() + "']").show();
+                    e.preventDefault();
+                });
+                comment_list.append(sem);
+            });
+            $("#course-details-comments .empty").toggle(!comment_list.children().length);
+            $("#course-details-comments .list div:first-child").click();
             details_table.find(".sec_row_hidden").remove();
             details_table.DataTable({
                 columnDefs: [

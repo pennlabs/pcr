@@ -458,6 +458,31 @@ i.fa.fa-cart-plus {
     margin-top: 15px;
 }
 
+#course-details-comments .list {
+    width: 200px;
+    float: left;
+    padding-right: 10px;
+}
+
+#course-details-comments .list div {
+    padding: 5px;
+    font-size: 1.1em;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#course-details-comments .list div.selected {
+    background-color: #ABAAF1;
+    color: white;
+}
+
+#course-details-comments .comments {
+    width: calc(100% - 200px);
+    padding-left: 10px;
+    float: left;
+    border-left: 1px solid #eee;
+}
+
 #course-details-wrapper > span {
     position: relative;
     z-index: 1;

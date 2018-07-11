@@ -55,7 +55,11 @@
     </span>
     <span><button id="course-details-dropdown" class="btn btn-sm btn-sub-primary"><i class="fa fa-plus"></i></button></span>
     <div id="course-details-data"></div>
-    <div id="course-details-comments" style="display:none"><table></table></div>
+    <div id="course-details-comments" class="clearfix" style="display:none">
+        <div class="list"></div>
+        <div class="comments"></div>
+        <p class="empty">This professor does not have any comments.</p>
+    </div>
   </div>
 </div>
 {% endifequal %}
