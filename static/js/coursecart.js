@@ -124,8 +124,8 @@ const drawCourses = function() {
             fontAwesome.addClass('fa');
             fontAwesome.addClass('fa-times');
             fontAwesome.attr('aria-hidden', 'true');
+            div.append(name + ' ');
             div.append(fontAwesome);
-            div.append(' ' + name);
             var hoverSpan = $('<span>');
             hoverSpan.addClass('tooltiptext');
             var innerSpan = $('<div>');

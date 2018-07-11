@@ -909,8 +909,7 @@ table.professorList {
 #courseBox {
     text-align: left;
     margin-top: 5px;
-    background-color: #90b8cb;
-    border: 1px solid white;
+    border: 1px solid #b2b2b2;
     border-radius: 5px;
     padding: 10px;
     min-height: 150px;
@@ -918,30 +917,33 @@ table.professorList {
 }
 .courseInBox {
     margin-bottom: 6px;
-    padding-left: 7px;
-    padding-right: 10px;
-    border: 1px solid white;
-    border-radius: 1px;
     margin-right: 6px;
-}
-.courseInBox:hover {
-    background: white;
-    color: #90b8cb;
+    padding: 7px 13px;
+    border: 1px solid white;
+    border-radius: 3px;
+    color: white;
+    background-color: #84B8BA;
     cursor: pointer;
 }
+.courseInBox:hover {
+    background: #9ED2D4;
+}
 .courseInBoxGrayed {
-    background-color: #cecece;
-    color: #a8a8a8; 
+    background-color: #b2b2b2;
+}
+.courseInBoxGrayed:hover {
+    background-color: #ccc;
 }
 .courseInBox > .fa-times {
-    margin-bottom: 2px;
-    margin-right: 4px;
+    margin-top: 2px;
+    margin-left: 4px;
 }
 .courseInBox > .fa-times:hover {
-    color: #f45942;
+    color: #df5d56;
 }
 #boxHelpTag {
     margin-top: 25px;
+    color: #b2b2b2;
 }
 #toggleView {
     margin-top: 10px;
