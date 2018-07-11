@@ -148,7 +148,8 @@
                         previous: "<i class='fa fa-chevron-left'></i>",
                         next: "<i class='fa fa-chevron-right'></i>"
                     }
-                }
+                },
+                order: [[1, "desc"]]
             });
 
             // if there are a lot of columns, insert a scrollable div
