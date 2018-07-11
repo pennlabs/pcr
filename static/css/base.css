@@ -110,6 +110,16 @@ body {
     box-shadow: none;
     padding: 0px 16px;
 }
+
+.selectize-control.single .selectize-input:after {
+    display: none;
+}
+
+.selectize-control.single .item {
+    font-size: 16px;
+    line-height: 37px;
+}
+
 @media (max-width: 800px) {
     #search input[type="text"], #search .selectize-input {
         min-width: unset;

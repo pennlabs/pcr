@@ -4,6 +4,7 @@ $(document).ready(function() {
         searchField: ['title', 'keywords'],
         valueField: 'url',
         create: false,
+        maxItems: 1,
         options: [],
         optgroups: [
             {"value": "Departments", "label": "Departments"},
