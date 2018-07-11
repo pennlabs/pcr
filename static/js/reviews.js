@@ -1,6 +1,4 @@
 (function() {
-  $("#course-table").addClass("d-none");
-
   window.toggle_choose_cols = function() {
     return $("#choose-cols").toggle();
   };
