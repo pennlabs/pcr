@@ -924,14 +924,6 @@ table.professorList {
     margin-top: 25px;
     color: #b2b2b2;
 }
-#toggleView {
-    margin-top: 10px;
-    font-size: 14px;
-    font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
-    cursor: pointer;
-    display: inline;
-    padding: 2px;
-}
 .heightFifteen {
     height: 15px;
 }
