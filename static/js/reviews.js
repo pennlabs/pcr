@@ -109,6 +109,12 @@
                     }
                 }
             });
+
+            // if there are a lot of columns, insert a scrollable div
+            var details_table_wrapper = $("<div style='width: 100%; overflow-x: auto' />");
+            details_table_wrapper.insertAfter(details_table);
+            details_table.appendTo(details_table_wrapper);
+
             $("#course-details-data").find("input[type=search]").addClass("form-control form-control-sm");
             $("#view_ratings, #view_comments").click(function(e) {
                 e.preventDefault();
@@ -163,6 +169,11 @@
         }
     });
     $("#course-table_wrapper div.toolbar").prepend(div);
+
+      // if there are a lot of columns, insert a scrollable div
+      var table_wrapper = $("<div style='width: 100%; overflow-x: auto' />");
+      table_wrapper.insertAfter($("#course-table"));
+      $("#course-table").appendTo(table_wrapper);
 
     $('#column-selector .dropdown-item').click(function(e) {
         e.stopPropagation();

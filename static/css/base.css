@@ -444,11 +444,6 @@ i.fa.fa-cart-plus {
     left: -5px;
 }
 
-#course-table, #course-details-table {
-    overflow-x: auto;
-    display: block;
-}
-
 #course-details-wrapper h3 {
     font-size: 1.5em;
     color: #b2b2b2;
