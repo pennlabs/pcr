@@ -715,39 +715,17 @@ i.fa.fa-cart-plus {
     margin-bottom:15px;
     padding-bottom:10px;
 }
-#choose-cols-content h2 {
-    font-size:12px;
-    color:#636363;
-    margin-top:15px;
-    margin-bottom:10px;
-}
 #choose-cols-content #select-all {
     margin-bottom:25px;
     color: #6666b3;
 }
 #choose-cols-content div.col {
-    width:50%;
-    float:left;
+    width: 50%;
+    float: left;
+    text-align: left;
 }
-#choose-cols-content div#buttons {
-    text-align:center;
-    margin-top:5px;
-}
-#choose-cols-content input[type="button"] {
-    border: 1px solid #636363;
-    color: #636363;
-    background-color: #eeeeee;
-    cursor: pointer;
-    padding: 5px 0;
-    width: 85px;
-    border-radius: 3px;
-    display: inline-block;
-    vertical-align: middle;
-    margin:0 5px;
-}
-#choose-cols-content input[type=button]:hover {
-    color:#ffffff;
-    background-color: #636363;
+#choose-cols-content div.col input[type=checkbox] {
+    margin-right: 0.25em;
 }
 
 div#hidden {
