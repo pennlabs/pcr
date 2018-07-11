@@ -188,13 +188,16 @@
     });
 
     set_viewmode($.cookie("pcr_viewmode"));
-    set_cols($.cookie("pcr_choosecols").split(","));
+    const cols_saved = $.cookie("pcr_choosecols");
+    if (cols_saved) {
+      set_cols(cols_saved.split(","));
+    }
 
     // create a div element for the button
     var btn_div = document.createElement("div");
     btn_div.setAttribute("class", "btn-group dropleft");
     $("#course-table_filter").prepend( btn_div );
-    $("#course-table_wrapper div.toolbar").append("<button id='course-dropdown' class='btn btn-primary btn-sm dropdown-toggle' data-toggle='dropdown'><i class='fa fa-plus'></i></button>");
+    $("#course-table_wrapper div.toolbar").append("<button id='course-dropdown' class='btn btn-primary btn-sm dropdown-toggle ml-2' data-toggle='dropdown'><i class='fa fa-plus'></i></button>");
     // create a div element for the drop down menu
     var div = $("<div id='column-selector' class='column-selector dropdown-menu' aria-labelledby='course-dropdown' />");
     // create dropdown menu inside div
