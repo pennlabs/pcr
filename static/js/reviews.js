@@ -96,7 +96,8 @@
             $("#course-details-wrapper").show().find("h3").text($.trim($(data[0]).text()));
             $("#course-details-data").html(details);
             var details_table = $("#course-details-data").find("table").attr("id", "course-details-table");
-            details_table.find(".sec_row_hidden").show().appendTo($("#course-details-comments").find("table"));
+            details_table.find(".sec_row_hidden p").appendTo($("#course-details-comments").find("table"));
+            details_table.find(".sec_row_hidden").remove();
             details_table.DataTable({
                 autoWidth: false,
                 displayLength: 5,

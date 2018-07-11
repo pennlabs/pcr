@@ -454,6 +454,10 @@ i.fa.fa-cart-plus {
     margin-top: -27px;
 }
 
+#course-details-comments {
+    margin-top: 15px;
+}
+
 #course-details-wrapper > span {
     position: relative;
     z-index: 1;
