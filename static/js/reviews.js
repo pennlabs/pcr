@@ -110,6 +110,14 @@
                 }
             });
             $("#course-details-data").find("input[type=search]").addClass("form-control form-control-sm");
+            $("#view_ratings, #view_comments").click(function(e) {
+                e.preventDefault();
+                var is_ratings = $(this).attr("id") == "view_ratings";
+                $("#view_ratings").toggleClass("btn-sub-primary", is_ratings).toggleClass("btn-sub-secondary", !is_ratings);
+                $("#view_comments").toggleClass("btn-sub-primary", !is_ratings).toggleClass("btn-sub-secondary", is_ratings);
+                $("#course-details-data").toggle(is_ratings);
+                $("#course-details-comments").toggle(!is_ratings);
+            });
         }
     });
 
