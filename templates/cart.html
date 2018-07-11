@@ -64,7 +64,9 @@
         </div>
     </div>
     <div class="clear heightFifteen"></div>
-    <div id="toggleView"><span class="button selected" id=view_average onclick=set_datamode(0)>Average</span> <span class=button id=view_recent onclick=set_datamode(1)>Most Recent</span></div>
+    <div id="toggleView" class="btn-group">
+        <span class="btn btn-primary" id="view_average" onclick="set_datamode(0)">Average</span><span class="btn btn-secondary" id="view_recent" onclick="set_datamode(1)">Most Recent</span>
+    </div>
     <div class="clear"></div>
     <div id="boxHelpTag">Click a course to exclude it from the average.</div>
     <div id="courseBox"></div>

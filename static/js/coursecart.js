@@ -240,13 +240,11 @@ var cancel_choose_cols = function() {
 }
 
 const set_datamode = function(n) {
+    $('#view_average').toggleClass('btn-primary', n == 0).toggleClass('btn-secondary', n == 1);
+    $('#view_recent').toggleClass('btn-primary', n == 1).toggleClass('btn-secondary', n == 0);
     if (n == 1) {
-        $('#view_average').removeClass('selected');
-        $('#view_recent').addClass('selected');
         mode = 'recent';
     } else if (n == 0) {
-        $('#view_average').addClass('selected');
-        $('#view_recent').removeClass('selected');
         mode = 'average';
     }
     update();
