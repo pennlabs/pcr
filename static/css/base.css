@@ -40,7 +40,7 @@ body {
     border: 1px solid #84B8BA;
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .show>.btn-primary.dropdown-toggle {
     background-color: #9ED2D4;
     color: white;
     border: 1px solid #9ED2D4;
