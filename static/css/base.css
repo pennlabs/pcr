@@ -331,7 +331,7 @@ i.fa.fa-cart-plus {
 }
 .courseCartRow > .scorebox > .desc {
     font-size: 15px;
-    margin-top: 0px;
+    margin-top: -5px;
     color: white;
 }
 .courseCartRow > .scorebox > .num {
@@ -887,6 +887,7 @@ table.professorList {
 #courseBox {
     text-align: left;
     margin-top: 5px;
+    margin-bottom: 15px;
     border: 1px solid #b2b2b2;
     border-radius: 5px;
     padding: 10px;
