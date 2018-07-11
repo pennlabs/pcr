@@ -13,14 +13,9 @@
 #table-div {
     overflow-x: auto;
 }
-input[type=search] {
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 2px 5px;
-    font-family: inherit;
-}
 input[type=search]:focus {
     outline: none;
+    border-color: #84B8BA;
 }
 #course-table_length label {
     margin: 6px 0;

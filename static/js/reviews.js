@@ -111,26 +111,22 @@
             }
         ],
         autoWidth: false,
+        dom: '<"toolbar">frtip',
         language: {
             search: ""
         }
     });
+    $("#course-table_filter input[type=search]").addClass("form-control form-control-sm");
     table.columns().visible(false);
     table.columns([0, 1, 2, 3, 4]).visible(true);
+
+    $("#course-table_wrapper div.toolbar").append("<div class='btn-group mr-1'><button class='btn btn-sm btn-primary'>Average</button> <button class='btn btn-secondary btn-sm'>Most Recent</button></div>");
 
     // create a div element for the button
     var btn_div = document.createElement("div");
     btn_div.setAttribute("class", "btn-group dropleft");
-    $( "#course-table_filter" ).prepend( btn_div );
-    var btn = document.createElement("button");
-    btn.setAttribute("type", "button");
-    btn.setAttribute("id", "dropdownMenuButton");
-    btn.setAttribute("class", "btn btn-secondary btn-sm dropdown-toggle");
-    btn.setAttribute("data-toggle", "dropdown");
-    btn.setAttribute("aria-haspopup", "true");
-    btn.setAttribute("aria-expanded", "false");
-    btn.innerHTML = "<i class='fa fa-plus'></i>"
-    $( ".btn-group.dropleft" ).prepend( btn );
+    $("#course-table_filter").prepend( btn_div );
+    $("#course-table_wrapper div.toolbar").append("<button id='dropdownMenuButton' class='btn btn-primary btn-sm dropdown-toggle' data-toggle='dropdown'><i class='fa fa-plus'></i></button>");
     // create a div element for the drop down menu
     var div = $("<div id='column-selector' class='dropdown-menu' aria-labelledby='dropDownMenuButton' />");
     // create dropdown menu inside div
@@ -145,7 +141,7 @@
             item.addClass("selected");
         }
     });
-    $(".btn-group.dropleft").prepend(div);
+    $("#course-table_wrapper div.toolbar").prepend(div);
 
     $('#column-selector .dropdown-item').click(function(e) {
         e.stopPropagation();
