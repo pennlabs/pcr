@@ -381,12 +381,6 @@ i.fa.fa-cart-plus {
     width: calc(100% - 20px);
 }*/
 
-/* make sure the scoretable doesn't get too big */
-.box.clearfix {
-    max-height: 600px;
-    overflow-y: auto;
-}
-
 .fa.fa-plus {
     display: inline-block;
     vertical-align: middle;
