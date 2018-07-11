@@ -1,40 +1,42 @@
 (function() {
-  window.toggle_choose_cols = function() {
-    return $("#choose-cols").toggle();
-  };
-
-  window.toggle_choose_cols_all = function() {
-    if ($("#choose-cols input[type='checkbox'][name='all']").prop("checked")) {
-      return $("#choose-cols input[type='checkbox']").prop("checked", true);
-    } else {
-      return $("#choose-cols input[type='checkbox']").prop("checked", false);
-    }
-  };
+  var table;
 
   window.submit_choose_cols = function() {
-    var boxes, i, j, ref, result;
-    boxes = $("#choose-cols input[type='checkbox']");
-    result = [];
-    for (i = j = 0, ref = boxes.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      if ($(boxes[i]).prop("checked")) {
-        result.push($(boxes[i]).attr("value"));
+    var boxes = $("#column-selector .dropdown-item");
+    var result = [];
+    boxes.each(function() {
+      if ($(this).hasClass("selected")) {
+        result.push($(this).attr("data-id"));
       }
-    }
+    });
     $.cookie("pcr_choosecols", result.join(), {
       path: '/'
     });
-    toggle_choose_cols();
     return set_cols(result);
   };
 
-  window.cancel_choose_cols = function() {
-    var cols, i, j, ref;
-    $("#choose-cols input[type=checkbox]").prop("checked", false);
-    cols = $.cookie("pcr_choosecols").split(",");
-    for (i = j = 0, ref = cols.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      $("#choose-cols input[name='" + cols[i] + "']").prop("checked", true);
-    }
-    return toggle_choose_cols();
+  window.set_cols = function(cols) {
+      table.columns().visible(false);
+      table.columns(0).visible(true);
+      var num_cols = [];
+      var text_cols = [];
+      for (var i = 0; i < cols.length; i++) {
+        if (isNaN(cols[i])) {
+          text_cols.push(cols[i]);
+        }
+        else {
+          num_cols.push(cols[i]);
+        }
+      }
+      if (text_cols.length > 0) {
+        $.cookie("pcr_choosecols", "1,2,3", {
+          path: '/'
+        });
+        return window.set_cols([1, 2, 3]);
+      }
+      else {
+        table.columns(num_cols).visible(true);
+      }
   };
 
   window.set_viewmode = function(view_id) {
@@ -55,51 +57,16 @@
     return $('#course-table').trigger('update');
   };
 
-  window.viewmode = function() {
-    return $.cookie('pcr_viewmode');
-  };
-
-  window.set_cols = function(cols) {
-    var i, j, ref, results;
-    $("#course-table th").hide();
-    $("#course-table td").hide();
-    $("#course-table .col_icon").show();
-    $("#course-table .col_code").show();
-    $("#course-table .col_name").show();
-    $("#course-table .col_instructor").show();
-    $("#course-table .col_semester").show();
-    $("#course-table .col_section").show();
-    $("#course-table .col_responses").show();
-    $("#course-table .td_hidden").show();
-    $("#course-table .sec_td_hidden").show();
-    results = [];
-    for (i = j = 0, ref = cols.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
-      results.push($("#course-table .col_" + cols[i]).show());
-    }
-    return results;
-  };
-
-  window.start_sort_rows = function() {
-    return $("#course-table .row_hidden").appendTo($("div#hidden"));
-  };
-
-  window.end_sort_rows = function() {
-    return $("#course-table .row_display").each(function() {
-      var index;
-      index = $(this).attr("id").substr(12);
-      return $(this).after($("#row_hidden_" + index));
-    });
-  }; 
-
   $(document).ready(function() {
     $('.sec_row_hidden').hide();
+
     if ($.cookie("pcr_viewmode") == null) {
       $.cookie("pcr_viewmode", "0", {
         path: '/'
       });
     }
 
-    const table = $("#course-table").removeClass("d-none").DataTable({
+    table = $("#course-table").removeClass("d-none").DataTable({
         columnDefs: [
             {
                 targets: [-1],
@@ -119,6 +86,7 @@
             set_viewmode($.cookie("pcr_viewmode"));
         }
     });
+
     $("#course-table_filter input[type=search]").addClass("form-control form-control-sm");
     table.columns().visible(false);
     table.columns([0, 1, 2, 3, 4]).visible(true);
@@ -136,6 +104,7 @@
     });
 
     set_viewmode($.cookie("pcr_viewmode"));
+    set_cols($.cookie("pcr_choosecols").split(","));
 
     // create a div element for the button
     var btn_div = document.createElement("div");
@@ -160,16 +129,8 @@
 
     $('#column-selector .dropdown-item').click(function(e) {
         e.stopPropagation();
-        var id = $(this).attr("data-id");
-        var visible = table.column(id).visible();
-        if (visible) {
-            table.column(id).visible(false);
-            $(this).removeClass("selected");
-        }
-        else {
-            table.column(id).visible(true);
-            $(this).addClass("selected");
-        }
+        $(this).toggleClass("selected");
+        window.submit_choose_cols();
     });
   });
 
