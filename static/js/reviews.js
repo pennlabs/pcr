@@ -111,7 +111,11 @@
         autoWidth: false,
         dom: '<"toolbar">frtip',
         language: {
-            search: ""
+            search: "",
+            paginate: {
+                previous: "<i class='fa fa-chevron-left'></i>",
+                next: "<i class='fa fa-chevron-right'></i>"
+            }
         }
     });
     $("#course-table_filter input[type=search]").addClass("form-control form-control-sm");
