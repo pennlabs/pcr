@@ -11,7 +11,6 @@ $(document).ready(function() {
             {"value": "Courses", "label": "Courses"},
             {"value": "Instructors", "label": "Instructors"},
         ],
-        maxOptions: 10,
         optgroupField: 'category',
         render: {
             optgroup_header: function(data, esc) {
