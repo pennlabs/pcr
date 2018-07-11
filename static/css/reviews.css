@@ -27,6 +27,7 @@ input[type=search]:focus {
     border: none;
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
     padding: 15px;
+    margin-top: 10px;
 }
 
 #column-selector .dropdown-item {
