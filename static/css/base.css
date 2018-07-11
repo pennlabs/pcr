@@ -899,9 +899,8 @@ table.professorList {
 .tooltip .tooltiptext {
     visibility: hidden;
     width: 150px;
-    background-color: white;
-    border: 1px solid #ccc;
-    color: #4a4a4a;
+    background-color: #6274F1;
+    color: white;
     font-size: 12px;
     text-align: center;
     border-radius: 6px;
@@ -911,7 +910,17 @@ table.professorList {
     bottom: 120%;
     left: 50%;
     margin-left: -70px;
-    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #6274F1 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
