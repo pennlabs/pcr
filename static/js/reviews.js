@@ -18,6 +18,10 @@
   window.set_cols = function(cols) {
       table.columns().visible(false);
       table.columns(0).visible(true);
+      if (details_table) {
+        details_table.columns().visible(false);
+        details_table.columns(1).visible(true);
+      }
       var num_cols = [];
       var text_cols = [];
       for (var i = 0; i < cols.length; i++) {
@@ -37,6 +41,19 @@
         }
       });
       table.columns(num_cols).visible(true);
+
+      if (details_table) {
+        var num_cols = [];
+        details_table.columns().every(function() {
+          var headerClass = $.grep(this.header().className.split(" "), function(v, i) {
+            return v.indexOf("col_") === 0;
+          }).join().substr(4);
+          if (text_cols.indexOf(headerClass) !== -1) {
+            num_cols.push(this.index());
+          }
+        });
+        details_table.columns(num_cols).visible(true);
+      }
   };
 
   window.set_viewmode = function(view_id) {
@@ -95,9 +112,9 @@
             $("#select-prof").hide();
             $("#course-details-wrapper").show().find("h3").text($.trim($(data[0]).text()));
             $("#course-details-data").html(details);
-            details_table = $("#course-details-data").find("table").attr("id", "course-details-table");
+            var details_table_element = $("#course-details-data").find("table").attr("id", "course-details-table");
             $("#course-details-comments .comments").children().remove();
-            details_table.find(".sec_row_hidden p").appendTo("#course-details-comments .comments");
+            details_table_element.find(".sec_row_hidden p").appendTo("#course-details-comments .comments");
             var comment_list = $("#course-details-comments .list")
             comment_list.children().remove();
             $("#course-details-comments .comments p").each(function() {
@@ -114,8 +131,8 @@
             });
             $("#course-details-comments .empty").toggle(!comment_list.children().length);
             $("#course-details-comments .list div:first-child").click();
-            details_table.find(".sec_row_hidden").remove();
-            details_table.DataTable({
+            details_table_element.find(".sec_row_hidden").remove();
+            var details_dt = details_table_element.DataTable({
                 columnDefs: [
                     {
                         targets: [0],
@@ -135,9 +152,9 @@
             });
 
             // if there are a lot of columns, insert a scrollable div
-            var details_table_wrapper = $("<div style='width: 100%; overflow-x: auto' />");
-            details_table_wrapper.insertAfter(details_table);
-            details_table.appendTo(details_table_wrapper);
+            var details_table_element_wrapper = $("<div style='width: 100%; overflow-x: auto' />");
+            details_table_element_wrapper.insertAfter(details_table_element);
+            details_table_element.appendTo(details_table_element_wrapper);
 
             $("#course-details-data").find("input[type=search]").addClass("form-control form-control-sm");
             $("#view_ratings, #view_comments").click(function(e) {
@@ -148,6 +165,9 @@
                 $("#course-details-data, #course-details-dropdown").toggle(is_ratings);
                 $("#course-details-comments").toggle(!is_ratings);
             });
+
+            details_table = details_dt;
+            set_cols($.cookie("pcr_choosecols").split(","));
         }
     });
 
