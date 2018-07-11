@@ -88,6 +88,30 @@
         }
     });
 
+    $("#course-table tbody").on("click", "tr", function(e) {
+        if ($("#course-details").length) {
+            var data = table.row(this).data();
+            var details = data[data.length - 1];
+            $("#select-prof").hide();
+            $("#course-details-wrapper").show().find("h3").text($.trim($(data[0]).text()));
+            $("#course-details-data").html(details);
+            var details_table = $("#course-details-data").find("table").attr("id", "course-details-table");
+            details_table.find(".sec_row_hidden").show().appendTo($("#course-details-comments").find("table"));
+            details_table.DataTable({
+                autoWidth: false,
+                displayLength: 5,
+                dom: '<"toolbar">frtip',
+                language: {
+                    search: "",
+                    paginate: {
+                        previous: "<i class='fa fa-chevron-left'></i>",
+                        next: "<i class='fa fa-chevron-right'></i>"
+                    }
+                }
+            });
+        }
+    });
+
     $("#course-table_filter input[type=search]").addClass("form-control form-control-sm");
     table.columns().visible(false);
     table.columns([0, 1, 2, 3, 4]).visible(true);

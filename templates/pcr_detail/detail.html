@@ -40,12 +40,17 @@
   {% scoretable item %}
 </div>
 {% ifequal type 'course' %}
-<div class="box clearfix">
+<div id="course-details" class="box clearfix">
   <div id="select-prof">
     <h3 id="select-prof-text">Select a professor to see comments and more details.</h3>
     <object type="image/svg+xml" data="{% static 'image/prof.svg' %}">
         <img src="{% static 'image/prof.png' %}" />
     </object>
+  </div>
+  <div id="course-details-wrapper" style="display:none">
+    <h3></h3>
+    <div id="course-details-data"></div>
+    <div id="course-details-comments"><table></table></div>
   </div>
 </div>
 {% endifequal %}
