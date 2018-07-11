@@ -607,6 +607,11 @@ i.fa.fa-cart-plus {
     padding: 10px 5px;
 }
 
+#course-details-table th {
+    color: #ABAAF1;
+    padding: 10px 5px;
+}
+
 #course-table a {
     color: rgb(102, 146, 161);
     border-color: rgb(102, 146, 161);
