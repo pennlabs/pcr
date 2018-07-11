@@ -40,5 +40,11 @@
   {% scoretable item %}
 </div>
 <div class="box clearfix">
+  <div id="select-prof">
+    <h3 id="select-prof-text">Select a professor to see comments and more details.</h3>
+    <object type="image/svg+xml" data="{% static 'image/prof.svg' %}">
+        <img src="{% static 'image/prof.png' %}" />
+    </object>
+  </div>
 </div>
 {% endblock %}

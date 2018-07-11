@@ -73,6 +73,7 @@
                 visible: false
             }
         ],
+        displayLength: 5,
         autoWidth: false,
         dom: '<"toolbar">frtip',
         language: {
