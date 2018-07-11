@@ -745,7 +745,7 @@ li.average {
     cursor: pointer;
     font-family: Lato, Helvetica, sans-serif;
 }
-.professorList > tbody > tr > td > button:hover, .professorList > tbody > tr > td > button:focus {
+.professorList > tbody > tr > td > button:hover, .professorList > tbody > tr > td > button:focus, .professorList > tbody > tr > td > button.selected {
     outline: none;
     background-color: #84B8BA;
     border-color: #84B8BA;

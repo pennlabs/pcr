@@ -63,9 +63,10 @@ const listAlphabet = function(c) {
 
   //create the grid of buttons of the alphabet
   for (var i = 1; i <= 26; i++) {
-    const character = String.fromCharCode(i+64)
+    const character = String.fromCharCode(i+64);
     var button = $('<button>');
     button.text(character);
+    button.attr('data-value', character);
     var td = $('<td>');
 
     /*check to see if instructors exist with a last name starting with 'character'
@@ -77,11 +78,10 @@ const listAlphabet = function(c) {
     if (!COURSE_DATA.instructors.reduce(containsCharAfterSpace, false)) {
       button.addClass('grayedOut');
     } else {
-      button.click(
-        function() {
-          $('#filteredProfs').html('');
-          listAlphabet(character);
-        });
+      button.click(function() {
+        $('#filteredProfs').html('');
+        listAlphabet(character);
+      });
     }
     td.append(button);
     tr.append(td);
@@ -124,7 +124,9 @@ const listAlphabet = function(c) {
           }
         }, $('<ul>').addClass('professorList'));
     $('#filteredProfs').append(listOfProfessors);
-    $('div.arrow').css('top', '103px');
+
+    $('.popover .selected').removeClass('selected');
+    $('.popover').find('[data-value="' + c + '"]').addClass('selected');
   }
   popoverContent = $('<span>').append(head).append(table).append(filteredProfs);
 }
