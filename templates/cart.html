@@ -6,31 +6,32 @@
 {% endblock %}
 
 {% block content %}
-<center style="margin: 0 auto">
+<center class="box" style="margin: 0 auto">
     <p class="courseCartHeader title">My Course Cart</p>
     <p class="courseCartDesc">The course cart is a feature for you to see all the relevant reviews for your selected courses at once with at-a-glance statistics. Search for courses to add them to your cart.</p>
     <div id="bannerScore">
         <div class="scoreboxrow courseCartRow">
-            <div class="scorebox">
+            <div class="scorebox course">
                 <p class="num" id="courseBoxOne">0.0</p>
                 <p class="desc">Course</p>
             </div>
-            <div class="scorebox">
+            <div class="scorebox instructor">
                 <p class="num" id="courseBoxTwo">0.0</p>
                 <p class="desc">Instructor</p>
             </div>
-            <div class="scorebox">
+            <div class="scorebox difficulty">
                 <p class="num" id="courseBoxThree">0.0</p>
                 <p class="desc">Difficulty</p>
             </div>
-            <div class="scorebox">
+            <div class="scorebox workload">
                 <p class="num" id="courseBoxFour">0.0</p>
                 <p class="desc">Workload</p>
             </div>
         </div>
     </div>
     <div class="clear"></div>
-    <div class="fillerBox"></div><span id="categoriesButton">Choose Categories</span>
+    <div class="fillerBox"></div>
+    <button id="categoriesButton" class="btn btn-primary">Choose Categories</button>
     <div id="choose-cols" style="display:none">
         <div id="choose-cols-inner">
             <div class="disable-selection shadow" id="choose-cols-content">

@@ -24,12 +24,13 @@ const listProfessors = function() {
   });
   listOfProfessors.append($('<li>').append(avgButton));
   for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
-    var prof = titleize(COURSE_DATA.instructors[i]);
+    var orig_prof = COURSE_DATA.instructors[i];
+    var prof = titleize(orig_prof);
     var listItem = $('<li>');
     var button = $('<button>');
     button.click(
       function(){
-        addToCourseCart(prof);
+        addToCourseCart(orig_prof);
         addRemoveButton();
       });
     button.append(prof);
@@ -155,7 +156,7 @@ const addRemoveButton = function() {
 const addToCourseCart = function(instructor) {
   $('[data-original-title]').popover('hide');
   localStorage.setItem(title,
-    JSON.stringify(COURSE_DATA.instructor_data[instructor.toUpperCase()]));
+    JSON.stringify(COURSE_DATA.instructor_data[instructor]));
 }
 
 const initializeCartButton = function(inCart) {

@@ -227,13 +227,13 @@ input[type="button"] {
     margin-top: 80px;
 }
 .courseCartHeader {
-    margin-top: -20px;
-    font-size: 40px;
+    font-size: 2em;
 }
 .courseCartDesc {
     max-width: 650px;
-    margin-top: 20px;
+    margin-top: 5px;
     margin-bottom: 30px;
+    color: #b2b2b2;
 }
 #linkbar {
     margin-top:18px;
@@ -313,11 +313,10 @@ i.fa.fa-cart-plus {
 .scorebox.difficulty {
     background-color: #76bf96;
 }
+.scorebox.workload {
+    background-color: #df5d56;
+}
 .courseCartRow {
-    margin-top: 20px;
-    width: 440px;
-    padding-left: -200px;
-    margin-left: 29px; 
     float: none;
 }
 .scoredesc {
@@ -326,12 +325,19 @@ i.fa.fa-cart-plus {
     margin-bottom: 9px;
     border-bottom: 1px solid #dbdbdb;
 }
+.courseCartRow > .scorebox {
+    width: 100px;
+    height: 100px;
+}
 .courseCartRow > .scorebox > .desc {
     font-size: 15px;
-    margin-top: -21px;
+    margin-top: 0px;
+    color: white;
 }
 .courseCartRow > .scorebox > .num {
-    font-size: 36px;
+    margin-top: 5px;
+    font-size: 3em;
+    color: white;
 }
 .scoredesc .title {
     display: inline-block;
@@ -359,13 +365,6 @@ i.fa.fa-cart-plus {
     color: white;
     margin-top: 16px;
     font-size: 25px;
-}
-#bannerScore .scorebox .num {
-    color: black;
-    font-size: 1.5em;
-}
-#bannerScore .scorebox .desc {
-    margin-top: 0;
 }
 .scorebox .desc {
     font-size:15px;
@@ -904,22 +903,8 @@ table.professorList {
 }
 /***** COURSE CART EXTRAS ***/
 
-#categoriesButton {
-    border: 1px #FFFFFF solid;
-    border-radius: 2px;
-    margin-top: 7px;
-    padding-left: 3px;
-    padding-right: 3px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-}
-#categoriesButton:hover {
-    background-color: #FFFFFF;
-    color: #90b8cb;
-    cursor: pointer;
-}
 .fillerBox {
-    height: 12px;
+    height: 24px;
 }
 #courseBox {
     text-align: left;
