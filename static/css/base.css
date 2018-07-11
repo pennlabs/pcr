@@ -400,20 +400,6 @@ i.fa.fa-cart-plus {
 #content-settings .button:hover {
     background-color: rgba(255,255,255,0.2);
 }
-#settings-viewmode .button,
-#settings-viewmode .label {
-    float:left;
-}
-#settings-viewmode .button {
-    padding: 2px 4px;
-    border: 1px solid white;
-}
-#settings-viewmode .button.selected {
-    color: rgb(102, 146, 161);
-    background: #ffffff;
-    padding: 2px 4px;
-    cursor:default;
-}
 #settings-other .button {
     float:right;
     margin-left:10px;
