@@ -49,7 +49,6 @@ $(document).ready(function() {
                 this.setTextboxValue(value);
                 this.disable();
                 $("#search button .fa.fa-search").removeClass("fa-search").addClass("fa-spinner fa-spin");
-                $("#search button").prop("disabled", true);
             }
         }
     });
