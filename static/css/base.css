@@ -188,6 +188,9 @@ body {
 
 #search-wrapper #search .selectize-input {
     border-radius: 0;
+}
+
+#search-wrapper .selectize-dropdown {
     z-index: 9;
 }
 
