@@ -188,6 +188,7 @@ body {
 
 #search-wrapper #search .selectize-input {
     border-radius: 0;
+    z-index: 9;
 }
 
 #search-wrapper #search .selectize-input.focus {
