@@ -163,7 +163,7 @@ body {
     padding: 0px 16px;
 }
 
-#search .selectize-input.focus {
+#search-wrapper #search .selectize-input.focus {
     box-shadow: 0px 2px 14px #ddd;
 }
 
