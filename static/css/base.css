@@ -186,11 +186,6 @@ body {
     z-index: 11;
 }
 
-#search button {
-    pointer-events: none;
-    z-index: 12;
-}
-
 #search .fa-spin {
     color: #84B8BA;
 }
@@ -258,7 +253,8 @@ body {
     right: 9px;
     color: #d8d8d8;
     font-size: 20px;
-    z-index: 5;
+    z-index: 12;
+    pointer-events: none;
 }
 #search button:focus {
     outline: 0;
@@ -825,47 +821,6 @@ i.fa.fa-cart-plus {
 
 .col_instructor > a {
     border: none;
-}
-
-#course-table div.fold-icon {
-    width:11px;
-    height:11px;
-    background-position: 0 0;
-    cursor:pointer;
-}
-#course-table div.fold-icon {
-    background:url(../image/foldbutton.png) no-repeat;
-}
-#course-table div.fold-icon:hover {
-    background-position: 0 -11px;
-}
-#course-table div.fold-icon.open {
-    background-position: -11px 0;
-}
-#course-table div.fold-icon.open:hover {
-    background-position: -11px -11px;
-}
-#course-table th div.fold-icon {
-    background:url(../image/foldbuttonheader.png) no-repeat;
-}
-#section-table div.comment-icon {
-    width:12px;
-    height:12px;
-    background-position: 0 0;
-    cursor:pointer;
-
-    background:url(../image/commentbutton.png) 0 0 no-repeat;
-}
-#section-table div.comment-icon:hover {
-    background-position: 0 -12px;
-}
-#section-table div.comment-icon:active {
-    background-position: 0 -24px;
-}
-#section-table .sec_th div {
-    background:url(../image/commenticon.png) 0 0 no-repeat;
-    width:12px;
-    height:12px;
 }
 
 /***** FOOTER *****/
