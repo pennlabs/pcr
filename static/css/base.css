@@ -187,6 +187,7 @@ body {
 }
 
 #search button {
+    pointer-events: none;
     z-index: 12;
 }
 
