@@ -186,6 +186,10 @@ body {
     z-index: 11;
 }
 
+#search button {
+    z-index: 12;
+}
+
 #search-wrapper #search .selectize-input {
     border-radius: 0;
 }
