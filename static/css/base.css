@@ -190,6 +190,10 @@ body {
     z-index: 12;
 }
 
+#search .fa-spin {
+    color: #84B8BA;
+}
+
 #search-wrapper #search .selectize-input {
     border-radius: 0;
 }
