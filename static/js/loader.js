@@ -177,7 +177,7 @@ $(document).ready(function() {
         else {
             $('#popup').popover({
                 content: popoverContent,
-                placement: $(window).width() >= 768 ? 'right' : 'left',
+                placement: 'bottom',
                 html: true,
                 animation: false
             }).popover('show');
