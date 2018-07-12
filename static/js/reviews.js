@@ -172,7 +172,13 @@
             });
 
             details_table = details_dt;
-            set_cols($.cookie("pcr_choosecols").split(","));
+            const cols_saved = $.cookie("pcr_choosecols");
+            if (cols_saved) {
+                set_cols(cols_saved.split(","));
+            }
+            else {
+                set_cols(["rCourseQuality", "rInstructorQuality", "rDifficulty", "rAmountLearned"]);
+            }
         }
     });
 

@@ -665,8 +665,11 @@ i.fa.fa-cart-plus {
     width:100%;
     position:relative;
 }
-#table-div .dataTable thead th {
-    border-bottom: 1px solid #979797;
+#content .dataTable thead th {
+    border-bottom: 1px solid #b2b2b2;
+}
+#content table.dataTable.no-footer {
+    border-bottom: 1px solid #b2b2b2;
 }
 #course-table th {
     border-bottom: 2px solid #636363;
