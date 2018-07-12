@@ -74,3 +74,11 @@ input[type=search]:focus {
 #select-prof {
     text-align: center;
 }
+
+#course-table .instructor_link:hover {
+    color: #4D7988;
+}
+
+#course-table .instructor_link:hover .fa-user {
+    font-weight: 900;
+}
