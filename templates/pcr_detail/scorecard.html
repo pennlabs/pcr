@@ -7,15 +7,15 @@
     </div>
     <div class="scoreboxrow">
         <div class="scorebox course">
-            <p class="num">{{reviews|average:"rCourseQuality"|floatformat:1}}</p>
+            <p class="num">{{reviews|average:"rCourseQuality"|floatformat:1|default:"N/A"}}</p>
             <p class="desc">Course</p>
         </div>
         <div class="scorebox instructor">
-            <p class="num">{{reviews|average:"rInstructorQuality"|floatformat:1}}</p>
+            <p class="num">{{reviews|average:"rInstructorQuality"|floatformat:1|default:"N/A"}}</p>
             <p class="desc">Instructor</p>
         </div>
         <div class="scorebox difficulty">
-            <p class="num">{{reviews|average:"rDifficulty"|floatformat:1}}</p>
+            <p class="num">{{reviews|average:"rDifficulty"|floatformat:1|default:"N/A"}}</p>
             <p class="desc">Difficulty</p>
         </div>
     </div>
@@ -26,17 +26,17 @@
     <div class="scoreboxrow">
         {% with recents=reviews|recent %}
         <div class="scorebox course">
-            <p class="num">{{recents|average:"rCourseQuality"|floatformat:1}}</p>
+            <p class="num">{{recents|average:"rCourseQuality"|floatformat:1|default:"N/A"}}</p>
             <p class="desc">Course</p>
         </div>
 
         <div class="scorebox instructor">
-            <p class="num">{{recents|average:"rInstructorQuality"|floatformat:1}}</p>
+            <p class="num">{{recents|average:"rInstructorQuality"|floatformat:1|default:"N/A"}}</p>
             <p class="desc">Instructor</p>
         </div>
 
         <div class="scorebox difficulty">
-            <p class="num">{{recents|average:"rDifficulty"|floatformat:1}}</p>
+            <p class="num">{{recents|average:"rDifficulty"|floatformat:1|default:"N/A"}}</p>
             <p class="desc">Difficulty</p>
         </div>
         {% endwith %}
