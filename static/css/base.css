@@ -41,6 +41,19 @@ body {
     font-size: 1.5em;
 }
 
+.main-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-col > .box {
+    height: 100%;
+}
+
+#course-details {
+    flex: 1;
+}
+
 .btn {
     border: none;
     cursor: pointer;
@@ -819,8 +832,7 @@ i.fa.fa-cart-plus {
     border:none;
 }
 #footer-inner {
-    padding:30px 0px;
-
+    padding-bottom: 15px;
     text-align:center;
     font-size:10px;
 }
