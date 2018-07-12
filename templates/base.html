@@ -39,6 +39,7 @@
   <script type="text/javascript" src="{% static "js/searchbox.js" %}"></script>
   <script type="text/javascript" src="{% static "js/tether.min.js" %}"></script>
   <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/base.js" %}"></script>
 
   {% block js %}{% endblock %}
 
@@ -72,7 +73,10 @@
             </form>
         </span>
         <span class="float-right">
-            <a href="{% url "cart" %}"><i id="cart" class="fa fa-shopping-cart"></i></a>
+            <a href="{% url "cart" %}" id="cart-icon">
+                <i id="cart" class="fa fa-shopping-cart"></i>
+                <span id="cart-count"></span>
+            </a>
         </span>
     </div>
     {% endblock %}

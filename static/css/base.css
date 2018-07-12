@@ -54,6 +54,28 @@ body {
     flex: 1;
 }
 
+#cart-icon {
+    position: relative;
+}
+
+#cart-count {
+    position: absolute;
+    bottom: -3px;
+    right: 2px;
+    background-color: #df5d56;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    color: white;
+    line-height: 1rem;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+#cart-count:empty {
+    display: none;
+}
+
 .btn {
     border: none;
     cursor: pointer;
