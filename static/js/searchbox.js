@@ -11,6 +11,16 @@ $(document).ready(function() {
             {"value": "Courses", "label": "Courses"},
             {"value": "Instructors", "label": "Instructors"},
         ],
+        score: function(search) {
+            var score = this.getScoreFunction(search);
+            return function(item) {
+                var sc = score(item);
+                if (sc > 0 && item.category == "Departments") {
+                    sc += 100;
+                }
+                return sc;
+            };
+        },
         optgroupField: 'category',
         render: {
             optgroup_header: function(data, esc) {
