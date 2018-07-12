@@ -24,10 +24,10 @@ const listProfessors = function() {
   });
   listOfProfessors.append($('<li>').append(avgButton));
   for (var i = 0; i < COURSE_DATA.instructors.length; i++) {
-    var orig_prof = COURSE_DATA.instructors[i];
-    var prof = titleize(orig_prof);
-    var listItem = $('<li>');
-    var button = $('<button>');
+    const orig_prof = COURSE_DATA.instructors[i];
+    const prof = titleize(orig_prof);
+    const listItem = $('<li>');
+    const button = $('<button>');
     button.click(
       function(){
         addToCourseCart(orig_prof);
