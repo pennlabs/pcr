@@ -137,6 +137,10 @@
                     {
                         targets: [0],
                         visible: false
+                    },
+                    {
+                        targets: [2],
+                        title: "Class"
                     }
                 ],
                 autoWidth: false,
