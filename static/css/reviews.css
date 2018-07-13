@@ -73,6 +73,10 @@ input[type=search]:focus {
 }
 #select-prof {
     text-align: center;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
 }
 
 #course-table .instructor_link:hover {
