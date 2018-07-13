@@ -411,6 +411,19 @@ i.fa.fa-cart-plus {
 .scorebox.workload {
     background-color: #df5d56;
 }
+
+.scorebox.rating-bad {
+    background-color: #FFC107;
+}
+
+.scorebox.rating-okay {
+    background-color: #6274F1;
+}
+
+.scorebox.rating-good {
+    background-color: #76BF96;
+}
+
 .courseCartRow {
     float: none;
 }

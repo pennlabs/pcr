@@ -135,6 +135,16 @@ def average(reviews, attribute):
         return ""
 
 
+@register.filter(name='rating_class')
+def rating_class(score):
+    if score < 2:
+        return "rating-bad"
+    elif score < 3:
+        return "rating-okay"
+    else:
+        return "rating-good"
+
+
 PRETTIFY_SEMESTER = {
     "A": "Spring",
     "B": "Summer",
