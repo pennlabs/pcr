@@ -54,6 +54,34 @@ body {
     flex: 1;
 }
 
+#feedback {
+    display: inline-block;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 3rem;
+    background-color: white;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    text-align: center;
+    box-shadow: 0 0 7px #ccc;
+    cursor: pointer;
+    color: #4a4a4a;
+}
+
+#feedback:hover {
+    background-color: #ddd;
+}
+
+#feedback:hover .fa-comment {
+    font-weight: 900;
+}
+
+#feedback .fa-comment {
+    font-size: 1.2em;
+    line-height: 2.5rem;
+}
+
 #cart-icon {
     position: relative;
 }
