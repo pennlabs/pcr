@@ -137,6 +137,7 @@ def average(reviews, attribute):
 
 @register.filter(name='rating_class')
 def rating_class(score):
+    score = round(score, 1)
     if score < 2:
         return "rating-bad"
     elif score < 3:
