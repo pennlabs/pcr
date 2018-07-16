@@ -229,3 +229,22 @@
     -o-animation: r-to-l 0.4s infinite;
     animation: r-to-l 0.4s infinite;
 }
+
+#banner {
+    display: none;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFC107;
+    color: white;
+    text-align: center;
+}
+#banner a {
+    color: white;
+    font-weight: bold;
+}
+#banner .close {
+    float: right;
+}

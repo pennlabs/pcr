@@ -5,11 +5,10 @@
     <link rel="stylesheet" href="{% static "css/index.css" %}" />
 {% endblock %}
 
-
-{% block title %}
-	{{ block.super }}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
 {% endblock %}
-
 
 {% block content %}
 <div class="col-md-12">
@@ -24,6 +23,10 @@
                 <span class="dot"></span>
             </div>
         </div>
+    </div>
+    <div id="banner">
+        <b>🎉</b> <b>Want to build impactful products like Penn Course Review?</b> Join Penn Labs this fall! Sign up for our mailing list <a href="https://pennlabs.org/">here</a>! <b>🎉</b>
+        <a class="close" href="#"><i class="fa fa-times"></i></a>
     </div>
 </div>
 {% endblock %}
