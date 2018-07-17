@@ -30,8 +30,9 @@ $(document).ready(function() {
                 return "<div>" + esc(item.title) + " <span class='sub'>"  + esc(item.desc) + "</span></div>";
             }
         },
+        preload: true,
         load: function(query, callback) {
-            if (query.length < 2) {
+            if (query.length == 1) {
                 return callback();
             }
             $.getJSON("/autocomplete_data.json/" + query.toLowerCase().substring(0, 2) + ".json", function(data) {
