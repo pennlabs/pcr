@@ -90,7 +90,7 @@
         select: $("#banner-info").attr("data-type") == "department" ? { style: "multi" } : false,
         columnDefs: [
             {
-                targets: [-1],
+                targets: "col_section",
                 visible: false
             }
         ],
@@ -139,11 +139,11 @@
             var details_dt = details_table_element.DataTable({
                 columnDefs: [
                     {
-                        targets: [0],
+                        targets: "col_icon",
                         visible: false
                     },
                     {
-                        targets: [2],
+                        targets: "col_name",
                         title: "Class"
                     }
                 ],
