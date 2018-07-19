@@ -27,7 +27,7 @@
         </div>
       {% endif %}
       </td>
-      <td class="col_semester">{{review.section.course.semester|semester}}</td>
+      <td class="col_semester" data-order="{{review.section.course.semester}}">{{review.section.course.semester|semester}}</td>
       <td class="col_name">{{review.section.name}}</td>
       <td class="col_section">{{review.section.sectionnum}}</td>
       <td class="col_responses">{{review.num_reviewers}}/{{review.num_students}}</td>
