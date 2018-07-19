@@ -1,7 +1,7 @@
 .col_section {
     display: none;
 }
-.col_instructor, .col_code {
+.col_instructor, .col_code, .col_name {
     white-space: nowrap;
 }
 
