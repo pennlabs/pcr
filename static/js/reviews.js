@@ -2,7 +2,7 @@
   var table, details_table;
 
   window.submit_choose_cols = function() {
-    var boxes = $("#column-selector .dropdown-item");
+    var boxes = $("#column-selector .dropdown-item:not(.control)");
     var result = [];
     boxes.each(function() {
       if ($(this).hasClass("selected")) {
@@ -25,6 +25,9 @@
       var num_cols = [];
       var text_cols = [];
       for (var i = 0; i < cols.length; i++) {
+        if (cols[i] === "") {
+            continue;
+        }
         if (isNaN(cols[i])) {
           text_cols.push(cols[i]);
         }
@@ -174,7 +177,7 @@
 
             details_table = details_dt;
             const cols_saved = $.cookie("pcr_choosecols");
-            if (cols_saved) {
+            if (cols_saved !== null) {
                 set_cols(cols_saved.split(","));
             }
             else {
@@ -201,7 +204,7 @@
 
     set_viewmode($.cookie("pcr_viewmode"));
     const cols_saved = $.cookie("pcr_choosecols");
-    if (cols_saved) {
+    if (cols_saved !== null) {
       set_cols(cols_saved.split(","));
     }
 
@@ -212,6 +215,7 @@
     $("#course-table_wrapper div.toolbar").append("<button id='course-dropdown' class='btn btn-primary btn-sm dropdown-toggle ml-2' data-toggle='dropdown'><i class='fa fa-plus'></i></button>");
     // create a div element for the drop down menu
     var div = $("<div id='column-selector' class='column-selector dropdown-menu' aria-labelledby='course-dropdown' />");
+    div.append("<a class='dropdown-item control' data-id='select-all' data-name='select-all'>Select all</a><a class='dropdown-item control' data-id='clear' data-name='clear'>Clear</a><hr />");
     // create dropdown menu inside div
     table.columns().every(function() {
         var title = $(this.header()).text().trim();
@@ -239,8 +243,17 @@
 
     $('#column-selector .dropdown-item').click(function(e) {
         e.stopPropagation();
-        $(this).toggleClass("selected");
-        $("#details-column-selector .dropdown-item[data-name='" + $(this).attr("data-name") + "']").toggleClass("selected");
+        var col_id = $(this).attr("data-id");
+        if (col_id == "select-all") {
+            $("#column-selector .dropdown-item:not(.control), #details-column-selector .dropdown-item:not(.control)").addClass("selected");
+        }
+        else if (col_id == "clear") {
+            $("#column-selector .dropdown-item:not(.control), #details-column-selector .dropdown-item:not(.control)").removeClass("selected");
+        }
+        else {
+            $(this).toggleClass("selected");
+            $("#details-column-selector .dropdown-item[data-name='" + $(this).attr("data-name") + "']").toggleClass("selected");
+        }
         window.submit_choose_cols();
     });
 

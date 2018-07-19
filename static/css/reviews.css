@@ -52,6 +52,12 @@ input[type=search]:focus {
     border-color: #9ED2D4;
 }
 
+.dropdown-menu hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
 #wrapper .column-selector .selected {
     background-color: #84B8BA;
     border-color: #84B8BA;
