@@ -219,7 +219,7 @@ body {
     color: #84B8BA;
 }
 
-#search-wrapper #search .selectize-input {
+#search-wrapper #search .selectize-input input {
     border-radius: 0;
 }
 
