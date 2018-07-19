@@ -11,19 +11,21 @@
 
 {% block css %}
   <link rel="stylesheet" type="text/css" href="{% static "css/jquery.dataTables.min.css" %}" />
+  <link rel="stylesheet" type="text/css" href="{% static "css/select.dataTables.min.css" %}" />
   <link rel="stylesheet" type="text/css" href="{% static "css/reviews.css" %}" />
   <link rel="stylesheet" type="text/css" href="{% static "css/buttons.dataTables.min.css" %}" />
 {% endblock %}
 
 {% block js %}
   <script src="{% static "js/jquery.dataTables.min.js" %}"></script>
+  <script src="{% static "js/dataTables.select.min.js" %}"></script>
   <script src="{% static "js/reviews.js" %}"></script>
   <script src="{% static "js/dataTables.buttons.min.js" %}"></script>
   <script src="{% static "js/buttons.colVis.min.js" %}"></script>
 {% endblock %}
 
 {% block banner-content %}
-  <div id="banner-info">
+  <div id="banner-info" data-type="{{ type }}">
     {% infobox item %}
   </div>
   {% ifnotequal type 'department'%}

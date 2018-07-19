@@ -84,6 +84,7 @@
     }
 
     table = $("#course-table").removeClass("d-none").DataTable({
+        select: $("#banner-info").attr("data-type") == "department",
         columnDefs: [
             {
                 targets: [-1],
