@@ -1,6 +1,9 @@
 .col_section {
     display: none;
 }
+.col_instructor, .col_code {
+    white-space: nowrap;
+}
 
 @media only screen and (max-width: 500px) {
     #content {
