@@ -147,6 +147,16 @@
         }
     });
 
+    var courseTableBody = $("#course-table").closest(".dataTables_scrollBody");
+    if (courseTableBody[0].scrollHeight > courseTableBody.height()) {
+        $("#scroll-indicator").show();
+        courseTableBody.on("scroll", function() {
+            if (courseTableBody[0].scrollTop > 0) {
+                $("#scroll-indicator").slideUp();
+            }
+        });
+    }
+
     $("#course-table tbody").on("click", "tr", function(e) {
         if ($("#course-details").length) {
             var data = table.row(this).data();

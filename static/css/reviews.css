@@ -139,3 +139,17 @@ table.dataTable, table.dataTable th, table.dataTable td {
 table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
     background-color: rgb(221, 235, 236);
 }
+
+#scroll-indicator {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 150px;
+    text-align: center;
+    padding-top: 85px;
+    color: #999;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(230, 230, 255, 1));
+}
