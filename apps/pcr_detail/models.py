@@ -7,6 +7,11 @@ from lib.api import api
 TYPE_RANK = ('LEC', 'SEM', 'LAB', 'REC')
 
 
+# python 2/3 compatibility
+def cmp(x, y):
+    return (x > y) - (x < y)
+
+
 class Review(object):
     def __init__(self, rid):
         tokens = rid.split("-")

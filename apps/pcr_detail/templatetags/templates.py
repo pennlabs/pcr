@@ -16,7 +16,7 @@ def links(context):
 def choose_cols_box(context, attributes):
     # split the attributes into two columns
     cols = [attr for attr in attributes]
-    half = len(cols) / 2 + 1
+    half = int(len(cols) / 2) + 1
     new_context = {
         'left_col': cols[:half],
         'right_col': cols[half:]
