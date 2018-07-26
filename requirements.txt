@@ -1,5 +1,4 @@
 Django==1.11.6
 requests==2.18.4
 staticgenerator==1.4.1
-wsgiref==0.1.2
 raven==6.4.0
