@@ -78,7 +78,6 @@
         details_table.settings()[0].oFeatures.bAutoWidth = true;
         details_table.columns.adjust().draw();
         lotsOfColumns = $("#course-details-table").width() > $("#course-details-table").closest(".dataTables_scrollBody").width();
-        console.log(lotsOfColumns);
 
         // do appropriate resizing
         $("#course-details-table_wrapper .dataTable, #course-details-table_wrapper .dataTables_scrollHeadInner").css({"width": ""});
@@ -162,7 +161,7 @@
             var data = table.row(this).data();
             var details = data[data.length - 1];
             $("#select-prof").hide();
-            $("#course-details-wrapper").show().find("h3").text($.trim($(data[0]).text()));
+            $("#course-details-wrapper").show().find("h3").text($.trim($("<div>" + data[0] + "</div>").text()));
             $("#course-details-data").html(details);
             var details_table_element = $("#course-details-data").find("table").attr("id", "course-details-table");
             $("#course-details-comments .comments").children().remove();
