@@ -759,18 +759,6 @@ i.fa.fa-cart-plus {
     border-color: rgb(102, 146, 161);
 }
 
-#course-table .col_icon {
-    width:.01%;
-}
-#course-table .col_code,
-#course-table .col_semester,
-#course-table .col_section,
-#course-table .col_responses {
-    width:2%;
-}
-#course-table .col_code {
-    width:6%;
-}
 #course-table tr.row_display td {
     cursor:pointer;
 }
