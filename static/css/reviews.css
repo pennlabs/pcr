@@ -34,6 +34,18 @@ input[type=search]:focus {
     border-color: #ccc;
 }
 
+.dataTables_scrollHead table, .dataTables_scrollBody table {
+    table-layout: fixed;
+}
+
+table.dataTable {
+    margin: 0;
+}
+
+table.dataTable, table.dataTable th, table.dataTable td {
+    box-sizing: border-box;
+}
+
 #wrapper .column-selector {
     border: none;
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);

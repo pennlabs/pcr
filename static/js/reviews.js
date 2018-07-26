@@ -44,6 +44,7 @@
         }
       });
       table.columns(num_cols).visible(true);
+      table.columns.adjust().draw();
 
       if (details_table) {
         var num_cols = [];
@@ -56,6 +57,7 @@
           }
         });
         details_table.columns(num_cols).visible(true);
+        details_table.columns.adjust().draw();
       }
   };
 
