@@ -54,7 +54,6 @@
       $("#course-table_wrapper .dataTable, #course-table_wrapper .dataTables_scrollHeadInner").css({"width": ""});
       table.settings()[0].oFeatures.bAutoWidth = lotsOfColumns;
       if (!lotsOfColumns) {
-        var colSize = 100 / table.columns(":visible").count();
         table.settings()[0].aoColumns = table.settings()[0].aoColumns.map(function(x) {
             x.sWidth = undefined;
             return x;
@@ -83,9 +82,8 @@
         $("#course-details-table_wrapper .dataTable, #course-details-table_wrapper .dataTables_scrollHeadInner").css({"width": ""});
         details_table.settings()[0].oFeatures.bAutoWidth = lotsOfColumns;
         if (!lotsOfColumns) {
-          var colSize = 100 / details_table.columns(":visible").count();
           details_table.settings()[0].aoColumns = details_table.settings()[0].aoColumns.map(function(x) {
-              x.sWidth = colSize + "%";
+              x.sWidth = undefined;
               return x;
           });
         }
