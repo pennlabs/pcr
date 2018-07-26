@@ -132,7 +132,7 @@
         autoWidth: false,
         paging: false,
         scrollX: true,
-        scrollY: 300,
+        scrollY: $("#banner-info").attr("data-type") == "department" ? 450 : 300,
         scrollCollapse: true,
         dom: '<"toolbar">frtip',
         language: {
