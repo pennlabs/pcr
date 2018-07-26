@@ -44,6 +44,22 @@
         }
       });
       table.columns(num_cols).visible(true);
+
+      // check whether to fit columns or introduce scrollbars
+      table.settings()[0].oFeatures.bAutoWidth = true;
+      table.columns.adjust().draw();
+      var lotsOfColumns = $("#course-table").width() > $("#course-table").closest(".dataTables_scrollBody").width();
+
+      // do appropriate resizing
+      $("#course-table_wrapper .dataTable, #course-table_wrapper .dataTables_scrollHeadInner").css({"width": ""});
+      table.settings()[0].oFeatures.bAutoWidth = lotsOfColumns;
+      if (!lotsOfColumns) {
+        var colSize = 100 / table.columns(":visible").count();
+        table.settings()[0].aoColumns = table.settings()[0].aoColumns.map(function(x) {
+            x.sWidth = undefined;
+            return x;
+        });
+      }
       table.columns.adjust().draw();
 
       if (details_table) {
@@ -57,6 +73,23 @@
           }
         });
         details_table.columns(num_cols).visible(true);
+
+        // check whether to fit columns or introduce scrollbars
+        details_table.settings()[0].oFeatures.bAutoWidth = true;
+        details_table.columns.adjust().draw();
+        lotsOfColumns = $("#course-details-table").width() > $("#course-details-table").closest(".dataTables_scrollBody").width();
+        console.log(lotsOfColumns);
+
+        // do appropriate resizing
+        $("#course-details-table_wrapper .dataTable, #course-details-table_wrapper .dataTables_scrollHeadInner").css({"width": ""});
+        details_table.settings()[0].oFeatures.bAutoWidth = lotsOfColumns;
+        if (!lotsOfColumns) {
+          var colSize = 100 / details_table.columns(":visible").count();
+          details_table.settings()[0].aoColumns = details_table.settings()[0].aoColumns.map(function(x) {
+              x.sWidth = colSize + "%";
+              return x;
+          });
+        }
         details_table.columns.adjust().draw();
       }
   };
@@ -96,6 +129,7 @@
                 visible: false
             }
         ],
+        autoWidth: false,
         paging: false,
         scrollX: true,
         scrollY: 300,
@@ -151,6 +185,7 @@
                         title: "Class"
                     }
                 ],
+                autoWidth: false,
                 paging: false,
                 scrollX: true,
                 scrollCollapse: true,

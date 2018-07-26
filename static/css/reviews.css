@@ -34,8 +34,13 @@ input[type=search]:focus {
     border-color: #ccc;
 }
 
+.dataTables_wrapper.no-footer .dataTables_scrollHead {
+    border-bottom: 1px solid #ccc !important;
+}
+
 .dataTables_scrollHead table, .dataTables_scrollBody table {
     table-layout: fixed;
+    border-bottom: none;
 }
 
 table.dataTable {

@@ -609,7 +609,6 @@ i.fa.fa-cart-plus {
 }
 
 #course-table_wrapper .th-text {
-    margin-right: 10px;
     font-family: Lato, Helvetica, sans-serif;
 }
 
@@ -740,11 +739,8 @@ i.fa.fa-cart-plus {
     width:100%;
     position:relative;
 }
-#content .dataTable thead th {
-    border-bottom: 1px solid #b2b2b2;
-}
-#content table.dataTable.no-footer {
-    border-bottom: 1px solid #b2b2b2;
+#content .dataTable thead th, #content table.dataTable.no-footer {
+    border-bottom: none;
 }
 #course-table th {
     border-bottom: 2px solid #636363;
