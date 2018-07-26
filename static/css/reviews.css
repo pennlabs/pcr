@@ -123,3 +123,15 @@ table.dataTable, table.dataTable th, table.dataTable td {
 #course-table .instructor_link:hover .fa-user {
     font-weight: 900;
 }
+
+#row-select-placeholder {
+    text-align: center;
+}
+
+#row-select-text {
+    font-size: 1.2em;
+    color: #999;
+    max-width: 220px;
+    margin: 0 auto;
+    margin-top: -90px;
+}

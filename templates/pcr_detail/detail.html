@@ -28,9 +28,16 @@
   <div id="banner-info" data-type="{{ type }}">
     {% infobox item %}
   </div>
-  {% ifnotequal type 'department'%}
+  {% if type == 'department' %}
+    <div id="row-select-placeholder">
+        <object type="image/svg+xml" data="{% static 'image/selectrow.svg' %}">
+            <img src="{% static 'image/selectrow.svg' %}" />
+        </object>
+        <div id="row-select-text">Select a few rows to begin comparing courses.</div>
+    </div>
+  {% else %}
     {% include "pcr_detail/scorecard.html" %}
-  {% endifnotequal %}
+  {% endif %}
   {% ifequal type 'course' %}
   <p class="desc">{{item.description|default_if_none:""}}</p>
   <script src="{% static "js/loader.js" %}"></script>
