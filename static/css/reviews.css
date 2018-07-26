@@ -135,3 +135,7 @@ table.dataTable, table.dataTable th, table.dataTable td {
     margin: 0 auto;
     margin-top: -90px;
 }
+
+table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
+    background-color: rgb(221, 235, 236);
+}
