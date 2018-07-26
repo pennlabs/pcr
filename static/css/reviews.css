@@ -26,6 +26,14 @@ input[type=search]:focus {
     margin: 0 3px;
 }
 
+.dataTables_scrollBody table thead tr {
+    visibility: collapse;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-color: #ccc;
+}
+
 #wrapper .column-selector {
     border: none;
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);

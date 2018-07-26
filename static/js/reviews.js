@@ -94,8 +94,10 @@
                 visible: false
             }
         ],
-        displayLength: 5,
-        autoWidth: false,
+        paging: false,
+        scrollX: true,
+        scrollY: 300,
+        scrollCollapse: true,
         dom: '<"toolbar">frtip',
         language: {
             search: "",
@@ -147,8 +149,9 @@
                         title: "Class"
                     }
                 ],
-                autoWidth: false,
-                displayLength: 5,
+                paging: false,
+                scrollX: true,
+                scrollCollapse: true,
                 dom: '<"toolbar">frtip',
                 language: {
                     search: "",
@@ -159,11 +162,6 @@
                 },
                 order: [[1, "desc"]]
             });
-
-            // if there are a lot of columns, insert a scrollable div
-            var details_table_element_wrapper = $("<div style='width: 100%; overflow-x: auto' />");
-            details_table_element_wrapper.insertAfter(details_table_element);
-            details_table_element.appendTo(details_table_element_wrapper);
 
             $("#course-details-data").find("input[type=search]").addClass("form-control form-control-sm");
             $("#view_ratings, #view_comments").click(function(e) {
@@ -232,11 +230,6 @@
         }
     });
     $("#course-table_wrapper div.toolbar").prepend(div);
-
-    // if there are a lot of columns, insert a scrollable div
-    var table_wrapper = $("<div style='width: 100%; overflow-x: auto' />");
-    table_wrapper.insertAfter($("#course-table"));
-    $("#course-table").appendTo(table_wrapper);
 
     div.clone().attr("id", "details-column-selector").insertAfter("#course-details-dropdown");
     $("#course-details-dropdown").addClass("dropdown-toggle").attr("data-toggle", "dropdown");
