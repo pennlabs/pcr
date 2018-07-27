@@ -128,6 +128,10 @@ table.dataTable, table.dataTable th, table.dataTable td {
     text-align: center;
 }
 
+#row-select-placeholder object {
+    max-width: 100%;
+}
+
 #row-select-text {
     font-size: 1.2em;
     color: #999;
