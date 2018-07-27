@@ -144,6 +144,71 @@
         }
     });
 
+    table.on("select deselect", function() {
+        if ($("#banner-info").attr("data-type") == "department") {
+            if (table.rows({selected: true}).count() >= 2) {
+                $("#row-select-placeholder").hide();
+                $("#row-select-chart").show();
+                var data = [];
+                var colors = ["#6274f1", "#ffc107", "#76bf96", "#df5d56"];
+                table.columns(":visible").every(function(col) {
+                    var header = $(this.header());
+                    if (header.hasClass("col_name") || header.hasClass("col_code")) {
+                        return;
+                    }
+                    data.push({
+                        label: $.trim(header.text()),
+                        data: Array.from(table.rows({selected: true}).data().map(function(x) {
+                            if (!x[col]) {
+                                return 0;
+                            }
+                            return parseFloat($(x[col])[0].innerHTML);
+                        })),
+                        backgroundColor: colors[col % colors.length]
+                    });
+                });
+                new Chart("row-select-chart", {
+                    type: "bar",
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    data: {
+                        labels: table.rows({selected: true}).data().map(function(x) { return $(x[0]).text(); }),
+                        datasets: data
+                    },
+                    options: {
+                        legend: {
+                            labels: {
+                                fontFamily: "Lato"
+                            }
+                        },
+                        events: [],
+                        scales: {
+                        xAxes: [{
+                                ticks: {
+                                    autoSkip: false,
+                                    maxRotation: 0,
+                                    minRotation: 0
+                                }
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    stepSize: 1,
+                                    max: 4
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+            else {
+                $("#row-select-placeholder").show();
+                $("#row-select-chart").hide();
+            }
+        }
+    });
+
     var courseTableBody = $("#course-table").closest(".dataTables_scrollBody");
     if (courseTableBody[0].scrollHeight > courseTableBody.height()) {
         $("#scroll-indicator").show();

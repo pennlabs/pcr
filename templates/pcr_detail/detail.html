@@ -20,6 +20,9 @@
   <script src="{% static "js/jquery.dataTables.min.js" %}"></script>
   <script src="{% static "js/dataTables.select.min.js" %}"></script>
   <script src="{% static "js/dataTables.buttons.min.js" %}"></script>
+  {% if type == 'department' %}
+  <script src="{% static "js/chart.min.js" %}"></script>
+  {% endif %}
   <script src="{% static "js/reviews.js" %}"></script>
 {% endblock %}
 
@@ -33,6 +36,9 @@
             <img src="{% static 'image/selectrow.svg' %}" />
         </object>
         <div id="row-select-text">Select a few rows to begin comparing courses.</div>
+    </div>
+    <div style="margin-left:-15px; margin-right: -15px">
+        <canvas id="row-select-chart"></canvas>
     </div>
   {% else %}
     {% include "pcr_detail/scorecard.html" %}
