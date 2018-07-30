@@ -119,7 +119,7 @@
     }
 
     table = $("#course-table").removeClass("d-none").DataTable({
-        select: $("#banner-info").attr("data-type") == "department" ? { style: "multi" } : false,
+        select: {"department": {"style": "multi"}, "course": {"style": "single"}, "instructor": false}[$("#banner-info").attr("data-type")],
         columnDefs: [
             {
                 targets: "col_section",
