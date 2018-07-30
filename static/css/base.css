@@ -759,20 +759,16 @@ i.fa.fa-cart-plus {
     border-color: rgb(102, 146, 161);
 }
 
-#course-table tr.row_display td {
+#course-table tr.row_display {
     cursor:pointer;
 }
-#course-table tr.row_display:hover td {
+#course-table tr.row_display:hover {
     background-color: #eeeeee;
     color:#000000;
 }
-#course-table tr.row_hidden {
-    /*display: none;*/
+#course-table tr.selected:hover {
+    background-color: #E6EDED;
 }
-#course-table td.td_hidden {
-    padding: 10px 10px 10px 10px;
-    /*  background:#fffeee;
-     */}
 #course-table .toggle_button {
     width:9px;
     height:9px;
