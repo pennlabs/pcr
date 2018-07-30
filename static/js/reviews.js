@@ -172,8 +172,13 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     data: {
-                        labels: table.rows({selected: true}).data().map(function(x) { return $(x[0]).text(); }),
-                        datasets: data
+                        labels: Array.prototype.slice.call(table.rows({selected: true}).data().map(function(x) {
+                            return $(x[0]).text();
+                        })).slice(0, 4),
+                        datasets: data.slice(0, 4).map(function(item) {
+                            item.data = item.data.slice(0, 4);
+                            return item;
+                        })
                     },
                     options: {
                         legend: {
@@ -187,7 +192,8 @@
                                 ticks: {
                                     autoSkip: false,
                                     maxRotation: 0,
-                                    minRotation: 0
+                                    minRotation: 0,
+                                    fontSize: 9
                                 }
                             }],
                             yAxes: [{
