@@ -193,7 +193,8 @@
                         legend: {
                             labels: {
                                 fontFamily: "Lato",
-                                fontSize: 10
+                                fontSize: 10,
+                                boxWidth: 10
                             }
                         },
                         events: [],
