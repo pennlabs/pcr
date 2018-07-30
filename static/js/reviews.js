@@ -144,11 +144,20 @@
         }
     });
 
-    table.on("select deselect", function() {
+    $("#chart-clear").click(function(e) {
+        e.preventDefault();
+        table.rows().deselect();
+    });
+
+    table.on("select deselect", function(e) {
         if ($("#banner-info").attr("data-type") == "department") {
-            if (table.rows({selected: true}).count() >= 2) {
+            var num_selected = table.rows({selected: true}).count();
+            if (num_selected >= 5) {
+                table.rows(Array.prototype.slice.call(table.rows({selected: true}).indexes()).slice(4)).deselect();
+            }
+            if (num_selected >= 2) {
                 $("#row-select-placeholder").hide();
-                $("#row-select-chart").show();
+                $("#row-select-chart-container").show();
                 var data = [];
                 var colors = ["#6274f1", "#ffc107", "#76bf96", "#df5d56"];
                 table.columns(":visible").every(function(col) {
@@ -183,7 +192,8 @@
                     options: {
                         legend: {
                             labels: {
-                                fontFamily: "Lato"
+                                fontFamily: "Lato",
+                                fontSize: 10
                             }
                         },
                         events: [],
@@ -210,7 +220,7 @@
             }
             else {
                 $("#row-select-placeholder").show();
-                $("#row-select-chart").hide();
+                $("#row-select-chart-container").hide();
             }
         }
     });

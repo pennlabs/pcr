@@ -37,8 +37,9 @@
         </object>
         <div id="row-select-text">Select a few rows to begin comparing courses.</div>
     </div>
-    <div style="margin-left:-15px; margin-right: -15px">
+    <div id="row-select-chart-container">
         <canvas id="row-select-chart"></canvas>
+        <button id="chart-clear" class="btn btn-action">Clear Chart</button>
     </div>
   {% else %}
     {% include "pcr_detail/scorecard.html" %}
