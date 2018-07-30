@@ -297,6 +297,9 @@
                 $("#view_comments").toggleClass("btn-sub-primary", !is_ratings).toggleClass("btn-sub-secondary", is_ratings);
                 $("#course-details-data, #course-details-dropdown").toggle(is_ratings);
                 $("#course-details-comments").toggle(!is_ratings);
+                if (is_ratings) {
+                    window.submit_choose_cols();
+                }
             });
 
             details_table = details_dt;
