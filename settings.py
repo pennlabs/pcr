@@ -70,10 +70,10 @@ MEDIA_URL = ''
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-STATIC_URL = '/media/'
+STATIC_URL = '/static/'
 
 # Path to local staticfiles
-STATIC_DOC_ROOT = os.path.join(os.getcwd(), "media")
+STATIC_DOC_ROOT = os.path.join(os.getcwd(), "static")
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^'
@@ -92,7 +92,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(PROJECT_PATH, 'templates'),
         ],
-        'APP_DIRS': True,
+        'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',

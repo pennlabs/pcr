@@ -1,0 +1,41 @@
+{% extends "pcr_detail/templatetags/scoretable/base_scoretable.html" %}
+{% load prettify %}
+
+{% block key %}
+  <th scope="col" class="col_code">
+    <span class="th-text">Code</span>
+  </th>
+{% endblock %}
+
+{% block body %}
+  {% regroup reviews|dictsort:"section.course.coursehistory.alias" by section.course.coursehistory as course_list %}
+    {% for group in course_list %}
+      {% with coursehistory=group.grouper %}
+        <tr id="row_display_{{forloop.counter0}}" class="row_display">
+            <td class="col_code">
+                <a href="{% url "course" coursehistory.alias %}">
+                    {{coursehistory.alias}}
+                </a>
+            </td>
+            {% with all_cols=reviews|columns reviews=group.list %}
+            <td class="col_name">
+                {{coursehistory|subtitle|title|capitalize_improved|slice:"0:60"}}
+                {% if coursehistory|subtitle|title|capitalize_improved|length > 60 %}
+                ...
+                {% endif %}
+            </td>
+            {% with reviews|recent as recents %}
+            {% for attribute in all_cols %}
+            <td class="col_{{attribute}}">
+                <span class="cell_average">{{reviews|average:attribute|floatformat:2}}</span>
+                <span class="cell_recent">{{recents|average:attribute|floatformat:2}}</span>
+            </td>
+            {% endfor %}
+            {% endwith %}
+            <td class="col_section"></td>
+        </tr>
+      {% endwith %}
+    {% endwith %}
+  {% endfor %}
+{% endblock %}
+

@@ -1,0 +1,47 @@
+{% load prettify %}
+<table id="section-table" class="section-table">
+  <thead>
+    <tr>
+      <th class="sec_th col_icon">
+        <div title="Comments"></div>
+      </th>
+      <th class="sec_th col_semester">Semester</th>
+      <th class="sec_th col_name">Name</th>
+      <th class="sec_th col_section">Section</th>
+      <th class="sec_th col_responses">Responses</th>
+      {% for attribute in reviews|columns %}
+      <th class="sec_th col_{{attribute}}">
+        {{attribute|reviewbit}}
+      </th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+  {% for review in reviews|dictsort:"section.sectionnum"|dictsortreversed:"section.course.semester" %}
+    <tr class="sec_row_display">
+      <td class="col_icon">
+      {% if review.comments %}
+        <div class="comment-icon"
+          title="See Comments"
+          onclick="$('#row_hidden_{{forloop.parentloop.counter0}} .sec_row_hidden_{{forloop.counter0}}').toggle()">
+        </div>
+      {% endif %}
+      </td>
+      <td class="col_semester" data-order="{{review.section.course.semester}}">{{review.section.course.semester|semester}}</td>
+      <td class="col_name">{{review.section.name}}</td>
+      <td class="col_section">{{review.section.sectionnum}}</td>
+      <td class="col_responses">{{review.num_reviewers}}/{{review.num_students}}</td>
+    {% for attribute in reviews|columns %}
+      <td class="col_{{attribute}}">{{review.ratings|get:attribute|floatformat:2}}</td>
+    {% endfor %}
+    </tr>
+  {% if review.comments %}
+    <tr class="sec_row_hidden sec_row_hidden_{{forloop.counter0}}">
+      <td class="sec_td_hidden" colspan="50">
+          <p data-semester="{{ review.section.course.semester|semester }}">{{review.comments|format_comment|safe}}</p>
+      </td>
+    </tr>
+  {% endif %}
+  {% endfor %}
+  </tbody>
+</table>

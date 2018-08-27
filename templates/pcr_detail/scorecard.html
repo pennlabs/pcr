@@ -1,0 +1,57 @@
+{% load prettify %}
+{% if reviews|length > 0 %}
+<div id="banner-score">
+    <div class="scoredesc">
+        <p class="title">Average</p>
+        <p class="subtitle">{{reviews|length}} Section{{reviews|length|pluralize}}</p>
+    </div>
+    <div class="scoreboxrow">
+        {% with avg=reviews|average:"rCourseQuality" %}
+        <div class="scorebox course {{avg|rating_class}}">
+            <p class="num">{{avg|floatformat:1|default:"N/A"}}</p>
+            <p class="desc">Course</p>
+        </div>
+        {% endwith %}
+        {% with avg=reviews|average:"rInstructorQuality" %}
+        <div class="scorebox instructor {{avg|rating_class}}">
+            <p class="num">{{avg|floatformat:1|default:"N/A"}}</p>
+            <p class="desc">Instructor</p>
+        </div>
+        {% endwith %}
+        {% with avg=reviews|average:"rDifficulty" %}
+        <div class="scorebox difficulty {{avg|rating_class}}">
+            <p class="num">{{avg|floatformat:1|default:"N/A"}}</p>
+            <p class="desc">Difficulty</p>
+        </div>
+        {% endwith %}
+    </div>
+    <div class="scoredesc">
+        <p class="title">Recent</p>
+        <p class="subtitle">{{recents.0.section.course.semester|semester}}</p>
+    </div>
+    <div class="scoreboxrow">
+        {% with recents=reviews|recent %}
+        {% with score=recents|average:"rCourseQuality" %}
+        <div class="scorebox course {{ score|rating_class }}">
+            <p class="num">{{score|floatformat:1|default:"N/A"}}</p>
+            <p class="desc">Course</p>
+        </div>
+        {% endwith %}
+
+        {% with score=recents|average:"rInstructorQuality" %}
+        <div class="scorebox instructor {{ score|rating_class }}">
+            <p class="num">{{score|floatformat:1|default:"N/A"}}</p>
+            <p class="desc">Instructor</p>
+        </div>
+        {% endwith %}
+
+        {% with score=recents|average:"rDifficulty" %}
+        <div class="scorebox difficulty {{ score|rating_class }}">
+            <p class="num">{{score|floatformat:1|default:"N/A"}}</p>
+            <p class="desc">Difficulty</p>
+        </div>
+        {% endwith %}
+        {% endwith %}
+    </div>
+</div>
+{% endif %}

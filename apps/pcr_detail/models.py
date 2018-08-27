@@ -12,7 +12,22 @@ def cmp(x, y):
     return (x > y) - (x < y)
 
 
-class Review(object):
+class ComparableMixin(object):
+    def __eq__(self, other):
+        return self.__cmp__(other) == 0
+    def __ne__(self, other):
+        return self.__cmp__(other) != 0
+    def __gt__(self, other):
+        return self.__cmp__(other) > 0
+    def __lt__(self, other):
+        return self.__cmp__(other) < 0
+    def __ge__(self, other):
+        return self.__cmp__(other) >= 0
+    def __le__(self, other):
+        return self.__cmp__(other) <= 0
+
+
+class Review(ComparableMixin, object):
     def __init__(self, rid):
         tokens = rid.split("-")
         # NOTE: Since a professor's name is hyphen separated we have to be careful
@@ -44,11 +59,14 @@ class Review(object):
     def __cmp__(self, other):
         return cmp(self.id, other.id)
 
+    def __hash__(self):
+        return hash(self.id)
+
     def __repr__(self):
         return "Review(%s)" % self.id
 
 
-class Instructor(object):
+class Instructor(ComparableMixin, object):
     def __init__(self, iid):
         try:
             raw_self = api('instructors', iid)
@@ -94,7 +112,7 @@ class Instructor(object):
         return "Instructor(%s)" % self.name
 
 
-class Section(object):
+class Section(ComparableMixin, object):
     def __init__(self, sid):
         course_id, section_id = sid.split("-")
         try:
@@ -134,7 +152,7 @@ class Section(object):
         return "Section(%s)" % self.id
 
 
-class Course(object):
+class Course(ComparableMixin, object):
     def __init__(self, cid):
         try:
             raw_self = api('courses', cid)
@@ -176,7 +194,7 @@ class Course(object):
         return 'Course(%s)' % self.id
 
 
-class CourseHistory(object):
+class CourseHistory(ComparableMixin, object):
     def __init__(self, chid):
         # constructor id can either be one if its aliases, or numeric id
         try:

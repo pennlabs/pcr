@@ -1,12 +1,6 @@
-import json
-
-from django.http import HttpResponse
+from django.http import JsonResponse
 
 from lib.api import api
-
-
-def json_response(result_dict):
-    return HttpResponse(content=json.dumps(result_dict))
 
 
 def autocomplete_data(request, start=None):
@@ -26,16 +20,17 @@ def autocomplete_data(request, start=None):
         for alias in course['aliases']:
             # Combinations of all the variants a user may search by
             course_keywords = " ".join([alias_to_code(alias.lower(), sep)
-                                        for sep in ['', '-', ' ']]
-                                       + [course['name'].lower()])
+                                        for sep in ['', '-', ' ']] +
+                                        [course['name'].lower()])
             course_title = alias_to_code(alias, ' ')
             if not start or start in course_keywords:
-                courses.append({"category": "Courses",
-                                "title": course_title,
-                                "desc": course['name'],
-                                "url": "course/" + alias_to_code(alias),
-                                "keywords": course_keywords
-                                })
+                courses.append({
+                    "category": "Courses",
+                    "title": course_title,
+                    "desc": course['name'],
+                    "url": "course/" + alias_to_code(alias),
+                    "keywords": course_keywords
+                })
 
     # 2. Hit API up for instructor data, push into nop's desired format
     instructors_from_api = api('instructors')['values']
@@ -61,5 +56,5 @@ def autocomplete_data(request, start=None):
                    or start in department['name'].lower()]
 
     # 4. Respond in JSON
-    return json_response({"courses": courses, "instructors": instructors,
+    return JsonResponse({"courses": courses, "instructors": instructors,
                           "departments": departments})

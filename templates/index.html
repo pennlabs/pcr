@@ -1,74 +1,32 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block htmlheader-links %}
-	<link rel="stylesheet" href="media/front-end/css/index.css" />
+{% block css %}
+    <link rel="stylesheet" href="{% static "css/index.css" %}" />
 {% endblock %}
 
-{% block htmlheader-js %}
-	<script type="text/javascript" src="media/front-end/js/index.js"></script>
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
 {% endblock %}
 
-
-
-{% block title %}
-	{{ block.super }}
-{% endblock %}
-
-
-{% block header-content %}
-{% endblock %}
-
-
-{% block banner-content %}
-	<div id="title">
-		<span class="BNR">Penn</span> <span class="BNL">Course Review</span>
-	</div>
-	<div id="search">
-		<div id="search-loading">
-		</div>
-		<div id="search-container">
-			<div class="search">
-			<div class="bar">
-				<input type = "text" id="searchbox" class = "text" placeholder = "Search for a Class or Professor" autofocus>
-			</div>
-			<div class="shadow">
-			</div>
-				<div class="results">
-
-
-
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="clear"></div>
-{% endblock %}
-
-
-{% block content-content %}
-	<div class="clear" style="margin-top:15px"></div>
-	<div class="grid_8">
-		<h1>Welcome!</h1>
-		<p>Welcome to the new Penn Course Review!</p>
-		<p>The student-run Penn Course Review has served as a valuable guide for course selection since the 1960s. Now, we have completely redesigned the experience, making it even easier to look for your classes and professors. We hope you will enjoy it!</p>
-		<p>Interested in building something on the Penn Course Review API? <a href="https://docs.google.com/spreadsheet/viewform?hl=en_US&formkey=dGZOZkJDaVkxdmc5QURUejAteFdBZGc6MQ#gid=0">Request API access</a>.</p>
-		<p> Want easy access to Penn Course Review? Get the <a href="http://pennlabs.org/mobile/"> Penn Mobile App</a>! </p>
-	</div>
-	<div id="questions" class="prefix_1 grid_3">
-		<h1>Questions?</h1>
-		<p>If you have any questions, take a look at our <a href="faq">FAQs</a> section.</p>
-
-		<div id="projectby">
-			<p>Developed by</p><br>
-			<div style="margin-top:-45px; text-align:center;">
-				<a href="http://pennlabs.org" style="border:none" class="logo">
-					<img style="display:inline-block;float:left;margin-top:25px;" src="media/front-end/image/labs.png" alt="Penn Labs" width="120px" />
-				</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="clear"></div>
-
-
+{% block content %}
+<div class="col-md-12">
+    <div id="title">
+        <img src="{% static "image/logo.png" %}" alt="Penn Course Review" /> <span class="title-text">Penn Course Review</span>
+    </div>
+    <div id="search-wrapper">
+        <div id="search">
+            <input type="text" id="searchbox" class="text" placeholder="Search for a class or professor" autofocus>
+            <div id="loading">
+                <span class="pacman"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+    <div id="banner">
+        <b>🎉</b> <b>Want to build impactful products like Penn Course Review?</b> Join Penn Labs this fall! Sign up for our mailing list <a href="https://eepurl.com/c07CGb" target="_blank">here</a>! <b>🎉</b>
+        <a class="close" href="#"><i class="fa fa-times"></i></a>
+    </div>
+</div>
 {% endblock %}

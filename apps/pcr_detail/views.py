@@ -32,8 +32,8 @@ def sorted_instructors_by_sem(reviews):
     return grouped_obj
 
 
-def course(request, dept, id):
-    title = '%s-%s' % (dept.upper(), id)
+def course(request, title):
+    title = title.upper()
     coursehistory = CourseHistory(title)
     reviews = set(
         review for course in coursehistory.courses for section in course.sections for review in section.reviews)

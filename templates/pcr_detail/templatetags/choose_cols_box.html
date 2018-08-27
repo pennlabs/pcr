@@ -1,0 +1,45 @@
+{% load prettify %}
+<div id="choose-cols">
+  <div class="container_12">
+    <div id="choose-cols-inner">
+      <div>
+        <div id="choose-cols-content" class="shadow disable-selection">
+        
+          <h1>Choose Columns to Display</h1>
+          
+          <div id="select-all">
+            <p>
+              <input type="checkbox" id="checkbox_all" name="all" value="all"
+                onchange="toggle_choose_cols_all()" />
+              <label for="checkbox_all">Select/Deselect All</label>
+            </p>
+          </div>
+          
+          <div class="col">            
+            {% for attribute in left_col %}
+            <p>
+              <input type="checkbox" id="checkbox_{{attribute}}" name="{{attribute}}" value="{{attribute}}" />
+              <label for="checkbox_{{attribute}}">{{attribute|reviewbit}}</label>
+            </p>
+            {% endfor %}
+          </div>
+                    
+          <div class="col">
+            {% for attribute in right_col %}
+            <p>
+              <input type="checkbox" id="checkbox_{{attribute}}" name="{{attribute}}" value="{{attribute}}" />
+              <label for="checkbox_{{attribute}}">{{attribute|reviewbit}}</label>
+            </p>
+            {% endfor %}  
+          </div>
+          
+          <div style="clear:both"></div>
+          <div id="buttons">
+            <input type="button" value="Submit" onclick="submit_choose_cols()" />
+            <input type="button" value="Cancel" onclick="cancel_choose_cols()" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

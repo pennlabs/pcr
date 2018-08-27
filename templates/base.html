@@ -1,60 +1,46 @@
 {% load static %}
+{% load templates %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-eqt uiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="description" content="Penn Course Review is a tool for students at the University of Pennsylvania to search for the best professor and classes on campus. ">
-  <link href="apple-touch-icon-57x57.png" sizes="57x57" rel="{% static "front-end/image/apple-touch-icon-57x57-precomposed.png" %}">
-  <link href="apple-touch-icon-72x72.png" sizes="72x72" rel="{% static "front-end/image/apple-touch-icon-72x72-precomposed.png" %}">
-  <link href="apple-touch-icon-114x114.png" sizes="114x114" rel="{% static "front-end/image/apple-touch-icon-114x114-precomposed.png" %}">
-  <link href="apple-touch-icon-144x144.png" sizes="144x144" rel="{% static "front-end/image/apple-touch-icon-144x144-precomposed.png" %}">
-  <link href="apple-touch-icon-76x76.png" sizes="76x76" rel="{% static "front-end/image/apple-touch-icon-76x76-precomposed.png" %}">
-  <link href="apple-touch-icon-60x60.png" sizes="60x60" rel="{% static "front-end/image/apple-touch-icon-60x60-precomposed.png" %}">
-  <link href="apple-touch-icon-152x152.png" sizes="152x152" rel="{% static "front-end/image/apple-touch-icon-152x152-precomposed.png" %}">
-  <link href="apple-touch-icon-120x120.png" sizes="120x120" rel="{% static "front-end/image/apple-touch-icon-120x120-precomposed.png" %}">
+  <link href="apple-touch-icon-57x57.png" sizes="57x57" rel="{% static "image/apple-touch-icon-57x57-precomposed.png" %}">
+  <link href="apple-touch-icon-72x72.png" sizes="72x72" rel="{% static "image/apple-touch-icon-72x72-precomposed.png" %}">
+  <link href="apple-touch-icon-114x114.png" sizes="114x114" rel="{% static "image/apple-touch-icon-114x114-precomposed.png" %}">
+  <link href="apple-touch-icon-144x144.png" sizes="144x144" rel="{% static "image/apple-touch-icon-144x144-precomposed.png" %}">
+  <link href="apple-touch-icon-76x76.png" sizes="76x76" rel="{% static "image/apple-touch-icon-76x76-precomposed.png" %}">
+  <link href="apple-touch-icon-60x60.png" sizes="60x60" rel="{% static "image/apple-touch-icon-60x60-precomposed.png" %}">
+  <link href="apple-touch-icon-152x152.png" sizes="152x152" rel="{% static "image/apple-touch-icon-152x152-precomposed.png" %}">
+  <link href="apple-touch-icon-120x120.png" sizes="120x120" rel="{% static "image/apple-touch-icon-120x120-precomposed.png" %}">
 
-  <link rel="shortcut icon" href="{% static "front-end/image/favicon.ico" %}">
+  <link rel="shortcut icon" href="{% static "image/favicon.ico" %}">
 
-  <link type="text/css" href="{% static "front-end/css/bootstrap.min.css" %}" rel="stylesheet" />
-  <link type="text/css" href="{% static "front-end/css/960_12_col.css" %}" rel="stylesheet" />
-  <link type="text/css" href="{% static "front-end/css/reset.css" %}" rel="stylesheet" />
-  <link type="text/css" href="{% static "front-end/css/flick/jquery-ui-1.8.16.custom.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "css/tether.min.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "css/reset.css" %}" rel="stylesheet" />
 
-  <link type="text/css" href="{% static "front-end/css/base.css" %}" rel="stylesheet" />
-  <link type="text/css" href="{% static "front-end/css/searchbox.css" %}" rel="stylesheet" />
-  <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link type="text/css" href="{% static "css/selectize.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "css/base.css" %}" rel="stylesheet" />
+  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
 
   <link href='//fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
-  {% block htmlheader-links %}{% endblock %}
+  {% block css %}{% endblock %}
 
   <title>{% block title %}Penn Course Review{% endblock %}</title>
 
-  <script src="https://code.jquery.com/jquery-1.9.1.min.js" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="{% static "front-end/js/jquery.cookie.js" %}"></script>
-  <script type="text/javascript" src="{% static "front-end/js/jquery-ui-1.8.16.custom.min.js" %}"></script>
-  <script type="text/javascript" src="{% static "front-end/js/searchbox.js" %}"></script>
-  <script type="text/javascript" src="{% static "front-end/js/bootstrap.min.js" %}"></script>
-  <script type="text/javascript" src="{% static "front-end/js/display.js" %}"></script>
-  <script type="text/javascript" src="{% static "front-end/js/additional-jQuery.js" %}"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="{% static "js/jquery.cookie.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/selectize.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/searchbox.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/tether.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/base.js" %}"></script>
 
-  {% block htmlheader-js %}{% endblock %}
-
-   {% block htmlheader-style %}{% endblock %}
-
-  <!--[if IE 8]>
-  <style>
-  #course-table .col_icon {
-    width:11px;
-  }
-  </style>
-  <![endif]-->
-
-  <!-- start Mixpanel -->
-  <script type="text/javascript">var mpq=[];mpq.push(["init","9aa52fc2877144ac5d5d92002694f984"]);(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push([f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links","track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<d.length;c++){mpq[d[c]]=e(d[c])}})();
-  </script>
-  <!-- end Mixpanel -->
+  {% block js %}{% endblock %}
 
   <!-- Google Analytics -->
   <script type="text/javascript">
@@ -68,51 +54,46 @@
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
   </script>
-
 </head>
-{% load templates %}
 <body>
-  <div class="background"></div>
   <div id="wrapper">
     {% block header-div %}
-      <div id="header"><div id="header-bg">
-        <div class="container_12">
-          {% block header-content %}
-            <a href="{% url "index" %}"><div id="title" class="header-item">
-              Penn Course Review
-            </div></a>
-            <div id="linkbar" class="header-item">
-              {% links %}
-            </div>
-	    <span id="searchAndCart">
-	      <div id="searchbar" class="header-item">
-            {% include "searchbar/searchbar.html" %}
-          </div>
-          <a id="cartIcon" href="{% url "cart" %}"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-	    </span>
-	    <div class="clear"></div>
-          {% endblock %}
-        </div>
-      </div></div>
-    {% endblock %}
-
-    {% block banner-div %}
-    <div id="banner"><div id="banner-bg">
-      <div id="banner-inner" class="container_12">
-        {% block banner-content %}
-        {% endblock %}
-      </div>
-    </div></div>
-    {% endblock %}
-
-    {% block content-div %}
-    <div id="content">
-      <div class="container_12">
-        {% block content-content %}
-        {% endblock %}
-      </div>
+    <div id="header">
+        <span class="float-left">
+            <a href="/"><div id="logo"></div></a>
+            <form id="search">
+                <input type="text" />
+                <button><i class="fa fa-search"></i></button>
+            </form>
+        </span>
+        <span class="float-right">
+            <a href="{% url "cart" %}" id="cart-icon" title="Course Cart">
+                <i id="cart" class="fa fa-shopping-cart"></i>
+                <span id="cart-count"></span>
+            </a>
+        </span>
     </div>
     {% endblock %}
+
+    <div id="content" class="row">
+    {% block content %}
+        {% block banner-div %}
+            <div class="col-sm-12 col-md-4 box-wrapper sidebar-col">
+                <div class="box">
+                    {% block banner-content %}
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block content-div %}
+            <div class="col-sm-12 col-md-8 main-col">
+                {% block content-content %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+    {% endblock %}
+    </div>
 
     <div id="footer">
       <div id="footer-inner" class="container_12">
@@ -122,10 +103,10 @@
           <span style="color:#CC0000;">Best viewed in Chrome or Firefox. </span>
           <![endif]-->
           Copyright &copy; {% now "Y" %}
-          <a href="http://pennlabs.org"><strong>Penn Labs</strong></a>
+          <a href="https://pennlabs.org"><strong>Penn Labs</strong></a>
           |
           Hosted by
-          <a href="http://stwing.upenn.edu/"><strong>STWing</strong></a>
+          <a href="https://stwing.upenn.edu/"><strong>STWing</strong></a>
           <!--[if IE 8>]
           <span style="color:#CC0000;">Best viewed in Chrome or Firefox. </span>
           <![endif]-->
@@ -134,6 +115,10 @@
     </div>
   </div>
 
+  <a id="feedback" href="https://docs.google.com/spreadsheet/viewform?formkey=dFNZYW92cFM1YnpKUzlLcXRDZVQ4VGc6MQ" title="Feedback" target="_blank">
+      <i class="far fa-comment"></i>
+  </a>
+
   {% block non-wrapper %}
   {% endblock %}
 
@@ -141,23 +126,5 @@
     {% block hidden %}
     {% endblock %}
   </div>
-<!-- UserVoice JavaScript SDK (only needed once on a page) -->
-<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/DK7y9di1OfqvyeKq0bB94g.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-
-<!-- A tab to launch the Classic Widget -->
-<script>
-UserVoice = window.UserVoice || [];
-UserVoice.push(['showTab', 'classic_widget', {
-  mode: 'full',
-  primary_color: '#cc6d00',
-  link_color: '#007dbf',
-  default_mode: 'feedback',
-  forum_id: 177712,
-  tab_label: 'Feedback',
-  tab_color: '#cc6d00',
-  tab_position: 'bottom-right',
-  tab_inverted: false
-}]);
-</script>
 </body>
 </html>

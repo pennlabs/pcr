@@ -1,0 +1,172 @@
+.col_section {
+    display: none;
+}
+.col_instructor, .col_code, .col_name {
+    white-space: nowrap;
+}
+.col_code {
+    min-width: 100px;
+}
+
+@media only screen and (max-width: 500px) {
+    #content {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 25px;
+    }
+}
+
+input[type=search]:focus {
+    outline: none;
+    border-color: #84B8BA;
+}
+#course-table_length label {
+    margin: 6px 0;
+}
+#course-table_length select {
+    background-color: inherit;
+    border-radius: 3px;
+    margin: 0 3px;
+}
+
+.dataTables_scrollBody table thead tr {
+    visibility: collapse;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-color: #ccc;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollHead {
+    border-bottom: 1px solid #ccc !important;
+}
+
+.dataTables_scrollHead table, .dataTables_scrollBody table {
+    table-layout: fixed;
+    border-bottom: none;
+}
+
+table.dataTable {
+    margin: 0;
+}
+
+table.dataTable, table.dataTable th, table.dataTable td {
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+#wrapper .column-selector {
+    border: none;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
+    padding: 15px;
+    margin-top: 10px;
+}
+
+#wrapper .column-selector .dropdown-item {
+    color: #b2b2b2;
+    border: 1px solid #b2b2b2;
+    border-radius: 3px;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+#wrapper .column-selector .dropdown-item:hover {
+    color: white;
+    background-color: #b2b2b2;
+}
+
+#wrapper .column-selector .dropdown-item.selected:hover {
+    color: white;
+    background-color: #9ED2D4;
+    border-color: #9ED2D4;
+}
+
+.dropdown-menu hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#wrapper .column-selector .selected {
+    background-color: #84B8BA;
+    border-color: #84B8BA;
+    color: white;
+}
+
+#wrapper #details-column-selector .selected {
+    background-color: #ABAAF1;
+    border-color: #ABAAF1;
+}
+
+#wrapper #details-column-selector .selected:hover {
+    background-color: #C5C4FF;
+    border-color: #C5C4FF;
+}
+
+#select-prof-text {
+    color: #b2b2b2;
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 25px;
+}
+#select-prof {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+}
+
+#course-table .instructor_link:hover {
+    color: #4D7988;
+}
+
+#course-table .instructor_link:hover .fa-user {
+    font-weight: 900;
+}
+
+#row-select-placeholder {
+    text-align: center;
+}
+
+#row-select-placeholder object {
+    max-width: 100%;
+}
+
+#row-select-chart-container {
+    display: none;
+    margin-left:-15px;
+    margin-right: -15px;
+    text-align: center;
+}
+
+#row-select-chart {
+    margin-bottom: 15px;
+}
+
+#row-select-text {
+    font-size: 1.2em;
+    color: #999;
+    max-width: 220px;
+    margin: 0 auto;
+    margin-top: -90px;
+}
+
+table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
+    background-color: rgb(221, 235, 236);
+}
+
+#scroll-indicator {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 250px;
+    text-align: center;
+    padding-top: 125px;
+    color: #999;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 25%, rgba(255, 255, 255, 1) 100%);
+}
