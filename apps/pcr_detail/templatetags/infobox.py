@@ -24,7 +24,7 @@ def infobox(context, item):
         email = None
         try:
             r = requests.get(
-                "http://api.pennlabs.org/directory/search", params={"name": item.name})
+                "https://api.pennlabs.org/directory/search", params={"name": item.name})
             r.raise_for_status()
             if len(r.json()['result_data']) == 1:
                 email = r.json()['result_data'][0]['list_email'].lower()
