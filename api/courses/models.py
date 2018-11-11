@@ -284,7 +284,7 @@ class Course(models.Model):
 
     credits = models.FloatField(null=True)
     description = models.TextField()
-    history = models.ForeignKey(CourseHistory, null=True)
+    history = models.ForeignKey(CourseHistory, null=True, on_delete=models.CASCADE)
     oldpcr_id = models.IntegerField(null=True)
 
     # This is the course's primary cross-listing. In fact, cross-listings are
@@ -293,7 +293,7 @@ class Course(models.Model):
     # nullable since it will point back to the Course and one must be
     # inserted first.
     primary_alias = models.ForeignKey(
-        'Alias', related_name='courses', null=True)
+        'Alias', related_name='courses', null=True, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return "%s %s" % (self.id, self.name)
@@ -477,8 +477,8 @@ class Alias(models.Model):
     A Course will have as many Aliases as it has crosslistings.
     """
 
-    course = models.ForeignKey(Course)
-    department = models.ForeignKey(Department)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
     coursenum = models.IntegerField()
     semester = SemesterField()  # redundant; should equal course.semester
     # when importing from registrar , we don't have pcr_id's
@@ -506,7 +506,7 @@ class Section(models.Model):
 
     TODO: document how group works
     """
-    course = models.ForeignKey(Course)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     sectionnum = models.IntegerField()
     instructors = models.ManyToManyField(Instructor)
@@ -580,8 +580,8 @@ class Section(models.Model):
 
 class Review(models.Model):
     """ The aggregate review data for a class. """
-    section = models.ForeignKey(Section)
-    instructor = models.ForeignKey(Instructor)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE)
     forms_returned = models.IntegerField()
     forms_produced = models.IntegerField()
     form_type = models.IntegerField()
@@ -622,7 +622,7 @@ class Review(models.Model):
 
 class ReviewBit(models.Model):
     """ A component of a review. """
-    review = models.ForeignKey(Review)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
     field = models.CharField(max_length=30)
     score = models.FloatField()
 
@@ -659,7 +659,7 @@ class Building(models.Model):
 
 class Room(models.Model):
     """ A room in a Building. It optionally may be named. """
-    building = models.ForeignKey(Building)
+    building = models.ForeignKey(Building, on_delete=models.CASCADE)
     roomnum = models.CharField(max_length=5)
     name = models.CharField(max_length=80)
     # name is empty string if room doesn't have special name
@@ -679,13 +679,13 @@ class Room(models.Model):
 
 class MeetingTime(models.Model):
     """ A day/time/location that a Section meets. """
-    section = models.ForeignKey(Section)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
     type = models.CharField(max_length=3)
     day = models.CharField(max_length=1)
     # the time hh:mm is formatted as decimal hhmm, i.e. h*100 + m
     start = models.IntegerField()
     end = models.IntegerField()
-    room = models.ForeignKey(Room)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return "%s %s - %s @ %s" % (self.day, self.start, self.end, self.room)
