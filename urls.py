@@ -19,8 +19,3 @@ urlpatterns = [
     url(r'^search', search),
     url(r'^api/', include('api.courses.urls')),
 ]
-
-# Enable static file in local development
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_DOC_ROOT)

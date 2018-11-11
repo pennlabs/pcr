@@ -13,7 +13,7 @@ MANAGERS = ADMINS
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # For hitting the API
-DOMAIN = os.getenv("DOMAIN", "http://localhost:8000/")
+DOMAIN = os.getenv("DOMAIN", "http://localhost:8000/api/")
 # Otherwise, weird bugs occur wherever DOMAIN is used.
 assert DOMAIN.endswith("/")
 
@@ -99,7 +99,9 @@ MEDIA_URL = ''
 STATIC_URL = '/static/'
 
 # Path to local staticfiles
-STATIC_DOC_ROOT = os.path.join(os.getcwd(), "static")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY= os.getenv("SECRET_KEY", 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
