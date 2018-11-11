@@ -13,10 +13,11 @@ DO_STATICGENERATOR = not DEBUG
 
 # Personal access token for the PCR API
 PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
-assert PCR_API_TOKEN, "No token provided"
+assert PCR_API_TOKEN, "No pcr api token provided"
 
 # Used for the /chrome/api proxy endpoint
-PROXY_TOKEN = "D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ"
+PROXY_TOKEN = os.getenv("PROXY_TOKEN", "D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ")
+assert PROXY_TOKEN, "No proxy token provided"
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]",
                  "penncoursereview.com", "www.penncoursereview.com"]
@@ -76,7 +77,8 @@ STATIC_URL = '/static/'
 STATIC_DOC_ROOT = os.path.join(os.getcwd(), "static")
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^'
+SECRET_KEY= os.getenv("SECRET_KEY", 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
+assert SECRET_KEY, "No secret key provided"
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
