@@ -1,0 +1,143 @@
+<html>
+<head><title>Test Console</title>
+<style type="text/css">
+.success_box {
+   background-color: #ddf5eb;
+   border-color: #333399;
+}
+.error_box {
+   background-color: #ffcccc;
+   border-color: #cc0000;
+}
+.generic_box {
+   background-color: #dddddd;
+   border-color: #333333;
+}
+.padded {
+   padding-left: 10px;
+   padding-top: 10px;
+   padding-right: 10px;
+   padding-bottom: 10px;
+}
+div#output {
+   border-style: solid;
+   font-family: monospace;
+}
+div#addressDisplay {
+   padding-bottom: 10px;
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script> 
+<script type="text/javascript" src="jquery.history.js"></script> <!-- http://tkyk.github.com/jquery-history-plugin -->
+<script type="text/javascript">
+
+/*
+To run a local copy of the console off of the temp server:
+1. Change default domain to www.pennapps.com:8000
+2. Add option "/" as a base url and make it default
+*/
+
+function joinURLs(a, b) {
+   if ((a == "") || (b == "")) { return a+b; }
+   var a_end = a[a.length-1] == '/';
+   var b_start = b[0] == '/';
+   if (a_end && b_start) {
+      return a + b.substring(1);
+   } else if (!a_end && !b_start) {
+      return a + '/' + b;
+   } else {
+      return a + b;
+   }
+}
+
+/* the start of the current web address (browsers aren't happy
+with accessing www.pennapps.com from pennapps.com and vice versa) */
+var mydomain = "http://" + (document.domain ? document.domain : "www.pennapps.com") + "/";
+
+//load button callback
+function loadInputJSON() {
+   var baseurl = $('#base').val(); // the base for api addresses
+   var query = $('#address').val(); // the query to the api
+
+   if (baseurl == null) {
+      setOutputBoxType('error_box');
+      $('#output').html("Invalid base URL.");
+      return false;
+   }
+
+   page = joinURLs(baseurl, query);
+
+   $.history.load(page); //store page to browser history and call loadJSON
+   return false;
+}
+
+function setOutputBoxType(cssclass) {
+   $('#output').removeClass('error_box success_box generic_box').addClass(cssclass);
+}
+
+//given a url minus the domain (e.g. "api/courses/course"), load it.
+function loadJSON(page) {
+   if (page == "") {
+      //initialize empty page
+      setOutputBoxType('generic_box');
+      $('#addressDisplay').html("<span>No data loaded.</span>");
+      $('#address').val("courses/course");
+      $('#base').val("apiv2/");
+      $('#output').html("<span>Welcome to the Courses API Test console.</span>");
+      return;
+   }
+
+   var addr = joinURLs(mydomain, page); //actual web address
+
+   var baseurl = page.replace(/\/.*$/, ""); //up to first slash
+   var query = page.replace(/^.*?\//,""); //after first slash
+
+   //link to actual api page
+   linkobj = $("<div>Source: <a href = '"+addr+"'>"+addr+"</a></div>");
+   $('#addressDisplay').html(linkobj);
+   $('#address').val(query);
+   $('#base').val(baseurl + "/");
+
+   //error handler
+   $('#output').unbind('ajaxError');
+   $('#output').ajaxError(function(e, xhr, set, exc) {
+      setOutputBoxType('error_box');
+      addr = set.url;
+      frame = $("<div class='padded'><iframe src = '"+addr+"' width='100%' height='100%'/></div>");
+      $('#output').html(frame); //set box to an iframe with the actual page
+   });
+
+   //success handler
+   $.get(addr, function(data) {
+      setOutputBoxType('success_box');
+      //replace addresses in the "url" fields with links
+      data = data.replace(/"url": "(.*?)"/g, function(all, query) {
+         return '"url": "<a href="#" onClick="$.history.load(\''+(baseurl+query)+'\'); return false;">'+query+'</a>"';
+      });
+      data = "<pre>" + data + "</pre>"
+      $('#output').html(data); //set box to formatted json
+   });
+}
+
+$(document).ready(function() {
+   $('#domaintext').text(mydomain); //display current domain
+   $.history.init(loadJSON, { unescape: ",/" }); //set up history handler
+});
+</script>
+</head>
+<body>
+<form onSubmit = "return loadInputJSON();">
+<span id = "domaintext"></span>
+<select id="base">
+   <option>api/</option>
+   <option>apiv2/</option>
+</select>
+<input id = "address" size="50">
+<input type = "submit" value = "Load">
+</form>
+<div id = "display" class = "padded">
+<div id = "addressDisplay">No data loaded.</div>
+<div id = "output" class = "padded"></div>
+</div>
+</body>
+</html>

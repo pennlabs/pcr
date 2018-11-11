@@ -1,0 +1,10 @@
+{% extends "admin/original_index.html" %} <!-- points to django repo, letting us overwrite-->
+{% block content %}
+<p>
+  <!-- Hacky hack hackery. -->
+  <button onclick="window.location='courses/course/generate_cache/';">Generate Cache</button>
+  Cache Status: Ready to Push.  <a href="">Preview</a>
+  <button onclick="window.location='courses/course/push_to_live/';">Push to Live</button>
+
+{{ block.super }}
+{% endblock %}

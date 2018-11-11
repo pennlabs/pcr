@@ -1,0 +1,775 @@
+<html>
+
+<body>
+
+<h1>Penn Course Review API overview</h1>
+
+<p><b>Purpose:</b> This document (1) helps us write the API and (2) is used by API consumers to understand its functionality.</p>
+
+<p>
+<b>Notes:</b>
+<ul>
+<li>This document borrows heavily from the original Penn Registrar Courses API documentation (https://docs.google.com/document/d/1pSjqQXxYQDWcekqayu_RmPjBYbFiZbhLa2MVnlFGxcI/edit?hl=en_US), of which this PCR API is a super-set.</li>
+<li>Whenever we link to things, we link to the canonical alias for them.  In general, things that use IDs (i.e., shorter things) are canonical.  Everything is permanent unless we specify explicitly.</li>
+</ul>
+</p>
+
+<p><b>The Penn Course Review API</b></p>
+
+<p>is a simple RESTful API to the data available on PennCourseReview.com  The easiest way to explain it is to look at some queries.</p>
+
+<p><b>Return type:</b> The results will be JSON Objects, which you should be able to turn into a dictionary in whatever language you are working with, using something like json_decode.</p>
+
+<p>Note: All non-canonical links (i.e. redirects) are in <font color=blue>blue</font>. The most important canonical links are in <font color=red>red</font> (common access points, or special information).</p>
+
+<p><b>Usage:</b></p>
+<p>All queries will be of the form <b>http://pennapps.com/courses-demo/[<i>query</i>]?token=pennappsdemo</b>
+<p>Note: For security purposes, the string "?token=pennappsdemo" must be appended to the end of each query.</p>
+<p>Example Query:</p>
+<p><b>http://pennapps.com/courses-demo/course/CIS-120?token=pennappsdemo</b></p>
+
+The following are descriptions and sample output of available queries.
+
+<h2>Top-Level Lists:</h2>
+<p>
+<ul>
+<li>
+<div>/depts #List: all Departments across all time</div>
+<div><pre>### Need to produce useful output for /depts ###</pre></div>
+</li>
+
+<li>
+<div>/instructors #List: all Instructors</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "values": [
+         {
+            "id": "anaranjado",
+            "name": "Jaime Mundo",
+            "path": "/instructor/anaranjado"
+         },
+         {
+            "id": "amky",
+            "name": "Alexey Komissarouky",
+            "path": "/instructor/amky"
+         },
+
+         ...
+
+      ]
+   },
+   "retrieved": "2011-09-13 21:04:37.638522",
+   "valid": true,
+   "version": "0.2"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div>/semesters #List: all Semesters</div>
+<div><pre>### Need to produce useful output for /semesters ###</pre></div>
+</li>
+</ul>
+</p>
+
+<h2>Resources:</h2>
+
+<p>#Course resource, e.g. "CIS-120 in 2011c".</p>
+
+<p>Note that a Course may have multiple aliases (crosslistings): "Intro to Cognitive Science" is one Course with five aliases ("CIS-140", "COGS-001", "PSYC-107", "PHIL-044", "LING-105")</p>
+
+<p>A Course can be accessed from the following paths:</p>
+<ul>
+<li><font color=red>/course/2041</font></li>
+<li><font color=blue>/course/2011c-CIS-120</font> #alias for /course/2041.</li>
+</ul>
+
+<p>A Course has the following subpaths:</p>
+<ul>
+<li>
+<div>/[course] #general info, e.g. list of aliases, name, description, brief info about all Sections this course has.</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "aliases": [
+         "FNAR-337"
+      ],
+      "credits": 1.0,
+      "description": "Explore the majesty of the color Orange in its natural habitat, and ridicule other, uglier colors, such as Chartreuse (eww).",
+      "history": {
+         "path": "/course/88/history"
+      },
+      "id": 88,
+      "name": "Advanced Orange",
+      "path": "/course/88",
+      "reviews": {
+         "path": "/course/88/reviews"
+      },
+      "sections": {
+         "path": "/course/88/sections",
+         "values": [
+            {
+               "aliases": [
+                  "FNAR-337-001"
+               ],
+               "id": "88-001",
+               "name": "Advanced Orange",
+               "path": "/course/88/section/001",
+               "sectionnum": "001"
+            }
+         ]
+      }
+   },
+   "retrieved": "2011-09-13 21:46:41.575956",
+   "valid": true,
+   "version": "0.2"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div>/[course]/reviews #what do people think of this course (i.e. rating numbers). Review data is per section. Doesn't include full text reviews (but includes links to the section/review, which does).</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "values": [
+         {
+            "comments": null,
+            "path": "/course/88/section/001/review/anaranjado",
+            "ratings": {
+               "Course": 2.4500000000000002,
+               "Difficulty": 2.54,
+               "Instructor": 2.5499999999999998,
+               "Learned": 3,
+               "Readings": 3,
+               "Workload": 3
+            },
+            "section": {
+               "aliases": [
+                  "FNAR-337-001"
+               ],
+               "id": "88-001",
+               "name": "Advanced Orange",
+               "path": "/course/88/section/001",
+               "sectionnum": "001"
+            }
+         }
+      ]
+   },
+   "retrieved": "2011-09-13 21:50:09.743629",
+   "valid": true,
+   "version": "0.2"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div>/[course]/sections #List: more detailed info about the Sections this course has</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "values": [
+         {
+            "aliases": [
+               "FNAR-337-001"
+            ],
+            "course": {
+               "aliases": [
+                  "FNAR-337"
+               ],
+               "id": 88,
+               "name": "Advanced Orange",
+               "path": "/course/88"
+            },
+            "group": 1,
+            "id": "88-001",
+            "instructors": [
+               {
+                  "id": "anaranjado",
+                  "name": "Jaime Mundo",
+                  "path": "/instructor/anaranjado"
+               }
+            ],
+            "meetingtimes": [
+               {
+                  "day": "W",
+                  "end": "15:00",
+                  "room": {
+                     "building": {
+                        "id": "LEVH",
+                        "latitude": 13.371337,
+                        "longitude": 90.010000000000005,
+                        "name": "Levine Hall",
+                        "path": "/building/LEVH"
+                     },
+                     "id": "LEVH 101",
+                     "name": "Wu and Chen Auditorium",
+                     "number": "101"
+                  },
+                  "start": "13:30",
+                  "type": "LEC"
+               }
+            ],
+            "name": "Advanced Orange",
+            "path": "/course/88/section/001",
+            "reviews": {
+               "path": "/course/88/section/001/reviews"
+            },
+            "sectionnum": "001"
+         }
+      ]
+   },
+   "retrieved": "2011-09-13 21:52:34.422995",
+   "valid": true,
+   "version": "0.2"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div><font color=blue>/[course]/section/001</font> #a Section resource</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "aliases": [
+         "FNAR-337-001"
+      ],
+      "course": {
+         "aliases": [
+            "FNAR-337"
+         ],
+         "id": 88,
+         "name": "Advanced Orange",
+         "path": "/course/88"
+      },
+      "group": 1,
+      "id": "88-001",
+      "instructors": [
+         {
+            "id": "anaranjado",
+            "name": "Jaime Mundo",
+            "path": "/instructor/anaranjado"
+         }
+      ],
+      "meetingtimes": [
+         {
+            "day": "W",
+            "end": "15:00",
+            "room": {
+               "building": {
+                  "id": "LEVH",
+                  "latitude": 13.371337,
+                  "longitude": 90.010000000000005,
+                  "name": "Levine Hall",
+                  "path": "/building/LEVH"
+               },
+               "id": "LEVH 101",
+               "name": "Wu and Chen Auditorium",
+               "number": "101"
+            },
+            "start": "13:30",
+            "type": "LEC"
+         }
+      ],
+      "name": "Advanced Orange",
+      "path": "/course/88/section/001",
+      "reviews": {
+         "path": "/course/88/section/001/reviews"
+      },
+      "sectionnum": "001"
+   },
+   "retrieved": "2011-09-13 21:54:13.297739",
+   "valid": true,
+   "version": "0.2"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div><font color=blue>/[course]/history</font> #alias to a Course History<div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "courses": [
+         {
+            "aliases": [
+               "FNAR-337"
+            ],
+            "id": 88,
+            "name": "Advanced Orange",
+            "path": "/course/88"
+         }
+      ],
+      "id": 1000088,
+      "path": "/coursehistory/1000088",
+      "reviews": {
+         "path": "/coursehistory/1000088/reviews"
+      }
+   },
+   "retrieved": "2011-09-13 22:00:05.138112",
+   "valid": true,
+   "version": "0.2"
+}
+</pre>
+</div>
+<br />
+</li>
+</ul>
+
+<p><b>#Section resource, e.g. "CIS-120-001 in 2011c".</b></p>
+
+<p>A Section can be accessed from the following paths:</p>
+<ul>
+<li>
+<div><font color=red>/course/2041/section/001</font></div>
+</li>
+
+<li>
+<div><font color=blue>/section/2011c-CIS-120-001</font> #alias. note, don't mix and match string vs int representations of canonical urls</div>
+</li>
+</ul>
+
+<p>A Section has the following subpaths:</p>
+<ul>
+<li>
+<div>/[section]</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "aliases": [
+         "FNAR-337-001"
+      ],
+      "course": {
+         "aliases": [
+            "FNAR-337"
+         ],
+         "id": 88,
+         "name": "Advanced Orange",
+         "path": "/course/88"
+      },
+      "group": 1,
+      "id": "88-001",
+      "instructors": [
+         {
+            "id": "anaranjado",
+            "name": "Jaime Mundo",
+            "path": "/instructor/anaranjado"
+         }
+      ],
+      "meetingtimes": [
+         {
+            "day": "W",
+            "end": "15:00",
+            "room": {
+               "building": {
+                  "id": "LEVH",
+                  "latitude": 13.371337,
+                  "longitude": 90.010000000000005,
+                  "name": "Levine Hall",
+                  "path": "/building/LEVH"
+               },
+               "id": "LEVH 101",
+               "name": "Wu and Chen Auditorium",
+               "number": "101"
+            },
+            "start": "13:30",
+            "type": "LEC"
+         }
+      ],
+      "name": "Advanced Orange",
+      "path": "/course/88/section/001",
+      "reviews": {
+         "path": "/course/88/section/001/reviews"
+      },
+      "sectionnum": "001"
+   },
+   "retrieved": "2011-09-15 20:36:03.241815",
+   "valid": true,
+   "version": "0.3"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div><font color=red>/[section]/reviews</font> # provides all reviews of this section. Typically there is at most one, but there can be more if a section was taught by multiple instructors. Includes full text.</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "values": [
+         {
+            "comments": "Nyanyanyanyan!",
+            "path": "/course/88/section/001/review/anaranjado",
+            "ratings": {
+               "Course": 2.4500000000000002,
+               "Difficulty": 2.54,
+               "Instructor": 2.5499999999999998,
+               "Learned": 3,
+               "Readings": 3,
+               "Workload": 3
+            },
+            "section": {
+               "aliases": [
+                  "FNAR-337-001"
+               ],
+               "id": "88-001",
+               "name": "Advanced Orange",
+               "path": "/course/88/section/001",
+               "sectionnum": "001"
+            }
+         }
+      ]
+   },
+   "retrieved": "2011-09-15 20:38:37.273812",
+   "valid": true,
+   "version": "0.3"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div><font color=red>/[section]/review/instructorpennkey</font> # provides at most one review, for the specified instructor. Includes full text.</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "comments": "Nyanyanyanyan!",
+      "path": "/course/88/section/001/review/anaranjado",
+      "ratings": {
+         "Course": 2.4500000000000002,
+         "Difficulty": 2.54,
+         "Instructor": 2.5499999999999998,
+         "Learned": 3,
+         "Readings": 3,
+         "Workload": 3
+      },
+      "section": {
+         "aliases": [
+            "FNAR-337-001"
+         ],
+         "id": "88-001",
+         "name": "Advanced Orange",
+         "path": "/course/88/section/001",
+         "sectionnum": "001"
+      }
+   },
+   "retrieved": "2011-09-15 20:41:11.705441",
+   "valid": true,
+   "version": "0.3"
+}
+</pre>
+</div>
+<br />
+</li>
+</ul>
+
+<p><b>#Review resource.</b></p>
+
+<p>A Review contains several ratings.</p>
+
+<p>The ratings correspond to the following questions:</p>
+
+<table>
+<tr><td>rCourseQuality</td><td>Overall Quality of the course.</td></tr>
+<tr><td>rInstructorQuality</td><td>Overall Quality of the instructor.</td></tr>
+<tr><td>rDifficulty</td><td>Please rate the difficulty of the course. (0=easy to 4=difficult)</td></tr>
+<tr><td>rCommAbility</td><td>Instructor's ability to communicate the subject matter.</td></tr>
+<tr><td>rInstructorAccess</td><td>Instructor's accessibility and willingness to to discuss course content and any problems.</td></tr>
+<tr><td>rReadingsValue</td><td>Value of assigned readings.</td></tr>
+<tr><td>rAmountLearned</td><td>Amount learned from this course in terms of knowledge, concepts, skills and thinking ability.</td></tr>
+<tr><td>rWorkRequired</td><td>Please rate the amount of work required for this course. (0=very little to 4=very much)</td></tr>
+<tr><td>rRecommendMajor</td><td>Would you recommend this course to a major? (0=no to 4=strongly)</td></tr>
+<tr><td>rRecommendNonMajor</td><td>Would you recommend this course to a non-major? (0=no to 4=strongly)</td></tr>
+<tr><td>rStimulateInterest</td><td>Was the instructor able to stimulate your interest in the material?</td></tr>
+<tr><td>rArticulateGoals</td><td>Were the goals of the course clearly articulated?</td></tr>
+<tr><td>rSkillEmphasis</td><td>Was the emphasis placed on the language skills (speaking, listening, reading writing) appropriate in terms of the defined goals of the course?</td></tr>
+<tr><td>rHomeworkValuable</td><td>Were homework exercises (and compositions, where appropriate) valuable reinforcement of classroom work?</td></tr>
+<tr><td>rExamsConsistent</td><td>Were the exams consistent with assignments, materials, and method of instruction?</td></tr>
+<tr><td>rAbilitiesChallenged</td><td>Were your linguistic abilities in reading, writing, speaking, and listening sufficiently challenged?</td></tr>
+<tr><td>rClassPace</td><td>How would you rate the pace of the course? (0=much to slow; 1=too slow; 2=just right; 3=too fast; 4=much too fast)</td></tr>
+<tr><td>rOralSkills</td><td>Did the instructor organize appropriate activities in class to encourage the use of oral skills?</td></tr>
+<tr><td>rInstructorConcern</td><td>Was the instructor concerned that students learn the materials?</td></tr>
+<tr><td>rInstructorRapport</td><td>Please evaluate the rapport between the class and the instructor. (0=bad, 4=excellent)</td></tr>
+<tr><td>rInstructorAttitude</td><td>Please rate the instructor's attitude towards the course.</td></tr>
+<tr><td>rInstructorEffective</td><td>Please rate the instructor's effectiveness in presenting and explaining course materials.</td></tr>
+<tr><td>rGradeFairness</td><td>Please rate the fairness of the grading process in the course.</td></tr>
+<tr><td>rNativeAbility</td><td>Do you feel that the skills learned in this course would help you survive in a native environment?</td></tr>
+<tr><td>rTAQuality</td><td>Please evaluate the overall quality of the teaching assistant/drill instructor in the course.</td></tr>
+</table>
+
+<p>If accessed from a Section, a Review also contains a full text review.</p>
+
+<p>A Review cannot be accessed from the top-level;  it can be accessed from a Section, Course, or Instructor.</p>
+
+<b>#Instructor resource.</b>
+
+<p><b>An Instructor can be accessed from the following paths:</b></p>
+<ul>
+<li>
+<div><font color=red>/instructor/theirpennkey</font></div>
+</li>
+</ul>
+
+<p>An Instructor has the following subpaths:<p>
+<ul>
+<li>
+<div>/[instructor] # Name, email, bio?</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "id": "anaranjado",
+      "name": "Jaime Mundo",
+      "path": "/instructor/anaranjado",
+      "reviews": {
+         "path": "/instructor/anaranjado/reviews"
+      },
+      "sections": {
+         "path": "/instructor/anaranjado/sections"
+      }
+   },
+   "retrieved": "2011-09-15 20:43:54.813292",
+   "valid": true,
+   "version": "0.3"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div>/[instructor]/sections</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "values": [
+         {
+            "aliases": [
+               "FNAR-337-001"
+            ],
+            "id": "88-001",
+            "name": "Advanced Orange",
+            "path": "/course/88/section/001",
+            "sectionnum": "001"
+         }
+      ]
+   },
+   "retrieved": "2011-09-15 20:44:45.499336",
+   "valid": true,
+   "version": "0.3"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div>/[instructor]/reviews # provides reviews of all sections instructor has taught (no full text)</div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "values": [
+         {
+            "comments": null,
+            "path": "/course/88/section/001/review/anaranjado",
+            "ratings": {
+               "Course": 2.4500000000000002,
+               "Difficulty": 2.54,
+               "Instructor": 2.5499999999999998,
+               "Learned": 3,
+               "Readings": 3,
+               "Workload": 3
+            },
+            "section": {
+               "aliases": [
+                  "FNAR-337-001"
+               ],
+               "id": "88-001",
+               "name": "Advanced Orange",
+               "path": "/course/88/section/001",
+               "sectionnum": "001"
+            }
+         }
+      ]
+   },
+   "retrieved": "2011-09-15 20:45:29.818631",
+   "valid": true,
+   "version": "0.3"
+}
+</pre>
+</div>
+<br />
+</li>
+</ul>
+
+<p><b>#Course History, e.g. "CIS-120"</b></p>
+
+<p>A course history is a course over time; it has no associated semester. It also includes previous names. For example, the course history of CIS-160 includes the last several semesters of CIS-160, CIS-260, and CSE-260.</p>
+
+<p>A Course History can be accessed from the following paths:</p>
+<ul>
+<li>
+<div><font color=red>/coursehistory/22051</font></div>
+<div>Sample output:</div>
+<div style="background-color: LightGray; height: 120px; overflow-y: scroll;">
+<pre>
+{
+   "result": {
+      "courses": [
+         {
+            "aliases": [
+               "FNAR-337"
+            ],
+            "id": 88,
+            "name": "Advanced Orange",
+            "path": "/course/88"
+         }
+      ],
+      "id": 1000088,
+      "path": "/coursehistory/1000088",
+      "reviews": {
+         "path": "/coursehistory/1000088/reviews"
+      }
+   },
+   "retrieved": "2011-09-15 20:59:04.323881",
+   "valid": true,
+   "version": "0.3"
+}
+</pre>
+</div>
+<br />
+</li>
+
+<li>
+<div><font color=blue>/coursehistory/CIS-121</font> # alias, points to most recent course history that had that name # NOT PERMANENT</div>
+<div>### MAY NOT BE FULLY FUNCTIONAL ###</div>
+</li>
+</ul>
+
+<p>A Course History has the following subpaths:</p>
+<ul>
+<li>
+<div>/[coursehistory] #Includes links to all semesters' Courses. This will also load the most recent semester's Course and display all its data inline.</div>
+</li>
+
+<li>
+<div>/[coursehistory]/reviews # reviews of the Courses over past semesters with this history, excluding full text</div>
+</li>
+</ul>
+
+<p><b>#Building</b></p>
+
+<p>### BUILDING DATA NOT CURRENTLY AVAILABLE ###</p>
+
+<p>A Building can be accessed from the following path:</p>
+<ul>
+<li>
+<div><font color=red>/building/TOWN</font></div>
+</li>
+</ul>
+
+<p>A Building has the following subpaths</p>
+<ul>
+<li>
+<div>/[building] # Location info</div>
+</li>
+</ul>
+
+<p><b>#Department (if top-level)</b></p>
+
+<p>A Department can be accessed from the following paths:</p>
+<ul>
+<li>
+<div><font color=red>/depts/CIS</font></div>
+</li>
+</ul>
+
+<p>A Department has the following subpaths:</p>
+<ul>
+<li>
+<div>/[department] # includes links to course-histories in CIS</div>
+</li>
+
+<li>
+<div>/[department]/reviews #links to course reviews of course-histories in this dept</div>
+</li>
+</ul>
+
+<p><i>Note: These is not the only type of resources available, but understanding what these offer should help</i></p>
+
+<p>Descriptive Aliases, for discovery, etc</p>
+
+<div>/semesters</div>
+<font color=blue>
+<div>/semester/current #points to whatever's most recent # NOT PERMANENT</div>
+<div>/semester/2011c</div>
+<div>/semester/2011c/depts/CIS</div>
+<div>/semester/2011c/depts/CIS/course/120 # alias for /course/2041</div>
+<div>/semester/2011c/depts/CIS/course/120/section/001 #alias for /course/2041/section/001</div>
+<br />
+<div>/depts/CIS/course/120 # alias for /coursehistory/CIS-120</div>
+</font>
+
+<h2>Short Aliases, for convenience and easy API calls</h2>
+
+<font color=blue>
+<div>/CIS-121 #alias for /coursehistory/CIS-121 #NOT PERMANENT! </div>
+<div>/2010c-CIS-121 #alias for /semester/2010c/depts/CIS/course/121</div>
+<div>/2010c-CIS-121-001 #alias for /semester/2010c/depts/CIS/course/121/section/001</div>
+</font>
+
+<h2>API Calls that we expect pages to make</h2>
+
+<p><i>Note: see https://gomockingbird.com/mockingbird/#fi6qy0z/ for mockups</i></p>
+
+<p><b>Course Page:</b></p>
+
+<div>/CIS-121 # a Course History</div>
+<div>/CIS-121/reviews</div>
+<div>/course/2011c-CIS-121-001/review # full text review</div>
+
+<p><b>Instructor Page:</b></p>
+
+<div>/instructor/<pennkey> # an Instructor</div>
+<div>/instructor/<pennkey>/reviews</div>
+<div>/course/2011c-CIS-121-001/review # full text review</div>
+
+</body>
+
+</html>
