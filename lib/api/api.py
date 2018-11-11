@@ -22,4 +22,4 @@ def api(domain, *args, **kwargs):
     return response.json()['result']
 
 
-api = functools.partial(api, settings.DOMAIN, token=settings.PCR_API_TOKEN)
+api = functools.partial(api, settings.DOMAIN)

@@ -19,7 +19,7 @@ class Authenticate(object):
 
         old_path = request.path_info
 
-        if old_path.startswith("/admin/") or old_path.startswith("/__debug__/"):
+        if not old_path.startswith("/api/"):
             return None
 
         try:

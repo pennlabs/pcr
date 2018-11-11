@@ -10,10 +10,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # For hitting the API
-DOMAIN = os.getenv("DOMAIN", "http://api.penncoursereview.com/v1/")
+DOMAIN = os.getenv("DOMAIN", "http://localhost:8000/")
 # Otherwise, weird bugs occur wherever DOMAIN is used.
 assert DOMAIN.endswith("/")
 
@@ -21,10 +21,6 @@ DEBUG = os.getenv("DEBUG", 'True') == 'True'
 # Do static caching (true only in production)
 DO_STATICGENERATOR = not DEBUG
 DO_CACHING = not DEBUG
-
-# Personal access token for the PCR API
-PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
-assert PCR_API_TOKEN, "No pcr api token provided"
 
 TEST_API_TOKEN = os.getenv("API_TEST_TOKEN", "")
 
@@ -56,7 +52,14 @@ IMPORT_DATABASE_NAME = os.getenv("API_IMPORT_DATABASE_NAME", "old_pcr_2011b")
 IMPORT_DATABASE_USER = os.getenv("API_IMPORT_DATABASE_USER", "pcr-daemon")
 IMPORT_DATABASE_PWD = os.getenv("API_IMPORT_DATABASE_PWD")
 
-DATABASES = {"default": dj_database_url.config(conn_max_age=600, default="sqlite:///api")}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+DATABASES['default'].update(dj_database_url.config(conn_max_age=600))
 
 if DATABASES["default"]["ENGINE"].endswith("mysql"):
     DATABASES["default"]["OPTIONS"] = {
@@ -147,11 +150,11 @@ INSTALLED_APPS = (
     'apps.pcr_detail',
     'apps.searchbar',
     'apps.static',
-    'raven.contrib.django.raven_compat'
+    'raven.contrib.django.raven_compat',
 
-    'apps.courses',
-    'apps.apiconsumer',
-    'apps.static_content',
+    'api.courses',
+    'api.apiconsumer',
+    'api.static_content',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
