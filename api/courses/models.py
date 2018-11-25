@@ -77,7 +77,7 @@ class Semester:
 
     def toJSON(self):
         # import here, to avoid circular import
-        from models import Department, SemesterDepartment
+        from .models import Department, SemesterDepartment
 
         result = self.toShortJSON()
 
