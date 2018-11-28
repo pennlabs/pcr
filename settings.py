@@ -157,6 +157,7 @@ INSTALLED_APPS = (
     'api.courses',
     'api.apiconsumer',
     'api.static_content',
+    'django_extensions',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
