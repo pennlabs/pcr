@@ -11,12 +11,7 @@ from api.apiconsumer.models import APIConsumer
 @memoize
 def api(domain, *args, **kwargs):
     if not "token" in kwargs:
-        kwargs["token"], _ = APIConsumer.objects.get_or_create(permission_level=9001, defaults={
-            "name": "Penn Course Review",
-            "email": "pennappslabs@gmail.com",
-            "description": "The Penn Course Review app.\nHas access to super-secret stuff."
-        })
-        kwargs["token"] = kwargs["token"].token
+        kwargs["token"] = APIConsumer.objects.filter(permission_level=9001).first().token
     assert domain.endswith("/")
     path = "".join(
         (domain, "/".join([str(arg) for arg in args])))
