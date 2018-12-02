@@ -21,5 +21,18 @@ $(document).ready(function() {
             badge.append($("<span class='count' />").text(num_open + "/" + num_available));
             $("#live").append(badge);
         });
+
+        data.instructors = data.instructors.map(function(val) {
+            return val.toLowerCase().trim().replace(/\W/g, '');
+        });
+
+        $("#course-table tbody .col_instructor").each(function() {
+            var name = $(this).text().trim().toLowerCase().replace(/\W/g, '');
+            var idx = data.instructors.indexOf(name);
+            if (idx !== -1) {
+                data.instructors.splice(idx, 1);
+                $(this).append("<i class='fa fa-star' title='This instructor is teaching during this semester.' />");
+            }
+        });
     });
 });
