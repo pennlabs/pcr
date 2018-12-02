@@ -3,7 +3,8 @@ $(document).ready(function() {
         if (!Object.keys(data.courses).length) {
             return;
         }
-        $("#live").append($("<span class='badge badge-primary' />").text(data.credits + " CU"));
+        data.credits = data.credits.toFixed(1);
+        $("#live").append($("<span class='badge badge-primary' title='This course is " + data.credits + " credit unit(s).' />").text(data.credits + " CU"));
         Object.entries(data.courses).forEach(function(set) {
             var key = set[0];
             var value = set[1];
@@ -17,7 +18,7 @@ $(document).ready(function() {
                     num_open += 1;
                 }
             }
-            var badge = $("<span class='badge " + (num_open > 0 ? "badge-success" : "badge-danger") + "' />").text(value[0].activity_description);
+            var badge = $("<span class='badge " + (num_open > 0 ? "badge-success" : "badge-danger") + "' title='" + num_open + " out of " + num_available + " sections are open for this course.' />").text(value[0].activity_description);
             badge.append($("<span class='count' />").text(num_open + "/" + num_available));
             $("#live").append(badge);
         });
@@ -34,5 +35,10 @@ $(document).ready(function() {
                 $(this).append("<i class='fa fa-star' title='This instructor is teaching during this semester.' />");
             }
         });
+
+        if ($.fn.dataTable.isDataTable($("#course-table"))) {
+            $("#course-table").DataTable().rows().invalidate();
+            $("#course-table").DataTable().draw();
+        }
     });
 });

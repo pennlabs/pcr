@@ -118,12 +118,28 @@
       });
     }
 
+    $.extend($.fn.dataTableExt.oSort, {
+        "star-name-pre": function(a) {
+            if (a.indexOf("fa-star") !== -1) {
+                a = "0" + a;
+            }
+            else {
+                a = "1" + a;
+            }
+            return $.fn.dataTableExt.oSort["html-pre"](a);
+        }
+    });
+
     table = $("#course-table").removeClass("d-none").DataTable({
         select: {"department": {"style": "multi"}, "course": {"style": "single"}, "instructor": false}[$("#banner-info").attr("data-type")],
         columnDefs: [
             {
                 targets: "col_section",
                 visible: false
+            },
+            {
+                targets: "col_instructor",
+                type: "star-name"
             }
         ],
         autoWidth: false,
