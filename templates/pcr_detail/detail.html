@@ -23,6 +23,9 @@
   {% if type == 'department' %}
   <script src="{% static "js/chart.min.js" %}"></script>
   {% endif %}
+  {% if type == 'course' %}
+  <script src="{% static "js/live.js" %}"></script>
+  {% endif %}
   <script src="{% static "js/reviews.js" %}"></script>
 {% endblock %}
 
