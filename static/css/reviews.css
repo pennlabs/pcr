@@ -189,3 +189,7 @@ table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
 .col_instructor .fa-star {
     color: gold;
 }
+
+#live .new-instructors {
+    font-size: 0.8em;
+}

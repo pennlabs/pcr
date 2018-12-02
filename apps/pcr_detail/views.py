@@ -86,6 +86,7 @@ def live(request, title):
     data = {
         "courses": courses,
         "credits": max(round(float(x["credits"].split(" ")[0]), 2) for x in matching_courses) if matching_courses else 0,
-        "instructors": list(set(itertools.chain(*[[y["name"] for y in x["instructors"]] for x in matching_courses])))
+        "instructors": list(set(itertools.chain(*[[y["name"] for y in x["instructors"]] for x in matching_courses]))),
+        "term": matching_courses[0]["term_normalized"] if matching_courses else None
     }
     return JsonResponse(data, json_dumps_params={"indent": 4})
