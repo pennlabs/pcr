@@ -214,7 +214,7 @@ def course_sections(request, courseid):
 
 def course_history(request, path, courseid):
     course = Course.objects.get(id=int(courseid))
-    return redirect(reverse("history", histid=course.history_id) + "?token=" + request.GET.get("token", ""))
+    return redirect(reverse("api:history", histid=course.history_id) + "?token=" + request.GET.get("token", ""))
 
 
 def section_main(request, courseid, sectionnum):
@@ -264,7 +264,7 @@ def alias_course(request, coursealias, path):
     courseid = Alias.objects.get(semester=semester,
                                  department=dept_code,
                                  coursenum=coursenum).course_id
-    return redirect(reverse("course", kwargs={"courseid": courseid}) + path + "?token=" + request.GET.get("token", ""))
+    return redirect(reverse("api:course", kwargs={"courseid": courseid}) + path + "?token=" + request.GET.get("token", ""))
 
 
 def alias_section(request, sectionalias):
@@ -281,7 +281,7 @@ def alias_section(request, sectionalias):
     courseid = Alias.objects.get(semester=semester,
                                  department=dept_code,
                                  coursenum=coursenum).course_id
-    return redirect(reverse("section", courseid=courseid, sectionnum=sectionnum) + "?token=" + request.GET.get("token", ""))
+    return redirect(reverse("api:section", courseid=courseid, sectionnum=sectionnum) + "?token=" + request.GET.get("token", ""))
 
 
 def alias_coursehistory(request, historyalias, path):
@@ -295,7 +295,7 @@ def alias_coursehistory(request, historyalias, path):
     latest_alias = Alias.objects.filter(
         department=dept_code, coursenum=coursenum).order_by('-semester')[0]
 
-    return redirect(reverse("history", kwargs={"histid": latest_alias.course.history_id}) + path + "?token=" + request.GET.get("token", ""))
+    return redirect(reverse("api:history", kwargs={"histid": latest_alias.course.history_id}) + path + "?token=" + request.GET.get("token", ""))
 
 
 def alias_misc(request, alias):

@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^pcrsite-static/(?P<page>.*)$', serve_page),
     url(r'^search', search),
-    url(r'^api/', include('api.courses.urls')),
+    url(r'^api/', include('api.courses.urls', namespace='api')),
 ]

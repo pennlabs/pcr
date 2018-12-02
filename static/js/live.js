@@ -52,10 +52,15 @@ $(document).ready(function() {
             var inst_list = [];
             old_instructors.forEach(function(item) {
                 if (data.instructors.indexOf(cleanInstructorName(item)) !== -1) {
-                    inst_list.push(item);
+                    if (data.instructor_links[item]) {
+                        inst_list.push("<a href='" + data.instructor_links[item] + "'>" + $("<div />").text(item).html() + "</a>");
+                    }
+                    else {
+                        inst_list.push($("<div />").text(item).html());
+                    }
                 }
             });
-            $("#live").append($("<div class='new-instructors' />").text("New Instructors: " + inst_list.join(", ")));
+            $("#live").append($("<div class='new-instructors' />").html("New Instructors: " + inst_list.join(", ")));
         }
 
         if ($.fn.dataTable.isDataTable($("#course-table"))) {

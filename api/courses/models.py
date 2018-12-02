@@ -58,7 +58,7 @@ class Semester:
         return "%s %d" % (["Spring", "Summer", "Fall"][self.semesternum], self.year)
 
     def get_absolute_url(self):
-        return reverse("semester", kwargs={"semester_code": self.code()})
+        return reverse("api:semester", kwargs={"semester_code": self.code()})
 
     def __cmp__(self, other):
         if other:
@@ -193,7 +193,7 @@ class Department(models.Model):
 
     def get_absolute_url(self):
         # don't know actual semester
-        return reverse("department", kwargs={"dept_code": self.code})
+        return reverse("api:department", kwargs={"dept_code": self.code})
 
     def toShortJSON(self):
         return {
@@ -234,7 +234,7 @@ class CourseHistory(models.Model):
         return Alias.objects.filter(course__history=self).only('coursenum', 'department__name')
 
     def get_absolute_url(self):
-        return reverse("history", kwargs={"histid": self.id})
+        return reverse("api:history", kwargs={"histid": self.id})
 
     # name_override: string, or None
     # aliases_override: list of (dept, num) tuple pairs, or None
@@ -321,7 +321,7 @@ class Course(models.Model):
         return tokens
 
     def get_absolute_url(self):
-        return reverse("course", kwargs={"courseid": self.id})
+        return reverse("api:course", kwargs={"courseid": self.id})
 
     @property
     def code(self):
@@ -355,7 +355,7 @@ class Course(models.Model):
             REVIEW_TOKEN: {
                 'path': '%s/%s' % (path, REVIEW_TOKEN),
             },
-            COURSEHISTORY_TOKEN: {'path': reverse("history", kwargs={"histid": self.history_id})},
+            COURSEHISTORY_TOKEN: {'path': reverse("api:history", kwargs={"histid": self.history_id})},
         })
 
         return result
@@ -425,7 +425,7 @@ class Instructor(models.Model):
         return name.lower().split()
 
     def get_absolute_url(self):
-        return reverse("instructor", kwargs={"instructor_id": self.temp_id})
+        return reverse("instructor", args=(self.temp_id,))
 
     def __unicode__(self):
         return self.name
@@ -531,7 +531,7 @@ class Section(models.Model):
         return "%s-%03d " % (self.course, self.sectionnum)
 
     def get_absolute_url(self):
-        return reverse("section", kwargs={"courseid": self.course_id, "sectionnum": self.sectionnum})
+        return reverse("api:section", kwargs={"courseid": self.course_id, "sectionnum": self.sectionnum})
 
     class Meta:
         """ To hold uniqueness constraint """
@@ -596,14 +596,14 @@ class Review(models.Model):
 
     def get_absolute_url(self):
         pennkey = self.instructor.temp_id if self.instructor else "99999-JAIME-MUNDO"
-        return reverse("review", kwargs={"courseid": self.section.course_id, "sectionnum": self.section.sectionnum, "instructor_id": pennkey})
+        return reverse("api:review", kwargs={"courseid": self.section.course_id, "sectionnum": self.section.sectionnum, "instructor_id": pennkey})
 
     def toShortJSON(self):
         return {
             'id': '%s-%s' % (self.section.api_id, self.instructor.temp_id),
             'section': self.section.toShortJSON(),
             'instructor': self.instructor.toShortJSON() if self.instructor_id else None,
-            'path': reverse("review", kwargs={"courseid": self.section.course_id, "sectionnum": self.section.sectionnum,
+            'path': reverse("api:review", kwargs={"courseid": self.section.course_id, "sectionnum": self.section.sectionnum,
                             "instructor_id": self.instructor.temp_id if self.instructor_id else "99999-JAIME-MUNDO"})
         }
 
@@ -645,7 +645,7 @@ class Building(models.Model):
         return self.code
 
     def get_absolute_url(self):
-        return reverse("building", kwargs={"code": self.code})
+        return reverse("api:building", kwargs={"code": self.code})
 
     def toJSON(self):
         return {
@@ -717,7 +717,7 @@ class SemesterDepartment:
         return unicode((self.semester, self.department))
 
     def get_absolute_url(self):
-        return reverse("semdept", kwargs={"semester_code": self.semester.code(), "dept_code": self.department.code})
+        return reverse("api:semdept", kwargs={"semester_code": self.semester.code(), "dept_code": self.department.code})
 
     def toShortJSON(self):
         return {
