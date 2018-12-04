@@ -36,6 +36,8 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]",
                  "penncoursereview.com", "www.penncoursereview.com",
                  "api.penncoursereview.com"]
 
+API_HOST = "api.penncoursereview.com"
+
 DISPLAY_NAME = os.getenv("API_DISPLAY_NAME", "/")
 
 # Ensure DISPLAY_NAME is never used relatively by beginning with forward slash
@@ -108,6 +110,7 @@ SECRET_KEY= os.getenv("SECRET_KEY", 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@
 assert SECRET_KEY, "No secret key provided"
 
 MIDDLEWARE_CLASSES = (
+    'api.middleware.ApiHostMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

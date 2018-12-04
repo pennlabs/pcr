@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponse
 from .models import APIConsumer, generate_api_consumer
 import requests
@@ -19,7 +20,7 @@ class Authenticate(object):
 
         old_path = request.path_info
 
-        if not old_path.startswith("/api/"):
+        if not old_path.startswith("/api/") and settings.API_HOST not in request.META.get("HTTP_HOST", ""):
             return None
 
         try:
