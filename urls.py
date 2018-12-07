@@ -2,6 +2,10 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
+from django.contrib import admin
+
+from api.search.views import search
+from api.static_content.views import serve_page
 
 
 urlpatterns = [
@@ -9,9 +13,9 @@ urlpatterns = [
     url(r'^', include('apps.pcr_detail.urls')),
     url(r'^', include('apps.searchbar.urls')),
     url(r'^', include('apps.static.urls')),
-]
 
-# Enable static file in local development
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_DOC_ROOT)
+    url(r'^admin/', admin.site.urls),
+    url(r'^pcrsite-static/(?P<page>.*)$', serve_page),
+    url(r'^search', search),
+    url(r'^api/', include('api.courses.urls', namespace='api')),
+]

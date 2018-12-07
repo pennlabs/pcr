@@ -1,0 +1,5 @@
+NOTE: the following is outdated; we're probably going to be serving the test console directly from here and not need to copy to deploy it
+
+(from account: pennapps)
+
+cp -r ~pennapps-apidev/api-django/api/testconsole/ /var/www/

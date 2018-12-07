@@ -1,0 +1,11 @@
+This folder probably should be moved to scripts. 
+
+== Parsing of course register. This can be done locally (since pdfminer currently isn't installed on the server). ==
+
+* download_register.sh - downloads all the pdfs from the course registrar website
+* parseregister.py - [Usage: python parseregister.py filename.pdf] Reads filename.pdf and sends a JSON object with the parsed data to standard object. Requires pdfminer (http://www.unixuser.org/~euske/python/pdfminer/)
+* courseregisterparser.py - actually does the parsing
+* parseregister_all - runs parseregister for every file in a folder
+
+== Putting registrer data in database. Must be done on server
+* upload_description.py - reads output JSON objects and puts them in the database

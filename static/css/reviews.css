@@ -170,3 +170,26 @@ table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
     pointer-events: none;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 25%, rgba(255, 255, 255, 1) 100%);
 }
+
+#live {
+    font-size: 1.2em;
+}
+
+#live .badge {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+#live .badge .count {
+    margin-left: 4px;
+    padding-left: 4px;
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.col_instructor .fa-star {
+    color: gold;
+}
+
+#live .new-instructors {
+    font-size: 0.8em;
+}

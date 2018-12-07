@@ -1,5 +1,10 @@
-from django.shortcuts import render
+import itertools
+import requests
+
+from django.shortcuts import render, reverse
+from django.http import JsonResponse
 from .models import Instructor, CourseHistory, Department
+from api.courses.models import Instructor as ApiInstructor
 from collections import OrderedDict
 
 
@@ -62,3 +67,38 @@ def department(request, name):
         'type': 'department',
     }
     return render(request, 'pcr_detail/detail.html', context)
+
+
+def live(request, title):
+    title = title.upper().strip()
+    dept, code = title.split("-")
+    resp = requests.get("http://api.pennlabs.org/registrar/search?q={}".format(title))
+    resp.raise_for_status()
+    raw_data = resp.json()
+    matching_courses = [course for course in raw_data["courses"] if course["course_department"].strip().upper() == dept and course["course_number"].strip().upper() == code]
+    courses = {}
+
+    for course in matching_courses:
+        key = course["activity"]
+        if key not in courses:
+            courses[key] = []
+        courses[key].append(course)
+
+    instructors = list(set(itertools.chain(*[[y["name"] for y in x["instructors"]] for x in matching_courses])))
+    instructor_links = {}
+
+    for name in instructors:
+        first_name = name.split(" ", 1)[0]
+        last_name = name.rsplit(" ", 1)[-1]
+        objs = ApiInstructor.objects.filter(first_name__icontains=first_name, last_name__icontains=last_name)
+        if objs.count() == 1:
+            instructor_links[name] = objs.first().get_absolute_url()
+
+    data = {
+        "courses": courses,
+        "credits": max(round(float(x["credits"].split(" ")[0]), 2) for x in matching_courses) if matching_courses else 0,
+        "instructors": instructors,
+        "instructor_links": instructor_links,
+        "term": matching_courses[0]["term_normalized"] if matching_courses else None
+    }
+    return JsonResponse(data, json_dumps_params={"indent": 4})

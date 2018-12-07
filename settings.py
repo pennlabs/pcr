@@ -1,49 +1,72 @@
 # Django settings for PCR
+import sys
 import os
 import raven
+import dj_database_url
+
+ADMINS = (
+    ('Penn Labs', 'pennappslabs@gmail.com'),
+)
+
+MANAGERS = ADMINS
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # For hitting the API
-DOMAIN = os.getenv("DOMAIN", "http://api.penncoursereview.com/v1/")
+DOMAIN = os.getenv("DOMAIN", "http://localhost:8000/api/")
 # Otherwise, weird bugs occur wherever DOMAIN is used.
 assert DOMAIN.endswith("/")
 
 DEBUG = os.getenv("DEBUG", 'True') == 'True'
 # Do static caching (true only in production)
 DO_STATICGENERATOR = not DEBUG
+DO_CACHING = not DEBUG
 
-# Personal access token for the PCR API
-PCR_API_TOKEN = os.getenv("PCR_API_TOKEN")
-assert PCR_API_TOKEN, "No pcr api token provided"
+TEST_API_TOKEN = os.getenv("API_TEST_TOKEN", "")
+
+# Make sure that the test API token is set when testing, or some tests will fail.
+if 'test' in sys.argv:
+    assert TEST_API_TOKEN
 
 # Used for the /chrome/api proxy endpoint
 PROXY_TOKEN = os.getenv("PROXY_TOKEN", "D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ")
 assert PROXY_TOKEN, "No proxy token provided"
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]",
-                 "penncoursereview.com", "www.penncoursereview.com"]
+                 "penncoursereview.com", "www.penncoursereview.com",
+                 "api.penncoursereview.com"]
+
+API_HOST = "api.penncoursereview.com"
+
+DISPLAY_NAME = os.getenv("API_DISPLAY_NAME", "/")
+
+# Ensure DISPLAY_NAME is never used relatively by beginning with forward slash
+assert DISPLAY_NAME.startswith("/")
 
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-)
 
-MANAGERS = ADMINS
+# Necessary for `courses/management/commands/importfromisc.py` and
+#               `courses/management/commands/mergeprofs.py`
+IMPORT_DATABASE_NAME = os.getenv("API_IMPORT_DATABASE_NAME", "old_pcr_2011b")
+IMPORT_DATABASE_USER = os.getenv("API_IMPORT_DATABASE_USER", "pcr-daemon")
+IMPORT_DATABASE_PWD = os.getenv("API_IMPORT_DATABASE_PWD")
 
-# 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_ENGINE = ''
-# Or path to database file if using sqlite3.
-DATABASE_NAME = ''
-# Not used with sqlite3.
-DATABASE_USER = ''
-# Not used with sqlite3.
-DATABASE_PASSWORD = ''
-# Set to empty string for localhost. Not used with sqlite3.
-DATABASE_HOST = ''
-# Set to empty string for default. Not used with sqlite3.
-DATABASE_PORT = ''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+DATABASES['default'].update(dj_database_url.config(conn_max_age=600))
+
+if DATABASES["default"]["ENGINE"].endswith("mysql"):
+    DATABASES["default"]["OPTIONS"] = {
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+    }
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -62,6 +85,10 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
+# If you set this to False, Django will not format dates, numbers and
+# calendars according to the current locale
+USE_L10N = True
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = ''
@@ -74,16 +101,26 @@ MEDIA_URL = ''
 STATIC_URL = '/static/'
 
 # Path to local staticfiles
-STATIC_DOC_ROOT = os.path.join(os.getcwd(), "static")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY= os.getenv("SECRET_KEY", 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
 assert SECRET_KEY, "No secret key provided"
 
 MIDDLEWARE_CLASSES = (
+    'api.middleware.ApiHostMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'api.apiconsumer.authenticate.Authenticate',
 )
 
 ROOT_URLCONF = 'urls'
@@ -111,12 +148,46 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'apps.pcr_detail',
     'apps.searchbar',
     'apps.static',
-    'raven.contrib.django.raven_compat'
+    'raven.contrib.django.raven_compat',
+
+    'api.courses',
+    'api.apiconsumer',
+    'api.static_content',
+    'django_extensions',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
 )
+
+CORS_URLS_REGEX = r'^/api/.*$'
+
+# Caching
+if DO_CACHING:
+    timeout_hours = 24 * 7
+    CACHES = {
+        'default': {
+            'BACKEND': "django.core.cache.backends.filebased.FileBasedCache",
+            # The directory in LOCATION should be owned by user: www-data
+            'LOCATION': os.path.join(BASE_DIR, "CACHES/current"),
+            'TIMEOUT': 60 * 60 * timeout_hours  # now in seconds
+        }
+    }
+
+# Used for Django debug toolbar (or use debugsqlshell)
+try:
+    import debug_toolbar
+except ImportError:
+    pass
+else:
+    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    INSTALLED_APPS += ('debug_toolbar',)
+    INTERNAL_IPS = ('158.130.103.7', '127.0.0.1')
 
 if DO_STATICGENERATOR:
     MIDDLEWARE_CLASSES += \

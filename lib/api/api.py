@@ -5,10 +5,13 @@ import json
 from django.conf import settings
 
 from .memoize import memoize
+from api.apiconsumer.models import APIConsumer
 
 
 @memoize
 def api(domain, *args, **kwargs):
+    if not "token" in kwargs:
+        kwargs["token"] = APIConsumer.objects.filter(permission_level=9001).first().token
     assert domain.endswith("/")
     path = "".join(
         (domain, "/".join([str(arg) for arg in args])))
@@ -22,4 +25,4 @@ def api(domain, *args, **kwargs):
     return response.json()['result']
 
 
-api = functools.partial(api, settings.DOMAIN, token=settings.PCR_API_TOKEN)
+api = functools.partial(api, settings.DOMAIN)
