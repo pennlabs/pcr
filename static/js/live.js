@@ -12,6 +12,7 @@ $(document).ready(function() {
         $("#live").append($("<span class='badge badge-primary' title='This course is <b>" + data.credits + "</b> credit unit(s).' />").text(data.credits + " CU"));
 
         var open_instructors = {};
+        var closed_instructors = {};
 
         Object.entries(data.courses).forEach(function(set) {
             var key = set[0];
@@ -30,7 +31,19 @@ $(document).ready(function() {
                         if (!(key in open_instructors)) {
                             open_instructors[key] = 0;
                         }
+                        if (!(key in closed_instructors)) {
+                            closed_instructors[key] = 0;
+                        }
                         open_instructors[key] += 1;
+                    }
+                }
+                else {
+                    for (var j = 0; j < value[i].instructors.length; j++) {
+                        var key = cleanInstructorName(value[i].instructors[j].name);
+                        if (!(key in closed_instructors)) {
+                            closed_instructors[key] = 0;
+                        }
+                        closed_instructors[key] += 1;
                     }
                 }
             }
@@ -48,7 +61,7 @@ $(document).ready(function() {
             var idx = data.instructors.indexOf(name);
             if (idx !== -1) {
                 data.instructors.splice(idx, 1);
-                $(this).append("<i class='" + (open_instructors[name] ? "fa" : "far") + " fa-star' title='" + $(this).text() + " is teaching during <b>" + data.term + "</b>, and " + (open_instructors[name] ? open_instructors[name] : "their") + " section(s) are <b>" + (open_instructors[name] ? "open" : "closed") + "</b>.' />");
+                $(this).append("<i class='" + (open_instructors[name] ? "fa" : "far") + " fa-star' title='" + $(this).text() + " is teaching during <b>" + data.term + "</b>, and " + (open_instructors[name] ? "<b>" + open_instructors[name] + "</b> out of <b>" + (open_instructors[name] + closed_instructors[name]) + "</b>" : "all <b>" + closed_instructors[name] + "</b>") + " section(s) are <b>" + (open_instructors[name] ? "open" : "closed") + "</b>.' />");
             }
         });
 
