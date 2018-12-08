@@ -7,9 +7,9 @@ $(document).ready(function() {
         if (!Object.keys(data.courses).length) {
             return;
         }
-        $("#live").append($("<span class='badge badge-info' title='This course will be taught in " + data.term + ".' />").text(data.term));
+        $("#live").append($("<span class='badge badge-info' title='This course will be taught in <b>" + data.term + "</b>.' />").text(data.term));
         data.credits = data.credits.toFixed(1);
-        $("#live").append($("<span class='badge badge-primary' title='This course is " + data.credits + " credit unit(s).' />").text(data.credits + " CU"));
+        $("#live").append($("<span class='badge badge-primary' title='This course is <b>" + data.credits + "</b> credit unit(s).' />").text(data.credits + " CU"));
 
         var open_instructors = {};
 
@@ -26,12 +26,16 @@ $(document).ready(function() {
                     num_open += 1;
 
                     for (var j = 0; j < value[i].instructors.length; j++) {
-                        open_instructors[cleanInstructorName(value[i].instructors[j].name)] = true;
+                        var key = cleanInstructorName(value[i].instructors[j].name);
+                        if (!(key in open_instructors)) {
+                            open_instructors[key] = 0;
+                        }
+                        open_instructors[key] += 1;
                     }
                 }
             }
             var type = value[0].activity_description;
-            var badge = $("<span class='badge " + (num_open > 0 ? "badge-success" : "badge-danger") + "' title='" + num_open + " out of " + num_available + " " + type.toLowerCase() + " sections are open for this course.' />").text(type);
+            var badge = $("<span class='badge " + (num_open > 0 ? "badge-success" : "badge-danger") + "' title='<b>" + num_open + "</b> out of <b>" + num_available + "</b> " + type.toLowerCase() + " sections are open for this course.' />").text(type);
             badge.append($("<span class='count' />").text(num_open + "/" + num_available));
             $("#live").append(badge);
         });
@@ -44,7 +48,7 @@ $(document).ready(function() {
             var idx = data.instructors.indexOf(name);
             if (idx !== -1) {
                 data.instructors.splice(idx, 1);
-                $(this).append("<i class='" + (open_instructors[name] ? "fa" : "far") + " fa-star' title='This instructor is teaching during " + data.term + ", and their section(s) are " + (open_instructors[name] ? "open" : "closed") + ".' />");
+                $(this).append("<i class='" + (open_instructors[name] ? "fa" : "far") + " fa-star' title='" + $(this).text() + " is teaching during <b>" + data.term + "</b>, and " + (open_instructors[name] ? open_instructors[name] : "their") + " section(s) are <b>" + (open_instructors[name] ? "open" : "closed") + "</b>.' />");
             }
         });
 
@@ -64,5 +68,9 @@ $(document).ready(function() {
         }
 
         $("#course-table").trigger("resort");
+        $("#live [title], #course-table tbody .col_instructor .fa-star").tooltip({
+            animation: false,
+            html: true
+        });
     });
 });

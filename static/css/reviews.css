@@ -180,6 +180,18 @@ table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
     margin-bottom: 5px;
 }
 
+#live .badge[title] {
+    cursor: pointer;
+}
+
+#live .badge-success {
+    background-color: #5cb85c;
+}
+
+#live .badge-primary {
+    background-color: #6274F1;
+}
+
 #live .badge .count {
     margin-left: 4px;
     padding-left: 4px;
@@ -192,4 +204,17 @@ table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
 
 #live .new-instructors {
     font-size: 0.8em;
+}
+
+.tooltip.show {
+    opacity: 1;
+}
+
+.tooltip-inner {
+    background-color: #6274f1;
+    color: white;
+}
+
+.tooltip-inner::before {
+    border: none;
 }

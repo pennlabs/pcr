@@ -275,7 +275,7 @@
         $("#scroll-indicator").show();
         courseTableBody.on("scroll", function() {
             if (courseTableBody[0].scrollTop > 0) {
-                $("#scroll-indicator").slideUp();
+                $("#scroll-indicator").slideUp("fast");
             }
         });
     }
