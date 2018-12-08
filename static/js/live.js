@@ -63,9 +63,6 @@ $(document).ready(function() {
             $("#live").append($("<div class='new-instructors' />").html("New Instructors: " + inst_list.join(", ")));
         }
 
-        if ($.fn.dataTable.isDataTable($("#course-table"))) {
-            $("#course-table").DataTable().rows().invalidate();
-            $("#course-table").DataTable().draw();
-        }
+        $("#course-table").trigger("resort");
     });
 });

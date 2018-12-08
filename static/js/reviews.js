@@ -118,6 +118,13 @@
       });
     }
 
+    $("#course-table").on("resort", function() {
+        if ($.fn.dataTable.isDataTable($(this))) {
+            $(this).DataTable().rows().invalidate();
+            $(this).DataTable().draw();
+        }
+    });
+
     $.extend($.fn.dataTableExt.oSort, {
         "star-name-pre": function(a) {
             if (a.indexOf("fa-star") !== -1) {
@@ -127,6 +134,22 @@
                 a = "1" + a;
             }
             return $.fn.dataTableExt.oSort["html-pre"](a);
+        },
+        "star-rating-pre": function(a) {
+            if (isNaN(a)) {
+                var obj = $(a);
+                var val;
+                if (($.cookie("pcr_viewmode") + "") === "0") {
+                    val = obj[0].textContent;
+                }
+                else {
+                    val = obj[obj.length - 1].textContent;
+                }
+                return parseFloat(val);
+            }
+            else {
+                return parseFloat(a);
+            }
         }
     });
 
@@ -140,6 +163,10 @@
             {
                 targets: "col_instructor",
                 type: "star-name"
+            },
+            {
+                targets: "_all",
+                type: "star-rating"
             }
         ],
         autoWidth: false,
@@ -150,6 +177,7 @@
         dom: '<"toolbar">frtip',
         language: {
             search: "",
+            info: "Showing _TOTAL_ instructors",
             paginate: {
                 previous: "<i class='fa fa-chevron-left'></i>",
                 next: "<i class='fa fa-chevron-right'></i>"
@@ -288,6 +316,14 @@
                     {
                         targets: "col_name",
                         title: "Class"
+                    },
+                    {
+                        targets: ["col_name", "col_semester", "col_section", "col_responses"],
+                        type: "string"
+                    },
+                    {
+                        targets: "_all",
+                        type: "star-rating"
                     }
                 ],
                 autoWidth: false,
@@ -297,6 +333,7 @@
                 dom: '<"toolbar">frtip',
                 language: {
                     search: "",
+                    info: "Showing _TOTAL_ sections",
                     paginate: {
                         previous: "<i class='fa fa-chevron-left'></i>",
                         next: "<i class='fa fa-chevron-right'></i>"
@@ -336,13 +373,15 @@
     $("#course-table_wrapper div.toolbar").append("<div class='btn-group mr-1'><button id='view_average' class='btn btn-sm btn-primary'>Average</button> <button id='view_recent' class='btn btn-secondary btn-sm'>Most Recent</button></div>");
 
     $("#view_average").click(function(e) {
-      e.preventDefault();
-      window.set_viewmode(0);
+        e.preventDefault();
+        window.set_viewmode(0);
+        $("#course-table").trigger("resort");
     });
 
     $("#view_recent").click(function(e) {
-      e.preventDefault();
-      window.set_viewmode(1);
+        e.preventDefault();
+        window.set_viewmode(1);
+        $("#course-table").trigger("resort");
     });
 
     set_viewmode($.cookie("pcr_viewmode"));
