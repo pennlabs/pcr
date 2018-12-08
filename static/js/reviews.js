@@ -67,7 +67,7 @@
           var headerClass = $.grep(this.header().className.split(" "), function(v, i) {
             return v.indexOf("col_") === 0;
           }).join().substr(4);
-          if (text_cols.indexOf(headerClass) !== -1 || text_cols == "responses") {
+          if (text_cols.indexOf(headerClass) !== -1 || headerClass == "responses") {
             num_cols.push(this.index());
           }
         });
