@@ -53,6 +53,7 @@ class APIConsumer(models.Model):
     description = models.TextField()
     token = models.CharField(max_length=200, unique=True, default=generate_key)
     permission_level = models.IntegerField(default=2)
+    is_active = models.BooleanField(default=False)
 
     # 0 - no access, equivalent to no key
     # 1 - access to public data only

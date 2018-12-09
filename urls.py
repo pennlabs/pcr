@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^search', search),
     url(r'^api/', include('api.courses.urls', namespace='api')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^form/', include('api.apiconsumer.urls')),
 ]
