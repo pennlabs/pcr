@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Script to regenerate the Penn Course Review site cache.
 #
 # NOTE: On the production server, this should be run using
@@ -113,7 +115,7 @@ dl = list()
 
 if args.dry_run:
     for url in urls:
-        logging.info(">>> {}".format(url))
+        print("{}{}".format(URL_PREFIX, url))
     logging.info("Total of {} urls.".format(len(urls)))
     exit(0)
 
