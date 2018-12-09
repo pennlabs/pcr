@@ -292,8 +292,11 @@ def alias_coursehistory(request, historyalias, path):
         raise API404("Course alias %s not in correct format: DEPT-100." %
                      historyalias)
 
-    latest_alias = Alias.objects.filter(
-        department=dept_code, coursenum=coursenum).order_by('-semester')[0]
+    try:
+        latest_alias = Alias.objects.filter(
+            department=dept_code, coursenum=coursenum).order_by('-semester')[0]
+    except IndexError:
+        raise API404("Course alias %s does not exist." % historyalias)
 
     return redirect(reverse("api:history", kwargs={"histid": latest_alias.course.history_id}) + path + "?token=" + request.GET.get("token", ""))
 

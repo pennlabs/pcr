@@ -2,14 +2,17 @@ import itertools
 import requests
 
 from django.shortcuts import render, reverse
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from .models import Instructor, CourseHistory, Department
 from api.courses.models import Instructor as ApiInstructor
 from collections import OrderedDict
 
 
 def instructor(request, id):
-    instructor = Instructor(id)
+    try:
+        instructor = Instructor(id)
+    except ValueError:
+        raise Http404("Instructor {} does not exist!".format(id))
     context = {
         'item': instructor,
         'reviews': instructor.reviews,
@@ -39,7 +42,10 @@ def sorted_instructors_by_sem(reviews):
 
 def course(request, title):
     title = title.upper()
-    coursehistory = CourseHistory(title)
+    try:
+        coursehistory = CourseHistory(title)
+    except ValueError:
+        raise Http404("Course {} does not exist!".format(title))
     reviews = set(
         review for course in coursehistory.courses for section in course.sections for review in section.reviews)
     grouped_reviews = sorted_instructors_by_sem(reviews)
@@ -55,7 +61,10 @@ def course(request, title):
 
 
 def department(request, name):
-    department = Department(name)
+    try:
+        department = Department(name)
+    except ValueError:
+        raise Http404("Department {} does not exist!".format(name))
     context = {
         'item': department,
         'reviews': set(review for coursehistory in department.coursehistories
