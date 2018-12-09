@@ -177,7 +177,7 @@
         dom: '<"toolbar">frtip',
         language: {
             search: "",
-            info: "Showing _TOTAL_ instructors",
+            info: "Showing _TOTAL_ " + {"department": "courses", "course": "instructors", "instructor": "courses"}[$("#banner-info").attr("data-type")],
             paginate: {
                 previous: "<i class='fa fa-chevron-left'></i>",
                 next: "<i class='fa fa-chevron-right'></i>"
