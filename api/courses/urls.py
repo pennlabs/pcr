@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 # import each of the handlers
-from . import views
+from . import views, display
 from .utils import cross_domain_ajax, API404
 
 
@@ -55,8 +55,11 @@ urlpatterns = [
     url(r"^sections$", dispatch_404("sorry, no global sections list")),
     url(r"^sections/(?P<sectionalias>[^/]+)$", views.alias_section),
 
+    # Display
+    url(r"^display/course/(?P<course>[^/]+)$", display.display_course),
+
     # Misc
-    url(r"^(?P<alias>.*)$", views.alias_misc)
+    url(r"^(?P<alias>.*)$", views.alias_misc),
 ]
 
 
