@@ -27,6 +27,8 @@ def display_course(request, course):
     for rating in instructor_recent_ratings:
         instructors[rating["review__section__instructors"]]["recent_reviews"][rating["field"]] = round(rating["score"], 2)
 
+    instructors = {("{}-{}".format(k, re.sub(r"[^\w]", "-", v["name"]))): v for k, v in instructors.items()}
+
     return JsonResponse({
         "code": "{} {}".format(dept, num),
         "name": course.name,
