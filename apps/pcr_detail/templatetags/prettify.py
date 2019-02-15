@@ -107,10 +107,14 @@ def sectionname(reviews):
     else:
         return names.pop()
 
+
 @register.filter(name="sectionnameall")
 def sectionnameall(reviews):
     names = [review.section.name.strip() for review in reviews]
-    return ", ".join(names)
+    items = {}
+    for name in names:
+        items[re.sub(r'[^\w]', '', name).lower()] = name
+    return ", ".join(items.values())
 
 
 @register.filter(name='recent')
