@@ -107,6 +107,11 @@ def sectionname(reviews):
     else:
         return names.pop()
 
+@register.filter(name="sectionnameall")
+def sectionnameall(reviews):
+    names = [review.section.name.strip() for review in reviews]
+    return ", ".join(names)
+
 
 @register.filter(name='recent')
 def recent(reviews):

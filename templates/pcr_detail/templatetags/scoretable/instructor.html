@@ -19,7 +19,13 @@
             </td>
             {% with all_cols=reviews|columns reviews=group.list %}
             <td class="col_name">
-                {{reviews|sectionname|title|capitalize_improved}}
+                {% with reviews|sectionname|title|capitalize_improved as name %}
+                    {% if name == "Various" %}
+                    Various <span style="color:#aaa">{{reviews|sectionnameall|title|capitalize_improved}}</span>
+                    {% else %}
+                    {{ name }}
+                    {% endif %}
+                {% endwith %}
             </td>
             {% with reviews|recent as recents %}
             {% for attribute in all_cols %}
