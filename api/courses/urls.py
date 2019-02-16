@@ -57,6 +57,8 @@ urlpatterns = [
 
     # Display
     url(r"^display/course/(?P<course>[^/]+)$", display.display_course),
+    url(r"^display/instructor/(?P<instructor>[^/]+)$", display.display_instructor),
+    url(r"^display/department/(?P<dept>[^/]+)$", display.display_dept),
 
     # Misc
     url(r"^(?P<alias>.*)$", views.alias_misc),

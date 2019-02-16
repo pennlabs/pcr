@@ -3,7 +3,7 @@ import re
 from django.http import JsonResponse
 from django.db.models import Avg
 
-from .models import Alias, Course, Section, Review, ReviewBit, Instructor
+from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department
 
 
 def display_course(request, course):
@@ -37,4 +37,42 @@ def display_course(request, course):
         "num_sections": sections.count(),
         "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_recent},
         "instructors": instructors,
+    })
+
+
+def display_instructor(request, instructor):
+    return JsonResponse({
+    })
+
+
+def display_dept(request, dept):
+    dept = dept.upper().strip()
+    department = Department.objects.filter(code__iexact=dept).first()
+    aliases = Alias.objects.filter(department=department)
+    reviews = Review.objects.filter(section__course__primary_alias__department=department)
+
+    course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__primary_alias").annotate(score=Avg('score'))
+    course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__primary_alias", "score")
+
+    output = {}
+
+    for num, name, iden in aliases.values_list("coursenum", "course__name", "id").order_by("coursenum").distinct():
+        code = "{}-{:03d}".format(dept, num)
+        output[iden] = {
+            "code": code,
+            "name": name.title(),
+            "average_reviews": {},
+            "recent_reviews": {}
+        }
+
+    for rating in course_average_ratings:
+        output[rating["review__section__course__primary_alias"]]["average_reviews"][rating["field"]] = round(rating["score"], 3)
+
+    for rating in course_recent_ratings:
+        output[rating["review__section__course__primary_alias"]]["recent_reviews"][rating["field"]] = round(rating["score"], 3)
+
+    return JsonResponse({
+        "code": dept,
+        "name": department.name.title(),
+        "courses": output
     })
