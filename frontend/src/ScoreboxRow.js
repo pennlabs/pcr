@@ -7,18 +7,15 @@ class ScoreboxRow extends Component {
     super(props)
 
     this.state = {
-      //board = Array(9).fill(null)
     }
   }
-
-  // events like handleClick
 
   render() {
     return (
       <div className="scoreboxrow">
         <div className="scoredesc">
               <p className="title">{this.props.value}</p>
-              <p className="subtitle">23 Sections</p>
+              <p className="subtitle">{this.props.num_sections} Sections</p>
           </div>
           <div className="scoreboxrow">
               <div className="scorebox course rating-okay">

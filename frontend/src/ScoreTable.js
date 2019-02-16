@@ -5,9 +5,6 @@ import './static/css/base.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import './static/css/bootstrap.min.css';
 // import './static/js/bootstrap.min.js';
-// css of the react component
-// each react component can only import the css file it needs
-// index
 
 // import './App.css'
 
@@ -25,7 +22,6 @@ class ScoreTable extends Component {
   }
 
   componentDidMount() {
-    // make sure that
     fetch("http://localhost:8000/api/display/course/CIS-121?token=public")
       .then(res => res.json())
       .then(
@@ -56,7 +52,6 @@ class ScoreTable extends Component {
     //var average = this.state.items.average_ratings
     //console.log(average.rInstructorQuality)
     //console.log(this.state.tag_data) // only show up when the request is finished
-    console.log(this.state)
 
     if (!this.state.items) {
       return (<h1>Loading data</h1>);
@@ -66,7 +61,9 @@ class ScoreTable extends Component {
     }
     var noTags = !this.state.tag_data.term // noTags is true if term is Null
 
-    //console.log(this.state.items.average_ratings.rInstructorQuality)
+    console.log('hi')
+    console.log(this.state.tag_data.credit)
+
     return (
       <div className="col-sm-12 col-md-4 box-wrapper sidebar-col">
         <div className="box">
@@ -83,20 +80,32 @@ class ScoreTable extends Component {
 
             <p className="subtitle">{this.state.items.name}</p>
 
-            <Tags noTags={noTags} term={this.state.tag_items.term} /> // pass live data to tags
+            {!noTags &&
+              <Tags
+                term={this.state.tag_data.term}
+                credits={this.state.tag_data.credits}
+                />
+            }
+
+            <div className="new-instructors">
+              New Instructors go here
+            </div>
+
           </div>
 
           <ScoreboxRow
             value="Average"
             instructor={this.state.average_ratings.rInstructorQuality}
             course={this.state.average_ratings.rCourseQuality}
-            difficulty={this.state.average_ratings.rDifficulty}/>
+            difficulty={this.state.average_ratings.rDifficulty}
+            num_sections={this.state.items.num_sections}/>
 
           <ScoreboxRow
             value="Recent"
             instructor={this.state.recent_ratings.rInstructorQuality}
             course={this.state.recent_ratings.rCourseQuality}
-            difficulty={this.state.recent_ratings.rDifficulty}/>
+            difficulty={this.state.recent_ratings.rDifficulty}
+            num_sections={this.state.items.num_sections}/>
 
         <p className="desc">{this.state.items.description}
         </p>
