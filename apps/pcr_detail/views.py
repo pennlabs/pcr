@@ -93,7 +93,7 @@ def live(request, title):
             courses[key] = []
         courses[key].append(course)
 
-    instructors = list(set(itertools.chain(*[[y["name"] for y in x["instructors"]] for x in matching_courses])))
+    instructors = list(set(itertools.chain(*[[y["name"] for y in x["instructors"]] for x in matching_courses if x["activity"] not in ["REC"]])))
     instructor_links = {}
 
     for name in instructors:
