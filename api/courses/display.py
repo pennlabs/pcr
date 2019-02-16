@@ -34,6 +34,7 @@ def display_course(request, course):
         "name": course.name,
         "description": course.description.strip(),
         "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_average},
+        "num_sections": sections.count(),
         "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_recent},
         "instructors": instructors,
     })
