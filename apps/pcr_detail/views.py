@@ -110,4 +110,6 @@ def live(request, title):
         "instructor_links": instructor_links,
         "term": matching_courses[0]["term_normalized"] if matching_courses else None
     }
-    return JsonResponse(data, json_dumps_params={"indent": 4})
+    resp = JsonResponse(data, json_dumps_params={"indent": 4})
+    resp['Access-Control-Allow-Origin'] = '*'
+    return resp
