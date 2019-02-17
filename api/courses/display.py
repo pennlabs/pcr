@@ -42,12 +42,39 @@ def display_course(request, course):
 
 def display_instructor(request, instructor):
     instructor_id, first, last = re.match(r"(\d+)-+(\w+)-+(\w+)", instructor).groups()
-
     instructor = Instructor.objects.filter(id=instructor_id).first()
+    sections = Section.objects.filter(instructors=instructor)
+    courses = Course.objects.filter(section__in=sections)
+    reviews = Review.objects.filter(instructor=instructor)
+    instructor_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__primary_alias").annotate(score=Avg('score'))
+    instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__primary_alias", "score")
+
+
+    print(len(courses))
+    output = {}
+
+    for dept, num, name, iden in courses.values_list("primary_alias__department", "primary_alias__coursenum", "name", "primary_alias__id").order_by("primary_alias__coursenum").distinct():
+        code = "{}-{:03d}".format(dept, num)
+        output[iden] = {
+            "code": code,
+            "name": name.title(),
+            "average_reviews": {},
+            "recent_reviews": {}
+        }
+
+    for rating in instructor_average_ratings:
+        output[rating["review__section__course__primary_alias"]]["average_reviews"][rating["field"]] = round(rating["score"], 3)
+
+    for rating in instructor_recent_ratings:
+        output[rating["review__section__course__primary_alias"]]["recent_reviews"][rating["field"]] = round(rating["score"], 3)
 
     return JsonResponse({
         "id": instructor.id,
-        "name": instructor.name.title()
+        "name": instructor.name.title(),
+        "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in instructor_average_ratings},
+        "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in instructor_recent_ratings},
+        "num_sections": sections.count(),
+        "courses": output
     })
 
 
