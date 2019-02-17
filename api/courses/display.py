@@ -41,7 +41,13 @@ def display_course(request, course):
 
 
 def display_instructor(request, instructor):
+    instructor_id, first, last = re.match(r"(\d+)-+(\w+)-+(\w+)", instructor).groups()
+
+    instructor = Instructor.objects.filter(id=instructor_id).first()
+
     return JsonResponse({
+        "id": instructor.id,
+        "name": instructor.name.title()
     })
 
 
