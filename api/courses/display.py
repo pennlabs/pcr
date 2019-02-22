@@ -3,7 +3,7 @@ import re
 from django.http import JsonResponse
 from django.db.models import Avg
 
-from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department
+from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
 
 
 def display_course(request, course):
@@ -50,7 +50,6 @@ def display_instructor(request, instructor):
     instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__primary_alias", "score")
 
 
-    print(len(courses))
     output = {}
 
     for dept, num, name, iden in courses.values_list("primary_alias__department", "primary_alias__coursenum", "name", "primary_alias__id").order_by("primary_alias__coursenum").distinct():
@@ -81,15 +80,15 @@ def display_instructor(request, instructor):
 def display_dept(request, dept):
     dept = dept.upper().strip()
     department = Department.objects.filter(code__iexact=dept).first()
-    aliases = Alias.objects.filter(department=department)
+    histories = CourseHistory.objects.filter(course__primary_alias__department=department)
     reviews = Review.objects.filter(section__course__primary_alias__department=department)
 
-    course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__primary_alias").annotate(score=Avg('score'))
-    course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__primary_alias", "score")
+    course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__history").annotate(score=Avg('score'))
+    course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__history", "score")
 
     output = {}
 
-    for num, name, iden in aliases.values_list("coursenum", "course__name", "id").order_by("coursenum").distinct():
+    for num, name, iden in histories.values_list("course__primary_alias__coursenum", "course__name", "id").order_by("course__primary_alias__coursenum").distinct():
         code = "{}-{:03d}".format(dept, num)
         output[iden] = {
             "code": code,
@@ -99,10 +98,10 @@ def display_dept(request, dept):
         }
 
     for rating in course_average_ratings:
-        output[rating["review__section__course__primary_alias"]]["average_reviews"][rating["field"]] = round(rating["score"], 3)
+        output[rating["review__section__course__history"]]["average_reviews"][rating["field"]] = round(rating["score"], 3)
 
     for rating in course_recent_ratings:
-        output[rating["review__section__course__primary_alias"]]["recent_reviews"][rating["field"]] = round(rating["score"], 3)
+        output[rating["review__section__course__history"]]["recent_reviews"][rating["field"]] = round(rating["score"], 3)
 
     return JsonResponse({
         "code": dept,
