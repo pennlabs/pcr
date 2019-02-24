@@ -23,6 +23,9 @@ def logout(request):
 
 
 def proxy(request, path):
+    if not settings.PROXY_TOKEN:
+        return HttpResponse("No proxy token set in settings.py!", status=500, mimetype='text/plain')
+
     url = '%s%s' % (settings.DOMAIN, path)
     try:
         proxied_request = requests.get(url, params={"token": settings.PROXY_TOKEN})
