@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow'
-import './static/css/base.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import './static/css/base.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 // import './static/css/bootstrap.min.css';
 // import './static/js/bootstrap.min.js';
 
 // import './App.css'
 
 class ScoreTable extends Component {
-  // state
+
   constructor(props) {
 
     super(props)
@@ -26,6 +26,8 @@ class ScoreTable extends Component {
       .then(res => res.json())
       .then(
         (result) => {
+          console.log('result')
+          console.log(result)
           this.setState(state => ({
             items: result,
             average_ratings: result.average_ratings,
@@ -43,15 +45,13 @@ class ScoreTable extends Component {
         })
   }
 
-  // render -> compoentditmount -> 121 info -> render -> load live data -> load datat again
-
-  // events like handleClick
-
-  // while develpoing, see everything pop up
   render() {
-    //var average = this.state.items.average_ratings
-    //console.log(average.rInstructorQuality)
-    //console.log(this.state.tag_data) // only show up when the request is finished
+    // console.log("hi")
+    // console.log(window)
+    var pageType = window.pageType // ["COURSE", "INSTRUCTOR", "DEPARTMENT"]
+    console.log(pageType)
+    var pageIdentifier = window.pageIdentifier
+    console.log(pageIdentifier)
 
     if (!this.state.items) {
       return (<h1>Loading data</h1>);
@@ -60,9 +60,6 @@ class ScoreTable extends Component {
       return (<h1>Null tag data</h1>);
     }
     var noTags = !this.state.tag_data.term // noTags is true if term is Null
-
-    console.log('hi')
-    console.log(this.state.tag_data.credit)
 
     return (
       <div className="col-sm-12 col-md-4 box-wrapper sidebar-col">
@@ -93,22 +90,26 @@ class ScoreTable extends Component {
 
           </div>
 
-          <ScoreboxRow
-            value="Average"
-            instructor={this.state.average_ratings.rInstructorQuality}
-            course={this.state.average_ratings.rCourseQuality}
-            difficulty={this.state.average_ratings.rDifficulty}
-            num_sections={this.state.items.num_sections}/>
+          { pageType != "course" &&
+            <div id="banner-score">
+              <ScoreboxRow
+                value="Average"
+                instructor={this.state.average_ratings.rInstructorQuality}
+                course={this.state.average_ratings.rCourseQuality}
+                difficulty={this.state.average_ratings.rDifficulty}
+                num_sections={this.state.items.num_sections}/>
 
-          <ScoreboxRow
-            value="Recent"
-            instructor={this.state.recent_ratings.rInstructorQuality}
-            course={this.state.recent_ratings.rCourseQuality}
-            difficulty={this.state.recent_ratings.rDifficulty}
-            num_sections={this.state.items.num_sections}/>
+              <ScoreboxRow
+                value="Recent"
+                instructor={this.state.recent_ratings.rInstructorQuality}
+                course={this.state.recent_ratings.rCourseQuality}
+                difficulty={this.state.recent_ratings.rDifficulty}
+                num_sections={this.state.items.num_sections}/>
+            </div>
+          }
 
-        <p className="desc">{this.state.items.description}
-        </p>
+
+        <p className="desc">{this.state.items.description}</p>
         </div>
       </div>
 

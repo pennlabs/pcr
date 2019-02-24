@@ -165,7 +165,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
-CORS_URLS_REGEX = r'^/api/.*$'
+CORS_URLS_REGEX = r'^/api/.*|/live/.*$' 
 
 # Caching
 if DO_CACHING:
