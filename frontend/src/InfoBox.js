@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow'
-// import './static/css/base.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import './static/css/bootstrap.min.css';
-// import './static/js/bootstrap.min.js';
-
-// import './App.css'
 
 class InfoBox extends Component {
 
@@ -22,7 +16,10 @@ class InfoBox extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8000/api/display/course/CIS-121?token=public")
+    // "http://localhost:8000/api/display/instructor/6470-RAJIV-GANDHI?token=public"
+    // "http://localhost:8000/api/display/course/CIS-121?token=public"
+    // "http://localhost:8000/api/display/department/CIS?token=public"
+    fetch("http://localhost:8000/api/display/department/CIS?token=public")
       .then(res => res.json())
       .then(
         (result) => {
@@ -48,10 +45,14 @@ class InfoBox extends Component {
   render() {
     // console.log("hi")
     // console.log(window)
-    var pageType = window.pageType // ["COURSE", "INSTRUCTOR", "DEPARTMENT"]
-    console.log(pageType)
+    var pageType = window.pageType // ["COURSES", "INSTRUCTOR", "DEPARTMENT"]
+    console.log(window.pageType)
+    // console.log("pagetype")
+    // console.log(pageType)
     var pageIdentifier = window.pageIdentifier
     console.log(pageIdentifier)
+    // console.log(pageIdentifier)
+    // console.log(window)
 
     if (!this.state.items) {
       return (<h1>Loading data</h1>);
@@ -59,37 +60,54 @@ class InfoBox extends Component {
     if (!this.state.tag_data) {
       return (<h1>Null tag data</h1>);
     }
+
+    // do not show pages if course is not offered this semester or if page type is instructor
     var noTags = !this.state.tag_data.term // noTags is true if term is Null
 
     return (
         <div className="box">
           <div id="banner-info" data-type="course">
-            <div className="title">{this.state.items.code}
+            { pageType === "course" &&
+              <div className="course">
+                <div className="title">{this.state.items.code}
 
-              <span className="float-right">
-                <span id="popup" className="courseCart btn btn-action" title="Add to Cart"><i className="fa fa-fw fa-cart-plus"></i></span>
-                <a target="_blank" title="Get Alerted" href="https://penncoursealert.com/?course=CIS-121&amp;source=pcr" className="btn btn-action"><i className="fas fa-fw fa-bell"></i></a>
-              </span>
-            </div>
+                  <span className="float-right">
+                    <span id="popup" className="courseCart btn btn-action" title="Add to Cart"><i className="fa fa-fw fa-cart-plus"></i></span>
+                    <a target="_blank" title="Get Alerted" href="https://penncoursealert.com/?course=CIS-121&amp;source=pcr" className="btn btn-action"><i className="fas fa-fw fa-bell"></i></a>
+                  </span>
 
-            <div className="crosslist"></div>
+                </div>
 
-            <p className="subtitle">{this.state.items.name}</p>
+                <div className="crosslist"></div>
 
-            {!noTags &&
-              <Tags
-                term={this.state.tag_data.term}
-                credits={this.state.tag_data.credits}
-                />
+                <p className="subtitle">{this.state.items.name}</p>
+
+                { !noTags &&
+                  <Tags
+                    term={this.state.tag_data.term}
+                    credits={this.state.tag_data.credits}
+                    />
+                }
+              </div>
             }
 
-            <div className="new-instructors">
-              New Instructors go here
-            </div>
+            { pageType === "instructor" &&
+                <div className="instructor">
+                  <div className="title">{this.state.items.name}</div>
+                  <p className="desc">Email: <a href="mailto:rajiv@cis.upenn.edu">hard coded email</a></p>
+                </div>
+            }
+
+            { pageType === "department" &&
+              <div className="department">
+                <div className="title">{this.state.items.name}</div>
+                <p className="subtitle">{this.state.items.code}</p>
+              </div>
+            }
 
           </div>
 
-          { pageType != "course" &&
+          { pageType != "department" &&
             <div id="banner-score">
               <ScoreboxRow
                 value="Average"
@@ -107,10 +125,27 @@ class InfoBox extends Component {
             </div>
           }
 
+          // <link type="text/css" href="%PUBLIC_URL%/static/css/bootstrap.min.css" rel="stylesheet" />
+          { pageType === "department" &&
+            <div class="department-content">
+              <div id="row-select-placeholder">
+                  <object type="image/svg+xml" data="%PUBLIC_URL%/static/image/selectrow.svg">
+                    <img src="%PUBLIC_URL%/static/image/selectrow.svg" />
+                  </object>
+                  <div id="row-select-text">Select a few rows to begin comparing courses.</div>
+              </div>
+              <div id="row-select-chart-container">
+                  <canvas id="row-select-chart"></canvas>
+                  <button id="chart-clear" class="btn btn-action">Clear Chart</button>
+              </div>
+            </div>
+          }
 
-        <p className="desc">{this.state.items.description}</p>
+          { pageType === "course" &&
+            <p className="desc">{this.state.items.description}</p>
+          }
+
         </div>
-
     );
   }
 }
