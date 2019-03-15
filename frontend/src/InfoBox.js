@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow'
 
+
 class InfoBox extends Component {
 
   constructor(props) {
