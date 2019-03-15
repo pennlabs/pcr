@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ScoreTable from './ScoreTable';
+import ReviewPage from './ReviewPage';
 
-ReactDOM.render(<ScoreTable />, document.getElementById('root'));
+ReactDOM.render(<ReviewPage />, document.getElementById('root'));
