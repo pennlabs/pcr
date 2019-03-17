@@ -2,6 +2,7 @@ import re
 
 from django.http import JsonResponse
 from django.db.models import Avg
+from statistics import mean
 
 from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
 
@@ -45,14 +46,16 @@ def display_instructor(request, instructor):
     instructor = Instructor.objects.filter(id=instructor_id).first()
     sections = Section.objects.filter(instructors=instructor)
     courses = Course.objects.filter(section__in=sections)
+    semester = courses.order_by('-semester').first().semester
+    histories = CourseHistory.objects.filter(course__in=courses)
     reviews = Review.objects.filter(instructor=instructor)
-    instructor_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__primary_alias").annotate(score=Avg('score'))
-    instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__primary_alias", "score")
-
+    course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__history").annotate(score=Avg('score'))
+    course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__history", "score")
+    rating_keys = {bit["field"] for bit in course_average_ratings}
 
     output = {}
 
-    for dept, num, name, iden in courses.values_list("primary_alias__department", "primary_alias__coursenum", "name", "primary_alias__id").order_by("primary_alias__coursenum").distinct():
+    for dept, num, name, iden in histories.values_list("course__primary_alias__department", "course__primary_alias__coursenum", "course__name", "id").order_by("course__primary_alias__coursenum").distinct():
         code = "{}-{:03d}".format(dept, num)
         output[iden] = {
             "code": code,
@@ -61,17 +64,17 @@ def display_instructor(request, instructor):
             "recent_reviews": {}
         }
 
-    for rating in instructor_average_ratings:
-        output[rating["review__section__course__primary_alias"]]["average_reviews"][rating["field"]] = round(rating["score"], 3)
+    for rating in course_average_ratings:
+        output[rating["review__section__course__history"]]["average_reviews"][rating["field"]] = round(rating["score"], 3)
 
-    for rating in instructor_recent_ratings:
-        output[rating["review__section__course__primary_alias"]]["recent_reviews"][rating["field"]] = round(rating["score"], 3)
+    for rating in course_recent_ratings:
+        output[rating["review__section__course__history"]]["recent_reviews"][rating["field"]] = round(rating["score"], 3)
 
     return JsonResponse({
         "id": instructor.id,
         "name": instructor.name.title(),
-        "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in instructor_average_ratings},
-        "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in instructor_recent_ratings},
+        "average_ratings": {key: round(mean([bit["score"] for bit in course_recent_ratings.filter(field=key).values("score")]), 1) for key in rating_keys},
+        "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in course_recent_ratings},
         "num_sections": sections.count(),
         "courses": output
     })
