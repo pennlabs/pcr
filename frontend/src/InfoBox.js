@@ -126,12 +126,11 @@ class InfoBox extends Component {
             </div>
           }
 
-          // <link type="text/css" href="%PUBLIC_URL%/static/css/bootstrap.min.css" rel="stylesheet" />
           { pageType === "department" &&
             <div class="department-content">
               <div id="row-select-placeholder">
-                  <object type="image/svg+xml" data="%PUBLIC_URL%/static/image/selectrow.svg">
-                    <img src="%PUBLIC_URL%/static/image/selectrow.svg" />
+                  <object type="image/svg+xml" data="/static/image/selectrow.svg">
+                    <img src="/static/image/selectrow.svg" />
                   </object>
                   <div id="row-select-text">Select a few rows to begin comparing courses.</div>
               </div>
