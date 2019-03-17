@@ -4,15 +4,22 @@ import ReactTable from 'react-table';
 
 import 'react-table/react-table.css';
 
-
 class ScoreTable extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             data: null,
-            columns: null
+            columns: null,
+            isAverage: true
         };
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.setState(state => ({
+            isAverage: !state.isAverage
+        }));
     }
 
     componentDidMount() {
@@ -23,8 +30,8 @@ class ScoreTable extends Component {
                 const output = {};
                 Object.keys(val.average_reviews).forEach((col) => {
                     output[col] = {
-                        recent: val.average_reviews[col],
-                        average: val.recent_reviews[col]
+                        average: val.average_reviews[col].toFixed(2),
+                        recent: val.recent_reviews[col].toFixed(2)
                     };
                     columns[col] = true;
                 });
@@ -38,10 +45,10 @@ class ScoreTable extends Component {
                     Header: header,
                     accessor: key,
                     Cell: props => <center>
-                                        { props.show_average ? <span className='cell_average'>{props.value ? props.value.average : "N/A"}</span> :
+                                        { this.state.isAverage ? <span className='cell_average'>{props.value ? props.value.average : "N/A"}</span> :
                                         <span className='cell_recent'>{props.value ? props.value.recent : "N/A"}</span> }
                                    </center>,
-                    width: 100
+                    width: 150
                 };
             });
             cols.unshift({
@@ -61,7 +68,14 @@ class ScoreTable extends Component {
             return <h1>Loading Data...</h1>;
         }
 
-        return <ReactTable data={this.state.data} show_average="abcghi" columns={this.state.columns} showPagination={false} resizable={false} defaultPageSize={this.state.data.length} style={{ "max-height": "400px" }} />;
+        return (
+            <div>
+                <button onClick={this.handleClick}>
+                    {this.state.isAverage ? 'Average' : 'Most Recent'}
+                </button>
+                <ReactTable data={this.state.data} columns={this.state.columns} showPagination={false} resizable={false} defaultPageSize={this.state.data.length} style={{ "max-height": "400px" }} />
+            </div>
+        );
     }
 }
 
