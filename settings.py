@@ -29,8 +29,7 @@ if 'test' in sys.argv:
     assert TEST_API_TOKEN
 
 # Used for the /chrome/api proxy endpoint
-PROXY_TOKEN = os.getenv("PROXY_TOKEN", "D6cPWQc5czjT4v2Vp_h8PjFLs1OkKQ")
-assert PROXY_TOKEN, "No proxy token provided"
+PROXY_TOKEN = os.getenv("PROXY_TOKEN", None)
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]",
                  "penncoursereview.com", "www.penncoursereview.com",
@@ -165,7 +164,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
-CORS_URLS_REGEX = r'^/api/.*$'
+CORS_URLS_REGEX = r'^/api/.*|/live/.*$' 
 
 # Caching
 if DO_CACHING:

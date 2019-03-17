@@ -12,7 +12,7 @@ class ScoreboxRow extends Component {
 
   render() {
     return (
-      <div className="scoreboxrow">
+      <div className="scorebox-desc-row">
         <div className="scoredesc">
               <p className="title">{this.props.value}</p>
               <p className="subtitle">{this.props.num_sections} Sections</p>

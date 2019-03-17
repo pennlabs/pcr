@@ -12,7 +12,7 @@ class Tags extends Component {
 
   }
 
-  // add # of lecture and # of recitation here if deisred
+  // add # of lecture and # of recitation here if desired
   render() {
     return (
       <div id="live">
