@@ -73,7 +73,7 @@ class ScoreTable extends Component {
                 <button onClick={this.handleClick}>
                     {this.state.isAverage ? 'Average' : 'Most Recent'}
                 </button>
-                <ReactTable data={this.state.data} columns={this.state.columns} showPagination={false} resizable={false} defaultPageSize={this.state.data.length} style={{ "max-height": "400px" }} />
+                <ReactTable data={this.state.data} columns={this.state.columns} showPagination={false} resizable={false} defaultPageSize={this.state.data.length} style={{ maxHeight: "400px" }} />
             </div>
         );
     }

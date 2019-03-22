@@ -127,7 +127,7 @@ class InfoBox extends Component {
           }
 
           { pageType === "department" &&
-            <div class="department-content">
+            <div className="department-content">
               <div id="row-select-placeholder">
                   <object type="image/svg+xml" data="/static/image/selectrow.svg">
                     <img src="/static/image/selectrow.svg" />
@@ -136,7 +136,7 @@ class InfoBox extends Component {
               </div>
               <div id="row-select-chart-container">
                   <canvas id="row-select-chart"></canvas>
-                  <button id="chart-clear" class="btn btn-action">Clear Chart</button>
+                  <button id="chart-clear" className="btn btn-action">Clear Chart</button>
               </div>
             </div>
           }
