@@ -16,12 +16,12 @@ def display_course(request, course):
     dept, num = info.groups()
     aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
     courses = Course.objects.filter(primary_alias__in=aliases)
-    course = courses.order_by('-semester').first()
-    if course is None:
+    course_latest_semester = courses.order_by('-semester').first()
+    if course_latest_semester is None:
         return JsonResponse({
             "error": "Could not find course matching code '{}'.".format(course)
         })
-    semester = course.semester
+    semester = course_latest_semester.semester
     sections = Section.objects.filter(course__in=courses)
     reviews = Review.objects.filter(section__in=sections)
     reviewbits_average = ReviewBit.objects.filter(review__in=reviews).values("field").annotate(score=Avg('score'))
@@ -41,8 +41,8 @@ def display_course(request, course):
 
     return JsonResponse({
         "code": "{} {}".format(dept, num),
-        "name": course.name,
-        "description": course.description.strip(),
+        "name": course_latest_semester.name,
+        "description": course_latest_semester.description.strip(),
         "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_average},
         "num_sections": sections.count(),
         "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_recent},
@@ -51,16 +51,17 @@ def display_course(request, course):
 
 
 def display_instructor(request, instructor):
-    info = re.match(r"(\d+)-+(\w+)-+(\w+)", instructor)
+    req_instructor = instructor
+    info = re.match(r"(\d+)-+(\w+)-+(\w+)", req_instructor)
     if info is None:
         return JsonResponse({
-            "error": "Incorrectly formatted instructor code '{}'.".format(instructor)
+            "error": "Incorrectly formatted instructor code '{}'.".format(req_instructor)
         })
     instructor_id, first, last = info.groups()
-    instructor = Instructor.objects.filter(id=instructor_id).first()
+    instructor = Instructor.objects.filter(id=instructor_id, first_name=first, last_name=last).first()
     if instructor is None:
         return JsonResponse({
-            "error": "Could not find instructor matching code '{}'.".format(instructor)
+            "error": "Could not find instructor matching code '{}'.".format(req_instructor)
         })
     sections = Section.objects.filter(instructors=instructor)
     courses = Course.objects.filter(section__in=sections)
