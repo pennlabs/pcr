@@ -132,3 +132,7 @@ def display_dept(request, dept):
         "name": department.name.title(),
         "courses": output
     })
+
+
+def display_time(request, course, instructor):
+    return JsonResponse({})
