@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.db.models import Avg
 from statistics import mean
 
-from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
+from .models import Semester, Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
 
 
 def display_course(request, course):
@@ -40,7 +40,7 @@ def display_course(request, course):
     instructors = {("{}-{}".format(k, re.sub(r"[^\w]", "-", v["name"]))): v for k, v in instructors.items()}
 
     return JsonResponse({
-        "code": "{} {}".format(dept, num),
+        "code": "{}-{}".format(dept, num),
         "name": course_latest_semester.name,
         "description": course_latest_semester.description.strip(),
         "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_average},
@@ -135,5 +135,60 @@ def display_dept(request, dept):
     })
 
 
-def display_time(request, course, instructor):
-    return JsonResponse({})
+def display_history(request, course, instructor):
+    req_instructor = instructor
+    info = re.match(r"(\d+)-+(\w+)-+(\w+)", req_instructor)
+    if info is None:
+        return JsonResponse({
+            "error": "Incorrectly formatted instructor code '{}'.".format(req_instructor)
+        })
+    instructor_id, first, last = info.groups()
+    instructor = Instructor.objects.filter(id=instructor_id, first_name=first, last_name=last).first()
+    if instructor is None:
+        return JsonResponse({
+            "error": "Could not find instructor matching code '{}'.".format(req_instructor)
+        })
+    info = re.match(r"([A-Za-z]{3,4})[ \-]{1}(\d+)", course)
+    if info is None:
+        return JsonResponse({
+            "error": "Incorrectly formatted course code '{}'.".format(course)
+        })
+    dept, num = info.groups()
+    aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
+    courses = Course.objects.filter(primary_alias__in=aliases)
+    sections = Section.objects.filter(course__in=courses, instructors=instructor)
+    if sections.first() is None:
+        return JsonResponse({
+            "error": "Could not find course matching code '{}' with instructor '{}'.".format(course, req_instructor)    
+        })
+    reviews = Review.objects.filter(section__in=sections)
+    reviewbits = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__name", "review__section__course__semester").annotate(score=Avg('score'))
+
+    ratings = {}
+    comments = {}
+
+    for sec, name, sem in sections.values_list("id", "course__name", "course__semester"):
+        ratings[sec] = {
+            "course_name": name.title(),
+            "semester": str(sem),
+            "ratings": {},
+        }
+
+    for sem, sec, field, score in reviewbits.values_list("review__section__course__semester", "review__section__id", "field", "score"):
+        ratings[sec]["ratings"][field] = round(score, 3)
+
+    for sem, sec, comment, returned, produced in reviews.values_list("section__course__semester", "section__id", "comments", "forms_returned", "forms_produced"):
+        ratings[sec]["forms_returned"] = returned
+        ratings[sec]["forms_produced"] = produced
+        if comment:
+            comments[str(sem)] = comment
+
+    return JsonResponse({
+        "instructor": {
+            "id": instructor.id,
+            "name": instructor.name.title()
+        },
+        "course_code": "{}-{}".format(dept, num),
+        "ratings": ratings,
+        "comments": comments
+    })

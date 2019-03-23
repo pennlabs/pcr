@@ -59,7 +59,7 @@ urlpatterns = [
     url(r"^display/course/(?P<course>[^/]+)$", display.display_course),
     url(r"^display/instructor/(?P<instructor>[^/]+)$", display.display_instructor),
     url(r"^display/department/(?P<dept>[^/]+)$", display.display_dept),
-    url(r"^display/time/(?P<course>[^/]+)/(?P<instructor>[^/]+)$", display.display_time),
+    url(r"^display/history/(?P<course>[^/]+)/(?P<instructor>[^/]+)$", display.display_history),
 
     # Misc
     url(r"^(?P<alias>.*)$", views.alias_misc),
