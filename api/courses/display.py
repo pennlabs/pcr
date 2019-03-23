@@ -156,32 +156,30 @@ def display_history(request, course, instructor):
     dept, num = info.groups()
     aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
     courses = Course.objects.filter(primary_alias__in=aliases)
-    sections = Section.objects.filter(course__in=courses, instructors=instructor)
-    if sections.first() is None:
+    section_objects = Section.objects.filter(course__in=courses, instructors=instructor)
+    if section_objects.first() is None:
         return JsonResponse({
             "error": "Could not find course matching code '{}' with instructor '{}'.".format(course, req_instructor)    
         })
-    reviews = Review.objects.filter(section__in=sections)
+    reviews = Review.objects.filter(section__in=section_objects)
     reviewbits = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__name", "review__section__course__semester").annotate(score=Avg('score'))
 
-    ratings = {}
-    comments = {}
+    sections = {}
 
-    for sec, name, sem in sections.values_list("id", "course__name", "course__semester"):
-        ratings[sec] = {
+    for sec, name, sem in section_objects.values_list("id", "course__name", "course__semester"):
+        sections[sec] = {
             "course_name": name.title(),
             "semester": str(sem),
             "ratings": {},
         }
 
     for sem, sec, field, score in reviewbits.values_list("review__section__course__semester", "review__section__id", "field", "score"):
-        ratings[sec]["ratings"][field] = round(score, 3)
+        sections[sec]["ratings"][field] = round(score, 3)
 
-    for sem, sec, comment, returned, produced in reviews.values_list("section__course__semester", "section__id", "comments", "forms_returned", "forms_produced"):
-        ratings[sec]["forms_returned"] = returned
-        ratings[sec]["forms_produced"] = produced
-        if comment:
-            comments[str(sem)] = comment
+    for sec, comment, returned, produced in reviews.values_list("section__id", "comments", "forms_returned", "forms_produced"):
+        sections[sec]["forms_returned"] = returned
+        sections[sec]["forms_produced"] = produced
+        sections[sec]["comments"] = comment
 
     return JsonResponse({
         "instructor": {
@@ -189,6 +187,5 @@ def display_history(request, course, instructor):
             "name": instructor.name.title()
         },
         "course_code": "{}-{}".format(dept, num),
-        "ratings": ratings,
-        "comments": comments
+        "sections": sections
     })
