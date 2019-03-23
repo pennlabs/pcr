@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.db.models import Avg
 from statistics import mean
 
-from .models import Semester, Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
+from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
 
 
 def display_course(request, course):
@@ -40,7 +40,7 @@ def display_course(request, course):
     instructors = {("{}-{}".format(k, re.sub(r"[^\w]", "-", v["name"]))): v for k, v in instructors.items()}
 
     return JsonResponse({
-        "code": "{}-{}".format(dept, num),
+        "code": "{}-{:03d}".format(dept, num),
         "name": course_latest_semester.name,
         "description": course_latest_semester.description.strip(),
         "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_average},
@@ -58,7 +58,7 @@ def display_instructor(request, instructor):
             "error": "Incorrectly formatted instructor code '{}'.".format(req_instructor)
         })
     instructor_id, first, last = info.groups()
-    instructor = Instructor.objects.filter(id=instructor_id, first_name=first, last_name=last).first()
+    instructor = Instructor.objects.filter(id=instructor_id).first()
     if instructor is None:
         return JsonResponse({
             "error": "Could not find instructor matching code '{}'.".format(req_instructor)
@@ -143,7 +143,7 @@ def display_history(request, course, instructor):
             "error": "Incorrectly formatted instructor code '{}'.".format(req_instructor)
         })
     instructor_id, first, last = info.groups()
-    instructor = Instructor.objects.filter(id=instructor_id, first_name=first, last_name=last).first()
+    instructor = Instructor.objects.filter(id=instructor_id).first()
     if instructor is None:
         return JsonResponse({
             "error": "Could not find instructor matching code '{}'.".format(req_instructor)
@@ -157,9 +157,9 @@ def display_history(request, course, instructor):
     aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
     courses = Course.objects.filter(primary_alias__in=aliases)
     section_objects = Section.objects.filter(course__in=courses, instructors=instructor)
-    if section_objects.first() is None:
+    if not section_objects.exists():
         return JsonResponse({
-            "error": "Could not find course matching code '{}' with instructor '{}'.".format(course, req_instructor)    
+            "error": "Could not find course matching code '{}' with instructor '{}'.".format(course, req_instructor)
         })
     reviews = Review.objects.filter(section__in=section_objects)
     reviewbits = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__name", "review__section__course__semester").annotate(score=Avg('score'))
@@ -186,6 +186,6 @@ def display_history(request, course, instructor):
             "id": instructor.id,
             "name": instructor.name.title()
         },
-        "course_code": "{}-{}".format(dept, num),
+        "course_code": "{}-{:03d}".format(dept, int(num)),
         "sections": sections
     })
