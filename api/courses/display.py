@@ -40,7 +40,7 @@ def display_course(request, course):
     instructors = {("{}-{}".format(k, re.sub(r"[^\w]", "-", v["name"]))): v for k, v in instructors.items()}
 
     return JsonResponse({
-        "code": "{}-{:03d}".format(dept, num),
+        "code": "{}-{:03d}".format(dept, int(num)),
         "name": course_latest_semester.name,
         "description": course_latest_semester.description.strip(),
         "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_average},
