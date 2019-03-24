@@ -4,7 +4,6 @@ $(document).ready(function() {
     }
 
     $.get("/live/" + encodeURIComponent(title1), function(data) {
-        print(data)
         if (!Object.keys(data.courses).length) {
             return;
         }
