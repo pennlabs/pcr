@@ -44,5 +44,5 @@ class APIConsumer(models.Model):
     def access_secret(self):
         return self.permission_level > 9000
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s (level %d)" % (self.name, self.permission_level)
