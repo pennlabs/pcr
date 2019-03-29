@@ -189,3 +189,46 @@ def display_history(request, course, instructor):
         "course_code": "{}-{:03d}".format(dept, int(num)),
         "sections": sections
     })
+
+
+def display_autocomplete(request):
+    courses = [{
+        "category": "Courses",
+        "title": "{} {:03d}".format(x, y),
+        "desc": z,
+        "url": "course/{}-{:03d}".format(x, y),
+        "keywords": " ".join("{}{}{:03d}".format(x, a, y) for a in ['', '-', ' '])
+    } for x, y, z in Alias.objects.all().values_list("department__code", "coursenum", "course__name")]
+
+    depts = [{
+        "category": "Departments",
+        "title": code,
+        "desc": name,
+        "url": "department/{}".format(code),
+        "keywords": name.lower()
+    } for code, name in Department.objects.all().values_list("code", "name")]
+
+    instructor_set = {}
+
+    for iid, first, last, dept in Instructor.objects.all().values_list("id", "first_name", "last_name", "section__course__primary_alias__department__code").distinct():
+        code = "{}-{}-{}".format(iid, first.replace(" ", "-") if first is not None else "", last.replace(" ", "-") if last is not None else "")
+        if code in instructor_set:
+            if dept is not None:
+                instructor_set[code]["desc"].add(dept)
+        else:
+            instructor_set[code] = {
+                "category": "Instructors",
+                "title": "{} {}".format(first, last),
+                "desc": set([dept]) if dept is not None else set(),
+                "url": "instructor/{}".format(code),
+                "keywords": "{} {}".format(first, last).lower()
+            }
+
+    for info in instructor_set.values():
+        info["desc"] = ", ".join(sorted(info["desc"]))
+
+    return JsonResponse({
+        "courses": courses,
+        "departments": depts,
+        "instructors": list(instructor_set.values())
+    })
