@@ -4,11 +4,10 @@ import json
 
 from django.conf import settings
 
-from .memoize import memoize
 from api.apiconsumer.models import APIConsumer
 
 
-@memoize
+@functools.lru_cache(maxsize=None)
 def api(domain, *args, **kwargs):
     if not "token" in kwargs:
         kwargs["token"] = APIConsumer.objects.filter(permission_level=9001).first().token
