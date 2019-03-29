@@ -21,7 +21,12 @@ def api(domain, *args, **kwargs):
         raise ValueError("invalid server response: {}".format(e.response.status_code))
     except requests.exceptions.RequestException:
         raise ValueError("invalid path: {}".format(path))
-    return response.json()['result']
+
+    resp = response.json()
+
+    if 'result' in resp:
+        return resp['result']
+    return resp
 
 
 api = functools.partial(api, settings.DOMAIN)

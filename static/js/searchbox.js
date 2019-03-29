@@ -1,8 +1,7 @@
 $(document).ready(function() {
-    var searchCache = {};
     $("#search input[type='text']").selectize({
         labelField: 'title',
-        searchField: ['title', 'keywords'],
+        searchField: ['keywords'],
         valueField: 'url',
         create: false,
         maxItems: 1,
@@ -33,21 +32,11 @@ $(document).ready(function() {
         },
         preload: true,
         load: function(query, callback) {
-            if (query.length == 1) {
-                return callback();
-            }
-            var queryStart = query.toLowerCase().substring(0, 2);
-            if (queryStart in searchCache) {
-                callback(searchCache[queryStart]);
-            }
-            else {
-                searchCache[queryStart] = null;
-                $.getJSON("/autocomplete_data.json/" + queryStart + ".json", function(data) {
-                    var out = data.courses.concat(data.departments).concat(data.instructors);
-                    searchCache[queryStart] = out;
-                    callback(out);
-                });
-            }
+            this.settings.load = null;
+            $.getJSON("/autocomplete_data.json/.json", function(data) {
+                const out = data.courses.concat(data.departments).concat(data.instructors);
+                callback(out);
+            });
         },
         onItemAdd: function(value) {
             window.location.href = "/" + value;
