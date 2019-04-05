@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#search input[type='text']").selectize({
         labelField: 'title',
-        searchField: ['keywords'],
+        searchField: ['title', 'keywords'],
         valueField: 'url',
         create: false,
         maxItems: 1,

@@ -23,44 +23,44 @@ class ScoreTable extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8000/api/display/course/WRIT-002?token=public").then(res => res.json()).then((results) => {
-            const columns = {};
-            const data = Object.keys(results.instructors).map((key) => {
-                const val = results.instructors[key];
-                const output = {};
-                Object.keys(val.average_reviews).forEach((col) => {
-                    output[col] = {
-                        average: val.average_reviews[col].toFixed(2),
-                        recent: val.recent_reviews[col].toFixed(2)
-                    };
-                    columns[col] = true;
-                });
-                output.name = val.name;
-                return output;
-            });
-            const cols = Object.keys(columns).map((key) => {
-                var header = key.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec.");
-                return {
-                    id: key,
-                    Header: header,
-                    accessor: key,
-                    Cell: props => <center>
-                                        { this.state.isAverage ? <span className='cell_average'>{props.value ? props.value.average : "N/A"}</span> :
-                                        <span className='cell_recent'>{props.value ? props.value.recent : "N/A"}</span> }
-                                   </center>,
-                    width: 150
+        const results = this.props.data;
+
+        const columns = {};
+        const data = Object.keys(results.instructors).map((key) => {
+            const val = results.instructors[key];
+            const output = {};
+            Object.keys(val.average_reviews).forEach((col) => {
+                output[col] = {
+                    average: val.average_reviews[col].toFixed(2),
+                    recent: val.recent_reviews[col].toFixed(2)
                 };
+                columns[col] = true;
             });
-            cols.unshift({
-                Header: "Instructor",
-                accessor: "name",
-                width: 300
-            });
-            this.setState(state => ({
-                data: data,
-                columns: cols
-            }));
+            output.name = val.name;
+            return output;
         });
+        const cols = Object.keys(columns).map((key) => {
+            var header = key.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec.");
+            return {
+                id: key,
+                Header: header,
+                accessor: key,
+                Cell: props => <center>
+                                    { this.state.isAverage ? <span className='cell_average'>{props.value ? props.value.average : "N/A"}</span> :
+                                    <span className='cell_recent'>{props.value ? props.value.recent : "N/A"}</span> }
+                               </center>,
+                width: 150
+            };
+        });
+        cols.unshift({
+            Header: "Instructor",
+            accessor: "name",
+            width: 300
+        });
+        this.setState(state => ({
+            data: data,
+            columns: cols
+        }));
     }
 
     render() {
