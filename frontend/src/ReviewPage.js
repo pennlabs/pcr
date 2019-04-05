@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import InfoBox from './InfoBox';
 import ScoreTable from './ScoreTable';
 import NavBar from './NavBar';
+import DetailsBox from './DetailsBox';
 
 
 class ReviewPage extends Component {
     constructor(props) {
         super(props)
     }
-
 
     render() {
         return (
@@ -20,6 +20,7 @@ class ReviewPage extends Component {
                     </div>
                     <div className="col-sm-12 col-md-8 main-col">
                         <ScoreTable />
+                        <DetailsBox />
                     </div>
                 </div>
             </div>
