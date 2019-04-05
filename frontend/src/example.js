@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 //import './App.css';
 
+// EXAMPLE REACT CODE
+
 class App extends Component {
   // state
   constructor(props) {

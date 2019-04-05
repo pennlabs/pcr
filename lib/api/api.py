@@ -4,11 +4,10 @@ import json
 
 from django.conf import settings
 
-from .memoize import memoize
 from api.apiconsumer.models import APIConsumer
 
 
-@memoize
+@functools.lru_cache(maxsize=None)
 def api(domain, *args, **kwargs):
     if not "token" in kwargs:
         kwargs["token"] = APIConsumer.objects.filter(permission_level=9001).first().token
@@ -22,7 +21,12 @@ def api(domain, *args, **kwargs):
         raise ValueError("invalid server response: {}".format(e.response.status_code))
     except requests.exceptions.RequestException:
         raise ValueError("invalid path: {}".format(path))
-    return response.json()['result']
+
+    resp = response.json()
+
+    if 'result' in resp:
+        return resp['result']
+    return resp
 
 
 api = functools.partial(api, settings.DOMAIN)

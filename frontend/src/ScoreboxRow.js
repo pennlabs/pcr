@@ -14,7 +14,7 @@ class ScoreboxRow extends Component {
     return (
       <div className="scorebox-desc-row">
         <div className="scoredesc">
-              <p className="title">{this.props.value}</p>
+              <p className="title">{this.props.value}</p>{' '}
               <p className="subtitle">{this.props.num_sections} Sections</p>
           </div>
           <div className="scoreboxrow">

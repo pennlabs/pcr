@@ -13,7 +13,7 @@ class NavBar extends Component {
                 </form>
                 </span>
                     <span className="float-right">
-                    <a href={"#"} id="cart-icon" title="Course Cart">
+                    <a href="#" id="cart-icon" title="Course Cart">
                         <i id="cart" className="fa fa-shopping-cart"></i>
                         <span id="cart-count"></span>
                     </a>

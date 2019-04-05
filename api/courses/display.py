@@ -29,7 +29,7 @@ def display_course(request, course):
 
     instructors = {inst["id"]: {"name": (inst["first_name"] + " " + inst["last_name"]).strip(), "average_reviews": {}, "recent_reviews": {}} for inst in Instructor.objects.filter(section__in=sections).values("id", "first_name", "last_name")}
     instructor_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__instructors").annotate(score=Avg('score'))
-    instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__instructors", "score")
+    instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__instructors", "review__section__course__semester").annotate(score=Avg('score')).order_by("review__section__course__semester")
 
     for rating in instructor_average_ratings:
         instructors[rating["review__section__instructors"]]["average_reviews"][rating["field"]] = round(rating["score"], 2)
@@ -68,7 +68,7 @@ def display_instructor(request, instructor):
     histories = CourseHistory.objects.filter(course__in=courses)
     reviews = Review.objects.filter(instructor=instructor)
     course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__history").annotate(score=Avg('score'))
-    course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__history", "score")
+    course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__history", "review__section__course__semester").annotate(score=Avg('score')).order_by("review__section__course__semester")
     rating_keys = {bit["field"] for bit in course_average_ratings}
 
     output = {}
@@ -83,10 +83,10 @@ def display_instructor(request, instructor):
         }
 
     for rating in course_average_ratings:
-        output[rating["review__section__course__history"]]["average_reviews"][rating["field"]] = round(rating["score"], 3)
+        output[rating["review__section__course__history"]]["average_reviews"][rating["field"]] = round(rating["score"], 2)
 
     for rating in course_recent_ratings:
-        output[rating["review__section__course__history"]]["recent_reviews"][rating["field"]] = round(rating["score"], 3)
+        output[rating["review__section__course__history"]]["recent_reviews"][rating["field"]] = round(rating["score"], 2)
 
     return JsonResponse({
         "id": instructor.id,
@@ -109,7 +109,7 @@ def display_dept(request, dept):
     reviews = Review.objects.filter(section__course__primary_alias__department=department)
 
     course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__history").annotate(score=Avg('score'))
-    course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).order_by("review__section__course__semester").values("field", "review__section__course__history", "score")
+    course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__history", "review__section__course__semester").annotate(score=Avg('score')).order_by("review__section__course__semester")
 
     output = {}
 
