@@ -37,6 +37,7 @@ class ReviewPage extends Component {
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
                                 <ScoreTable data={this.state.data} />
+                                { this.state.type === "course" && <DetailsBox /> }
                             </div>
                         </div>
                         :
