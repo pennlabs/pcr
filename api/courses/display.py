@@ -205,7 +205,7 @@ def display_autocomplete(request):
         "title": code,
         "desc": name,
         "url": "department/{}".format(code),
-        "keywords": name.lower()
+        "keywords": "{} {}".format(code, name.lower())
     } for code, name in Department.objects.all().values_list("code", "name")]
 
     instructor_set = {}

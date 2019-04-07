@@ -37,7 +37,6 @@ class ScoreTable extends Component {
         };
     }
 
-
     componentDidMount() {
         const results = this.props.data;
 

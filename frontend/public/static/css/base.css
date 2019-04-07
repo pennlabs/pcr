@@ -201,6 +201,7 @@ body {
     display: inline-block;
     vertical-align: top;
     height: 37px;
+    min-width: 200px;
 }
 #search input[type="text"], #search .selectize-input {
     display: inline-block;
@@ -247,47 +248,6 @@ body {
     }
 }
 
-.selectize-control {
-    height: inherit;
-}
-.selectize-input input {
-    font-size: 16px;
-}
-.selectize-dropdown {
-    max-width: 500px;
-    margin-left: 15px;
-    border: none;
-    box-shadow: 0 0 10px #ddd;
-}
-.optgroup-header {
-    font-weight: bold;
-}
-.selectize-dropdown .sub {
-    font-size: 12px;
-    color: #aaa;
-}
-.selectize-input input:focus {
-    border: none;
-}
-#search input[type="text"]:focus {
-    outline: 0;
-    box-shadow: 0px 0px 10px #ddd;
-    transition: box-shadow 0.2s ease-in-out;
-}
-#search button {
-    border: none;
-    background: none;
-    position: absolute;
-    top: 2px;
-    right: 9px;
-    color: #d8d8d8;
-    font-size: 20px;
-    z-index: 12;
-    pointer-events: none;
-}
-#search button:focus {
-    outline: 0;
-}
 #cart {
     font-size: 30px;
     line-height: 37px;
@@ -390,7 +350,6 @@ input[type="button"] {
 }
 i.fa.fa-cart-plus {
     position: relative;
-    z-index: 5;
     pointer-events: none;
     font-size: 17px;
 }
@@ -495,7 +454,6 @@ i.fa.fa-cart-plus {
     border-radius: 4px;
     text-align: center;
     background: rgb(255,255,255);
-    z-index: 2;
 }
 .scorebox .num {
     color: white;

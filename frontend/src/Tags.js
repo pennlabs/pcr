@@ -2,12 +2,6 @@
 import React, { Component } from 'react';
 
 class Tags extends Component {
-  // state
-  constructor(props) {
-    super(props);
-  }
-
-  // add # of lecture and # of recitation here if desired
   render() {
     return (
       <div id="live">

@@ -14,6 +14,8 @@ class ReviewPage extends Component {
             code: "CIS-121",
             data: null
         };
+
+        this.navigateToPage = this.navigateToPage.bind(this);
     }
 
     componentDidMount() {
@@ -26,10 +28,20 @@ class ReviewPage extends Component {
             });
     }
 
+    navigateToPage(value) {
+        var loc = value.url.split("/");
+        this.setState((state) => ({
+            type: loc[0],
+            code: loc[1],
+            data: null
+        }));
+        this.componentDidMount();
+    }
+
     render() {
         return (
             <div>
-                <NavBar />
+                <NavBar onSelected={this.navigateToPage} />
                     { this.state.data ?
                         <div id="content" className="row box-wrapper">
                             <div className="col-sm-12 col-md-4 sidebar-col">
