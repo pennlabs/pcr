@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
+import Dropdown from 'react-dropdown';
 
 import 'react-table/react-table.css';
+import 'react-dropdown/style.css'
 
 class ScoreTable extends Component {
     constructor(props) {
@@ -22,17 +24,16 @@ class ScoreTable extends Component {
             isAverage: !state.isAverage,
             sorted: state.sorted.slice()
         }));
-        console.log(this.state.columns);
     }
 
     handleToggle(i) {
         return() => {
-            console.log(i);
-            this.setState((state) => {
-                state.columns[i].show = false;
-                return state;
-            })
-            console.log(this.state.columns);
+            let columnsCopy = Array.from(this.state.columns);
+            columnsCopy[i] = {...columnsCopy[i], show: !columnsCopy[i].show};
+            this.setState((state) => ({
+                ...state,
+                columns: columnsCopy
+            }))
         };
     }
 
@@ -64,13 +65,15 @@ class ScoreTable extends Component {
                                     { this.state.isAverage ? <span className='cell_average'>{props.value ? props.value.average : "N/A"}</span> :
                                     <span className='cell_recent'>{props.value ? props.value.recent : "N/A"}</span> }
                                </center>,
-                width: 150
+                width: 150,
+                show: true
             };
         });
         cols.unshift({
             Header: "Instructor",
             accessor: "name",
-            width: 300
+            width: 300,
+            show: true
         });
         this.setState(state => ({
             data: data,
