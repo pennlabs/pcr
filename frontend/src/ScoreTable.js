@@ -94,7 +94,7 @@ class ScoreTable extends Component {
         return (
             <div>
                 <div>
-                    {this.state.columns.map((item, i) => <div key={i} onClick={this.handleToggle(i)}>{item.Header}</div>)}
+                    {this.state.columns.map((item, i) => <span key={i} onClick={this.handleToggle(i)} style={{ marginRight: 10, fontWeight: item.show ? "bold": "normal" }}>{item.Header}</span>)}
                 </div>
                 <button onClick={this.handleClick}>
                     {this.state.isAverage ? 'Average' : 'Most Recent'}
