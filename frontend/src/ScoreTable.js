@@ -92,7 +92,7 @@ class ScoreTable extends Component {
             return <h1>Loading Data...</h1>;
         }
         return (
-            <div>
+            <div className="box clearfix">
                 <div>
                     {this.state.columns.map((item, i) => <span key={i} onClick={this.handleToggle(i)} style={{ marginRight: 10, fontWeight: item.show ? "bold": "normal" }}>{item.Header}</span>)}
                 </div>
