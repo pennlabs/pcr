@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tags from './Tags';
-import ScoreboxRow from './ScoreboxRow'
+import ScoreboxRow from './ScoreboxRow';
+import { api_live } from './api';
 
 
 class InfoBox extends Component {
@@ -18,9 +19,7 @@ class InfoBox extends Component {
 
   componentDidMount() {
     if (this.props.type === "course") {
-       fetch("http://localhost:8000/live/" + encodeURIComponent(this.props.code))
-         .then(res => res.json())
-         .then(
+         api_live(this.props.code).then(
            (result) => {
              this.setState(state => ({
                tag_data: result

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import { css } from 'emotion';
+import { api_autocomplete } from './api';
 
 
 class NavBar extends Component {
@@ -16,7 +17,7 @@ class NavBar extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8000/api/display/autocomplete?token=public").then(res => res.json()).then((result) => {
+        api_autocomplete().then((result) => {
             var formattedAutocomplete = [
                 {
                     label: "Departments",

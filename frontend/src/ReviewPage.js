@@ -3,6 +3,7 @@ import InfoBox from './InfoBox';
 import ScoreTable from './ScoreTable';
 import NavBar from './NavBar';
 import DetailsBox from './DetailsBox';
+import { api_review_data } from './api';
 
 
 class ReviewPage extends Component {
@@ -21,9 +22,7 @@ class ReviewPage extends Component {
     }
 
     getReviewData() {
-        fetch("http://localhost:8000/api/display/" + encodeURIComponent(this.state.type) + "/" + encodeURIComponent(this.state.code) + "?token=public")
-            .then(res => res.json())
-            .then((result) => {
+            api_review_data(this.state.type, this.state.code).then((result) => {
                 this.setState({ 
                     data: result 
                 });
