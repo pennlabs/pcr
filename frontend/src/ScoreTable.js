@@ -41,8 +41,9 @@ class ScoreTable extends Component {
         const results = this.props.data;
 
         const columns = {};
-        const data = Object.keys(results.instructors).map((key) => {
-            const val = results.instructors[key];
+        const is_course = this.props.type === "course";
+        const data = Object.keys(is_course ? results.instructors : results.courses).map((key) => {
+            const val = is_course ? results.instructors[key] : results.courses[key];
             const output = {};
             Object.keys(val.average_reviews).forEach((col) => {
                 output[col] = {
@@ -75,7 +76,7 @@ class ScoreTable extends Component {
             };
         });
         cols.unshift({
-            Header: "Instructor",
+            Header: is_course ? "Instructor" : "Course",
             accessor: "name",
             width: 300,
             show: true

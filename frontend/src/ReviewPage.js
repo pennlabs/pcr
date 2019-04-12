@@ -50,7 +50,7 @@ class ReviewPage extends Component {
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
-                                <ScoreTable data={this.state.data} />
+                                <ScoreTable data={this.state.data} type={this.state.type} />
                                 { this.state.type === "course" && <DetailsBox /> }
                             </div>
                         </div>
