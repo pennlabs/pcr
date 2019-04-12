@@ -74,8 +74,8 @@ class SearchBar extends Component {
     }
 
     handleChange(value) {
-        if (this.props.onSelected) {
-            this.props.onSelected(value);
+        if (this.props.onSelect) {
+            this.props.onSelect(value);
             this.setState({
                 searchValue: null
             });
