@@ -10,9 +10,16 @@ class ReviewPage extends Component {
     constructor(props) {
         super(props);
 
+        const pageInfo = window.location.pathname.substring(1).split("/");
+
+        if (["course", "instructor", "department"].indexOf(pageInfo[0]) === -1) {
+            pageInfo[0] = null;
+            pageInfo[1] = null;
+        }
+
         this.state = {
-            type: "course",
-            code: "CIS-121",
+            type: pageInfo[0],
+            code: pageInfo[1],
             data: null,
             error: null
         };
@@ -23,6 +30,7 @@ class ReviewPage extends Component {
     }
 
     getReviewData() {
+        if (this.state.type && this.state.code) {
             api_review_data(this.state.type, this.state.code).then((result) => {
                 if (result.error) {
                     this.setState({
@@ -39,6 +47,7 @@ class ReviewPage extends Component {
                     error: "Could not retrieve review information at this time. Please try again later!"
                 });
             });
+        }
     }
 
     navigateToPage(value) {
@@ -50,13 +59,14 @@ class ReviewPage extends Component {
             }, 
             this.getReviewData
         );
+        window.history.pushState(null, "Penn Course Review", window.location.protocol + "//" + window.location.host + "/" + loc[0] + "/" + loc[1]);
     }
 
     render() {
         return (
             <div>
                 <NavBar onSelected={this.navigateToPage} />
-                    { !this.state.error ? (this.state.data ?
+                    { !this.state.code ? <div>Enter a course, instructor, or department in the box above!</div> : !this.state.error ? (this.state.data ?
                         <div id="content" className="row box-wrapper">
                             <div className="col-sm-12 col-md-4 sidebar-col">
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} />
