@@ -74,8 +74,8 @@ class NavBar extends Component {
     }
 
     handleChange(value) {
-        if (this.props.onSelected) {
-            this.props.onSelected(value);
+        if (this.props.onSelect) {
+            this.props.onSelect(value);
             this.setState({
                 searchValue: null
             });
@@ -114,7 +114,7 @@ class NavBar extends Component {
                     </form>
                 </span>
                     <span className="float-right">
-                    <a href="#" id="cart-icon" title="Course Cart">
+                    <a href="/cart" id="cart-icon" title="Course Cart">
                         <i id="cart" className="fa fa-shopping-cart"></i>
                         <span id="cart-count"></span>
                     </a>

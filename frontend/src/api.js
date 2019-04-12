@@ -14,7 +14,7 @@ export function api_review_data(type, code) {
 
 export function api_contact(name) {
     return fetch("https://api.pennlabs.org/directory/search?name=" + encodeURIComponent(name)).then(res => res.json()).then((res) => {
-        if (res.result_data.length != 1) {
+        if (res.result_data.length !== 1) {
             return null;
         }
         else {
@@ -25,4 +25,8 @@ export function api_contact(name) {
             };
         }
     });
+}
+
+export function api_history(course, instructor) {
+    return fetch(API_DOMAIN + "/api/display/history/" + encodeURIComponent(course) + "/" + encodeURIComponent(instructor) + "?token=public").then(res => res.json());
 }
