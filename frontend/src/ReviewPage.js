@@ -13,7 +13,8 @@ class ReviewPage extends Component {
         this.state = {
             type: "course",
             code: "CIS-121",
-            data: null
+            data: null,
+            error: null
         };
 
         this.navigateToPage = this.navigateToPage.bind(this);
@@ -23,8 +24,19 @@ class ReviewPage extends Component {
 
     getReviewData() {
             api_review_data(this.state.type, this.state.code).then((result) => {
-                this.setState({ 
-                    data: result 
+                if (result.error) {
+                    this.setState({
+                        error: result.error
+                    });
+                }
+                else {
+                    this.setState({
+                        data: result
+                    });
+                }
+            }).catch(() => {
+                this.setState({
+                    error: "Could not retrieve review information at this time. Please try again later!"
                 });
             });
     }
@@ -44,7 +56,7 @@ class ReviewPage extends Component {
         return (
             <div>
                 <NavBar onSelected={this.navigateToPage} />
-                    { this.state.data ?
+                    { !this.state.error ? (this.state.data ?
                         <div id="content" className="row box-wrapper">
                             <div className="col-sm-12 col-md-4 sidebar-col">
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} />
@@ -55,7 +67,14 @@ class ReviewPage extends Component {
                             </div>
                         </div>
                         :
-                        <h1>Loading...</h1>
+                        <div style={{ textAlign: 'center', padding: 45 }}>
+                            <i className='fa fa-spin fa-cog fa-fw' style={{ fontSize: '150px', color: '#aaa' }}></i>
+                            <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading...</h1>
+                        </div>) :
+                        <div style={{ textAlign: 'center', padding: 45 }}>
+                            <i className='fa fa-exclamation-circle' style={{ fontSize: '150px', color: '#aaa' }}></i>
+                            <h1 style={{ fontSize: '1.5em', marginTop: 15 }}>{this.state.error}</h1>
+                        </div>
                     }
             </div>
         );

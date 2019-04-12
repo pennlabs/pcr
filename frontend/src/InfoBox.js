@@ -48,7 +48,7 @@ class InfoBox extends Component {
           <div id="banner-info" data-type="course">
             { pageType === "course" &&
               <div className="course">
-                <div className="title">{this.state.items.code}
+                <div className="title">{(this.state.items.code || "").replace('-', ' ')}
 
                   <span className="float-right">
                     <span id="popup" className="courseCart btn btn-action" title="Add to Cart"><i className="fa fa-fw fa-cart-plus"></i></span>{' '}

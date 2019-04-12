@@ -200,6 +200,11 @@ def display_autocomplete(request):
         "keywords": " ".join("{}{}{:03d}".format(x, a, y) for a in ['', '-', ' '])
     } for x, y, z in Alias.objects.all().values_list("department__code", "coursenum", "course__name").distinct()]
 
+    course_set = {}
+    for course in courses:
+        course_set[course["title"]] = course
+    courses = list(course_set.values())
+
     depts = [{
         "category": "Departments",
         "title": code,
