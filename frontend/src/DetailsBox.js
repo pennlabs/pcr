@@ -25,14 +25,14 @@ class DetailsBox extends Component {
 
     render() {
         function compareSemesters(a, b) {
-            const ay = parseInt(a.semester.split(" ")[1]);
-            const by = parseInt(b.semester.split(" ")[1]);
+            const ay = parseInt(a.split(" ")[1]);
+            const by = parseInt(b.split(" ")[1]);
 
             if (ay !== by) {
                 return by - ay;
             }
 
-            return a.semester.localeCompare(b.semester);
+            return b.localeCompare(a);
         }
 
         // TODO: select default comment (most recent semester) when comments are loaded
@@ -57,10 +57,23 @@ class DetailsBox extends Component {
                   <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
               </div>
               {this.state.viewingRatings ? <div id="course-details-data">
-                  <ReactTable showPagination={false} style={{ maxHeight: '400px' }} data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) } columns={ ["semester", "name"].concat(Object.keys(Object.values(this.state.data.sections)[0].ratings)).map((info) => ({ id: info, Header: info, accessor: info, Cell: props => isNaN(props.value) ? props.value : <center>{props.value.toFixed(2)}</center> })) } />
+                  <ReactTable
+                  showPagination={false}
+                  style={{ maxHeight: '200px' }}
+                  data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }
+                  columns={[
+                      {id: 'semester', width: 150, Header: 'Semester', accessor: 'semester', sortMethod: compareSemesters},
+                      {id: 'name', width: 300, Header: 'Name', accessor: 'name'}
+                  ].concat(Object.keys(Object.values(this.state.data.sections)[0].ratings).map((info) => ({
+                      id: info,
+                      width: 150,
+                      Header: info.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec."),
+                      accessor: info,
+                      Cell: props => <center>{isNaN(props.value) ? "N/A" : props.value.toFixed(2)}</center>
+                  }))) } />
               </div> :
               <div id="course-details-comments" className="clearfix">
-                  <div className="list">{ Object.values(this.state.data.sections).sort(compareSemesters).map((info, i) => <div key={i} onClick={() => { this.setState({ selectedSemester: info.semester }); }} className={this.state.selectedSemester === info.semester ? "selected": ""}>{info.semester}</div>) }</div>
+                  <div className="list">{ Object.values(this.state.data.sections).sort((a, b) => compareSemesters(a.semester, b.semester)).map((info, i) => <div key={i} onClick={() => { this.setState({ selectedSemester: info.semester }); }} className={this.state.selectedSemester === info.semester ? "selected": ""}>{info.semester}</div>) }</div>
                   <div className="comments">{ Object.values(this.state.data.sections).filter((info) => info.semester === this.state.selectedSemester).map((info, i) => <div key={i}>{info.comments || "This professor does not have any comments for this semester."}</div>) }</div>
               </div>}
             </div> }

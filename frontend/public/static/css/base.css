@@ -500,6 +500,10 @@ i.fa.fa-cart-plus {
     font-weight: 900;
 }
 
+.ReactTable .rt-tbody {
+    overflow-x: hidden !important;
+}
+
 #course-table_filter label::after, #course-details-table_filter label::after {
     position: absolute;
     content: '\f002';

@@ -10,12 +10,7 @@ class ReviewPage extends Component {
     constructor(props) {
         super(props);
 
-        const pageInfo = window.location.pathname.substring(1).split("/");
-
-        if (["course", "instructor", "department"].indexOf(pageInfo[0]) === -1) {
-            pageInfo[0] = null;
-            pageInfo[1] = null;
-        }
+        const pageInfo = this.getPageInfo();
 
         this.state = {
             type: pageInfo[0],
@@ -28,7 +23,32 @@ class ReviewPage extends Component {
         this.navigateToPage = this.navigateToPage.bind(this);
         this.getReviewData = this.getReviewData.bind(this);
         this.showInstructorHistory = this.showInstructorHistory.bind(this);
+        this.loadPage = this.loadPage.bind(this);
         this.getReviewData();
+    }
+
+    componentDidMount() {
+        window.onpopstate = this.loadPage;
+    }
+
+    getPageInfo() {
+        const pageInfo = window.location.pathname.substring(1).split("/");
+
+        if (["course", "instructor", "department"].indexOf(pageInfo[0]) === -1) {
+            pageInfo[0] = null;
+            pageInfo[1] = null;
+        }
+
+        return pageInfo;
+    }
+
+    loadPage() {
+        const pageInfo = this.getPageInfo();
+        this.setState({
+            type: pageInfo[0],
+            code: pageInfo[1],
+            data: null
+        }, this.getReviewData);
     }
 
     getReviewData() {
@@ -53,7 +73,13 @@ class ReviewPage extends Component {
     }
 
     navigateToPage(value) {
-        var loc = value.url.split("/");
+        var loc;
+        if (value.url) {
+            loc = value.url.split("/");
+        }
+        else {
+            loc = ["course", value];
+        }
         this.setState({
             type: loc[0],
             code: loc[1],
@@ -80,7 +106,7 @@ class ReviewPage extends Component {
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
-                                <ScoreTable data={this.state.data} type={this.state.type} onSelect={this.showInstructorHistory} />
+                                <ScoreTable data={this.state.data} type={this.state.type} onSelect={this.state.type === "course" ? this.showInstructorHistory : this.navigateToPage} />
                                 { this.state.type === "course" && <DetailsBox course={this.state.code} instructor={this.state.instructor_code} /> }
                             </div>
                         </div>

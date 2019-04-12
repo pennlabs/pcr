@@ -51,7 +51,7 @@ class ScoreTable extends Component {
                 };
                 columns[col] = true;
             });
-            output.key = key;
+            output.key = is_course ? key : val.code;
             output.name = val.name;
             return output;
         });
