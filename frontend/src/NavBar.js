@@ -107,7 +107,7 @@ class NavBar extends Component {
                             }
                         }} styles={{
                             container: styles => ({ ...styles, width: 'calc(100vw - 220px)', maxWidth: '514px' }),
-                            control: styles => ({ ...styles, borderRadius: 32, boxShadow: 'none', backgroundColor: '#f8f8f8', border: 'none', cursor: 'pointer' }),
+                            control: (styles, state) => ({ ...styles, borderRadius: 32, boxShadow: 'none', backgroundColor: '#f8f8f8', borderColor: state.isFocused ? '#ccc' : 'transparent', cursor: 'pointer', '&:hover': { } }),
                             input: styles => ({ ...styles, marginLeft: 10 }),
                             option: styles => ({ ...styles, paddingTop: 5, paddingBottom: 5, cursor: 'pointer' })
                         }} />
