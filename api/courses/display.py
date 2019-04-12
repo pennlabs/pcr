@@ -15,7 +15,7 @@ def display_course(request, course):
         })
     dept, num = info.groups()
     aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
-    courses = Course.objects.filter(primary_alias__in=aliases)
+    courses = Course.objects.filter(alias__in=aliases)
     course_latest_semester = courses.order_by('-semester').first()
     if course_latest_semester is None:
         return JsonResponse({
@@ -155,7 +155,7 @@ def display_history(request, course, instructor):
         })
     dept, num = info.groups()
     aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
-    courses = Course.objects.filter(primary_alias__in=aliases)
+    courses = Course.objects.filter(alias__in=aliases)
     section_objects = Section.objects.filter(course__in=courses, instructors=instructor)
     if not section_objects.exists():
         return JsonResponse({
