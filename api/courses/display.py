@@ -198,7 +198,7 @@ def display_autocomplete(request):
         "desc": z,
         "url": "course/{}-{:03d}".format(x, y),
         "keywords": " ".join("{}{}{:03d}".format(x, a, y) for a in ['', '-', ' '])
-    } for x, y, z in Alias.objects.all().values_list("department__code", "coursenum", "course__name")]
+    } for x, y, z in Alias.objects.all().values_list("department__code", "coursenum", "course__name").distinct()]
 
     depts = [{
         "category": "Departments",
@@ -218,7 +218,7 @@ def display_autocomplete(request):
         else:
             instructor_set[code] = {
                 "category": "Instructors",
-                "title": "{} {}".format(first, last),
+                "title": "{} {}".format(first, last).title(),
                 "desc": set([dept]) if dept is not None else set(),
                 "url": "instructor/{}".format(code),
                 "keywords": "{} {}".format(first, last).lower()

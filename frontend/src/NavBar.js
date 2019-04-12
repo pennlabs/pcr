@@ -102,13 +102,14 @@ class NavBar extends Component {
                                     className
                                 )} {...innerProps}>
                                 <b>{children}</b>
-                                <div style={{ color: '#aaa', fontSize: '0.8em' }}>{props.data.desc}</div>
+                                <span style={{ color: '#aaa', fontSize: '0.8em', marginLeft: 3 }}>{props.data.desc}</span>
                                 </div>);
                             }
                         }} styles={{
                             container: styles => ({ ...styles, width: 'calc(100vw - 220px)', maxWidth: '514px' }),
                             control: styles => ({ ...styles, borderRadius: 32, boxShadow: 'none', backgroundColor: '#f8f8f8', border: 'none', cursor: 'pointer' }),
-                            input: styles => ({ ...styles, marginLeft: 10 })
+                            input: styles => ({ ...styles, marginLeft: 10 }),
+                            option: styles => ({ ...styles, paddingTop: 5, paddingBottom: 5, cursor: 'pointer' })
                         }} />
                     </form>
                 </span>
