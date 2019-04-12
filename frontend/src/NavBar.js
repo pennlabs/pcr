@@ -3,10 +3,6 @@ import SearchBar from './SearchBar';
 
 
 class NavBar extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div id="header">
