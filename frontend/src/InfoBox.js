@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow';
-import { api_live } from './api';
+import { api_live, api_contact } from './api';
 
 
 class InfoBox extends Component {
@@ -13,7 +13,8 @@ class InfoBox extends Component {
       items: this.props.data,
       average_ratings: this.props.data.average_ratings,
       recent_ratings: this.props.data.recent_ratings,
-      tag_data: null
+      tag_data: null,
+      contact: null
     };
   }
 
@@ -25,6 +26,13 @@ class InfoBox extends Component {
                tag_data: result
              }))
            });
+    }
+    else if (this.props.type === "instructor") {
+        api_contact(this.props.data.name).then((res) => {
+            this.setState({
+                contact: res
+            });
+        });
     }
   }
 
@@ -62,7 +70,11 @@ class InfoBox extends Component {
             { pageType === "instructor" &&
                 <div className="instructor">
                   <div className="title">{this.state.items.name}</div>
-                  <p className="desc">Email: <a href="mailto:rajiv@cis.upenn.edu">hard coded email</a></p>
+                  {this.state.contact &&
+                      <div>
+                        <p className="desc">Email: <a href={"mailto:" + this.state.contact.email}>{this.state.contact.email}</a></p>
+                      </div>
+                  }
                 </div>
             }
 
