@@ -10,7 +10,7 @@ class Tags extends Component {
         {Object.values(this.props.courses).map((info, i) => {
             const desc = info[0].activity_description;
             const open = info.filter((a) => !a.is_closed && !a.is_cancelled).length;
-            return <span key={i} className="badge badge-success" title={open + " out of " + info.length + " lecture sections are open for this course."}>{desc}<span className="count">{open}/{info.length}</span></span>;
+            return <span key={i} className={"badge " + (open ? "badge-success" : "badge-danger")} title={open + " out of " + info.length + " lecture sections are open for this course."}>{desc}<span className="count">{open}/{info.length}</span></span>;
         })}
       </div>
     );
