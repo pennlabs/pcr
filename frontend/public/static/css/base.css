@@ -197,55 +197,9 @@ body {
     margin-right: 25px;
 }
 #search {
-    position: relative;
     display: inline-block;
     vertical-align: top;
     height: 37px;
-    min-width: 200px;
-}
-#search input[type="text"], #search .selectize-input {
-    display: inline-block;
-    min-width: 514px;
-    height: inherit;
-    background-color: #f8f8f8;
-    border-radius: 63px;
-    transition: box-shadow 0.2s ease-in-out;
-    border: none;
-    box-shadow: none;
-    padding: 0px 16px;
-    z-index: 11;
-}
-
-#search .fa-spin {
-    color: #84B8BA;
-}
-
-#search-wrapper #search .selectize-input input {
-    border-radius: 0;
-}
-
-#search-wrapper .selectize-dropdown {
-    z-index: 9;
-}
-
-#search-wrapper #search .selectize-input.focus {
-    box-shadow: 0px 2px 14px #ddd;
-}
-
-.selectize-control.single .selectize-input:after {
-    display: none;
-}
-
-.selectize-control.single .item {
-    font-size: 16px;
-    line-height: 37px;
-}
-
-@media (max-width: 800px) {
-    #search input[type="text"], #search .selectize-input {
-        min-width: unset;
-        width: calc(100vw - 250px);
-    }
 }
 
 #cart {

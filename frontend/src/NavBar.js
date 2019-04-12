@@ -9,7 +9,8 @@ class NavBar extends Component {
         super(props);
 
         this.state = {
-            autocompleteOptions: []
+            autocompleteOptions: [],
+            searchValue: null
         };
 
         this.autocompleteCallback = this.autocompleteCallback.bind(this);
@@ -75,6 +76,9 @@ class NavBar extends Component {
     handleChange(value) {
         if (this.props.onSelected) {
             this.props.onSelected(value);
+            this.setState({
+                searchValue: null
+            });
         }
     }
 
@@ -84,7 +88,7 @@ class NavBar extends Component {
                 <span className="float-left">
                     <a href="/"><div id="logo"></div></a>
                     <form id="search">
-                        <AsyncSelect onChange={this.handleChange} loadOptions={this.autocompleteCallback} defaultOptions components={{
+                        <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={""} loadOptions={this.autocompleteCallback} defaultOptions components={{
                             Option: (props) => {
                                 const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
                                 return (<div ref={innerRef}
@@ -101,6 +105,10 @@ class NavBar extends Component {
                                 <div style={{ color: '#aaa', fontSize: '0.8em' }}>{props.data.desc}</div>
                                 </div>);
                             }
+                        }} styles={{
+                            container: styles => ({ ...styles, width: 'calc(100vw - 220px)', maxWidth: '514px' }),
+                            control: styles => ({ ...styles, borderRadius: 32, boxShadow: 'none', backgroundColor: '#f8f8f8', border: 'none', cursor: 'pointer' }),
+                            input: styles => ({ ...styles, marginLeft: 10 })
                         }} />
                     </form>
                 </span>
