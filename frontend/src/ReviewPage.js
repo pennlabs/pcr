@@ -16,26 +16,29 @@ class ReviewPage extends Component {
         };
 
         this.navigateToPage = this.navigateToPage.bind(this);
+        this.getReviewData = this.getReviewData.bind(this);
+        this.getReviewData();
     }
 
-    componentDidMount() {
+    getReviewData() {
         fetch("http://localhost:8000/api/display/" + encodeURIComponent(this.state.type) + "/" + encodeURIComponent(this.state.code) + "?token=public")
             .then(res => res.json())
             .then((result) => {
-                this.setState(state => ({
-                    data: result
-                }));
+                this.setState({ 
+                    data: result 
+                });
             });
     }
 
     navigateToPage(value) {
         var loc = value.url.split("/");
-        this.setState((state) => ({
+        this.setState({
             type: loc[0],
             code: loc[1],
             data: null
-        }));
-        this.componentDidMount();
+            }, 
+            this.getReviewData
+        );
     }
 
     render() {
