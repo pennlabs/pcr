@@ -21,11 +21,13 @@ class ReviewPage extends Component {
             type: pageInfo[0],
             code: pageInfo[1],
             data: null,
-            error: null
+            error: null,
+            instructor_code: null
         };
 
         this.navigateToPage = this.navigateToPage.bind(this);
         this.getReviewData = this.getReviewData.bind(this);
+        this.showInstructorHistory = this.showInstructorHistory.bind(this);
         this.getReviewData();
     }
 
@@ -62,18 +64,24 @@ class ReviewPage extends Component {
         window.history.pushState(null, "Penn Course Review", window.location.protocol + "//" + window.location.host + "/" + loc[0] + "/" + loc[1]);
     }
 
+    showInstructorHistory(instructor) {
+        this.setState({
+            instructor_code: instructor
+        });
+    }
+
     render() {
         return (
             <div>
-                <NavBar onSelected={this.navigateToPage} />
+                <NavBar onSelect={this.navigateToPage} />
                     { !this.state.code ? <div>Enter a course, instructor, or department in the box above!</div> : !this.state.error ? (this.state.data ?
                         <div id="content" className="row box-wrapper">
                             <div className="col-sm-12 col-md-4 sidebar-col">
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
-                                <ScoreTable data={this.state.data} type={this.state.type} />
-                                { this.state.type === "course" && <DetailsBox /> }
+                                <ScoreTable data={this.state.data} type={this.state.type} onSelect={this.showInstructorHistory} />
+                                { this.state.type === "course" && <DetailsBox course={this.state.code} instructor={this.state.instructor_code} /> }
                             </div>
                         </div>
                         :

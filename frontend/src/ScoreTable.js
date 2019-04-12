@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
-import Dropdown from 'react-dropdown';
 
 import 'react-table/react-table.css';
-import 'react-dropdown/style.css'
 
 class ScoreTable extends Component {
     constructor(props) {
@@ -13,7 +11,8 @@ class ScoreTable extends Component {
             data: null,
             columns: null,
             sorted: [],
-            isAverage: true
+            isAverage: true,
+            selected: null
         };
         this.handleClick = this.handleClick.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
@@ -52,6 +51,7 @@ class ScoreTable extends Component {
                 };
                 columns[col] = true;
             });
+            output.key = key;
             output.name = val.name;
             return output;
         });
@@ -99,7 +99,24 @@ class ScoreTable extends Component {
                 <button onClick={this.handleClick}>
                     {this.state.isAverage ? 'Average' : 'Most Recent'}
                 </button>
-                <ReactTable data={this.state.data} sorted={this.state.sorted} onSortedChange={sorted => {this.setState({ sorted });}} columns={this.state.columns} showPagination={false} resizable={false} defaultPageSize={this.state.data.length} style={{ maxHeight: "400px" }} />
+                <ReactTable data={this.state.data} sorted={this.state.sorted} onSortedChange={sorted => {this.setState({ sorted });}} columns={this.state.columns} showPagination={false} resizable={false} defaultPageSize={this.state.data.length} style={{ maxHeight: "400px" }} getTrProps={(state, rowInfo) => {
+                    if (rowInfo && rowInfo.row) {
+                        return {
+                            onClick: (e) => {
+                                this.setState({
+                                    selected: rowInfo.index
+                                });
+                                if (this.props.onSelect) {
+                                    this.props.onSelect(rowInfo.original.key);
+                                }
+                            },
+                            style: {
+                                background: rowInfo.index === this.state.selected ? 'rgb(221, 235, 236)' : 'white'
+                            }
+                        };
+                    }
+                    return {};
+                }} />
             </div>
         );
     }

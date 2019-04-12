@@ -15,7 +15,7 @@ class NavBar extends Component {
                     <SearchBar onSelected={this.props.onSelected} />
                 </span>
                     <span className="float-right">
-                    <a href="#" id="cart-icon" title="Course Cart">
+                    <a href="/cart" id="cart-icon" title="Course Cart">
                         <i id="cart" className="fa fa-shopping-cart"></i>
                         <span id="cart-count"></span>
                     </a>
