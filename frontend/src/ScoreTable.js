@@ -88,6 +88,9 @@ class ScoreTable extends Component {
     }
 
     render() {
+        // TODO: add star next to professors who are currently teaching
+        // TODO: default sort by professors currently teaching and then professors who have taught most recently
+
         if (!this.state.data) {
             return <h1>Loading Data...</h1>;
         }

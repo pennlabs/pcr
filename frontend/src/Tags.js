@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 class Tags extends Component {
   render() {
+    // TODO: parse and add list of new instructors under tags
+
     return (
       <div id="live">
         <span className="badge badge-info" title={"This course will be taught in " + this.props.term + "."}>{this.props.term}</span>
