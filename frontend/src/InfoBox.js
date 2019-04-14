@@ -48,7 +48,7 @@ class InfoBox extends Component {
 
                 </div>
 
-                {this.state.items.aliases && <div className="crosslist">(Also: {this.state.items.aliases.map((cls, i) => <span>{i > 0 && ", "}<a key={i} href={"/course/" + cls}>{cls}</a></span>)})</div>}
+                {!!this.state.items.aliases.length && <div className="crosslist">(Also: {this.state.items.aliases.map((cls, i) => <span key={i}>{i > 0 && ", "}<a key={i} href={"/course/" + cls}>{cls}</a></span>)})</div>}
 
                 <p className="subtitle">{this.state.items.name}</p>
 

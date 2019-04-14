@@ -198,7 +198,7 @@ table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
     border-left: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.col_instructor .fa-star {
+.fa-star, .fa-star-o {
     color: gold;
 }
 

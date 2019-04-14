@@ -501,7 +501,8 @@ i.fa.fa-cart-plus {
 }
 
 .ReactTable .rt-tbody {
-    overflow-x: hidden !important;
+    overflow: hidden !important;
+    overflow-y: auto;
 }
 
 #course-table_filter label::after, #course-details-table_filter label::after {

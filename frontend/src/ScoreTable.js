@@ -79,7 +79,8 @@ class ScoreTable extends Component {
             Header: is_course ? "Instructor" : "Course",
             accessor: "name",
             width: 300,
-            show: true
+            show: true,
+            Cell: props => <span>{props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>
         });
         this.setState(state => ({
             data: data,
@@ -88,12 +89,34 @@ class ScoreTable extends Component {
     }
 
     render() {
-        // TODO: add star next to professors who are currently teaching
         // TODO: default sort by professors currently teaching and then professors who have taught most recently
 
         if (!this.state.data) {
             return <h1>Loading Data...</h1>;
         }
+
+        if (this.props.live_data) {
+            const instructors_this_semester = {};
+            const data = {
+                open: 0,
+                all: 0
+            };
+            this.props.live_data.instructors.forEach((a) => {
+                const key = a.toUpperCase().replace(/[^a-zA-Z\s]/g, '');
+                Object.values(this.props.live_data.courses).forEach((cat) => {
+                    const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => b.name.toUpperCase().replace(/[^a-zA-Z\s]/g, '')).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
+                    data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
+                    data.all += all_courses_by_instructor.length;
+                });
+                instructors_this_semester[key] = data;
+            });
+
+            this.state.data.forEach(function(row) {
+                const currentInfo = instructors_this_semester[row.name.toUpperCase().replace(/[^a-zA-Z\s]/g, '')];
+                row['star'] = currentInfo;
+            });
+        }
+
         return (
             <div className="box clearfix">
                 <div>
@@ -113,9 +136,9 @@ class ScoreTable extends Component {
                                     this.props.onSelect(rowInfo.original.key);
                                 }
                             },
-                            style: {
-                                background: rowInfo.index === this.state.selected ? 'rgb(221, 235, 236)' : 'white'
-                            }
+                            style: rowInfo.index === this.state.selected ? {
+                                background: 'rgb(221, 235, 236)'
+                            } : undefined
                         };
                     }
                     return {};
