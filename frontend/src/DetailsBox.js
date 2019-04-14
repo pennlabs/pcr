@@ -46,7 +46,7 @@ class DetailsBox extends Component {
 
         return (
           <div id="course-details" className="box clearfix">
-          { !this.state.data ?
+          { this.props.instructor && !this.state.data ? <div>Loading...</div> : !this.state.data ?
               <div id="select-prof">
               <div>
                   <h3 id="select-prof-text">Select a professor to see comments and more details.</h3>

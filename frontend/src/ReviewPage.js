@@ -32,6 +32,10 @@ class ReviewPage extends Component {
         window.onpopstate = this.loadPage;
     }
 
+    componentWillUnmount() {
+        window.onpopstate = null;
+    }
+
     getPageInfo() {
         const pageInfo = window.location.pathname.substring(1).split("/");
 
