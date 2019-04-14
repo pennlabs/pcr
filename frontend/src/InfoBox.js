@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow';
-import { api_live, api_contact } from './api';
+import { api_contact } from './api';
 
 
 class InfoBox extends Component {
@@ -13,21 +13,12 @@ class InfoBox extends Component {
       items: this.props.data,
       average_ratings: this.props.data.average_ratings,
       recent_ratings: this.props.data.recent_ratings,
-      tag_data: null,
       contact: null
     };
   }
 
   componentDidMount() {
-    if (this.props.type === "course") {
-         api_live(this.props.code).then(
-           (result) => {
-             this.setState(state => ({
-               tag_data: result
-             }))
-           });
-    }
-    else if (this.props.type === "instructor") {
+    if (this.props.type === "instructor") {
         // TODO: move this logic to ReviewPage so that the ScoreTable can use this information to indicate which professors are currently teaching
         api_contact(this.props.data.name).then((res) => {
             this.setState({
@@ -62,8 +53,8 @@ class InfoBox extends Component {
 
                 <p className="subtitle">{this.state.items.name}</p>
 
-                { (this.state.tag_data && this.state.tag_data.term) &&
-                  <Tags {...this.state.tag_data} />
+                { (this.props.live_data && this.props.live_data.term) &&
+                  <Tags {...this.props.live_data} />
                 }
               </div>
             }

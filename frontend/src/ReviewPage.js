@@ -3,7 +3,7 @@ import InfoBox from './InfoBox';
 import ScoreTable from './ScoreTable';
 import NavBar from './NavBar';
 import DetailsBox from './DetailsBox';
-import { api_review_data } from './api';
+import { api_review_data, api_live } from './api';
 
 
 class ReviewPage extends Component {
@@ -17,7 +17,8 @@ class ReviewPage extends Component {
             code: pageInfo[1],
             data: null,
             error: null,
-            instructor_code: null
+            instructor_code: null,
+            live_data: null
         };
 
         this.navigateToPage = this.navigateToPage.bind(this);
@@ -70,6 +71,15 @@ class ReviewPage extends Component {
                 });
             });
         }
+
+        if (this.state.type === "course") {
+            api_live(this.state.code).then((result) => {
+                this.setState({ live_data: result });
+            });
+        }
+        else {
+            this.setState({ live_data: null });
+        }
     }
 
     navigateToPage(value) {
@@ -103,7 +113,7 @@ class ReviewPage extends Component {
                     { !this.state.code ? <div>Enter a course, instructor, or department in the box above!</div> : !this.state.error ? (this.state.data ?
                         <div id="content" className="row box-wrapper">
                             <div className="col-sm-12 col-md-4 sidebar-col">
-                                <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} />
+                                <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
                                 <ScoreTable data={this.state.data} type={this.state.type} onSelect={this.state.type === "course" ? this.showInstructorHistory : this.navigateToPage} />
