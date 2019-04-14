@@ -16,6 +16,7 @@ def display_course(request, course):
     dept, num = info.groups()
     aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
     courses = Course.objects.filter(alias__in=aliases)
+    other_aliases = Alias.objects.filter(course__in=courses).values_list("department__code", "coursenum").distinct()
     course_latest_semester = courses.order_by('-semester').first()
     if course_latest_semester is None:
         return JsonResponse({
@@ -42,6 +43,7 @@ def display_course(request, course):
 
     return JsonResponse({
         "code": "{}-{:03d}".format(dept, int(num)),
+        "aliases": ["{}-{:03d}".format(x, y) for x, y in other_aliases if not (x == dept and y == int(num))],
         "name": course_latest_semester.name,
         "description": course_latest_semester.description.strip(),
         "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_average},
