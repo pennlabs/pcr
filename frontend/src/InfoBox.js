@@ -92,7 +92,7 @@ class InfoBox extends Component {
                 instructor={this.state.recent_ratings.rInstructorQuality}
                 course={this.state.recent_ratings.rCourseQuality}
                 difficulty={this.state.recent_ratings.rDifficulty}
-                num_sections={this.state.items.num_sections}/>
+                num_sections={this.state.items.num_sections_recent}/>
             </div>
           }
 

@@ -48,6 +48,7 @@ def display_course(request, course):
         "description": course_latest_semester.description.strip(),
         "average_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_average},
         "num_sections": sections.count(),
+        "num_sections_recent": sections.filter(course__semester=semester).count(),
         "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in reviewbits_recent},
         "instructors": instructors,
     })
@@ -97,6 +98,7 @@ def display_instructor(request, instructor):
         "average_ratings": {key: round(mean([bit["score"] for bit in course_recent_ratings.filter(field=key).values("score")]), 1) for key in rating_keys},
         "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in course_recent_ratings},
         "num_sections": sections.count(),
+        "num_sections_recent": len(output),
         "courses": output
     })
 
