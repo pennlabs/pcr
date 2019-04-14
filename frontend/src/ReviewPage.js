@@ -116,7 +116,7 @@ class ReviewPage extends Component {
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
-                                <ScoreTable data={this.state.data} type={this.state.type} onSelect={this.state.type === "course" ? this.showInstructorHistory : this.navigateToPage} />
+                                <ScoreTable data={this.state.data} type={this.state.type} live_data={this.state.live_data} onSelect={this.state.type === "course" ? this.showInstructorHistory : this.navigateToPage} />
                                 { this.state.type === "course" && <DetailsBox course={this.state.code} instructor={this.state.instructor_code} /> }
                             </div>
                         </div>

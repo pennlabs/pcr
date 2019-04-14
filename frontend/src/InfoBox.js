@@ -19,7 +19,6 @@ class InfoBox extends Component {
 
   componentDidMount() {
     if (this.props.type === "instructor") {
-        // TODO: move this logic to ReviewPage so that the ScoreTable can use this information to indicate which professors are currently teaching
         api_contact(this.props.data.name).then((res) => {
             this.setState({
                 contact: res

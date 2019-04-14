@@ -2,6 +2,19 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import { api_history } from './api';
 
+
+function compareSemesters(a, b) {
+    const ay = parseInt(a.split(" ")[1]);
+    const by = parseInt(b.split(" ")[1]);
+
+    if (ay !== by) {
+        return by - ay;
+    }
+
+    return b.localeCompare(a);
+}
+
+
 class DetailsBox extends Component {
     constructor(props) {
         super(props);
@@ -9,34 +22,26 @@ class DetailsBox extends Component {
         this.state = {
             data: null,
             viewingRatings: true,
-            selectedSemester: null
+            selectedSemester: null,
+            semesterList: []
         };
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.instructor !== this.props.instructor || prevProps.course !== this.props.course) {
             api_history(this.props.course, this.props.instructor).then((res) => {
-                this.setState({
-                    data: res
-                });
+                const list = [...new Set(Object.values(res.sections).filter((a) => a.comments).sort((a, b) => compareSemesters(a.semester, b.semester)).map((a) => a.semester))];
+                this.setState((state) => ({
+                    data: res,
+                    semesterList: list,
+                    selectedSemester: list.length ? (list.indexOf(state.selectedSemester) !== -1 ? state.selectedSemester : list[0]) : null
+                }));
             });
         }
     }
 
     render() {
-        function compareSemesters(a, b) {
-            const ay = parseInt(a.split(" ")[1]);
-            const by = parseInt(b.split(" ")[1]);
-
-            if (ay !== by) {
-                return by - ay;
-            }
-
-            return b.localeCompare(a);
-        }
-
         // TODO: select default comment (most recent semester) when comments are loaded
-        // TODO: combine duplicate semesters (caused by multiple sections per semester) into one semester
         // TODO: fix react table column headers, add method to toggle columns
 
         return (
@@ -58,6 +63,7 @@ class DetailsBox extends Component {
               </div>
               {this.state.viewingRatings ? <div id="course-details-data">
                   <ReactTable
+                  minRows={0}
                   showPagination={false}
                   style={{ maxHeight: '200px' }}
                   data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }
@@ -73,8 +79,8 @@ class DetailsBox extends Component {
                   }))) } />
               </div> :
               <div id="course-details-comments" className="clearfix">
-                  <div className="list">{ Object.values(this.state.data.sections).sort((a, b) => compareSemesters(a.semester, b.semester)).map((info, i) => <div key={i} onClick={() => { this.setState({ selectedSemester: info.semester }); }} className={this.state.selectedSemester === info.semester ? "selected": ""}>{info.semester}</div>) }</div>
-                  <div className="comments">{ Object.values(this.state.data.sections).filter((info) => info.semester === this.state.selectedSemester).map((info, i) => <div key={i}>{info.comments || "This professor does not have any comments for this semester."}</div>) }</div>
+                  <div className="list">{ this.state.semesterList.map((info, i) => <div key={i} onClick={() => { this.setState({ selectedSemester: info }); }} className={this.state.selectedSemester === info ? "selected": ""}>{info}</div>) }</div>
+                  <div className="comments">{ Object.values(this.state.data.sections).filter((info) => info.semester === this.state.selectedSemester && info.comments).map((info) => info.comments).join(", ") || "This instructor does not have any comments for this course." }</div>
               </div>}
             </div> }
           </div>
