@@ -12,7 +12,7 @@ class ScoreboxRow extends Component {
 
   render() {
     function numOrNA(num) {
-        return isNaN(num) ? "N/A" : num;
+        return isNaN(num) ? "N/A" : num.toFixed(1);
     }
 
     return (
