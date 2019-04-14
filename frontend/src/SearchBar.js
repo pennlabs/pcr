@@ -84,8 +84,8 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <form id="search">
-                <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={""} loadOptions={this.autocompleteCallback} defaultOptions components={{
+            <form id="search" style={{ margin: '0 auto' }}>
+                <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
                     Option: (props) => {
                         const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
                         return (<div ref={innerRef}
@@ -103,9 +103,9 @@ class SearchBar extends Component {
                         </div>);
                     }
                 }} styles={{
-                    container: styles => ({ ...styles, width: 'calc(100vw - 220px)', maxWidth: '514px' }),
-                    control: (styles, state) => ({ ...styles, borderRadius: 32, boxShadow: 'none', backgroundColor: '#f8f8f8', borderColor: state.isFocused ? '#ccc' : 'transparent', cursor: 'pointer', '&:hover': { } }),
-                    input: styles => ({ ...styles, marginLeft: 10 }),
+                    container: styles => ({ ...styles, width: this.props.isTitle ? 'calc(100vw - 220px)' : '80vw', maxWidth: this.props.isTitle ? 514 : 600 }),
+                    control: (styles, state) => ({ ...styles, borderRadius: this.props.isTitle ? 0 : 32, boxShadow: 'none', backgroundColor: this.props.isTitle ? 'white' : '#f8f8f8', borderColor: state.isFocused ? '#ccc' : 'transparent', cursor: 'pointer', '&:hover': { }, fontSize: this.props.isTitle ? '30px' : null }),
+                    input: styles => ({ ...styles, marginLeft: this.props.isTitle ? 0 : 10 }),
                     option: styles => ({ ...styles, paddingTop: 5, paddingBottom: 5, cursor: 'pointer' })
                 }} />
             </form>

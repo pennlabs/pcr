@@ -766,56 +766,6 @@ i.fa.fa-cart-plus {
     margin-top:5px;
 }
 
-/***** CHOOSE COLUMNS BOX *****/
-
-#choose-cols {
-    display:none;
-    position:absolute;
-    top:0;
-    left:0;
-    height:100%;
-    width:100%;
-    z-index: 10;
-}
-#choose-cols-inner {
-    top:75px;
-}
-#choose-cols-content {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color:#FFF;
-    padding:15px;
-    border-radius: 5px;
-}
-#choose-cols-content p {
-    margin-bottom:10px;
-    color: #636363;
-}
-#choose-cols-content h1 {
-    font-size:24px;
-    font-weight:normal;
-    color:#636363;
-    margin-bottom:15px;
-    padding-bottom:10px;
-}
-#choose-cols-content #select-all {
-    margin-bottom:25px;
-    color: #6666b3;
-}
-#choose-cols-content div.col {
-    width: 50%;
-    float: left;
-    text-align: left;
-}
-#choose-cols-content div.col input[type=checkbox] {
-    margin-right: 0.25em;
-}
-
-div#hidden {
-    display:none;
-}
-
-
 /*
 We used to have different templates for faq and about but merged them into static.
 The result is this, which is a little unclean, but it works.
@@ -1031,6 +981,25 @@ table.professorList {
     padding: 2px 4px;
     cursor:default;
 }
+
+
+/***** TITLE *****/
+#title {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 80px;
+    padding-bottom: 45px;
+    font-size: 3rem;
+    font-weight: 500;
+    color: #4a4a4a;
+    text-align: center;
+}
+
+#title img {
+    width: 64px;
+    height: 64px;
+}
+
 
 /***** FONTS *****/
 

@@ -3,6 +3,7 @@ import InfoBox from './InfoBox';
 import ScoreTable from './ScoreTable';
 import NavBar from './NavBar';
 import DetailsBox from './DetailsBox';
+import SearchBar from './SearchBar';
 import { api_review_data, api_live } from './api';
 
 
@@ -111,10 +112,23 @@ class ReviewPage extends Component {
     }
 
     render() {
+        if (!this.state.code) {
+            return (
+                <div id="content" className="row">
+                    <div className="col-md-12">
+                        <div id="title">
+                            <img src="/static/image/logo.png" alt="Penn Course Review" /> <span className="title-text">Penn Course Review</span>
+                        </div>
+                    </div>
+                    <SearchBar onSelect={this.navigateToPage} isTitle={true} />
+                </div>
+            );
+        }
+
         return (
             <div>
                 <NavBar onSelect={this.navigateToPage} />
-                    { !this.state.code ? <div>Enter a course, instructor, or department in the box above!</div> : !this.state.error ? (this.state.data ?
+                    { !this.state.error ? (this.state.data ?
                         <div id="content" className="row box-wrapper">
                             <div className="col-sm-12 col-md-4 sidebar-col">
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} />
