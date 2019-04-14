@@ -24,7 +24,7 @@ class Tags extends Component {
                     return <span key={i} className={"badge " + (open ? "badge-success" : "badge-danger")} title={open + " out of " + info.length + " lecture sections are open for this course."}>{desc}<span className="count">{open}/{info.length}</span></span>;
                 })}
             </div>
-            {!!Object.keys(new_instructors).length && <small>New Instructors: {Object.values(new_instructors).sort().join(", ")}</small>}
+            {!!Object.keys(new_instructors).length && <small>New Instructors: {Object.values(new_instructors).sort().map((item, i) => <span key={i}>{i > 0 && ", "}{this.props.instructor_links[item] ? <a href={this.props.instructor_links[item]}>{item}</a> : item}</span>)}</small>}
         </div>
     );
   }
