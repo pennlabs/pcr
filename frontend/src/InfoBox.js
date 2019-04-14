@@ -54,7 +54,7 @@ class InfoBox extends Component {
                 <p className="subtitle">{this.state.items.name}</p>
 
                 { (this.props.live_data && this.props.live_data.term) &&
-                  <Tags {...this.props.live_data} />
+                  <Tags {...this.props.live_data} existing_instructors={Object.values(this.state.items.instructors).map((a) => a.name)} />
                 }
               </div>
             }
