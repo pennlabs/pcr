@@ -83,7 +83,6 @@ class SearchBar extends Component {
     }
 
     render() {
-        // TODO: style searchbar correctly for title page
         return (
             <form id="search" style={{ margin: '0 auto' }}>
                 <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
@@ -105,8 +104,8 @@ class SearchBar extends Component {
                     }
                 }} styles={{
                     container: styles => ({ ...styles, width: this.props.isTitle ? 'calc(100vw - 220px)' : '80vw', maxWidth: this.props.isTitle ? 514 : 600 }),
-                    control: (styles, state) => ({ ...styles, borderRadius: this.props.isTitle ? 0 : 32, boxShadow: 'none', backgroundColor: this.props.isTitle ? 'white' : '#f8f8f8', borderColor: state.isFocused ? '#ccc' : 'transparent', cursor: 'pointer', '&:hover': { }, fontSize: this.props.isTitle ? '30px' : null }),
-                    input: styles => ({ ...styles, marginLeft: this.props.isTitle ? 0 : 10 }),
+                    control: (styles, state) => ({ ...styles, borderRadius: this.props.isTitle ? 0 : 32, boxShadow: state.isFocused ? '0px 2px 14px #ddd' : '0 2px 14px 0 rgba(0, 0, 0, 0.07)', backgroundColor: this.props.isTitle ? 'white' : '#f8f8f8', borderColor: 'transparent', cursor: 'pointer', '&:hover': { }, fontSize: this.props.isTitle ? '30px' : null }),
+                    input: styles => ({ ...styles, marginLeft: this.props.isTitle ? 0 : 10, outline: 'none', border: 'none' }),
                     option: styles => ({ ...styles, paddingTop: 5, paddingBottom: 5, cursor: 'pointer' })
                 }} />
             </form>

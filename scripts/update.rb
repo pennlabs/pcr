@@ -41,7 +41,7 @@ MYSQL_PWD = options[:password]
 SQL_FILES = ['TEST_PCR_COURSE_DESC_V.sql', 'TEST_PCR_CROSSLIST_SUMMARY_V.sql', 'TEST_PCR_SUMMARY_HIST_V.sql', 'TEST_PCR_SUMMARY_V.sql']
 
 # location of pcr-api repo
-API_PATH = 'api.penncoursereview.com'
+API_PATH = 'pcr'
 
 # which semesters to import
 if options[:semester]
@@ -71,6 +71,11 @@ raise 'Failed to retrieve database information!' unless $?.success?
 old_dbs = old_dbs.select { |db| db.start_with?("pcr_api") }.sort { |a, b| a.match(/v(\d+)/).captures[0].to_i <=> b.match(/v(\d+)/).captures[0].to_i }.reverse
 
 if options[:overwrite]
+  unless old_dbs[0].end_with?(Time.now.strftime("%Y%m%d"))
+    puts "Not deleting database #{old_dbs[0]}, too old."
+    puts "Exiting..."
+    exit 1
+  end
   old_db = old_dbs[1]
   puts "Deleting database #{old_dbs[0]}..."
   `echo 'DROP DATABASE #{old_dbs[0]};' | mysql -u #{MYSQL_USR} -p#{MYSQL_PWD}`
@@ -82,6 +87,12 @@ old_db_num = old_db.match(/v(\d+)/).captures[0].to_i
 new_db = "pcr_api_v#{old_db_num + 1}_#{Time.now.strftime("%Y%m%d")}"
 
 puts "Identified old database as #{old_db}..."
+
+if old_dbs[0].end_with?(Time.now.strftime("%Y%m%d"))
+  puts "The old database was created today, this may not be the correct old database."
+  puts "Exiting..."
+  exit 1
+end
 
 if File.exist?('backup-file.sql')
   if options[:force]
@@ -99,6 +110,7 @@ puts 'Dumping old database to backup-file.sql...'
 puts 'Loading old database into PCRDEV...'
 
 `mysql -u #{MYSQL_USR} -p#{MYSQL_PWD} PCRDEV < backup-file.sql`
+File.delete('backup-file.sql') if $?.success?
 
 puts 'Formatting new sql files...'
 
@@ -138,8 +150,7 @@ puts 'Dumping PCRDEV to file...'
 puts "Loading file into #{new_db}..."
 
 `mysql -u #{MYSQL_USR} -p#{MYSQL_PWD} #{new_db} < backup-file.sql`
-
-File.delete('backup-file.sql')
+File.delete('backup-file.sql') if $?.success?
 
 present = Time.now
 
