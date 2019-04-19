@@ -3,6 +3,7 @@ import SearchBar from './SearchBar';
 
 
 class NavBar extends Component {
+    // TODO: implement course cart counter and course cart page
     render() {
         return (
             <div id="header">

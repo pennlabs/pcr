@@ -90,6 +90,7 @@ class ScoreTable extends Component {
 
     render() {
         // TODO: default sort by professors currently teaching and then professors who have taught most recently
+        // TODO: style column selector and buttons
 
         if (!this.state.data) {
             return <h1>Loading Data...</h1>;

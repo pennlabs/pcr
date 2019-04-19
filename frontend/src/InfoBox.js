@@ -30,6 +30,8 @@ class InfoBox extends Component {
   render() {
     const pageType = this.props.type;
 
+    // TODO: fix course cart button to select professor (write to localStorage)
+
     if (!this.state.items) {
         return <h1>Loading data...</h1>;
     }
