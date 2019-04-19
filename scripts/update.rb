@@ -150,8 +150,7 @@ puts 'Dumping PCRDEV to file...'
 puts "Loading file into #{new_db}..."
 
 `mysql -u #{MYSQL_USR} -p#{MYSQL_PWD} #{new_db} < backup-file.sql`
-
-File.delete('backup-file.sql')
+File.delete('backup-file.sql') if $?.success?
 
 present = Time.now
 
