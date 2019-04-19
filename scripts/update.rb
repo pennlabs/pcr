@@ -9,6 +9,8 @@
 #   - Change the following variables to the correct values (esp. SEMESTERS).
 #   - The database PCRDEV should exist.
 #   - There should be an existing database in the format pcr_api_v{version}_{date}.
+#   - If there are invalid non-utf8 characters in the sql files, run:
+#         iconv -f utf-8 -t utf-8 c <input> > <output>
 #
 # Example: ./update.rb --password mysqlrootpassword --semester 2017A
 #
@@ -21,9 +23,6 @@ options = {}
 OptionParser.new do |opts|
   opts.on('-o', '--overwrite-existing', 'Delete the most recent database and replace it.') do |v|
     options[:overwrite] = v
-  end
-  opts.on('-f', '--force', 'Delete the "backup-file.sql" file without confirmation.') do |v|
-    options[:force] = v
   end
   opts.on('-s', '--semester SEMESTER', 'Specify which semesters to import.') do |sem|
     options[:semester] = sem
@@ -58,6 +57,11 @@ unless options[:password]
 end
 
 past = Time.now
+
+unless ENV.has_key?('VIRTUAL_ENV')
+  puts 'You do not appear to be running inside the pcr virtual environment, exiting...'
+  exit 1
+end
 
 SQL_FILES.each do |file|
   unless File.exist?(file)
@@ -95,12 +99,8 @@ if old_dbs[0].end_with?(Time.now.strftime("%Y%m%d"))
 end
 
 if File.exist?('backup-file.sql')
-  if options[:force]
-    File.delete('backup-file.sql')
-  else
-    puts 'File "backup-file.sql" already exists, terminating script...'
-    exit 1
-  end
+  puts 'File "backup-file.sql" already exists, deleting...'
+  File.delete('backup-file.sql')
 end
 
 puts 'Dumping old database to backup-file.sql...'
