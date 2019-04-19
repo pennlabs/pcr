@@ -83,7 +83,6 @@ class SearchBar extends Component {
     }
 
     render() {
-        // TODO: style searchbar correctly for title page
         return (
             <form id="search" style={{ margin: '0 auto' }}>
                 <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
