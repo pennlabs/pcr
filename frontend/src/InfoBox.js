@@ -3,6 +3,11 @@ import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow';
 import { api_contact } from './api';
 
+/**
+ * Information box on the left most side, containing scores and descriptions
+ * of course or professor.
+ *
+ */
 
 class InfoBox extends Component {
 
@@ -13,8 +18,13 @@ class InfoBox extends Component {
       items: this.props.data,
       average_ratings: this.props.data.average_ratings,
       recent_ratings: this.props.data.recent_ratings,
-      contact: null
+      contact: null,
+      showMenu: false,
+      inCourseCart: false
     };
+
+    this.showMenu = this.showMenu.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
   }
 
   componentDidMount() {
@@ -27,14 +37,47 @@ class InfoBox extends Component {
     }
   }
 
+  showMenu(e) {
+    e.preventDefault();
+
+    this.setState(
+      { showMenu: true,
+        inCourseCart: false },
+      () => {
+      document.addEventListener('click', this.closeMenu);
+    });
+
+  }
+
+  closeMenu() {
+    this.setState({ showMenu: false }, () => {
+      document.removeEventListener('click', this.closeMenu);
+    });
+  }
+
+  // TODO: increase course cart count and display number it as a red number
+  // next to course cart
+  addToCourseCart(key) {
+    return () => {
+      console.log(key)
+      console.log(this.state.items.instructors[key])
+      localStorage.setItem(
+        // TODO : key should be course title, not instructor name
+        key, JSON.stringify(this.state.items.instructors[key])
+      );
+      this.setState({inCourseCart: true});
+    };
+  }
+
+  // TODO: reposition drop down menu
+  // TODO: add "Average Professor"
   render() {
     const pageType = this.props.type;
-
-    // TODO: fix course cart button to select professor (write to localStorage)
+    const instructors = this.state.items.instructors;
 
     if (!this.state.items) {
         return <h1>Loading data...</h1>;
-    }
+      }
 
     return (
         <div className="box">
@@ -44,7 +87,35 @@ class InfoBox extends Component {
                 <div className="title">{(this.state.items.code || "").replace('-', ' ')}
 
                   <span className="float-right">
-                    <span id="popup" className="courseCart btn btn-action" title="Add to Cart"><i className="fa fa-fw fa-cart-plus"></i></span>{' '}
+
+                    <span onClick={this.showMenu} id="popup" className="courseCart btn btn-action" title="Add to Cart">
+                      { !this.state.inCourseCart &&
+                        <i className="fa fa-fw fa-cart-plus"></i>
+                      }
+
+                      { this.state.inCourseCart &&
+                        <i className="fa fa-fw fa-trash-alt"></i>
+                      }
+                    </span>{' '}
+
+                    {
+                      this.state.showMenu &&
+                        <div className="popover">
+                          <div className="popover-title">Add to Cart</div>
+                          <div className="popover-content">
+                            <div id="divList">
+                              <ul className="professorList">
+                                {Object.keys(instructors).map((key, i) =>
+                                  <li key={i}>
+                                    <button onClick={this.addToCourseCart(key)}>{instructors[key].name}</button>
+                                  </li>
+                                )}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                    }
+
                     <a target="_blank" rel="noopener noreferrer" title="Get Alerted" href={"https://penncoursealert.com/?course=" + this.props.code + "&source=pcr"} className="btn btn-action"><i className="fas fa-fw fa-bell"></i></a>
                   </span>
 
