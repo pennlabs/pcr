@@ -62,10 +62,12 @@ class ScoreTable extends Component {
                 Header: header,
                 accessor: key,
                 sortMethod: (a, b) => {
-                    if (this.state.isAverage) {
-                      return a.average > b.average ? 1 : -1;
+                    if (a && b) {
+                        a = this.state.isAverage ? a.average : a.recent;
+                        b = this.state.isAverage ? b.average : b.recent;
+                        return a > b ? 1 : -1;
                     }
-                    return a.recent > b.recent ? 1 : -1;
+                    return a ? 1 : -1;
                 },
                 Cell: props => <center>
                                     { this.state.isAverage ? <span className='cell_average'>{props.value ? props.value.average : "N/A"}</span> :
