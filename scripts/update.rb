@@ -41,7 +41,7 @@ MYSQL_PWD = options[:password]
 SQL_FILES = ['TEST_PCR_COURSE_DESC_V.sql', 'TEST_PCR_CROSSLIST_SUMMARY_V.sql', 'TEST_PCR_SUMMARY_HIST_V.sql', 'TEST_PCR_SUMMARY_V.sql']
 
 # location of pcr-api repo
-API_PATH = 'api.penncoursereview.com'
+API_PATH = 'pcr'
 
 # which semesters to import
 if options[:semester]
@@ -88,6 +88,12 @@ new_db = "pcr_api_v#{old_db_num + 1}_#{Time.now.strftime("%Y%m%d")}"
 
 puts "Identified old database as #{old_db}..."
 
+if old_dbs[0].end_with?(Time.now.strftime("%Y%m%d"))
+  puts "The old database was created today, this may not be the correct old database."
+  puts "Exiting..."
+  exit 1
+end
+
 if File.exist?('backup-file.sql')
   if options[:force]
     File.delete('backup-file.sql')
@@ -104,6 +110,7 @@ puts 'Dumping old database to backup-file.sql...'
 puts 'Loading old database into PCRDEV...'
 
 `mysql -u #{MYSQL_USR} -p#{MYSQL_PWD} PCRDEV < backup-file.sql`
+File.delete('backup-file.sql') if $?.success?
 
 puts 'Formatting new sql files...'
 
