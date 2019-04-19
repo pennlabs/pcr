@@ -71,6 +71,11 @@ raise 'Failed to retrieve database information!' unless $?.success?
 old_dbs = old_dbs.select { |db| db.start_with?("pcr_api") }.sort { |a, b| a.match(/v(\d+)/).captures[0].to_i <=> b.match(/v(\d+)/).captures[0].to_i }.reverse
 
 if options[:overwrite]
+  unless old_dbs[0].end_with?(Time.now.strftime("%Y%m%d"))
+    puts "Not deleting database #{old_dbs[0]}, too old."
+    puts "Exiting..."
+    exit 1
+  end
   old_db = old_dbs[1]
   puts "Deleting database #{old_dbs[0]}..."
   `echo 'DROP DATABASE #{old_dbs[0]};' | mysql -u #{MYSQL_USR} -p#{MYSQL_PWD}`
