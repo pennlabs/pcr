@@ -126,7 +126,7 @@ class SemesterField(models.Field):
                 tmp_season, tmp_year = value.split(" ")
                 if tmp_season in seasons:
                     return Semester(tmp_year, "abc"[seasons.index(tmp_season)])
-            except:
+            except ValueError:
                 pass
         try:
             id = int(value)
@@ -151,7 +151,7 @@ class Department(models.Model):
     code = models.CharField(max_length=5, primary_key=True)
     name = models.CharField(max_length=200)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code
 
     @property
@@ -223,7 +223,7 @@ class CourseHistory(models.Model):
        of the same course."""
     notes = models.TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         return u"CourseHistory ID %d (%s)" % (self.id, self.notes)
 
     @property
@@ -295,7 +295,7 @@ class Course(models.Model):
     primary_alias = models.ForeignKey(
         'Alias', related_name='courses', null=True, on_delete=models.CASCADE)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s %s" % (self.id, self.name)
 
     @property
@@ -427,7 +427,7 @@ class Instructor(models.Model):
     def get_absolute_url(self):
         return reverse("instructor", args=(self.temp_id,))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @property
@@ -484,7 +484,7 @@ class Alias(models.Model):
     # when importing from registrar , we don't have pcr_id's
     oldpcr_id = models.IntegerField(null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s: %s-%03d (%s)" % (self.course_id,
                                      self.department,
                                      self.coursenum,
@@ -527,7 +527,7 @@ class Section(models.Model):
     # need to allow nulls for when importing from registrat
     oldpcr_id = models.IntegerField(null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s-%03d " % (self.course, self.sectionnum)
 
     def get_absolute_url(self):
@@ -591,7 +591,7 @@ class Review(models.Model):
         """ To hold uniqueness constraint """
         unique_together = (("section", "instructor"),)
 
-    def __unicode__(self):
+    def __str__(self):
         return "Review for %s" % str(self.section)
 
     def get_absolute_url(self):
@@ -630,7 +630,7 @@ class ReviewBit(models.Model):
         """ To hold uniqueness constraint """
         unique_together = (("review", "field"),)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s - %s: %s" % (str(self.review), self.field, self.score)
 
 
@@ -641,7 +641,7 @@ class Building(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code
 
     def get_absolute_url(self):
@@ -669,7 +669,7 @@ class Room(models.Model):
         """ To hold uniqueness constraint """
         unique_together = (("building", "roomnum"),)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.name != "":
             return self.name
         else:
@@ -687,7 +687,7 @@ class MeetingTime(models.Model):
     end = models.IntegerField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s %s - %s @ %s" % (self.day, self.start, self.end, self.room)
 
     def toJSON(self):
@@ -713,8 +713,8 @@ class SemesterDepartment:
         self.semester = semester
         self.department = department
 
-    def __unicode__(self):
-        return unicode((self.semester, self.department))
+    def __str__(self):
+        return str((self.semester, self.department))
 
     def get_absolute_url(self):
         return reverse("api:semdept", kwargs={"semester_code": self.semester.code(), "dept_code": self.department.code})
