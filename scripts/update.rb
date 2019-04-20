@@ -4,15 +4,12 @@
 # Given the new semester data in the form of 5 sql files, add these files to the existing database and create a new database.
 #
 # Prerequisites:
-#   - The 'backup-file.sql' in the same folder as the script should not exist.
 #   - The 5 sql files should be in the same folder as the script.
-#   - Change the following variables to the correct values (esp. SEMESTERS).
+#   - Pass in the correct values for semester and MySQL username and password.
 #   - The database PCRDEV should exist.
 #   - There should be an existing database in the format pcr_api_v{version}_{date}.
-#   - If there are invalid non-utf8 characters in the sql files, run:
-#         iconv -f utf-8 -t utf-8 c <input> > <output>
 #
-# Example: ./update.rb --password mysqlrootpassword --semester 2017A
+# Example: ./update.rb --password mysqlrootpassword --semester '2017A 2017B'
 #
 # Created by Eric Wang (@ezwang), 3/11/2018
 
@@ -50,6 +47,13 @@ else
   exit 1
 end
 
+# make sure pcr directory is set correctly
+unless File.exist?(File.join(API_PATH, 'manage.py'))
+  puts "The path to the pcr directory is set to '#{API_PATH}', but this folder does not seem valid!"
+  puts "No manage.py file found in the pcr directory."
+  exit 1
+end
+
 # make sure root password is set
 unless options[:password]
   puts 'Please specify the MySQL root password with --password!'
@@ -58,11 +62,13 @@ end
 
 past = Time.now
 
+# make sure we are in pcr virtual environment
 unless ENV.has_key?('VIRTUAL_ENV')
   puts 'You do not appear to be running inside the pcr virtual environment, exiting...'
   exit 1
 end
 
+# make sure that all sql files needed exist
 SQL_FILES.each do |file|
   unless File.exist?(file)
     puts "File '#{file}' does not exist, terminating script..."
@@ -116,6 +122,13 @@ puts 'Formatting new sql files...'
 
 puts `/usr/bin/env bash #{File.join(API_PATH, 'scripts', 'sqledit.sh')}`
 raise 'Failed to format sql files!' unless $?.success?
+
+# remove all non-utf8 characters from sql files
+SQL_FILES.each do |file|
+  puts "Removing non-utf8 characters from '#{file}'..."
+  contents = IO.read(file).encode('UTF-8', :invalid => :replace, :undef => :replace)
+  IO.write(file, contents)
+end
 
 puts 'Importing sql files...'
 
