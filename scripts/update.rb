@@ -92,8 +92,8 @@ new_db = "pcr_api_v#{old_db_num + 1}_#{Time.now.strftime("%Y%m%d")}"
 
 puts "Identified old database as #{old_db}..."
 
-if old_dbs[0].end_with?(Time.now.strftime("%Y%m%d"))
-  puts "The old database was created today, this may not be the correct old database."
+if old_db.end_with?(Time.now.strftime("%Y%m%d"))
+  puts "The old database (#{old_db}) was created today, this may not be the correct old database."
   puts "Exiting..."
   exit 1
 end
