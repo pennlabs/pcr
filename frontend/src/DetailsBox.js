@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ScoreTable from './ScoreTable';
+import Popover from './Popover';
 import { api_history } from './api';
 
 
@@ -23,7 +24,32 @@ class DetailsBox extends Component {
             data: null,
             viewingRatings: true,
             selectedSemester: null,
-            semesterList: []
+            semesterList: [],
+            columns: []
+        };
+
+        this.handleToggle = this.handleToggle.bind(this);
+        this.setAllColumns = this.setAllColumns.bind(this);
+    }
+
+    handleToggle(i) {
+        return() => {
+            let columnsCopy = Array.from(this.state.columns);
+            columnsCopy[i] = {...columnsCopy[i], show: !columnsCopy[i].show};
+            this.setState((state) => ({
+                ...state,
+                columns: columnsCopy
+            }))
+        };
+    }
+
+    setAllColumns(val) {
+        return () => {
+            let columnsCopy = this.state.columns.map((a) => ({...a, show: val}));
+            this.setState((state) => ({
+                ...state,
+                columns: columnsCopy
+            }));
         };
     }
 
@@ -34,6 +60,17 @@ class DetailsBox extends Component {
                     const list = [...new Set(Object.values(res.sections).filter((a) => a.comments).sort((a, b) => compareSemesters(a.semester, b.semester)).map((a) => a.semester))];
                     this.setState((state) => ({
                         data: res,
+                        columns: [
+                            {id: 'semester', width: 150, Header: 'Semester', accessor: 'semester', sortMethod: compareSemesters, show: true, required: true},
+                            {id: 'name', width: 300, Header: 'Name', accessor: 'name', show: true, required: true}
+                        ].concat(Object.keys(Object.values(res.sections)[0].ratings).map((info) => ({
+                            id: info,
+                            width: 150,
+                            Header: info.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec."),
+                            accessor: info,
+                            Cell: props => <center>{isNaN(props.value) ? "N/A" : props.value.toFixed(2)}</center>,
+                            show: true
+                        }))),
                         semesterList: list,
                         selectedSemester: list.length ? (list.indexOf(state.selectedSemester) !== -1 ? state.selectedSemester : list[0]) : null
                     }));
@@ -49,8 +86,6 @@ class DetailsBox extends Component {
     }
 
     render() {
-        // TODO: fix react table column headers, add method to toggle columns
-
         return (
           <div id="course-details" className="box clearfix">
           { this.props.instructor && !this.state.data ? <div>Loading...</div> : !this.state.data ?
@@ -68,19 +103,16 @@ class DetailsBox extends Component {
                   <button onClick={() => { this.setState({ viewingRatings: true }); }} id="view_ratings" className={"btn btn-sm " + (this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Ratings</button>
                   <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
               </div>
+              <Popover button={<button className="btn btn-sub-primary btn-sm ml-2"><i className="fa fa-plus"></i></button>}>
+                    <span onClick={this.setAllColumns(true)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Select all</span>
+                    <span onClick={this.setAllColumns(false)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Clear</span>
+                    <hr style={{ borderBottom: '1px solid #ccc' }} />
+                    {this.state.columns.map((item, i) => !item.required && <span key={i} onClick={this.handleToggle(i)} style={{ width: '100%', textAlign: 'center' }} className={"btn mt-2 btn-sm " + (item.show ? 'btn-primary' : 'btn-secondary')}>{item.Header}</span>)}
+              </Popover>
               {this.state.viewingRatings ? <div id="course-details-data">
                   <ScoreTable
                   data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }
-                  columns={[
-                      {id: 'semester', width: 150, Header: 'Semester', accessor: 'semester', sortMethod: compareSemesters, show: true, required: true},
-                      {id: 'name', width: 300, Header: 'Name', accessor: 'name', show: true, required: true}
-                  ].concat(Object.keys(Object.values(this.state.data.sections)[0].ratings).map((info) => ({
-                      id: info,
-                      width: 150,
-                      Header: info.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec."),
-                      accessor: info,
-                      Cell: props => <center>{isNaN(props.value) ? "N/A" : props.value.toFixed(2)}</center>
-                  }))) } noun="section" />
+                  columns={this.state.columns} noun="section" />
               </div> :
               <div id="course-details-comments" className="clearfix mt-2">
                   <div className="list">{ this.state.semesterList.map((info, i) => <div key={i} onClick={() => { this.setState({ selectedSemester: info }); }} className={this.state.selectedSemester === info ? "selected": ""}>{info}</div>) }</div>
