@@ -12,8 +12,11 @@ class ScoreBox extends Component {
         this.state = {
             data: null,
             columns: null,
-            isAverage: true
+            isAverage: true,
+            filtered: [],
+            filterAll: ""
         };
+
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -68,12 +71,19 @@ class ScoreBox extends Component {
             };
         });
         cols.unshift({
+            id: "name",
             Header: is_course ? "Instructor" : "Course",
             accessor: "name",
             width: 300,
             show: true,
             required: true,
-            Cell: props => <span>{is_course && <a href={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></a>} {props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>
+            Cell: props => <span>{is_course && <a href={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></a>} {props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>,
+            filterMethod: (filter, rows) => {
+                if (filter.value === "") {
+                    return true;
+                }
+                return rows[filter.id].toLowerCase().includes(filter.value.toLowerCase());
+            }
         });
         this.setState(state => ({
             data: data,
@@ -118,8 +128,9 @@ class ScoreBox extends Component {
                     <button onClick={this.handleClick(true)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
                     <button onClick={this.handleClick(false)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
                 </div>
+                <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>
                 <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
-                <ScoreTable ref="table" data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
+                <ScoreTable ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
     }
