@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import Popover from './Popover';
+import { convertInstructorName } from './Tags';
 
 import 'react-table/react-table.css';
 
@@ -94,7 +95,7 @@ class ScoreTable extends Component {
             accessor: "name",
             width: 300,
             show: true,
-            Cell: props => <span>{is_course && <a href={"/instructor/" + props.original.key} className="instructor-link far fa-user mr-1" style={{color: 'rgb(102, 146, 161)'}}></a>} {props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>
+            Cell: props => <span>{is_course && <a href={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></a>} {props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>
         });
         this.setState(state => ({
             data: data,
@@ -117,9 +118,9 @@ class ScoreTable extends Component {
                 all: 0
             };
             this.props.live_data.instructors.forEach((a) => {
-                const key = a.toUpperCase().replace(/[^a-zA-Z\s]/g, '');
+                const key = convertInstructorName(a);
                 Object.values(this.props.live_data.courses).forEach((cat) => {
-                    const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => b.name.toUpperCase().replace(/[^a-zA-Z\s]/g, '')).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
+                    const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
                     data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
                     data.all += all_courses_by_instructor.length;
                 });
@@ -127,7 +128,7 @@ class ScoreTable extends Component {
             });
 
             this.state.data.forEach(function(row) {
-                const currentInfo = instructors_this_semester[row.name.toUpperCase().replace(/[^a-zA-Z\s]/g, '')];
+                const currentInfo = instructors_this_semester[convertInstructorName(row.name)];
                 row['star'] = currentInfo;
             });
         }

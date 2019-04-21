@@ -1,12 +1,17 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react';
 
+// Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
+function convertInstructorName(name) {
+    return name.toUpperCase().replace(/[^a-zA-Z\s]/g, '').replace(/ [A-Z] /g, ' ');
+}
+
 class Tags extends Component {
   render() {
-    const existing = this.props.existing_instructors.map((a) => a.toUpperCase().replace(/[^a-zA-Z\s]/g, ''));
+    const existing = this.props.existing_instructors.map(convertInstructorName);
     const new_instructors = {};
     this.props.instructors.forEach((i) => {
-        const key = i.toUpperCase().replace(/[^a-zA-Z\s]/g, '');
+        const key = convertInstructorName(i);
         new_instructors[key] = i;
     });
     existing.forEach((i) => {
@@ -30,4 +35,5 @@ class Tags extends Component {
   }
 }
 
+export { Tags, convertInstructorName };
 export default Tags;
