@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactTable from 'react-table';
+import ScoreTable from './ScoreTable';
 import { api_history } from './api';
 
 
@@ -41,7 +41,6 @@ class DetailsBox extends Component {
     }
 
     render() {
-        // TODO: select default comment (most recent semester) when comments are loaded
         // TODO: fix react table column headers, add method to toggle columns
 
         return (
@@ -62,10 +61,7 @@ class DetailsBox extends Component {
                   <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
               </div>
               {this.state.viewingRatings ? <div id="course-details-data">
-                  <ReactTable
-                  minRows={0}
-                  showPagination={false}
-                  style={{ maxHeight: '200px' }}
+                  <ScoreTable
                   data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }
                   columns={[
                       {id: 'semester', width: 150, Header: 'Semester', accessor: 'semester', sortMethod: compareSemesters},
