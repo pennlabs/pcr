@@ -63,8 +63,8 @@ class ScoreBox extends Component {
                     return a ? 1 : -1;
                 },
                 Cell: props => <center>
-                                    { this.state.isAverage ? <span className='cell_average'>{props.value ? props.value.average : "N/A"}</span> :
-                                    <span className='cell_recent'>{props.value ? props.value.recent : "N/A"}</span> }
+                                    { this.state.isAverage ? <span className={'cell_average' + (!props.value ? ' empty' : '')}>{props.value ? props.value.average : "N/A"}</span> :
+                                    <span className={'cell_recent' + (!props.value ? ' empty' : '')}>{props.value ? props.value.recent : "N/A"}</span> }
                                </center>,
                 width: 150,
                 show: true

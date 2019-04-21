@@ -42,6 +42,7 @@ class Popover extends Component {
             <span ref="popup" style={{ position: 'relative' }}>
                 <span onClick={this.onToggle}>{this.props.button || <button>Toggle</button>}</span>
                 <div style={{
+                    ...this.props.style,
                     position: 'absolute',
                     backgroundColor: 'white',
                     zIndex: 1,

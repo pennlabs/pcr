@@ -530,6 +530,10 @@ i.fa.fa-cart-plus {
     color: #ccc;
 }
 
+.empty {
+    color: #ccc;
+}
+
 #course-table_wrapper .th-text {
     font-family: Lato, Helvetica, sans-serif;
 }
