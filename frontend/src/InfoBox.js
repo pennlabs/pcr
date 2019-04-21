@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow';
+import Popover from './Popover';
 import { api_contact } from './api';
 
 /**
@@ -19,12 +20,8 @@ class InfoBox extends Component {
       average_ratings: this.props.data.average_ratings,
       recent_ratings: this.props.data.recent_ratings,
       contact: null,
-      showMenu: false,
       inCourseCart: false
     };
-
-    this.showMenu = this.showMenu.bind(this);
-    this.closeMenu = this.closeMenu.bind(this);
   }
 
   componentDidMount() {
@@ -35,24 +32,6 @@ class InfoBox extends Component {
             });
         });
     }
-  }
-
-  showMenu(e) {
-    e.preventDefault();
-
-    this.setState(
-      { showMenu: true,
-        inCourseCart: false },
-      () => {
-      document.addEventListener('click', this.closeMenu);
-    });
-
-  }
-
-  closeMenu() {
-    this.setState({ showMenu: false }, () => {
-      document.removeEventListener('click', this.closeMenu);
-    });
   }
 
   // TODO: increase course cart count and display number it as a red number
@@ -88,19 +67,17 @@ class InfoBox extends Component {
 
                   <span className="float-right">
 
-                    <span onClick={this.showMenu} id="popup" className="courseCart btn btn-action" title="Add to Cart">
-                      { !this.state.inCourseCart &&
-                        <i className="fa fa-fw fa-cart-plus"></i>
-                      }
+                        <Popover button={
+                            <span className="courseCart btn btn-action" title="Add to Cart">
+                              { !this.state.inCourseCart &&
+                                <i className="fa fa-fw fa-cart-plus"></i>
+                              }
 
-                      { this.state.inCourseCart &&
-                        <i className="fa fa-fw fa-trash-alt"></i>
-                      }
-                    </span>{' '}
-
-                    {
-                      this.state.showMenu &&
-                        <div className="popover">
+                              { this.state.inCourseCart &&
+                                <i className="fa fa-fw fa-trash-alt"></i>
+                              }
+                            </span>
+                        }>
                           <div className="popover-title">Add to Cart</div>
                           <div className="popover-content">
                             <div id="divList">
@@ -113,8 +90,7 @@ class InfoBox extends Component {
                               </ul>
                             </div>
                           </div>
-                        </div>
-                    }
+                        </Popover>{' '}
 
                     <a target="_blank" rel="noopener noreferrer" title="Get Alerted" href={"https://penncoursealert.com/?course=" + this.props.code + "&source=pcr"} className="btn btn-action"><i className="fas fa-fw fa-bell"></i></a>
                   </span>

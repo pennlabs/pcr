@@ -39,13 +39,14 @@ class Popover extends Component {
 
     render() {
         return (
-            <div ref="popup" style={{ position: 'relative' }}>
-                <div onClick={this.onToggle}>{this.props.button || <button>Toggle</button>}</div>
+            <span ref="popup" style={{ position: 'relative' }}>
+                <span onClick={this.onToggle}>{this.props.button || <button>Toggle</button>}</span>
                 <div style={{
                     position: 'absolute',
                     backgroundColor: 'white',
                     zIndex: 1,
                     margin: 10,
+                    marginLeft: 0,
                     padding: 15,
                     boxShadow: '0 0 14px 0 rgba(0, 0, 0, 0.07)',
                     borderRadius: 4.8,
@@ -53,7 +54,7 @@ class Popover extends Component {
                 }}>
                     {this.props.children}
                 </div>
-            </div>
+            </span>
         );
     }
 }
