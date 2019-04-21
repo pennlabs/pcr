@@ -25,7 +25,9 @@ class DetailsBox extends Component {
             viewingRatings: true,
             selectedSemester: null,
             semesterList: [],
-            columns: []
+            columns: [],
+            filtered: [],
+            filterAll: ""
         };
     }
 
@@ -38,7 +40,12 @@ class DetailsBox extends Component {
                         data: res,
                         columns: [
                             {id: 'semester', width: 150, Header: 'Semester', accessor: 'semester', sortMethod: compareSemesters, show: true, required: true},
-                            {id: 'name', width: 300, Header: 'Name', accessor: 'name', show: true, required: true}
+                            {id: 'name', width: 300, Header: 'Name', accessor: 'name', show: true, required: true, filterMethod: (filter, rows) => {
+                                if (filter.value === "") {
+                                    return true;
+                                }
+                                return rows.name.toLowerCase().includes(filter.value.toLowerCase()) || rows.semester.toLowerCase().includes(filter.value.toLowerCase());
+                            }}
                         ].concat(Object.keys(Object.values(res.sections)[0].ratings).map((info) => ({
                             id: info,
                             width: 150,
@@ -80,8 +87,10 @@ class DetailsBox extends Component {
                   <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
               </div>
               <ColumnSelector name="details" onSelect={(cols) => this.setState({ columns: cols })} columns={this.state.columns} buttonStyle="btn-sub" />
+              {this.state.viewingRatings && <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>}
               {this.state.viewingRatings ? <div id="course-details-data">
                   <ScoreTable
+                  filtered={this.state.filtered}
                   data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }
                   columns={this.state.columns} noun="section" />
               </div> :
