@@ -9,9 +9,16 @@ class ColumnSelector extends Component {
         this.handleToggle = this.handleToggle.bind(this);
         this.setAllColumns = this.setAllColumns.bind(this);
         this.changeColumns = this.changeColumns.bind(this);
+
+        var defaultColumns = localStorage.getItem("columns-" + this.props.name);
+        if (defaultColumns) {
+            defaultColumns = JSON.parse(defaultColumns);
+            this.changeColumns(this.props.columns.map((a, i) => ({...a, show: a.required || defaultColumns[i]})));
+        }
     }
 
     changeColumns(cols) {
+        localStorage.setItem("columns-" + this.props.name, JSON.stringify(cols.map((a) => a.show)));
         this.props.onSelect(cols);
     }
 

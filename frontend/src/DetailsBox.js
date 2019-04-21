@@ -79,7 +79,7 @@ class DetailsBox extends Component {
                   <button onClick={() => { this.setState({ viewingRatings: true }); }} id="view_ratings" className={"btn btn-sm " + (this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Ratings</button>
                   <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
               </div>
-              <ColumnSelector onSelect={(cols) => this.setState({ columns: cols })} columns={this.state.columns} buttonStyle="btn-sub" />
+              <ColumnSelector name="details" onSelect={(cols) => this.setState({ columns: cols })} columns={this.state.columns} buttonStyle="btn-sub" />
               {this.state.viewingRatings ? <div id="course-details-data">
                   <ScoreTable
                   data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }

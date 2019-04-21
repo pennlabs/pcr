@@ -116,7 +116,7 @@ class ScoreBox extends Component {
                     <button className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
                     <button className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
                 </div>
-                <ColumnSelector columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
+                <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
                 <ScoreTable ref="table" data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
