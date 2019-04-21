@@ -13,12 +13,15 @@ class ColumnSelector extends Component {
         var defaultColumns = localStorage.getItem("columns-" + this.props.name);
         if (defaultColumns) {
             defaultColumns = JSON.parse(defaultColumns);
-            this.changeColumns(this.props.columns.map((a, i) => ({...a, show: a.required || defaultColumns[i]})));
+            this.changeColumns(this.props.columns.map((a) => ({...a, show: a.required || !(a.id in defaultColumns) || defaultColumns[a.id]})));
         }
     }
 
     changeColumns(cols) {
-        localStorage.setItem("columns-" + this.props.name, JSON.stringify(cols.map((a) => a.show)));
+        localStorage.setItem("columns-" + this.props.name, JSON.stringify(cols.reduce((map, obj) => {
+            map[obj.id] = obj.show;
+            return map;
+        }, {})));
         this.props.onSelect(cols);
     }
 
