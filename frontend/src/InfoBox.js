@@ -38,17 +38,11 @@ class InfoBox extends Component {
   // next to course cart
   addToCourseCart(key) {
     return () => {
-      console.log(key)
-      console.log(this.state.items.instructors[key])
-      localStorage.setItem(
-        // TODO : key should be course title, not instructor name
-        key, JSON.stringify(this.state.items.instructors[key])
-      );
+      localStorage.setItem(this.state.items.code, JSON.stringify(this.state.items.instructors[key]));
       this.setState({inCourseCart: true});
     };
   }
 
-  // TODO: reposition drop down menu
   // TODO: add "Average Professor"
   render() {
     const pageType = this.props.type;
