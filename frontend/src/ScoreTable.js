@@ -94,7 +94,7 @@ class ScoreTable extends Component {
             accessor: "name",
             width: 300,
             show: true,
-            Cell: props => <span>{props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>
+            Cell: props => <span>{is_course && <a href={"/instructor/" + props.original.key} className="instructor-link far fa-user mr-1" style={{color: 'rgb(102, 146, 161)'}}></a>} {props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>
         });
         this.setState(state => ({
             data: data,

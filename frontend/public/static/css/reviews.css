@@ -118,11 +118,7 @@ table.dataTable, table.dataTable th, table.dataTable td {
     justify-content: center;
 }
 
-#course-table .instructor_link:hover {
-    color: #4D7988;
-}
-
-#course-table .instructor_link:hover .fa-user {
+.instructor-link:hover {
     font-weight: 900;
 }
 
