@@ -17,11 +17,13 @@ class ScoreBox extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick() {
-        this.setState(state => ({
-            isAverage: !state.isAverage
-        }));
-        this.refs.table.resort();
+    handleClick(val) {
+        return () => {
+            this.setState(state => ({
+                isAverage: val
+            }));
+            this.refs.table.resort();
+        };
     }
 
     componentDidMount() {
@@ -112,9 +114,9 @@ class ScoreBox extends Component {
 
         return (
             <div className="box clearfix">
-                <div className="btn-group" onClick={this.handleClick}>
-                    <button className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
-                    <button className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
+                <div className="btn-group">
+                    <button onClick={this.handleClick(true)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
+                    <button onClick={this.handleClick(false)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
                 </div>
                 <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
                 <ScoreTable ref="table" data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
