@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ScoreTable from './ScoreTable';
-import Popover from './Popover';
+import ColumnSelector from './ColumnSelector';
 import { api_history } from './api';
 
 
@@ -26,28 +26,6 @@ class DetailsBox extends Component {
             selectedSemester: null,
             semesterList: [],
             columns: []
-        };
-
-        this.handleToggle = this.handleToggle.bind(this);
-        this.setAllColumns = this.setAllColumns.bind(this);
-    }
-
-    handleToggle(i) {
-        return() => {
-            let columnsCopy = Array.from(this.state.columns);
-            columnsCopy[i] = {...columnsCopy[i], show: !columnsCopy[i].show};
-            this.setState({
-                columns: columnsCopy
-            });
-        };
-    }
-
-    setAllColumns(val) {
-        return () => {
-            let columnsCopy = this.state.columns.map((a) => ({...a, show: a.required || val}));
-            this.setState({
-                columns: columnsCopy
-            });
         };
     }
 
@@ -101,12 +79,7 @@ class DetailsBox extends Component {
                   <button onClick={() => { this.setState({ viewingRatings: true }); }} id="view_ratings" className={"btn btn-sm " + (this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Ratings</button>
                   <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
               </div>
-              <Popover button={<button className="btn btn-sub-primary btn-sm ml-2"><i className="fa fa-plus"></i></button>}>
-                    <span onClick={this.setAllColumns(true)} className="btn mb-2 btn-sm btn-sub-secondary" style={{ width: '100%', textAlign: 'center' }}>Select all</span>
-                    <span onClick={this.setAllColumns(false)} className="btn mb-2 btn-sm btn-sub-secondary" style={{ width: '100%', textAlign: 'center' }}>Clear</span>
-                    <hr style={{ borderBottom: '1px solid #ccc' }} />
-                    {this.state.columns.map((item, i) => !item.required && <span key={i} onClick={this.handleToggle(i)} style={{ width: '100%', textAlign: 'center' }} className={"btn mt-2 btn-sm " + (item.show ? 'btn-sub-primary' : 'btn-sub-secondary')}>{item.Header}</span>)}
-              </Popover>
+              <ColumnSelector onSelect={(cols) => this.setState({ columns: cols })} columns={this.state.columns} buttonStyle="btn-sub" />
               {this.state.viewingRatings ? <div id="course-details-data">
                   <ScoreTable
                   data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }

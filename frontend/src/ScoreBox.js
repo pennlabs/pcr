@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ScoreTable from './ScoreTable';
-import Popover from './Popover';
+import ColumnSelector from './ColumnSelector';
 import { convertInstructorName } from './Tags';
 
 import 'react-table/react-table.css';
@@ -15,8 +15,6 @@ class ScoreBox extends Component {
             isAverage: true
         };
         this.handleClick = this.handleClick.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-        this.setAllColumns = this.setAllColumns.bind(this);
     }
 
     handleClick() {
@@ -24,27 +22,6 @@ class ScoreBox extends Component {
             isAverage: !state.isAverage
         }));
         this.refs.table.resort();
-    }
-
-    handleToggle(i) {
-        return() => {
-            let columnsCopy = Array.from(this.state.columns);
-            columnsCopy[i] = {...columnsCopy[i], show: !columnsCopy[i].show};
-            this.setState((state) => ({
-                ...state,
-                columns: columnsCopy
-            }))
-        };
-    }
-
-    setAllColumns(val) {
-        return () => {
-            let columnsCopy = this.state.columns.map((a) => ({...a, show: a.required || val}));
-            this.setState((state) => ({
-                ...state,
-                columns: columnsCopy
-            }));
-        };
     }
 
     componentDidMount() {
@@ -104,7 +81,6 @@ class ScoreBox extends Component {
 
     render() {
         // TODO: default sort by professors currently teaching and then professors who have taught most recently
-        // TODO: style column selector and buttons
 
         if (!this.state.data) {
             return <h1>Loading Data...</h1>;
@@ -140,12 +116,7 @@ class ScoreBox extends Component {
                     <button className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
                     <button className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
                 </div>
-                <Popover button={<button className="btn btn-primary btn-sm ml-2"><i className="fa fa-plus"></i></button>}>
-                    <span onClick={this.setAllColumns(true)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Select all</span>
-                    <span onClick={this.setAllColumns(false)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Clear</span>
-                    <hr style={{ borderBottom: '1px solid #ccc' }} />
-                    {this.state.columns.map((item, i) => !item.required && <span key={i} onClick={this.handleToggle(i)} style={{ width: '100%', textAlign: 'center' }} className={"btn mt-2 btn-sm " + (item.show ? 'btn-primary' : 'btn-secondary')}>{item.Header}</span>)}
-                </Popover>
+                <ColumnSelector columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
                 <ScoreTable ref="table" data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
