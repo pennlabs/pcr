@@ -93,6 +93,7 @@ class ScoreBox extends Component {
             accessor: "name",
             width: 300,
             show: true,
+            required: true,
             Cell: props => <span>{is_course && <a href={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></a>} {props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>
         });
         this.setState(state => ({
@@ -131,6 +132,8 @@ class ScoreBox extends Component {
             });
         }
 
+        const is_course = this.props.type === "course";
+
         return (
             <div className="box clearfix">
                 <div className="btn-group" onClick={this.handleClick}>
@@ -141,9 +144,9 @@ class ScoreBox extends Component {
                     <span onClick={this.setAllColumns(true)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Select all</span>
                     <span onClick={this.setAllColumns(false)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Clear</span>
                     <hr style={{ borderBottom: '1px solid #ccc' }} />
-                    {this.state.columns.map((item, i) => <span key={i} onClick={this.handleToggle(i)} style={{ width: '100%', textAlign: 'center' }} className={"btn mt-2 btn-sm " + (item.show ? 'btn-primary' : 'btn-secondary')}>{item.Header}</span>)}
+                    {this.state.columns.filter((i) => !i.required).map((item, i) => <span key={i} onClick={this.handleToggle(i)} style={{ width: '100%', textAlign: 'center' }} className={"btn mt-2 btn-sm " + (item.show ? 'btn-primary' : 'btn-secondary')}>{item.Header}</span>)}
                 </Popover>
-                <ScoreTable ref="table" className="mt-2" data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} />
+                <ScoreTable ref="table" data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
     }

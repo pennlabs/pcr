@@ -98,8 +98,9 @@ class ReviewPage extends Component {
         this.setState({
             type: loc[0],
             code: loc[1],
-            data: null
-            }, 
+            data: null,
+            instructor_code: null
+            },
             this.getReviewData
         );
         window.history.pushState(null, "Penn Course Review", window.location.protocol + "//" + window.location.host + "/" + loc[0] + "/" + loc[1]);

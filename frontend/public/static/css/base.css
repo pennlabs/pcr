@@ -505,6 +505,23 @@ i.fa.fa-cart-plus {
     overflow-y: auto !important;
 }
 
+.ReactTable .rt-tr:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+
+.ReactTable .rt-tr.selected {
+    background-color: rgb(221, 235, 236);
+}
+
+.ReactTable .rt-tr.selected:hover {
+    background-color: #E6EDED;
+}
+
+.ReactTable .rt-thead {
+    font-weight: bold;
+}
+
 #course-table_filter label::after, #course-details-table_filter label::after {
     position: absolute;
     content: '\f002';

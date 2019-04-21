@@ -14,6 +14,15 @@ class ScoreTable extends Component {
         this.resort = this.resort.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.data !== this.props.data) {
+            this.setState({ selected: null });
+            if (this.props.onSelect) {
+                this.props.onSelect(null);
+            }
+        }
+    }
+
     resort() {
         this.setState((state) => ({
             sorted: state.sorted.slice()
@@ -21,26 +30,28 @@ class ScoreTable extends Component {
     }
 
     render() {
-        return <ReactTable {...this.props} showPagination={false} resizable={true} style={{ maxHeight: 400 }} getTrProps={
-            (state, rowInfo) => {
-                if (rowInfo && rowInfo.row) {
-                    return {
-                        onClick: (e) => {
-                            this.setState({
-                                selected: rowInfo.index
-                            });
-                            if (this.props.onSelect) {
-                                this.props.onSelect(rowInfo.original.key);
-                            }
-                        },
-                        style: rowInfo.index === this.state.selected ? {
-                            background: 'rgb(221, 235, 236)'
-                        } : undefined
-                    };
+        return (<div className="mt-2">
+            <ReactTable className="mb-2" {...this.props} showPagination={false} resizable={false} style={{ maxHeight: 400 }} getTrProps={
+                (state, rowInfo) => {
+                    if (rowInfo && rowInfo.row) {
+                        return {
+                            onClick: (e) => {
+                                this.setState((state) => {
+                                    const noRow = rowInfo.index === state.selected;
+                                    if (this.props.onSelect) {
+                                        this.props.onSelect(noRow ? null : rowInfo.original.key);
+                                    }
+                                    return {selected: noRow ? null : rowInfo.index};
+                                });
+                            },
+                            className: rowInfo.index === this.state.selected ? 'selected' : undefined
+                        };
+                    }
+                    return {};
                 }
-                return {};
-            }
-        } defaultPageSize={this.props.data.length} sorted={this.state.sorted} onSortedChange={(sorted) => { this.setState({ sorted }); }} />
+            } minRows={0} sorted={this.state.sorted} onSortedChange={(sorted) => { this.setState({ sorted }); }} />
+            <span id="course-table_info">Showing {this.props.data.length} {(this.props.noun || "row") + (this.props.data.length !== 1 ? "s" : "")}</span>
+        </div>);
     }
 }
 
