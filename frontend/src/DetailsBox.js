@@ -36,20 +36,18 @@ class DetailsBox extends Component {
         return() => {
             let columnsCopy = Array.from(this.state.columns);
             columnsCopy[i] = {...columnsCopy[i], show: !columnsCopy[i].show};
-            this.setState((state) => ({
-                ...state,
+            this.setState({
                 columns: columnsCopy
-            }))
+            });
         };
     }
 
     setAllColumns(val) {
         return () => {
-            let columnsCopy = this.state.columns.map((a) => ({...a, show: val}));
-            this.setState((state) => ({
-                ...state,
+            let columnsCopy = this.state.columns.map((a) => ({...a, show: a.required || val}));
+            this.setState({
                 columns: columnsCopy
-            }));
+            });
         };
     }
 
@@ -104,10 +102,10 @@ class DetailsBox extends Component {
                   <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
               </div>
               <Popover button={<button className="btn btn-sub-primary btn-sm ml-2"><i className="fa fa-plus"></i></button>}>
-                    <span onClick={this.setAllColumns(true)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Select all</span>
-                    <span onClick={this.setAllColumns(false)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Clear</span>
+                    <span onClick={this.setAllColumns(true)} className="btn mb-2 btn-sm btn-sub-secondary" style={{ width: '100%', textAlign: 'center' }}>Select all</span>
+                    <span onClick={this.setAllColumns(false)} className="btn mb-2 btn-sm btn-sub-secondary" style={{ width: '100%', textAlign: 'center' }}>Clear</span>
                     <hr style={{ borderBottom: '1px solid #ccc' }} />
-                    {this.state.columns.map((item, i) => !item.required && <span key={i} onClick={this.handleToggle(i)} style={{ width: '100%', textAlign: 'center' }} className={"btn mt-2 btn-sm " + (item.show ? 'btn-primary' : 'btn-secondary')}>{item.Header}</span>)}
+                    {this.state.columns.map((item, i) => !item.required && <span key={i} onClick={this.handleToggle(i)} style={{ width: '100%', textAlign: 'center' }} className={"btn mt-2 btn-sm " + (item.show ? 'btn-sub-primary' : 'btn-sub-secondary')}>{item.Header}</span>)}
               </Popover>
               {this.state.viewingRatings ? <div id="course-details-data">
                   <ScoreTable

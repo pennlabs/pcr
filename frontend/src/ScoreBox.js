@@ -39,7 +39,7 @@ class ScoreBox extends Component {
 
     setAllColumns(val) {
         return () => {
-            let columnsCopy = this.state.columns.map((a) => ({...a, show: val}));
+            let columnsCopy = this.state.columns.map((a) => ({...a, show: a.required || val}));
             this.setState((state) => ({
                 ...state,
                 columns: columnsCopy
