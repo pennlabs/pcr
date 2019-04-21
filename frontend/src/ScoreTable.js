@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
+import Popover from './Popover';
 
 import 'react-table/react-table.css';
 
@@ -16,6 +17,7 @@ class ScoreTable extends Component {
         };
         this.handleClick = this.handleClick.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
+        this.setAllColumns = this.setAllColumns.bind(this);
     }
 
     handleClick() {
@@ -33,6 +35,16 @@ class ScoreTable extends Component {
                 ...state,
                 columns: columnsCopy
             }))
+        };
+    }
+
+    setAllColumns(val) {
+        return () => {
+            let columnsCopy = this.state.columns.map((a) => ({...a, show: val}));
+            this.setState((state) => ({
+                ...state,
+                columns: columnsCopy
+            }));
         };
     }
 
@@ -122,13 +134,17 @@ class ScoreTable extends Component {
 
         return (
             <div className="box clearfix">
-                <div>
-                    {this.state.columns.map((item, i) => <span key={i} onClick={this.handleToggle(i)} style={{ marginRight: 10, fontWeight: item.show ? "bold": "normal" }}>{item.Header}</span>)}
+                <div className="btn-group" onClick={this.handleClick}>
+                    <button className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
+                    <button className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
                 </div>
-                <button onClick={this.handleClick}>
-                    {this.state.isAverage ? 'Average' : 'Most Recent'}
-                </button>
-                <ReactTable data={this.state.data} sorted={this.state.sorted} onSortedChange={sorted => {this.setState({ sorted });}} columns={this.state.columns} showPagination={false} resizable={false} defaultPageSize={this.state.data.length} style={{ maxHeight: "400px" }} getTrProps={(state, rowInfo) => {
+                <Popover button={<button className="btn btn-primary btn-sm ml-2"><i className="fa fa-plus"></i></button>}>
+                    <span onClick={this.setAllColumns(true)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Select all</span>
+                    <span onClick={this.setAllColumns(false)} className="btn mb-2 btn-sm btn-secondary" style={{ width: '100%', textAlign: 'center' }}>Clear</span>
+                    <hr style={{ borderBottom: '1px solid #ccc' }} />
+                    {this.state.columns.map((item, i) => <span key={i} onClick={this.handleToggle(i)} style={{ width: '100%', textAlign: 'center' }} className={"btn mt-2 btn-sm " + (item.show ? 'btn-primary' : 'btn-secondary')}>{item.Header}</span>)}
+                </Popover>
+                <ReactTable className="mt-2" data={this.state.data} sorted={this.state.sorted} onSortedChange={sorted => {this.setState({ sorted });}} columns={this.state.columns} showPagination={false} resizable={false} defaultPageSize={this.state.data.length} style={{ maxHeight: "400px" }} getTrProps={(state, rowInfo) => {
                     if (rowInfo && rowInfo.row) {
                         return {
                             onClick: (e) => {
