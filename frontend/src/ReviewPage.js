@@ -26,11 +26,11 @@ class ReviewPage extends Component {
         this.getReviewData = this.getReviewData.bind(this);
         this.showInstructorHistory = this.showInstructorHistory.bind(this);
         this.loadPage = this.loadPage.bind(this);
-        this.getReviewData();
     }
 
     componentDidMount() {
         window.onpopstate = this.loadPage;
+        this.getReviewData();
     }
 
     componentWillUnmount() {
