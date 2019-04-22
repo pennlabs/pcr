@@ -45,7 +45,8 @@ class DetailsBox extends Component {
                                     return true;
                                 }
                                 return rows.name.toLowerCase().includes(filter.value.toLowerCase()) || rows.semester.toLowerCase().includes(filter.value.toLowerCase());
-                            }}
+                            }},
+                            {id: 'forms', width: 150, Header: 'Forms', accessor: 'forms_returned', show: true, required: true, Cell: props => <center>{props.value} / {props.original.forms_produced} <small style={{ color: '#aaa', fontSize: '0.8em' }}>({(props.value / props.original.forms_produced * 100).toFixed(1)}%)</small></center>}
                         ].concat(Object.keys(Object.values(res.sections)[0].ratings).map((info) => ({
                             id: info,
                             width: 150,
@@ -92,7 +93,7 @@ class DetailsBox extends Component {
                   <ScoreTable
                   sorted={[{id: 'semester', desc: false}]}
                   filtered={this.state.filtered}
-                  data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }
+                  data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name, forms_produced: i.forms_produced, forms_returned: i.forms_returned})) }
                   columns={this.state.columns} noun="section" />
               </div> :
               <div id="course-details-comments" className="clearfix mt-2">
