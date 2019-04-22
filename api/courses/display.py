@@ -61,7 +61,7 @@ def display_course(request, course):
 
 def display_instructor(request, instructor):
     req_instructor = instructor
-    info = re.match(r"(\d+)-+(\w+)-+(\w+)", req_instructor)
+    info = re.match(r"(\d+)-+(\w+)-+(\w*)", req_instructor)
     if info is None:
         return JsonResponse({
             "error": "Incorrectly formatted instructor code '{}'.".format(req_instructor)
@@ -147,7 +147,7 @@ def display_dept(request, dept):
 
 def display_history(request, course, instructor):
     req_instructor = instructor
-    info = re.match(r"(\d+)-+(\w+)-+(\w+)", req_instructor)
+    info = re.match(r"(\d+)-+(\w+)-+(\w*)", req_instructor)
     if info is None:
         return JsonResponse({
             "error": "Incorrectly formatted instructor code '{}'.".format(req_instructor)
