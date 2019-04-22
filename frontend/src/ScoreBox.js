@@ -32,6 +32,14 @@ class ScoreBox extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.live_data !== this.props.live_data) {
+            const instructor_taught = {};
+
+            Object.values(this.props.data.instructors).forEach((a) => {
+                const key = convertInstructorName(a.name);
+                const parts = a.most_recent_semester.split(" ");
+                instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
+            });
+
             if (this.props.live_data) {
                 const instructors_this_semester = {};
                 const data = {
@@ -46,12 +54,18 @@ class ScoreBox extends Component {
                         data.all += all_courses_by_instructor.length;
                     });
                     instructors_this_semester[key] = data;
+                    instructor_taught[key] = Infinity;
                 });
 
                 this.setState((state) => ({
-                    currentInstructors: instructors_this_semester,
+                    currentInstructors: instructor_taught,
                     data: state.data.map((a) => ({...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
                 }));
+            }
+            else {
+                this.setState({
+                    currentInstructors: instructor_taught
+                });
             }
         }
     }
@@ -73,6 +87,7 @@ class ScoreBox extends Component {
             });
             output.key = is_course ? key : val.code;
             output.name = val.name;
+            output.semester = val.most_recent_semester;
             return output;
         });
         const cols = Object.keys(columns).map((key) => {
@@ -108,11 +123,16 @@ class ScoreBox extends Component {
             sortMethod: (a, b) => {
                 const aname = convertInstructorName(a);
                 const bname = convertInstructorName(b);
-                if (aname in this.state.currentInstructors) {
+                const hasStarA = this.state.currentInstructors[aname];
+                const hasStarB = this.state.currentInstructors[bname];
+                if (hasStarA && !hasStarB) {
                     return -1;
                 }
-                if (bname in this.state.currentInstructors) {
+                if (!hasStarA && hasStarB) {
                     return 1;
+                }
+                if (hasStarA !== hasStarB) {
+                    return hasStarB - hasStarA;
                 }
                 return a.localeCompare(b);
             },

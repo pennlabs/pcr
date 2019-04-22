@@ -49,7 +49,7 @@ class ScoreTable extends Component {
                     }
                     return {};
                 }
-            } minRows={0} sorted={this.state.sorted} onSortedChange={(sorted) => { this.setState({ sorted }); }} />
+            } minRows={0} defaultPageSize={this.props.data.length} sorted={this.state.sorted} onSortedChange={(sorted) => { this.setState({ sorted }); }} />
             <span id="course-table_info">Showing {this.props.data.length} {(this.props.noun || "row") + (this.props.data.length !== 1 ? "s" : "")}</span>
         </div>);
     }
