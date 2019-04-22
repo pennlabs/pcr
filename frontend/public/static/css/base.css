@@ -50,11 +50,6 @@ body {
     height: 100%;
 }
 
-.main-col .box:last-child {
-    flex: 1;
-    margin-bottom: 0;
-}
-
 #feedback {
     display: inline-block;
     width: 2.5rem;
