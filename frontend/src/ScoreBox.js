@@ -31,7 +31,7 @@ class ScoreBox extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.live_data !== this.props.live_data) {
+        if (prevProps.live_data !== this.props.live_data || prevProps.data.code !== this.props.data.code) {
             const instructor_taught = {};
 
             Object.values(this.props.data.instructors).forEach((a) => {
