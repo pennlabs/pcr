@@ -15,34 +15,48 @@ class Popover extends Component {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.onHide);
+        if (!this.props.hover) {
+            document.addEventListener('click', this.onHide);
+        }
+        if (!this.dialogElement) {
+            this.dialogElement = document.createElement('div');
+            this.dialogElement.style.position = 'static';
+            document.body.appendChild(this.dialogElement);
+            this.componentDidUpdate();
+        }
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.onHide);
+        if (!this.props.hover) {
+            document.removeEventListener('click', this.onHide);
+        }
+        document.body.removeChild(this.dialogElement);
     }
 
     onHide(e) {
-        const popupElement = ReactDOM.findDOMNode(this.refs.popup);
-        if (!popupElement.contains(e.target)) {
+        const buttonElement = ReactDOM.findDOMNode(this.refs.button);
+        if (buttonElement.contains(e.target)) {
+            return;
+        }
+        if (!this.dialogElement.contains(e.target)) {
             this.setState({
                 isShown: false
             });
         }
     }
 
-    onToggle() {
+    onToggle(val) {
+        const buttonElement = ReactDOM.findDOMNode(this.refs.button).getBoundingClientRect();
         this.setState((state) => ({
-            isShown: !state.isShown
+            isShown: typeof val === 'undefined' ? !state.isShown : val,
+            position: [buttonElement.left, buttonElement.bottom]
         }));
     }
 
-    render() {
-        return (
-            <span ref="popup" style={{ position: 'relative' }}>
-                <span onClick={this.onToggle}>{this.props.button || <button>Toggle</button>}</span>
-                <div style={{
-                    ...this.props.style,
+    componentDidUpdate() {
+        ReactDOM.render(
+            <div style={{
+                ...this.props.style,
                     position: 'absolute',
                     backgroundColor: 'white',
                     zIndex: 1,
@@ -51,13 +65,29 @@ class Popover extends Component {
                     padding: 15,
                     boxShadow: '0 0 14px 0 rgba(0, 0, 0, 0.07)',
                     borderRadius: 4.8,
-                    display: this.state.isShown ? 'block' : 'none'
-                }}>
-                    {this.props.children}
-                </div>
-            </span>
+                    display: this.state.isShown ? 'block' : 'none',
+                    top: this.state.position && this.state.position[1],
+                    left: this.state.position && this.state.position[0]
+            }}>{this.props.children}</div>, this.dialogElement);
+    }
+
+    render() {
+        return (
+            <span ref="button"
+                onClick={!this.props.hover ? this.onToggle : undefined}
+                onMouseEnter={this.props.hover ? () => this.onToggle(true) : undefined}
+                onMouseLeave={this.props.hover ? () => this.onToggle(false) : undefined}>{this.props.button || <button>Toggle</button>}</span>
         );
     }
 }
 
+
+class PopoverTitle extends Component {
+    render() {
+        return <Popover style={{ minWidth: 300 }} hover button={this.props.children}>{this.props.title}</Popover>;
+    }
+}
+
+
+export { PopoverTitle };
 export default Popover;
