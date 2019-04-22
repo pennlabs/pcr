@@ -84,7 +84,7 @@ class Popover extends Component {
 
 class PopoverTitle extends Component {
     render() {
-        return <Popover style={{ minWidth: 300 }} hover button={this.props.children}>{this.props.title}</Popover>;
+        return <Popover hover button={this.props.children}>{this.props.title}</Popover>;
     }
 }
 
