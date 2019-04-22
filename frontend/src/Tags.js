@@ -2,8 +2,13 @@
 import React, { Component } from 'react';
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
+const nameCache = {};
+
 function convertInstructorName(name) {
-    return name.toUpperCase().replace(/[^a-zA-Z\s]/g, '').replace(/ [A-Z] /g, ' ');
+    if (name in nameCache) {
+        return nameCache[name];
+    }
+    return name.toUpperCase().replace(/[^a-zA-Z\s]/g, '').replace(/ [A-Z]+ /g, ' ');
 }
 
 class Tags extends Component {

@@ -14,6 +14,7 @@ class ScoreBox extends Component {
             columns: null,
             isAverage: true,
             filtered: [],
+            currentInstructors: {},
             filterAll: ""
         };
 
@@ -27,6 +28,32 @@ class ScoreBox extends Component {
             }));
             this.refs.table.resort();
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.live_data !== this.props.live_data) {
+            if (this.props.live_data) {
+                const instructors_this_semester = {};
+                const data = {
+                    open: 0,
+                    all: 0
+                };
+                this.props.live_data.instructors.forEach((a) => {
+                    const key = convertInstructorName(a);
+                    Object.values(this.props.live_data.courses).forEach((cat) => {
+                        const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
+                        data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
+                        data.all += all_courses_by_instructor.length;
+                    });
+                    instructors_this_semester[key] = data;
+                });
+
+                this.setState((state) => ({
+                    currentInstructors: instructors_this_semester,
+                    data: state.data.map((a) => ({...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
+                }));
+            }
+        }
     }
 
     componentDidMount() {
@@ -78,6 +105,17 @@ class ScoreBox extends Component {
             show: true,
             required: true,
             Cell: props => <span>{is_course && <a href={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></a>} {props.value}{props.original.star && <i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i>}</span>,
+            sortMethod: (a, b) => {
+                const aname = convertInstructorName(a);
+                const bname = convertInstructorName(b);
+                if (aname in this.state.currentInstructors) {
+                    return -1;
+                }
+                if (bname in this.state.currentInstructors) {
+                    return 1;
+                }
+                return a.localeCompare(b);
+            },
             filterMethod: (filter, rows) => {
                 if (filter.value === "") {
                     return true;
@@ -92,32 +130,8 @@ class ScoreBox extends Component {
     }
 
     render() {
-        // TODO: default sort by professors currently teaching and then professors who have taught most recently
-
         if (!this.state.data) {
             return <h1>Loading Data...</h1>;
-        }
-
-        if (this.props.live_data) {
-            const instructors_this_semester = {};
-            const data = {
-                open: 0,
-                all: 0
-            };
-            this.props.live_data.instructors.forEach((a) => {
-                const key = convertInstructorName(a);
-                Object.values(this.props.live_data.courses).forEach((cat) => {
-                    const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
-                    data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
-                    data.all += all_courses_by_instructor.length;
-                });
-                instructors_this_semester[key] = data;
-            });
-
-            this.state.data.forEach(function(row) {
-                const currentInfo = instructors_this_semester[convertInstructorName(row.name)];
-                row['star'] = currentInfo;
-            });
         }
 
         const is_course = this.props.type === "course";
@@ -130,7 +144,7 @@ class ScoreBox extends Component {
                 </div>
                 <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>
                 <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
-                <ScoreTable ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
+                <ScoreTable sorted={[{id: 'name', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
     }

@@ -8,7 +8,7 @@ class ScoreTable extends Component {
 
         this.state = {
             selected: null,
-            sorted: []
+            sorted: this.props.sorted
         };
 
         this.resort = this.resort.bind(this);
