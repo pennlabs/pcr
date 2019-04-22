@@ -133,8 +133,8 @@ class ReviewPage extends Component {
             <div>
                 <NavBar onSelect={this.navigateToPage} />
                     { !this.state.error ? (this.state.data ?
-                        <div id="content" className="row box-wrapper">
-                            <div className="col-sm-12 col-md-4 sidebar-col">
+                        <div id="content" className="row">
+                            <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">

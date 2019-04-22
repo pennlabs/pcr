@@ -105,7 +105,7 @@ class SearchBar extends Component {
                     },
                     DropdownIndicator: this.props.isTitle ? null : (props) => <components.DropdownIndicator {...props}><i className="fa fa-search mr-1"></i></components.DropdownIndicator>
                 }} styles={{
-                    container: styles => ({ ...styles, width: this.props.isTitle ? 'calc(100vw - 60px)' : '80vw', maxWidth: 600 }),
+                    container: styles => ({ ...styles, width: this.props.isTitle ? 'calc(100vw - 60px)' : 'calc(100vw - 200px)', maxWidth: this.props.isTitle ? 600 : 514 }),
                     control: (styles, state) => ({
                         ...styles, borderRadius: this.props.isTitle ? 0 : 32,
                         boxShadow: !this.props.isTitle ? 'none' : (state.isFocused ? '0px 2px 14px #ddd' : '0 2px 14px 0 rgba(0, 0, 0, 0.07)'),
