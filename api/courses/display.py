@@ -8,8 +8,8 @@ from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Depar
 
 
 def titleize(name):
-    """ Titleize a course name, taking into account exceptions such as II. """
-    return name.title().replace("Ii", "II")
+    """ Titleize a course name or instructor, taking into account exceptions such as II. """
+    return name.title().replace("Iii", "III").replace("Ii", "II")
 
 
 def display_course(request, course):
@@ -99,7 +99,7 @@ def display_instructor(request, instructor):
 
     return JsonResponse({
         "id": instructor.id,
-        "name": instructor.name.title(),
+        "name": titleize(instructor.name),
         "average_ratings": {key: round(mean([bit["score"] for bit in course_recent_ratings.filter(field=key).values("score")]), 1) for key in rating_keys},
         "recent_ratings": {bit["field"]: round(bit["score"], 1) for bit in course_recent_ratings},
         "num_sections": sections.count(),
@@ -233,7 +233,7 @@ def display_autocomplete(request):
         else:
             instructor_set[code] = {
                 "category": "Instructors",
-                "title": "{} {}".format(first, last).title(),
+                "title": titleize("{} {}".format(first, last)),
                 "desc": set([dept]) if dept is not None else set(),
                 "url": "instructor/{}".format(code),
                 "keywords": "{} {}".format(first, last).lower()
