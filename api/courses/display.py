@@ -7,6 +7,11 @@ from statistics import mean
 from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
 
 
+def titleize(name):
+    """ Titleize a course name, taking into account exceptions such as II. """
+    return name.title().replace("Ii", "II")
+
+
 def display_course(request, course):
     info = re.match(r"([A-Za-z]{3,4})[ \-]{1}(\d+)", course)
     if info is None:
@@ -81,7 +86,7 @@ def display_instructor(request, instructor):
         code = "{}-{:03d}".format(dept, num)
         output[iden] = {
             "code": code,
-            "name": name.title(),
+            "name": titleize(name),
             "average_reviews": {},
             "recent_reviews": {}
         }
@@ -122,7 +127,7 @@ def display_dept(request, dept):
         code = "{}-{:03d}".format(dept, num)
         output[iden] = {
             "code": code,
-            "name": name.title(),
+            "name": titleize(name.title),
             "average_reviews": {},
             "recent_reviews": {}
         }
@@ -173,7 +178,7 @@ def display_history(request, course, instructor):
 
     for sec, name, sem in section_objects.values_list("id", "course__name", "course__semester"):
         sections[sec] = {
-            "course_name": name.title(),
+            "course_name": titleize(name),
             "semester": str(sem),
             "ratings": {},
         }
