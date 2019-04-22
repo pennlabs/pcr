@@ -24,19 +24,19 @@ class SearchBar extends Component {
                 {
                     label: "Departments",
                     options: result.departments.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.keywords + " " + i.desc};
                     })
                 },
                 {
                     label: "Courses",
                     options: result.courses.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.keywords + " " + i.desc};
                     })
                 },
                 {
                     label: "Instructors",
                     options: result.instructors.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.keywords + " " + i.desc};
                     })
                 }
             ];
