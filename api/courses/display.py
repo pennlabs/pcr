@@ -1,7 +1,7 @@
 import re
 
 from django.http import JsonResponse
-from django.db.models import Avg
+from django.db.models import Q, Avg
 from statistics import mean
 
 from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
@@ -9,7 +9,7 @@ from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Depar
 
 def titleize(name):
     """ Titleize a course name or instructor, taking into account exceptions such as II. """
-    return name.title().replace("Iii", "III").replace("Ii", "II")
+    return name.strip().title().replace("Iii", "III").replace("Ii", "II")
 
 
 def display_course(request, course):
@@ -33,7 +33,7 @@ def display_course(request, course):
     reviewbits_average = ReviewBit.objects.filter(review__in=reviews).values("field").annotate(score=Avg('score'))
     reviewbits_recent = ReviewBit.objects.filter(review__in=reviews, review__section__course__semester=semester).values("field").annotate(score=Avg('score'))
 
-    instructors = {inst["id"]: {"name": (inst["first_name"] + " " + inst["last_name"]).strip().title(), "average_reviews": {}, "recent_reviews": {}} for inst in Instructor.objects.filter(section__in=sections).values("id", "first_name", "last_name")}
+    instructors = {inst["id"]: {"name": titleize("{} {}".format(inst["first_name"] or "", inst["last_name"] or "")), "average_reviews": {}, "recent_reviews": {}} for inst in Instructor.objects.filter(Q(first_name__isnull=False) | Q(last_name__isnull=False), section__in=sections).values("id", "first_name", "last_name")}
     instructor_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__instructors").annotate(score=Avg('score'))
     instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__instructors", "review__section__course__semester").annotate(score=Avg('score')).order_by("review__section__course__semester")
 
@@ -225,7 +225,7 @@ def display_autocomplete(request):
 
     instructor_set = {}
 
-    for iid, first, last, dept in Instructor.objects.all().values_list("id", "first_name", "last_name", "section__course__primary_alias__department__code").distinct():
+    for iid, first, last, dept in Instructor.objects.filter(Q(first_name__isnull=False) | Q(last_name__isnull=False)).values_list("id", "first_name", "last_name", "section__course__primary_alias__department__code").distinct():
         code = "{}-{}-{}".format(iid, first.replace(" ", "-") if first is not None else "", last.replace(" ", "-") if last is not None else "")
         if code in instructor_set:
             if dept is not None:
@@ -233,7 +233,7 @@ def display_autocomplete(request):
         else:
             instructor_set[code] = {
                 "category": "Instructors",
-                "title": titleize("{} {}".format(first, last)),
+                "title": titleize("{} {}".format(first or "", last or "")),
                 "desc": set([dept]) if dept is not None else set(),
                 "url": "instructor/{}".format(code),
                 "keywords": "{} {}".format(first, last).lower()
