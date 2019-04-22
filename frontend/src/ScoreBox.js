@@ -31,7 +31,7 @@ class ScoreBox extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.live_data !== this.props.live_data || prevProps.data.code !== this.props.data.code) {
+        if (prevProps.live_data !== this.props.live_data) {
             const instructor_taught = {};
 
             Object.values(this.props.data.instructors).forEach((a) => {
@@ -63,9 +63,10 @@ class ScoreBox extends Component {
                 }));
             }
             else {
-                this.setState({
-                    currentInstructors: instructor_taught
-                });
+                this.setState((state) => ({
+                    currentInstructors: instructor_taught,
+                    data: state.data.map((a) => ({...a, star: null}))
+                }));
             }
         }
     }
