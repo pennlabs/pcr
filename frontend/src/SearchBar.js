@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AsyncSelect from 'react-select/lib/Async';
+import { components } from 'react-select';
 import { css } from 'emotion';
 import { api_autocomplete } from './api';
 
@@ -101,9 +102,10 @@ class SearchBar extends Component {
                         <b>{children}</b>
                         <span style={{ color: '#aaa', fontSize: '0.8em', marginLeft: 3 }}>{props.data.desc}</span>
                         </div>);
-                    }
+                    },
+                    DropdownIndicator: this.props.isTitle ? null : (props) => <components.DropdownIndicator {...props}><i className="fa fa-search mr-1"></i></components.DropdownIndicator>
                 }} styles={{
-                    container: styles => ({ ...styles, width: this.props.isTitle ? 'calc(100vw - 220px)' : '80vw', maxWidth: this.props.isTitle ? 514 : 600 }),
+                    container: styles => ({ ...styles, width: this.props.isTitle ? 'calc(100vw - 60px)' : '80vw', maxWidth: 600 }),
                     control: (styles, state) => ({
                         ...styles, borderRadius: this.props.isTitle ? 0 : 32,
                         boxShadow: !this.props.isTitle ? 'none' : (state.isFocused ? '0px 2px 14px #ddd' : '0 2px 14px 0 rgba(0, 0, 0, 0.07)'),
