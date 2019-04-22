@@ -90,6 +90,7 @@ class DetailsBox extends Component {
               {this.state.viewingRatings && <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>}
               {this.state.viewingRatings ? <div id="course-details-data">
                   <ScoreTable
+                  sorted={[{id: 'semester', desc: false}]}
                   filtered={this.state.filtered}
                   data={ Object.values(this.state.data.sections).map((i) => ({...i.ratings, semester: i.semester, name: i.course_name})) }
                   columns={this.state.columns} noun="section" />
