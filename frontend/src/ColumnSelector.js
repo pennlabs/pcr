@@ -41,11 +41,19 @@ class ColumnSelector extends Component {
     }
 
     render() {
+        var x = 0;
+
         return <Popover style={{ width: 340 }} button={<button className={"btn btn-sm ml-2 " + (this.props.buttonStyle || "btn") + "-primary"}><i className="fa fa-plus"></i></button>}>
             <span onClick={this.setAllColumns(true)} className={"btn mb-2 mr-2 btn-sm " + (this.props.buttonStyle || "btn") + "-secondary"} style={{ width: 150, textAlign: 'center' }}>Select all</span>
             <span onClick={this.setAllColumns(false)} className={"btn mb-2 btn-sm " + (this.props.buttonStyle || "btn") + "-secondary"} style={{ width: 150, textAlign: 'center' }}>Clear</span>
             <hr style={{ borderBottom: '1px solid #ccc' }} />
-            {this.props.columns.map((item, i) => !item.required && <span key={i} onClick={this.handleToggle(i)} style={{ width: 150, textAlign: 'center' }} className={"btn mt-2 btn-sm " + (i % 2 === 1 ? "mr-2 " : "") + (this.props.buttonStyle || "btn") + (item.show ? '-primary' : '-secondary')}>{item.Header}</span>)}
+            {this.props.columns.map((item, i) => {
+                if (item.required) {
+                    return false;
+                }
+                x += 1;
+                return <span key={i} onClick={this.handleToggle(i)} style={{ width: 150, textAlign: 'center' }} className={"btn mt-2 btn-sm " + (x % 2 === 1 ? "mr-2 " : "") + (this.props.buttonStyle || "btn") + (item.show ? '-primary' : '-secondary')}>{item.Header}</span>;
+            })}
         </Popover>;
     }
 }

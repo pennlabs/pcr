@@ -106,7 +106,7 @@ class InfoBox extends Component {
                   <div className="title">{this.state.items.name}</div>
                   {this.state.contact &&
                       <div>
-                        <p className="desc">Email: <a href={"mailto:" + this.state.contact.email}>{this.state.contact.email}</a></p>
+                        <p className="desc">Email: <a href={"mailto:" + this.state.contact.email}>{this.state.contact.email.toLowerCase()}</a></p>
                       </div>
                   }
                 </div>
