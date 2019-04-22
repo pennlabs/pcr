@@ -112,6 +112,9 @@ class ReviewPage extends Component {
         });
     }
 
+    // TODO: implement cart page
+    // TODO: implement footer (add feedback and logout links)
+    // TODO: implement faq, about
     render() {
         if (!this.state.code) {
             return (

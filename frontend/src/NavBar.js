@@ -21,10 +21,12 @@ class NavBar extends Component {
 
     componentDidMount() {
         window.addEventListener("storage", this.onStorageChange);
+        window.onCartUpdated = this.onStorageChange;
     }
 
     componentWillUnmount() {
         window.removeEventListener("storage", this.onStorageChange);
+        window.onCartUpdated = null;
     }
 
     render() {
