@@ -20,6 +20,7 @@ class ScoreBox extends Component {
         };
 
         this.handleClick = this.handleClick.bind(this);
+        this.updateLiveData = this.updateLiveData.bind(this);
     }
 
     handleClick(val) {
@@ -31,44 +32,48 @@ class ScoreBox extends Component {
         };
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.live_data !== this.props.live_data) {
-            const instructor_taught = {};
+    updateLiveData() {
+        const instructor_taught = {};
 
-            Object.values(this.props.data.instructors).forEach((a) => {
-                const key = convertInstructorName(a.name);
-                const parts = a.most_recent_semester.split(" ");
-                instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
+        Object.values(this.props.data.instructors).forEach((a) => {
+            const key = convertInstructorName(a.name);
+            const parts = a.most_recent_semester.split(" ");
+            instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
+        });
+
+        if (this.props.live_data) {
+            const instructors_this_semester = {};
+            const data = {
+                open: 0,
+                all: 0
+            };
+            this.props.live_data.instructors.forEach((a) => {
+                const key = convertInstructorName(a);
+                Object.values(this.props.live_data.courses).forEach((cat) => {
+                    const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
+                    data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
+                    data.all += all_courses_by_instructor.length;
+                });
+                instructors_this_semester[key] = data;
+                instructor_taught[key] = Infinity;
             });
 
-            if (this.props.live_data) {
-                const instructors_this_semester = {};
-                const data = {
-                    open: 0,
-                    all: 0
-                };
-                this.props.live_data.instructors.forEach((a) => {
-                    const key = convertInstructorName(a);
-                    Object.values(this.props.live_data.courses).forEach((cat) => {
-                        const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
-                        data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
-                        data.all += all_courses_by_instructor.length;
-                    });
-                    instructors_this_semester[key] = data;
-                    instructor_taught[key] = Infinity;
-                });
+            this.setState((state) => ({
+                currentInstructors: instructor_taught,
+                data: state.data.map((a) => ({...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
+            }));
+        }
+        else {
+            this.setState((state) => ({
+                currentInstructors: instructor_taught,
+                data: state.data.map((a) => ({...a, star: null}))
+            }));
+        }
+    }
 
-                this.setState((state) => ({
-                    currentInstructors: instructor_taught,
-                    data: state.data.map((a) => ({...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
-                }));
-            }
-            else {
-                this.setState((state) => ({
-                    currentInstructors: instructor_taught,
-                    data: state.data.map((a) => ({...a, star: null}))
-                }));
-            }
+    componentDidUpdate(prevProps) {
+        if (prevProps.live_data !== this.props.live_data) {
+            this.updateLiveData();
         }
     }
 
@@ -153,6 +158,10 @@ class ScoreBox extends Component {
             data: data,
             columns: cols
         }));
+
+        if (this.props.live_data) {
+            this.updateLiveData();
+        }
     }
 
     render() {
