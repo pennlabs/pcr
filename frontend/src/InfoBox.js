@@ -84,7 +84,6 @@ class InfoBox extends Component {
         window.onCartUpdated();
     }
 
-    // TODO: fix course cart selector styling
     render() {
         const pageType = this.props.type;
         const instructors = this.state.items.instructors;

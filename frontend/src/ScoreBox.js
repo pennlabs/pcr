@@ -124,7 +124,7 @@ class ScoreBox extends Component {
             Cell: props => <span>
                 {is_course && <a href={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></a>}
                 {props.value}
-                {props.original.star && <PopoverTitle title={props.value + " is teaching during " + this.props.live_data.term + " and " + props.original.star.open + " out of " + props.original.star.all + " section(s) are open."}><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}
+                {props.original.star && <PopoverTitle title={<span><b>{props.value}</b> is teaching during <b>{this.props.live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.</span>}><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}
             </span>,
             sortMethod: (a, b) => {
                 const aname = convertInstructorName(a);

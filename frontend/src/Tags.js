@@ -29,12 +29,12 @@ class Tags extends Component {
     return (
         <div>
             <div id="live">
-                <PopoverTitle title={"This course will be taught in " + this.props.term + "."}><span className="badge badge-info">{this.props.term}</span></PopoverTitle>
-                <PopoverTitle title={"This course is " + this.props.credits + " credit unit(s)."}><span className="badge badge-primary">{this.props.credits} CU</span></PopoverTitle>
+                <PopoverTitle title={<span>This course will be taught in <b>{this.props.term}</b>.</span>}><span className="badge badge-info">{this.props.term}</span></PopoverTitle>
+                <PopoverTitle title={<span>This course is <b>{this.props.credits}</b> credit unit(s).</span>}><span className="badge badge-primary">{this.props.credits} CU</span></PopoverTitle>
                 {Object.values(this.props.courses).map((info, i) => {
                     const desc = info[0].activity_description;
                     const open = info.filter((a) => !a.is_closed && !a.is_cancelled).length;
-                    return <PopoverTitle key={i} title={open + " out of " + info.length + " " + desc.toLowerCase() + " sections are open for this course."}><span className={"badge " + (open ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open}/{info.length}</span></span></PopoverTitle>;
+                    return <PopoverTitle key={i} title={<span><b>{open}</b> out of <b>{info.length}</b> {desc.toLowerCase()} sections are open for this course.</span>}><span className={"badge " + (open ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open}/{info.length}</span></span></PopoverTitle>;
                 })}
             </div>
             {!!Object.keys(new_instructors).length && <small>New Instructors: {Object.values(new_instructors).sort().map((item, i) => <span key={i}>{i > 0 && ", "}{this.props.instructor_links[item] ? <a href={this.props.instructor_links[item]}>{item}</a> : item}</span>)}</small>}
