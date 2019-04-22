@@ -51,7 +51,7 @@ class DetailsBox extends Component {
                             width: 150,
                             Header: info.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec."),
                             accessor: info,
-                            Cell: props => <center className={!props.value && "empty"}>{isNaN(props.value) ? "N/A" : props.value.toFixed(2)}</center>,
+                            Cell: props => <center className={!props.value ? "empty" : ""}>{isNaN(props.value) ? "N/A" : props.value.toFixed(2)}</center>,
                             show: true
                         }))),
                         semesterList: list,
