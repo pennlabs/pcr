@@ -39,10 +39,40 @@ class InfoBox extends Component {
 
     addToCourseCart(key) {
         return () => {
+            var content;
             if (key === "average") {
-                // TODO: calculate average professor
+                const average_reviews = {};
+                const recent_reviews = {};
+                Object.values(this.state.items.instructors).forEach(function(i) {
+                    Object.keys(i.recent_reviews).forEach((j) => {
+                        if (!(j in recent_reviews)) {
+                            recent_reviews[j] = [];
+                        }
+                        recent_reviews[j].push(i.recent_reviews[j]);
+                    });
+                    Object.keys(i.average_reviews).forEach((j) => {
+                        if (!(j in average_reviews)) {
+                            average_reviews[j] = [];
+                        }
+                        average_reviews[j].push(i.average_reviews[j]);
+                    });
+                });
+                Object.keys(average_reviews).forEach((i) => {
+                    average_reviews[i] = (average_reviews[i].reduce((a, b) => a + b) / average_reviews[i].length).toFixed(2);
+                });
+                Object.keys(recent_reviews).forEach((i) => {
+                    recent_reviews[i] = (recent_reviews[i].reduce((a, b) => a + b) / recent_reviews[i].length).toFixed(2);
+                });
+                content = {
+                    name: "Average Professor",
+                    average_reviews: average_reviews,
+                    recent_reviews: recent_reviews
+                };
             }
-            localStorage.setItem(this.state.items.code, JSON.stringify(this.state.items.instructors[key]));
+            else {
+                content = this.state.items.instructors[key];
+            }
+            localStorage.setItem(this.state.items.code, JSON.stringify(content));
             this.setState({inCourseCart: true});
             window.onCartUpdated();
         };
