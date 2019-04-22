@@ -127,7 +127,7 @@ def display_dept(request, dept):
         code = "{}-{:03d}".format(dept, num)
         output[iden] = {
             "code": code,
-            "name": titleize(name.title),
+            "name": titleize(name),
             "average_reviews": {},
             "recent_reviews": {}
         }
