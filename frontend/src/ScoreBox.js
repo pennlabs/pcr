@@ -96,6 +96,7 @@ class ScoreBox extends Component {
             output.key = is_course ? key : val.code;
             output.name = val.name;
             output.semester = val.most_recent_semester;
+            output.code = val.code;
             return output;
         });
         const cols = Object.keys(columns).map((key) => {
@@ -155,6 +156,17 @@ class ScoreBox extends Component {
                 return rows[filter.id].toLowerCase().includes(filter.value.toLowerCase());
             }
         });
+        if (!is_course) {
+            cols.unshift({
+                id: "code",
+                Header: "Code",
+                accessor: "code",
+                width: 100,
+                show: true,
+                required: true,
+                Cell: props => <center><Link to={"/course/" + props.value}>{props.value}</Link></center>
+            });
+        }
         this.setState(state => ({
             data: data,
             columns: cols
@@ -180,7 +192,7 @@ class ScoreBox extends Component {
                 </div>
                 <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>
                 <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
-                <ScoreTable sorted={[{id: 'name', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
+                <ScoreTable sorted={[{id: is_course ? 'name' : 'code', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
     }
