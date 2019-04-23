@@ -38,8 +38,13 @@ class ScoreBox extends Component {
 
         Object.values(this.props.data.instructors).forEach((a) => {
             const key = convertInstructorName(a.name);
-            const parts = a.most_recent_semester.split(" ");
-            instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
+            if (a.most_recent_semester) {
+                const parts = a.most_recent_semester.split(" ");
+                instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
+            }
+            else {
+                instructor_taught[key] = 0;
+            }
         });
 
         if (this.props.live_data) {
