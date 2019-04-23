@@ -236,11 +236,6 @@ input {
     font-size:16px;
 }
 
-input[type="button"] {
-    float: right;
-    margin-top: 9px;
-}
-
 .shadow {
     box-shadow:         0px 2px 10px #808080;
     -moz-box-shadow:    0px 2px 10px #808080;
@@ -297,11 +292,6 @@ input[type="button"] {
 }
 #cartIcon {
     text-decoration: none;
-}
-i.fa.fa-cart-plus {
-    position: relative;
-    pointer-events: none;
-    font-size: 17px;
 }
 
 /***** BANNER *****/
@@ -416,42 +406,7 @@ i.fa.fa-cart-plus {
     margin-top: 20px;
 }
 
-/***** CONTENT-SETTINGS *****/
-
-#content-settings {
-    font-size:14px;
-    margin: 20px 0px;
-}
-#content-settings .label {
-    display:inline;
-    padding:2px;
-}
-#content-settings .button {
-    font-family: Lato, Helvetica, Arial, "Nimbus Sans L", sans-serif;
-    color:#ffffff;
-    cursor:pointer;
-    display:inline;
-    padding:2px;
-}
-#content-settings .button:hover {
-    background-color: rgba(255,255,255,0.2);
-}
-#settings-other .button {
-    float:right;
-    margin-left:10px;
-    border: 1px solid #ffffff;
-    border-radius: 2px;
-}
-
 /***** CONTENT-TABLE *****/
-/* initially intended to make room for buttom */
-/*#content-section {
-    width: calc(100% - 20px);
-}*/
-
-.fa.fa-plus {
-    display: inline-block;
-}
 
 #course-dropdown, #course-details-dropdown {
     top: -2px;
@@ -531,133 +486,19 @@ i.fa.fa-cart-plus {
     color: #ccc;
 }
 
-#course-table_wrapper .th-text {
-    font-family: Lato, Helvetica, sans-serif;
-}
-
-#course-table_wrapper .sorting_asc, #course-table_wrapper .sorting, #course-table_wrapper .sorting_desc,
-#course-details-table_wrapper .sorting, #course-details-table_wrapper .sorting_asc, #course-details-table_wrapper .sorting_desc {
-    font-family: "Font Awesome 5 Free", Lato, Helvetica, sans-serif;
-    background: none;
-}
-
-#course-table_wrapper .sorting_asc::after {
-    content: "\f0de";
-    float: right;
-    color: #1F5355;
-}
-
-#course-details-table_wrapper .sorting_asc::after {
-    content: "\f0de";
-    float: right;
-    color: #7978BF;
-}
-
-#course-table_wrapper .sorting_desc::after {
-    content: "\f0dd";
-    float: right;
-    color: #1F5355;
-}
-
-#course-details-table_wrapper .sorting_desc::after {
-    content: "\f0dd";
-    float: right;
-    color: #7978BF;
-}
-
-#course-table_wrapper .sorting::after, #course-details-table_wrapper .sorting::after {
-    content: "\f0dc";
-    float: right;
-    color: #b2b2b2;
-}
-
-#course-table_wrapper div.toolbar {
-    display: inline-block;
-}
-
-.dropdown-toggle::after {
-    display: none;
-}
-
-
 #course-details {
     flex: 1;
-}
-
-#course-table_paginate > .paginate_button:first-child, #course-details-table_paginate > .paginate_button:first-child {
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
-
-#course-table_paginate .paginate_button {
-    border: 1px solid #84B8BA;
-    color: #84B8BA !important;
-    border-right: none;
-    border-radius: 0;
-    margin: 0;
-    padding: 0.2em 0.6em;
-}
-
-#course-details-table_paginate .paginate_button {
-    border: 1px solid #ABAAF1;
-    color: #ABAAF1 !important;
-    border-right: none;
-    border-radius: 0;
-    margin: 0;
-    padding: 0.2em 0.6em;
 }
 
 #course-table_info, #course-details-table_info {
     color: #b2b2b2;
 }
 
-#course-table_paginate .ellipsis, #course-details-table_paginate .ellipsis {
-    border: 1px solid #84B8BA;
-    border-right: none;
-    padding: 0.35em 0.7em;
-    color: #b2b2b2;
-}
-
-#course-table_paginate .paginate_button:active, #course-details-table_paginate .paginate_button:active {
-    outline: 0;
-    box-shadow: none;
-}
-
-#course-table_paginate .paginate_button:not(.disabled):hover, #course-table_paginate .paginate_button.current {
-    color: white !important;
-    background: none;
-    background-color: #84B8BA;
-}
-
-#course-details-table_paginate .paginate_button:not(.disabled):hover, #course-details-table_paginate .paginate_button.current {
-    color: white !important;
-    background: none;
-    background-color: #ABAAF1;
-}
-
-#course-table_paginate > .paginate_button.disabled, #course-details-table_paginate > .paginate_button.disabled {
-    display: none;
-}
-
-#course-table_paginate > .paginate_button:last-child, #course-details-table_paginate > .paginate_button:last-child {
-    border-right: 1px solid #84B8BA;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
-#course-details-table_paginate > .paginate_button:last-child {
-    border-right: 1px solid #ABAAF1;
-}
-
-.dropdown-item {
-    font-size: 11px;
-    cursor: pointer;
-}
-
 #course-table {
     width:100%;
     position:relative;
 }
+
 #content .dataTable thead th, #content table.dataTable.no-footer {
     border-bottom: none;
 }
@@ -678,30 +519,6 @@ i.fa.fa-cart-plus {
     border-color: rgb(102, 146, 161);
 }
 
-#course-table tr.row_display {
-    cursor:pointer;
-}
-#course-table tr.row_display:hover {
-    background-color: #eeeeee;
-    color:#000000;
-}
-#course-table tr.selected:hover {
-    background-color: #E6EDED;
-}
-#course-table .toggle_button {
-    width:9px;
-    height:9px;
-    background:url(../image/togglebutton.png) top left;
-}
-#course-table th.header {
-    cursor:pointer;
-}
-#course-table th.header:hover {
-    background:#eeeeee;
-}
-
-
-
 #section-table {
     width: 100%;
 }
@@ -718,49 +535,12 @@ i.fa.fa-cart-plus {
 #section-table td.sec_td_hidden {
     padding: 20px 10px;
 }
-#section-table tr.sec_row_display td {
-    /*cursor:pointer;*/
-}
-#section-table tr.sec_row_display:hover td {
-    /*
-    background-color:#f2f2f9;
-    color:#000000;*/
-}
-#section-table tr.sec_row_hidden {
-    /*display: none;*/
-}
 #section-table .sec_td_hidden p{
     line-height:150%;
     margin-bottom:0px;
 }
 #section-table tbody tr:last-child td {
     /*border-bottom:none;*/
-}
-
-#course-table div.sort-icon {
-    width:11px;
-    height:11px;
-    background-position: 0 11px;
-    background:url(../image/sorticon.png) no-repeat;
-    float:right;
-    margin-top: 2px;
-}
-#course-table div.sort-icon:hover {
-    background-position: 0 0;
-}
-#course-table .headerSortUp div.sort-icon {
-    background-position: 0 -11px;
-}
-#course-table .headerSortDown div.sort-icon {
-    background-position: 0 -22px;
-}
-#course-table th.header.headerSortUp,
-#course-table th.header.headerSortDown {
-    background:#eeeeee;
-}
-
-.col_instructor > a {
-    border: none;
 }
 
 /***** FOOTER *****/
@@ -775,7 +555,7 @@ i.fa.fa-cart-plus {
 #footer-inner {
     padding-bottom: 15px;
     text-align:center;
-    font-size:10px;
+    font-size:0.8em;
 }
 #copyright {
     margin-top:5px;
@@ -798,27 +578,15 @@ The result is this, which is a little unclean, but it works.
 #faqs p.answer {
     margin-bottom:8px;
 }
-#faqs a.backtotop {
-font-size:10px;    }
-#faqs div {      margin-bottom: 25px;
+#faqs div {
+    margin-bottom: 25px;
 }
 #faqlinks ul {
-list-style: none inside none;    }
+    list-style: none inside none;
+}
 #faqlinks li {      list-style-type: none;
     list-style-image: none;
     margin-bottom: 10px;
-}
-
-.popover {
-    padding: 15px;
-    background-color: white;
-    border: none;
-    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
-    cursor: default;
-}
-
-.popover.bs-tether-element-attached-left::before, .popover.popover-right::before {
-    border-right-color: rgba(0, 0, 0, 0.07);
 }
 
 .add-course-cart {
@@ -1014,27 +782,3 @@ table.professorList {
     width: 64px;
     height: 64px;
 }
-
-
-/***** FONTS *****/
-
-.BNR{
-    font-family: 'BebasNeueRegular';
-}
-
-.BNL{
-    font-family: 'BebasNeueLight';
-}
-
-@font-face{
-    font-family: 'BebasNeueRegular';
-    src: url('../fonts/BebasNeueRegular.otf');
-
-}
-
-@font-face{
-    font-family: 'BebasNeueLight';
-    src: url('../fonts/BebasNeueLight.otf');
-}
-
-@import url(//fonts.googleapis.com/css?family=Lato:100,300);

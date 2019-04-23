@@ -24,6 +24,10 @@ class AuthPage extends Component {
         }
     }
 
+    componentWillUnmount() {
+        document.body.style.overflow = null;
+    }
+
     checkAuth() {
         api_auth().then(() => {
             this.setState({
