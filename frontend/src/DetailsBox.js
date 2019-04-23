@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import ScoreTable from './ScoreTable';
 import ColumnSelector from './ColumnSelector';
 import { api_history } from './api';
@@ -82,7 +83,7 @@ class DetailsBox extends Component {
               </div>
             </div> :
             <div id="course-details-wrapper">
-              <h3><a style={{ color: '#b2b2b2', textDecoration: 'none' }} href={"/instructor/" + this.props.instructor}>{this.state.data.instructor.name}</a></h3>
+              <h3><Link style={{ color: '#b2b2b2', textDecoration: 'none' }} to={"/instructor/" + this.props.instructor}>{this.state.data.instructor.name}</Link></h3>
               <div className="btn-group">
                   <button onClick={() => { this.setState({ viewingRatings: true }); }} id="view_ratings" className={"btn btn-sm " + (this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Ratings</button>
                   <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>

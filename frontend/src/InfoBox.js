@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow';
 import Popover from './Popover';
+import { Link } from 'react-router-dom';
 import { api_contact } from './api';
 
 /**
@@ -176,7 +177,7 @@ class InfoBox extends Component {
 
                 </div>
 
-                {!!this.props.data.aliases.length && <div className="crosslist">(Also: {this.props.data.aliases.map((cls, i) => <span key={i}>{i > 0 && ", "}<a key={i} href={"/course/" + cls}>{cls}</a></span>)})</div>}
+                {!!this.props.data.aliases.length && <div className="crosslist">(Also: {this.props.data.aliases.map((cls, i) => <span key={i}>{i > 0 && ", "}<Link to={"/course/" + cls}>{cls}</Link></span>)})</div>}
 
                 <p className="subtitle">{this.props.data.name}</p>
 
