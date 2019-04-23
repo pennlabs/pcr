@@ -12,6 +12,18 @@ def titleize(name):
     return name.strip().title().replace("Iii", "III").replace("Ii", "II").replace("'S", "'s")
 
 
+def is_pcr_data(func):
+    def wrapper(request, *args, **kwargs):
+        if not request.consumer.access_pcr:
+            return JsonResponse({
+                "error": "The provided token does not have access to this data."
+            })
+
+        return func(request, *args, **kwargs)
+    return wrapper
+
+
+@is_pcr_data
 def display_course(request, course):
     info = re.match(r"([A-Za-z]{3,4})[ \-]{1}(\d+)", course)
     if info is None:
@@ -59,6 +71,7 @@ def display_course(request, course):
     })
 
 
+@is_pcr_data
 def display_instructor(request, instructor):
     req_instructor = instructor
     info = re.match(r"(\d+)-+(\w+)-+(\w*)", req_instructor)
@@ -108,6 +121,7 @@ def display_instructor(request, instructor):
     })
 
 
+@is_pcr_data
 def display_dept(request, dept):
     dept = dept.upper().strip()
     department = Department.objects.filter(code__iexact=dept).first()
@@ -145,6 +159,7 @@ def display_dept(request, dept):
     })
 
 
+@is_pcr_data
 def display_history(request, course, instructor):
     req_instructor = instructor
     info = re.match(r"(\d+)-+(\w+)-+(\w*)", req_instructor)
