@@ -15,6 +15,15 @@ class AuthPage extends Component {
         this.checkAuth = this.checkAuth.bind(this);
     }
 
+    componentWillUpdate() {
+        if (!this.state.isAuthed && this.state.authUrl) {
+            document.body.style.overflow = 'hidden';
+        }
+        else {
+            document.body.style.overflow = null;
+        }
+    }
+
     checkAuth() {
         api_auth().then(() => {
             this.setState({
