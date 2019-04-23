@@ -579,13 +579,9 @@ i.fa.fa-cart-plus {
     display: none;
 }
 
-#course-table_filter label input, #course-details-table_filter label input {
-    font-family: Lato, Helvetica, sans-serif;
-    margin-left: 0;
-}
 
-#course-table_paginate, #course-details-table_paginate {
-    padding-top: 0.5rem;
+#course-details {
+    flex: 1;
 }
 
 #course-table_paginate > .paginate_button:first-child, #course-details-table_paginate > .paginate_button:first-child {
@@ -771,6 +767,7 @@ i.fa.fa-cart-plus {
 
 #footer {
     margin:15px 0px;
+    width: 100%;
 }
 #footer a {
     border:none;

@@ -4,6 +4,7 @@ import ScoreBox from './ScoreBox';
 import NavBar from './NavBar';
 import DetailsBox from './DetailsBox';
 import SearchBar from './SearchBar';
+import Footer from './Footer';
 import { api_review_data, api_live } from './api';
 
 
@@ -113,7 +114,6 @@ class ReviewPage extends Component {
     }
 
     // TODO: implement cart page
-    // TODO: implement footer (add feedback and logout links)
     // TODO: implement faq, about
     render() {
         if (!this.state.code) {
@@ -125,6 +125,7 @@ class ReviewPage extends Component {
                         </div>
                     </div>
                     <SearchBar onSelect={this.navigateToPage} isTitle={true} />
+                    <Footer style={{ marginTop: 150 }} />
                 </div>
             );
         }
@@ -152,6 +153,7 @@ class ReviewPage extends Component {
                             <h1 style={{ fontSize: '1.5em', marginTop: 15 }}>{this.state.error}</h1>
                         </div>
                     }
+                <Footer />
             </div>
         );
     }
