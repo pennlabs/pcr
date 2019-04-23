@@ -7,7 +7,7 @@ from django.conf import settings
 from api.apiconsumer.models import APIConsumer
 
 
-@functools.lru_cache(maxsize=None)
+@functools.lru_cache(maxsize=32768)
 def api(domain, *args, **kwargs):
     if not "token" in kwargs:
         kwargs["token"] = APIConsumer.objects.filter(permission_level=9001).first().token
