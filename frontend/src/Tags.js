@@ -27,11 +27,23 @@ class Tags extends Component {
         delete new_instructors[i];
     });
 
+    const is_taught = Object.values(this.props.courses).length > 0;
+    var most_recent = null;
+
+    if (!is_taught) {
+        const semester_taught = Math.max(...Object.values(this.props.data.instructors).map((a) => a.most_recent_semester).filter((a) => typeof a !== 'undefined').map((a) => {
+            const x = a.split(" ");
+            return parseInt(x[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[x[0]];
+        }));
+        most_recent = ['Spring', 'Summer', 'Fall'][semester_taught % 3] + " " + Math.floor(semester_taught / 3);
+    }
+
     return (
         <div>
             <div id="live">
-                <PopoverTitle title={<span>This course will be taught in <b>{this.props.term}</b>.</span>}><span className="badge badge-info">{this.props.term}</span></PopoverTitle>
-                <PopoverTitle title={<span>This course is <b>{this.props.credits}</b> credit unit(s).</span>}><span className="badge badge-primary">{this.props.credits} CU</span></PopoverTitle>
+                {is_taught ? <PopoverTitle title={<span>This course will be taught in <b>{this.props.term}</b>.</span>}><span className="badge badge-info">{this.props.term}</span></PopoverTitle>
+                           : <PopoverTitle title={<span>This course was last taught in <b>{most_recent}</b>.</span>}><span className="badge badge-default">{most_recent}</span></PopoverTitle>}
+                {is_taught && <PopoverTitle title={<span>This course is <b>{this.props.credits}</b> credit unit(s).</span>}><span className="badge badge-primary">{this.props.credits} CU</span></PopoverTitle>}
                 {Object.values(this.props.courses).map((info, i) => {
                     const desc = info[0].activity_description;
                     const open = info.filter((a) => !a.is_closed && !a.is_cancelled).length;
