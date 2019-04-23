@@ -1,6 +1,7 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react';
 import { PopoverTitle } from './Popover';
+import { Link } from 'react-router-dom';
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
 const nameCache = {};
@@ -37,7 +38,7 @@ class Tags extends Component {
                     return <PopoverTitle key={i} title={<span><b>{open}</b> out of <b>{info.length}</b> {desc.toLowerCase()} sections are open for this course.</span>}><span className={"badge " + (open ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open}/{info.length}</span></span></PopoverTitle>;
                 })}
             </div>
-            {!!Object.keys(new_instructors).length && <small>New Instructors: {Object.values(new_instructors).sort().map((item, i) => <span key={i}>{i > 0 && ", "}{this.props.instructor_links[item] ? <a href={this.props.instructor_links[item]}>{item}</a> : item}</span>)}</small>}
+            {!!Object.keys(new_instructors).length && <small>New Instructors: {Object.values(new_instructors).sort().map((item, i) => <span key={i}>{i > 0 && ", "}{this.props.instructor_links[item] ? <Link to={this.props.instructor_links[item]}>{item}</Link> : item}</span>)}</small>}
         </div>
     );
   }

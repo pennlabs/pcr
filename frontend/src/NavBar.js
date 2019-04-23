@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SearchBar from './SearchBar';
+import { Link } from 'react-router-dom';
 
 
 class NavBar extends Component {
@@ -33,14 +34,14 @@ class NavBar extends Component {
         return (
             <div id="header">
                 <span className="float-left">
-                    <a href="/"><div id="logo"></div></a>
+                    <Link to="/"><div id="logo"></div></Link>
                     <SearchBar onSelect={this.props.onSelect} />
                 </span>
                     <span className="float-right">
-                    <a href="/cart" id="cart-icon" title="Course Cart">
+                    <Link to="/cart" id="cart-icon" title="Course Cart">
                         <i id="cart" className="fa fa-shopping-cart"></i>
                         {this.state.courseCount > 0 && <span id="cart-count">{this.state.courseCount}</span>}
-                    </a>
+                    </Link>
                 </span>
             </div>
         );

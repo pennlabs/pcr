@@ -3,6 +3,7 @@ import ScoreTable from './ScoreTable';
 import ColumnSelector from './ColumnSelector';
 import { convertInstructorName } from './Tags';
 import { PopoverTitle } from './Popover';
+import { Link } from 'react-router-dom';
 
 import 'react-table/react-table.css';
 
@@ -127,7 +128,7 @@ class ScoreBox extends Component {
             show: true,
             required: true,
             Cell: props => <span>
-                {is_course && <a href={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></a>}
+                {is_course && <Link to={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></Link>}
                 {props.value}
                 {props.original.star && <PopoverTitle title={<span><b>{props.value}</b> is teaching during <b>{this.props.live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.</span>}><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}
             </span>,

@@ -12,11 +12,9 @@ class ReviewPage extends Component {
     constructor(props) {
         super(props);
 
-        const pageInfo = this.getPageInfo();
-
         this.state = {
-            type: pageInfo[0],
-            code: pageInfo[1],
+            type: this.props.match.params.type,
+            code: this.props.match.params.code,
             data: null,
             error: null,
             instructor_code: null,
@@ -26,16 +24,23 @@ class ReviewPage extends Component {
         this.navigateToPage = this.navigateToPage.bind(this);
         this.getReviewData = this.getReviewData.bind(this);
         this.showInstructorHistory = this.showInstructorHistory.bind(this);
-        this.loadPage = this.loadPage.bind(this);
     }
 
     componentDidMount() {
-        window.onpopstate = this.loadPage;
         this.getReviewData();
     }
 
-    componentWillUnmount() {
-        window.onpopstate = null;
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.type !== prevProps.match.params.type || this.props.match.params.code !== prevProps.match.params.code) {
+            this.setState({
+                    type: this.props.match.params.type,
+                    code: this.props.match.params.code,
+                    data: null,
+                    instructor_code: null
+                },
+                this.getReviewData
+            );
+        }
     }
 
     getPageInfo() {
@@ -47,15 +52,6 @@ class ReviewPage extends Component {
         }
 
         return pageInfo;
-    }
-
-    loadPage() {
-        const pageInfo = this.getPageInfo();
-        this.setState({
-            type: pageInfo[0],
-            code: pageInfo[1],
-            data: null
-        }, this.getReviewData);
     }
 
     getReviewData() {
@@ -96,15 +92,7 @@ class ReviewPage extends Component {
         else {
             loc = ["course", value];
         }
-        this.setState({
-            type: loc[0],
-            code: loc[1],
-            data: null,
-            instructor_code: null
-            },
-            this.getReviewData
-        );
-        window.history.pushState(null, "Penn Course Review", window.location.protocol + "//" + window.location.host + "/" + loc[0] + "/" + loc[1]);
+        this.props.history.push("/" + loc[0] + "/" + loc[1]);
     }
 
     showInstructorHistory(instructor) {
