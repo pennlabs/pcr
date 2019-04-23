@@ -130,17 +130,6 @@ table.dataTable, table.dataTable th, table.dataTable td {
     max-width: 100%;
 }
 
-#row-select-chart-container {
-    display: none;
-    margin-left:-15px;
-    margin-right: -15px;
-    text-align: center;
-}
-
-#row-select-chart {
-    margin-bottom: 15px;
-}
-
 #row-select-text {
     font-size: 1.2em;
     color: #999;

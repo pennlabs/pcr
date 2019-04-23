@@ -185,16 +185,18 @@ class InfoBox extends Component {
 
             { pageType === "department" &&
                     <div className="department-content">
-                    <div id="row-select-placeholder">
-                    <object type="image/svg+xml" data="/static/image/selectrow.svg">
-                    <img alt="Select Row" src="/static/image/selectrow.svg" />
-                    </object>
-                    <div id="row-select-text">Select a few rows to begin comparing courses.</div>
-                    </div>
-                    <div id="row-select-chart-container">
-                    <canvas id="row-select-chart"></canvas>
-                    <button id="chart-clear" className="btn btn-action">Clear Chart</button>
-                    </div>
+                    {this.props.selected_courses && this.props.selected_courses.length ?
+                        <div id="row-select-chart-container">
+                            // TODO: insert chart here
+                        </div>
+                        :
+                        <div id="row-select-placeholder">
+                            <object type="image/svg+xml" data="/static/image/selectrow.svg">
+                                <img alt="Select Row" src="/static/image/selectrow.svg" />
+                            </object>
+                            <div id="row-select-text">Select a few rows to begin comparing courses.</div>
+                        </div>
+                    }
                     </div>
             }
 

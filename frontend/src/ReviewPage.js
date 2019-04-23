@@ -18,12 +18,14 @@ class ReviewPage extends Component {
             data: null,
             error: null,
             instructor_code: null,
-            live_data: null
+            live_data: null,
+            selected_courses: null
         };
 
         this.navigateToPage = this.navigateToPage.bind(this);
         this.getReviewData = this.getReviewData.bind(this);
         this.showInstructorHistory = this.showInstructorHistory.bind(this);
+        this.showDepartmentGraph = this.showDepartmentGraph.bind(this);
     }
 
     componentDidMount() {
@@ -101,6 +103,12 @@ class ReviewPage extends Component {
         });
     }
 
+    showDepartmentGraph(val) {
+        this.setState({
+            selected_courses: val
+        });
+    }
+
     render() {
         if (!this.state.code) {
             return (
@@ -122,10 +130,10 @@ class ReviewPage extends Component {
                     { !this.state.error ? (this.state.data ?
                         <div id="content" className="row">
                             <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
-                                <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} />
+                                <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} selected_courses={this.state.selected_courses} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
-                                <ScoreBox data={this.state.data} type={this.state.type} live_data={this.state.live_data} onSelect={this.state.type === "course" ? this.showInstructorHistory : this.navigateToPage} />
+                                <ScoreBox data={this.state.data} type={this.state.type} live_data={this.state.live_data} onSelect={{course: this.navigateToPage, instructor: this.showInstructorHistory, department: this.showDepartmentGraph}[this.state.type]} />
                                 { this.state.type === "course" && <DetailsBox course={this.state.code} instructor={this.state.instructor_code} /> }
                             </div>
                         </div>

@@ -7,7 +7,7 @@ class ScoreTable extends Component {
         super(props);
 
         this.state = {
-            selected: null,
+            selected: this.props.multi ? [] : null,
             sorted: this.props.sorted
         };
 
@@ -16,9 +16,9 @@ class ScoreTable extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
-            this.setState({ selected: null });
+            this.setState({ selected: this.props.multi ? [] : null });
             if (this.props.onSelect) {
-                this.props.onSelect(null);
+                this.props.onSelect(this.props.multi ? [] : null);
             }
         }
     }
@@ -37,14 +37,28 @@ class ScoreTable extends Component {
                         return {
                             onClick: (e) => {
                                 this.setState((state) => {
-                                    const noRow = rowInfo.index === state.selected;
-                                    if (this.props.onSelect) {
-                                        this.props.onSelect(noRow ? null : rowInfo.original.key);
+                                    const noRow = this.props.multi ? state.selected.indexOf(rowInfo.index) !== -1 : rowInfo.index === state.selected;
+                                    if (this.props.multi) {
+                                        if (noRow) {
+                                            state.selected.splice(state.selected.indexOf(rowInfo.index), 1);
+                                        }
+                                        else {
+                                            state.selected.push(rowInfo.index);
+                                        }
+                                        if (this.props.onSelect) {
+                                            this.props.onSelect(state.selected);
+                                        }
+                                        return {selected: state.selected.slice() };
                                     }
-                                    return {selected: noRow ? null : rowInfo.index};
+                                    else {
+                                        if (this.props.onSelect) {
+                                            this.props.onSelect(noRow ? null : rowInfo.original.key);
+                                        }
+                                        return {selected: noRow ? null : rowInfo.index};
+                                    }
                                 });
                             },
-                            className: rowInfo.index === this.state.selected ? 'selected' : undefined
+                            className: (this.props.multi ? this.state.selected.indexOf(rowInfo.index) !== -1 : rowInfo.index === this.state.selected) ? 'selected' : undefined
                         };
                     }
                     return {};

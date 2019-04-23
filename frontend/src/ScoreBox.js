@@ -192,7 +192,7 @@ class ScoreBox extends Component {
                 </div>
                 <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>
                 <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
-                <ScoreTable sorted={[{id: is_course ? 'name' : 'code', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
+                <ScoreTable multi={this.props.type === "department"} sorted={[{id: is_course ? 'name' : 'code', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
     }
