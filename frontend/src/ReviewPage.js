@@ -101,7 +101,6 @@ class ReviewPage extends Component {
         });
     }
 
-    // TODO: implement cart page
     render() {
         if (!this.state.code) {
             return (

@@ -72,7 +72,10 @@ class InfoBox extends Component {
             else {
                 content = this.state.items.instructors[key];
             }
-            localStorage.setItem(this.state.items.code, JSON.stringify(content));
+            localStorage.setItem(this.state.items.code, JSON.stringify({
+                course: this.state.items.code,
+                info: Object.keys(content.average_reviews).map((a) => ({category: a, average: content.average_reviews[a], recent: content.recent_reviews[a]}))
+            }));
             this.setState({inCourseCart: true});
             window.onCartUpdated();
         };

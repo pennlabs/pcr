@@ -6,8 +6,95 @@ import Footer from './Footer';
 
 
 class InfoPage extends Component {
+    componentDidMount() {
+        if (this.props.match.params.page === "cart") {
+            window.onCartLoad();
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.match.params.page === "cart") {
+            window.onCartUnload();
+        }
+        if (this.props.match.params.page === "cart") {
+            window.onCartLoad();
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.props.match.params.page === "cart") {
+            window.onCartUnload();
+        }
+    }
+
     render() {
-        var content;
+        var content = (
+<center className="box" style={{ margin: '30px auto', maxWidth: 720 }}>
+    <p className="courseCartHeader title">My Course Cart</p>
+    <p className="courseCartDesc">The course cart is a feature for you to see all the relevant reviews for your selected courses at once with at-a-glance statistics. Search for courses to add them to your cart.</p>
+    <div id="bannerScore">
+        <div className="scoreboxrow courseCartRow">
+            <div className="scorebox course">
+                <p className="num" id="courseBoxOne">0.0</p>
+                <p className="desc">Course</p>
+            </div>
+            <div className="scorebox instructor">
+                <p className="num" id="courseBoxTwo">0.0</p>
+                <p className="desc">Instructor</p>
+            </div>
+            <div className="scorebox difficulty">
+                <p className="num" id="courseBoxThree">0.0</p>
+                <p className="desc">Difficulty</p>
+            </div>
+            <div className="scorebox workload">
+                <p className="num" id="courseBoxFour">0.0</p>
+                <p className="desc">Workload</p>
+            </div>
+        </div>
+    </div>
+    <div className="clear"></div>
+    <div className="fillerBox"></div>
+    <div id="choose-cols" style={{ display: 'none' }}>
+        <div id="choose-cols-inner">
+            <div className="disable-selection box" id="choose-cols-content">
+                <h1>Choose 4 columns to display</h1>
+                <div className="clearfix">
+                    <div className="col">
+                        <p><input type="checkbox" value="rCourseQuality" id="checkbox_rCourseQuality" name="rCourseQuality" /><label htmlFor="checkbox_rCourseQuality">Course Quality</label></p>
+                        <p><input type="checkbox" value="rInstructorQuality" id="checkbox_rInstructorQuality" name="rInstructorQuality" /><label htmlFor="checkbox_rInstructorQuality">Instructor Quality</label></p>
+                        <p><input type="checkbox" value="rDifficulty" id="checkbox_rDifficulty" name="rDifficulty" /><label htmlFor="checkbox_rDifficulty">Difficulty</label></p>
+                        <p><input type="checkbox" value="rAmountLearned" id="checkbox_rAmountLearned" name="rAmountLearned" /><label htmlFor="checkbox_rAmountLearned">Amount Learned</label></p>
+                        <p><input type="checkbox" value="rWorkRequired" id="checkbox_rWorkRequired" name="rWorkRequired" /><label htmlFor="checkbox_rWorkRequired">Amount of Work</label></p>
+                        <p><input type="checkbox" value="rReadingsValue" id="checkbox_rReadingsValue" name="rReadingsValue" /><label htmlFor="checkbox_rReadingsValue">Value of Readings</label></p>
+                        <p><input type="checkbox" value="rCommAbility" id="checkbox_rCommAbility" name="rCommAbility" /><label htmlFor="checkbox_rCommAbility">Instructor Communication</label></p>
+                    </div>
+                    <div className="col">
+                        <p><input type="checkbox" value="rInstructorAccess" id="checkbox_rInstructorAccess" name="rInstructorAccess" /><label htmlFor="checkbox_rInstructorAccess">Instructor Accessibility</label></p>
+                        <p><input type="checkbox" value="rStimulateInterest" id="checkbox_rStimulateInterest" name="rStimulateInterest" /><label htmlFor="checkbox_rStimulateInterest">Ability to Stimulate Interest</label></p>
+                        <p><input type="checkbox" value="rTAQuality" id="checkbox_rTAQuality" name="rTAQuality" /><label htmlFor="checkbox_rTAQuality">TA Quality</label></p>
+                        <p><input type="checkbox" value="rRecommendMajor" id="checkbox_rRecommendMajor" name="rRecommendMajor" /><label htmlFor="checkbox_rRecommendMajor">Recommend for Majors</label></p>
+                        <p><input type="checkbox" value="rRecommendNonMajor" id="checkbox_rRecommendNonMajor" name="rRecommendNonMajor" /><label htmlFor="checkbox_rRecommendNonMajor">Recommend for Non-Majors</label></p>
+                    </div>
+                </div>
+                <div id="buttons" className="clearfix">
+                    <div className="tooltip">
+                        <span className="tooltiptext" id="submitCategoriesPopup">Please Select Four Categories</span>
+                    </div>
+                    <input type="button" className="btn btn-primary" value="Submit" />
+                    <input type="button" className="btn btn-primary mr-2" value="Cancel" onClick={window.cancel_choose_cols} />
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="categoriesButton" className="btn btn-primary mr-2">Choose Categories</button>
+    <div id="toggleView" className="btn-group">
+        <span className="btn btn-primary" id="view_average" onClick={() => window.set_datamode(0)}>Average</span><span className="btn btn-secondary" id="view_recent" onClick={() => window.set_datamode(1)}>Most Recent</span>
+    </div>
+    <div className="clear"></div>
+    <div id="boxHelpTag">Click a course to exclude it from the average.</div>
+    <div id="courseBox"></div>
+</center>
+        );
 
         if (this.props.match.params.page === "about") {
             content = (<div className="center-narrow">
