@@ -7,7 +7,7 @@ class ScoreTable extends Component {
         super(props);
 
         this.state = {
-            selected: this.props.multi ? [] : null,
+            selected: this.props.multi ? {} : null,
             sorted: this.props.sorted
         };
 
@@ -16,9 +16,9 @@ class ScoreTable extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
-            this.setState({ selected: this.props.multi ? [] : null });
+            this.setState({ selected: this.props.multi ? {} : null });
             if (this.props.onSelect) {
-                this.props.onSelect(this.props.multi ? [] : null);
+                this.props.onSelect(this.props.multi ? {} : null);
             }
         }
     }
@@ -37,18 +37,18 @@ class ScoreTable extends Component {
                         return {
                             onClick: (e) => {
                                 this.setState((state) => {
-                                    const noRow = this.props.multi ? state.selected.indexOf(rowInfo.index) !== -1 : rowInfo.index === state.selected;
+                                    const noRow = this.props.multi ? rowInfo.index in state.selected : rowInfo.index === state.selected;
                                     if (this.props.multi) {
                                         if (noRow) {
-                                            state.selected.splice(state.selected.indexOf(rowInfo.index), 1);
+                                            delete state.selected[rowInfo.index];
                                         }
                                         else {
-                                            state.selected.push(rowInfo.index);
+                                            state.selected[rowInfo.index] = rowInfo;
                                         }
                                         if (this.props.onSelect) {
                                             this.props.onSelect(state.selected);
                                         }
-                                        return {selected: state.selected.slice() };
+                                        return {selected: {...state.selected}};
                                     }
                                     else {
                                         if (this.props.onSelect) {
@@ -58,7 +58,7 @@ class ScoreTable extends Component {
                                     }
                                 });
                             },
-                            className: (this.props.multi ? this.state.selected.indexOf(rowInfo.index) !== -1 : rowInfo.index === this.state.selected) ? 'selected' : undefined
+                            className: (this.props.multi ? rowInfo.index in this.state.selected : rowInfo.index === this.state.selected) ? 'selected' : undefined
                         };
                     }
                     return {};

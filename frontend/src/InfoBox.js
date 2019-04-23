@@ -25,6 +25,7 @@ class InfoBox extends Component {
 
         this.addToCourseCart = this.addToCourseCart.bind(this);
         this.removeFromCourseCart = this.removeFromCourseCart.bind(this);
+        this.renderChart = this.renderChart.bind(this);
     }
 
     componentDidMount() {
@@ -33,6 +34,49 @@ class InfoBox extends Component {
                 this.setState({
                     contact: res
                 });
+            });
+        }
+        this.renderChart();
+    }
+
+    componentDidUpdate() {
+        this.renderChart();
+    }
+
+    componentWillUnmount() {
+        if (typeof window.deptChart !== 'undefined') {
+            window.deptChart.destroy();
+            window.deptChart = undefined;
+        }
+    }
+
+    renderChart() {
+        if (typeof this.refs.chart !== 'undefined') {
+            if (typeof window.deptChart !== 'undefined') {
+                window.deptChart.destroy();
+                window.deptChart = undefined;
+            }
+            window.deptChart = new window.Chart(this.refs.chart.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: Object.values(this.props.selected_courses).map((a) => a.original.code),
+                    datasets: ["rCourseQuality", "rInstructorQuality", "rDifficulty", "rWorkRequired"].map((a, i) => ({
+                        label: a.substring(1).split(/(?=[A-Z])/).join(" "),
+                        data: Object.values(this.props.selected_courses).map((b) => (b.original[a] || {average: 0}).average),
+                        backgroundColor: ["#6274f1", "#ffc107", "#76bf96", "#df5d56"][i]
+                    })),
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                min: 0,
+                                max: 4
+                            }
+                        }]
+                    }
+                }
             });
         }
     }
@@ -185,9 +229,10 @@ class InfoBox extends Component {
 
             { pageType === "department" &&
                     <div className="department-content">
-                    {this.props.selected_courses && this.props.selected_courses.length ?
+                    {this.props.selected_courses && Object.keys(this.props.selected_courses).length ?
                         <div id="row-select-chart-container">
-                            // TODO: insert chart here
+                            <br /><br />
+                            <canvas ref="chart" />
                         </div>
                         :
                         <div id="row-select-placeholder">
