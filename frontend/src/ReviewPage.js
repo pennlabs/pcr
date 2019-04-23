@@ -87,6 +87,9 @@ class ReviewPage extends Component {
     }
 
     navigateToPage(value) {
+        if (!value) {
+            return;
+        }
         var loc;
         if (value.url) {
             loc = value.url.split("/");

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.http import JsonResponse
-from .models import APIConsumer, generate_api_consumer
+from .models import APIConsumer, APIUser, generate_api_consumer
 import requests
 
 BASE_API = 'https://api.pennlabs.org'
@@ -49,12 +49,15 @@ class Authenticate(object):
             if not hasattr(request, 'environ') or not request.environ.get('REMOTE_USER'):
                 consumer = None
             else:
-                consumer = ShibbolethConsumer(request.environ['REMOTE_USER'].lower().split('@')[0])
+                consumer, _ = APIUser.objects.get_or_create(username=request.environ['REMOTE_USER'].lower().split('@')[0])
         else:
             try:
                 consumer = APIConsumer.objects.get(token=token)
             except APIConsumer.DoesNotExist:
-                consumer = None
+                try:
+                    consumer = APIUser.objects.get(token=token)
+                except APIUser.DoesNotExist:
+                    consumer = None
 
         if request.GET.get('origin', None) == 'labs-api' and not consumer:
             validation = requests.get(BASE_API + '/validate/' + token).json()

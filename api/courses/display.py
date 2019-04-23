@@ -5,6 +5,7 @@ from django.db.models import Q, Avg
 from statistics import mean
 
 from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
+from ..apiconsumer.models import APIUser
 
 
 def titleize(name):
@@ -21,6 +22,17 @@ def is_pcr_data(func):
 
         return func(request, *args, **kwargs)
     return wrapper
+
+
+def display_token(request):
+    if isinstance(request.consumer, APIUser):
+        return JsonResponse({
+            "token": request.consumer.token
+        })
+
+    return JsonResponse({
+        "error": "Cannot retrieve token with given parameters."
+    })
 
 
 @is_pcr_data
