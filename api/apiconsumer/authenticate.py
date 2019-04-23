@@ -50,11 +50,11 @@ class Authenticate(object):
                 consumer = None
             else:
                 consumer = ShibbolethConsumer(request.environ['REMOTE_USER'].lower().split('@')[0])
-
-        try:
-            consumer = APIConsumer.objects.get(token=token)
-        except APIConsumer.DoesNotExist:
-            consumer = None
+        else:
+            try:
+                consumer = APIConsumer.objects.get(token=token)
+            except APIConsumer.DoesNotExist:
+                consumer = None
 
         if request.GET.get('origin', None) == 'labs-api' and not consumer:
             validation = requests.get(BASE_API + '/validate/' + token).json()
