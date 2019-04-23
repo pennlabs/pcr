@@ -35,7 +35,7 @@ class NavBar extends Component {
             <div id="header">
                 <span className="float-left">
                     <Link to="/"><div id="logo"></div></Link>
-                    <SearchBar onSelect={this.props.onSelect} />
+                    <SearchBar />
                 </span>
                     <span className="float-right">
                     <Link to="/cart" id="cart-icon" title="Course Cart">

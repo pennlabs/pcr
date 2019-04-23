@@ -3,6 +3,7 @@ import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import { css } from 'emotion';
 import { api_autocomplete } from './api';
+import { withRouter } from 'react-router-dom';
 
 
 class SearchBar extends Component {
@@ -75,12 +76,10 @@ class SearchBar extends Component {
     }
 
     handleChange(value) {
-        if (this.props.onSelect) {
-            this.props.onSelect(value);
-            this.setState({
-                searchValue: null
-            });
-        }
+        this.props.history.push("/" + value.url);
+        this.setState({
+            searchValue: null
+        });
     }
 
     render() {
@@ -123,4 +122,4 @@ class SearchBar extends Component {
     }
 }
 
-export default SearchBar;
+export default withRouter(SearchBar);

@@ -9,7 +9,7 @@ from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Depar
 
 def titleize(name):
     """ Titleize a course name or instructor, taking into account exceptions such as II. """
-    return name.strip().title().replace("Iii", "III").replace("Ii", "II")
+    return name.strip().title().replace("Iii", "III").replace("Ii", "II").replace("'S", "'s")
 
 
 def display_course(request, course):

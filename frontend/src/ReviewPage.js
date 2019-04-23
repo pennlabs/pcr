@@ -102,7 +102,6 @@ class ReviewPage extends Component {
     }
 
     // TODO: implement cart page
-    // TODO: implement faq, about
     render() {
         if (!this.state.code) {
             return (
@@ -112,7 +111,7 @@ class ReviewPage extends Component {
                             <img src="/static/image/logo.png" alt="Penn Course Review" /> <span className="title-text">Penn Course Review</span>
                         </div>
                     </div>
-                    <SearchBar onSelect={this.navigateToPage} isTitle={true} />
+                    <SearchBar isTitle={true} />
                     <Footer style={{ marginTop: 150 }} />
                 </div>
             );
@@ -120,7 +119,7 @@ class ReviewPage extends Component {
 
         return (
             <div>
-                <NavBar onSelect={this.navigateToPage} />
+                <NavBar />
                     { !this.state.error ? (this.state.data ?
                         <div id="content" className="row">
                             <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
