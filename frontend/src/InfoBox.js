@@ -16,9 +16,6 @@ class InfoBox extends Component {
         super(props);
 
         this.state = {
-            items: this.props.data,
-            average_ratings: this.props.data.average_ratings,
-            recent_ratings: this.props.data.recent_ratings,
             contact: null,
             inCourseCart: !!localStorage.getItem(this.props.data.code)
         };
@@ -87,7 +84,7 @@ class InfoBox extends Component {
             if (key === "average") {
                 const average_reviews = {};
                 const recent_reviews = {};
-                Object.values(this.state.items.instructors).forEach(function(i) {
+                Object.values(this.props.data.instructors).forEach(function(i) {
                     Object.keys(i.recent_reviews).forEach((j) => {
                         if (!(j in recent_reviews)) {
                             recent_reviews[j] = [];
@@ -114,10 +111,10 @@ class InfoBox extends Component {
                 };
             }
             else {
-                content = this.state.items.instructors[key];
+                content = this.props.data.instructors[key];
             }
-            localStorage.setItem(this.state.items.code, JSON.stringify({
-                course: this.state.items.code,
+            localStorage.setItem(this.props.data.code, JSON.stringify({
+                course: this.props.data.code,
                 info: Object.keys(content.average_reviews).map((a) => ({category: a, average: content.average_reviews[a], recent: content.recent_reviews[a]}))
             }));
             this.setState({inCourseCart: true});
@@ -126,16 +123,16 @@ class InfoBox extends Component {
     }
 
     removeFromCourseCart() {
-        localStorage.removeItem(this.state.items.code);
+        localStorage.removeItem(this.props.data.code);
         this.setState({inCourseCart: false});
         window.onCartUpdated();
     }
 
     render() {
         const pageType = this.props.type;
-        const instructors = this.state.items.instructors;
+        const instructors = this.props.data.instructors;
 
-        if (!this.state.items) {
+        if (!this.props.data) {
             return <h1>Loading data...</h1>;
         }
 
@@ -144,7 +141,7 @@ class InfoBox extends Component {
             <div id="banner-info" data-type="course">
             { pageType === "course" &&
                 <div className="course">
-                <div className="title">{(this.state.items.code || "").replace('-', ' ')}
+                <div className="title">{(this.props.data.code || "").replace('-', ' ')}
 
                 <span className="float-right">
                 {this.state.inCourseCart ?
@@ -179,19 +176,19 @@ class InfoBox extends Component {
 
                 </div>
 
-                {!!this.state.items.aliases.length && <div className="crosslist">(Also: {this.state.items.aliases.map((cls, i) => <span key={i}>{i > 0 && ", "}<a key={i} href={"/course/" + cls}>{cls}</a></span>)})</div>}
+                {!!this.props.data.aliases.length && <div className="crosslist">(Also: {this.props.data.aliases.map((cls, i) => <span key={i}>{i > 0 && ", "}<a key={i} href={"/course/" + cls}>{cls}</a></span>)})</div>}
 
-                <p className="subtitle">{this.state.items.name}</p>
+                <p className="subtitle">{this.props.data.name}</p>
 
                 { (this.props.live_data && this.props.live_data.term) &&
-                    <Tags {...this.props.live_data} existing_instructors={Object.values(this.state.items.instructors).map((a) => a.name)} />
+                    <Tags {...this.props.live_data} existing_instructors={Object.values(this.props.data.instructors).map((a) => a.name)} />
                 }
                 </div>
             }
 
             { pageType === "instructor" &&
                     <div className="instructor">
-                    <div className="title">{this.state.items.name}</div>
+                    <div className="title">{this.props.data.name}</div>
                     {this.state.contact &&
                         <div>
                         <p className="desc">Email: <a href={"mailto:" + this.state.contact.email}>{this.state.contact.email.toLowerCase()}</a></p>
@@ -202,8 +199,8 @@ class InfoBox extends Component {
 
             { pageType === "department" &&
                     <div className="department">
-                    <div className="title">{this.state.items.name}</div>
-                    <p className="subtitle">{this.state.items.code}</p>
+                    <div className="title">{this.props.data.name}</div>
+                    <p className="subtitle">{this.props.data.code}</p>
                     </div>
             }
 
@@ -213,17 +210,17 @@ class InfoBox extends Component {
                 <div id="banner-score">
                 <ScoreboxRow
                 value="Average"
-                instructor={this.state.average_ratings.rInstructorQuality}
-                course={this.state.average_ratings.rCourseQuality}
-                difficulty={this.state.average_ratings.rDifficulty}
-                num_sections={this.state.items.num_sections}/>
+                instructor={this.props.data.average_ratings.rInstructorQuality}
+                course={this.props.data.average_ratings.rCourseQuality}
+                difficulty={this.props.data.average_ratings.rDifficulty}
+                num_sections={this.props.data.num_sections}/>
 
                 <ScoreboxRow
                 value="Recent"
-                instructor={this.state.recent_ratings.rInstructorQuality}
-                course={this.state.recent_ratings.rCourseQuality}
-                difficulty={this.state.recent_ratings.rDifficulty}
-                num_sections={this.state.items.num_sections_recent}/>
+                instructor={this.props.data.recent_ratings.rInstructorQuality}
+                course={this.props.data.recent_ratings.rCourseQuality}
+                difficulty={this.props.data.recent_ratings.rDifficulty}
+                num_sections={this.props.data.num_sections_recent}/>
                 </div>
             }
 
@@ -246,7 +243,7 @@ class InfoBox extends Component {
             }
 
             { pageType === "course" &&
-                    <p className="desc">{this.state.items.description}</p>
+                    <p className="desc">{this.props.data.description}</p>
             }
 
             </div>
