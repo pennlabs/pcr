@@ -6,6 +6,18 @@ import requests
 BASE_API = 'https://api.pennlabs.org'
 
 
+class ShibbolethConsumer(object):
+    def __init__(self, username):
+        self.name = username
+        self.permission_level = 2
+        self.valid = True
+        self.access_pcr = True
+        self.access_secret = False
+
+    def __str__(self):
+        return "%s (level %d)" % (self.name, self.permission_level)
+
+
 class Authenticate(object):
     """Looks up the token (passed as a GET parameter) in the token database.
     Ensures that it is a valid token, and passes the APIConsumer (i.e. user) to
@@ -25,8 +37,19 @@ class Authenticate(object):
 
         try:
             token = request.GET['token']
-        except:
+        except KeyError:
             return JsonResponse({"error": "No token provided."}, status=403)
+
+        # The reverse proxy server (Nginx, Apache) sets the REMOTE_USER variable.
+        # PCR must be run using UWSGI in order to correctly receive this variable.
+        # Do not use headers to validate the Shibboleth token, there are some endpoints that
+        # do not have Shibboleth set up, allowing anyone to pass a header and gain access.
+
+        if token == 'shibboleth':
+            if not hasattr(request, 'environ') or not request.environ.get('REMOTE_USER'):
+                consumer = None
+            else:
+                consumer = ShibbolethConsumer(request.environ['REMOTE_USER'].lower().split('@')[0])
 
         try:
             consumer = APIConsumer.objects.get(token=token)
