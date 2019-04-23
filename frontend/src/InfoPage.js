@@ -28,7 +28,10 @@ class InfoPage extends Component {
     }
 
     render() {
-        var content = (
+        var content = <center style={{ margin: 30 }}><div style={{ color: '#888', fontSize: '2em' }}>404 Page not Found</div></center>;
+
+        if (this.props.match.params.page === "cart") {
+            content = (
 <center className="box" style={{ margin: '30px auto', maxWidth: 720 }}>
     <p className="courseCartHeader title">My Course Cart</p>
     <p className="courseCartDesc">The course cart is a feature for you to see all the relevant reviews for your selected courses at once with at-a-glance statistics. Search for courses to add them to your cart.</p>
@@ -94,7 +97,8 @@ class InfoPage extends Component {
     <div id="boxHelpTag">Click a course to exclude it from the average.</div>
     <div id="courseBox"></div>
 </center>
-        );
+            );
+        }
 
         if (this.props.match.params.page === "about") {
             content = (<div className="center-narrow">
