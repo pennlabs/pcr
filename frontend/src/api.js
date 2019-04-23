@@ -1,9 +1,21 @@
 const API_DOMAIN = "https://penncoursereview.com";
 const PUBLIC_API_TOKEN = "public";
-const API_TOKEN = "shibboleth";
+var API_TOKEN = "shibboleth";
 
 function api_fetch(url) {
     return fetch(url);
+}
+
+export function api_auth() {
+    const token_url = API_DOMAIN + "/api/display/token?token=shibboleth";
+    return new Promise((accept, reject) => {
+        return api_fetch(token_url).then(res => res.json()).then((res) => {
+            API_TOKEN = res.token;
+            accept();
+        }).catch(() => {
+            reject(token_url);
+        });
+    });
 }
 
 export function api_autocomplete() {

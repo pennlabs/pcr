@@ -90,14 +90,7 @@ class ReviewPage extends Component {
         if (!value) {
             return;
         }
-        var loc;
-        if (value.url) {
-            loc = value.url.split("/");
-        }
-        else {
-            loc = ["course", value];
-        }
-        this.props.history.push("/" + loc[0] + "/" + loc[1]);
+        this.props.history.push(value);
     }
 
     showInstructorHistory(instructor) {
@@ -136,7 +129,7 @@ class ReviewPage extends Component {
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} selected_courses={this.state.selected_courses} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
-                                <ScoreBox data={this.state.data} type={this.state.type} live_data={this.state.live_data} onSelect={{course: this.navigateToPage, instructor: this.showInstructorHistory, department: this.showDepartmentGraph}[this.state.type]} />
+                                <ScoreBox data={this.state.data} type={this.state.type} live_data={this.state.live_data} onSelect={{instructor: (course) => course && this.navigateToPage("/course/" + course), course: this.showInstructorHistory, department: this.showDepartmentGraph}[this.state.type]} />
                                 { this.state.type === "course" && <DetailsBox course={this.state.code} instructor={this.state.instructor_code} /> }
                             </div>
                         </div>
