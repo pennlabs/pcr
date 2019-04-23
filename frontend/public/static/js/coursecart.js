@@ -243,7 +243,9 @@ const drawCourses = function() {
     });
 
     update();
-    window.cartInterval = setInterval(update, 1000);
+    if (window.cartInterval === null) {
+        window.cartInterval = setInterval(update, 1000);
+    }
 }
 
 //function for closing the choose categories popup
@@ -263,6 +265,7 @@ const set_datamode = function(n) {
 }
 
 window.onCartLoad = () => {
+    window.cartInterval = null;
     window.set_datamode = set_datamode;
     window.cancel_choose_cols = cancel_choose_cols;
 
@@ -291,4 +294,5 @@ window.onCartLoad = () => {
 window.onCartUnload = () => {
     window.removeEventListener('storage', drawCourses);
     clearInterval(window.cartInterval);
+    window.cartInterval = null;
 };
