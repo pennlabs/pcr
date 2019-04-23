@@ -74,7 +74,7 @@ class Popover extends Component {
     render() {
         return (
             <span ref="button"
-                onClick={!this.props.hover ? this.onToggle : undefined}
+                onClick={!this.props.hover ? () => this.onToggle() : undefined}
                 onMouseEnter={this.props.hover ? () => this.onToggle(true) : undefined}
                 onMouseLeave={this.props.hover ? () => this.onToggle(false) : undefined}>{this.props.button || <button>Toggle</button>}</span>
         );
