@@ -12,6 +12,7 @@ def titleize(name):
     """ Titleize a course name or instructor, taking into account exceptions such as II. """
     name = re.sub(r"I(i+)", lambda m: "I" + m.group(1).upper(), name.strip().title())
     name = re.sub(r"(\d)(St|Nd|Rd|Th)", lambda m: m.group(1) + m.group(2).lower(), name)
+    name = re.sub(r"Mc([a-z])", lambda m: "Mc" + m.group(1).upper(), name)
     name = name.replace("'S", "'s")
     return name
 
