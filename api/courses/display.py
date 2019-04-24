@@ -37,7 +37,7 @@ def display_token(request):
 
 @is_pcr_data
 def display_course(request, course):
-    info = re.match(r"([A-Za-z]{3,4})[ \-]{1}(\d+)", course)
+    info = re.match(r"([A-Za-z]{2,4})[ \-]{1}(\d+)", course)
     if info is None:
         return JsonResponse({
             "error": "Incorrectly formatted course code '{}'.".format(course)
@@ -185,7 +185,7 @@ def display_history(request, course, instructor):
         return JsonResponse({
             "error": "Could not find instructor matching code '{}'.".format(req_instructor)
         })
-    info = re.match(r"([A-Za-z]{3,4})[ \-]{1}(\d+)", course)
+    info = re.match(r"([A-Za-z]{2,4})[ \-]{1}(\d+)", course)
     if info is None:
         return JsonResponse({
             "error": "Incorrectly formatted course code '{}'.".format(course)
