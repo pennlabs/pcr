@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react';
-import { PopoverTitle } from './Popover';
+import Popover, { PopoverTitle } from './Popover';
 import { Link } from 'react-router-dom';
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
@@ -38,6 +38,8 @@ class Tags extends Component {
         most_recent = ['Spring', 'Summer', 'Fall'][semester_taught % 3] + " " + Math.floor(semester_taught / 3);
     }
 
+    const syllabi = [].concat.apply([], Object.values(this.props.courses).map((a) => Object.values(a).map((b) => ({url: b.syllabus_url, name: b.section_id_normalized + ' - ' + (b.instructors.map((c) => c.name).join(', ') || 'Unknown')})).filter((b) => b.url))).sort((a, b) => a.name.localeCompare(b.name));
+
     return (
         <div>
             <div id="live">
@@ -49,6 +51,9 @@ class Tags extends Component {
                     const open = info.filter((a) => !a.is_closed && !a.is_cancelled).length;
                     return <PopoverTitle key={i} title={<span><b>{open}</b> out of <b>{info.length}</b> {desc.toLowerCase()} sections are open for this course.</span>}><span className={"badge " + (open ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open}/{info.length}</span></span></PopoverTitle>;
                 })}
+                {!!syllabi.length && <Popover button={<span className="badge badge-default">{syllabi.length} {syllabi.length !== 1 ? 'Syllabi' : 'Syllabus'}</span>}>
+                    {syllabi.map((a, i) => <div key={i}><a target="_blank" rel="noopener noreferrer" href={a.url}>{a.name}</a></div>)}
+                </Popover>}
             </div>
             {!!Object.keys(new_instructors).length && <small>New Instructors: {Object.values(new_instructors).sort().map((item, i) => <span key={i}>{i > 0 && ", "}{this.props.instructor_links[item] ? <Link to={this.props.instructor_links[item]}>{item}</Link> : item}</span>)}</small>}
         </div>
