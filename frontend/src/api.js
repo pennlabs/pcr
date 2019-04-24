@@ -6,16 +6,16 @@ function api_fetch(url) {
     return fetch(url);
 }
 
-export function api_auth() {
-    const token_url = API_DOMAIN + "/api/display/token?token=shibboleth";
-    return new Promise((accept, reject) => {
-        return api_fetch(token_url).then(res => res.json()).then((res) => {
-            API_TOKEN = res.token;
-            accept();
-        }).catch(() => {
-            reject(token_url);
-        });
-    });
+export function set_auth_token(token) {
+    API_TOKEN = token;
+}
+
+export function get_auth_origin() {
+    return API_DOMAIN;
+}
+
+export function get_auth_url() {
+    return API_DOMAIN + "/api/display/token?token=shibboleth&host=" + encodeURIComponent(window.location.href);
 }
 
 export function api_autocomplete() {

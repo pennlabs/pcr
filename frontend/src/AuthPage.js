@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReviewPage from './ReviewPage';
-import { api_auth } from './api';
+import { get_auth_url, get_auth_origin, set_auth_token } from './api';
 
 
 class AuthPage extends Component {
@@ -9,10 +9,11 @@ class AuthPage extends Component {
 
         this.state = {
             isAuthed: false,
-            authUrl: null
+            authUrl: get_auth_url()
         };
 
         this.checkAuth = this.checkAuth.bind(this);
+        this.receiveMessage = this.receiveMessage.bind(this);
     }
 
     componentWillUpdate() {
@@ -24,24 +25,21 @@ class AuthPage extends Component {
         }
     }
 
+    receiveMessage(e) {
+        if (e.origin !== get_auth_origin()) {
+            return;
+        }
+        set_auth_token(e.data);
+        this.setState({ isAuthed: true });
+    }
+
     componentWillUnmount() {
+        window.removeEventListener('message', this.receiveMessage, false);
         document.body.style.overflow = null;
     }
 
-    // TODO: use window.postMessage and iframes to make auth flow more smooth
     checkAuth() {
-        api_auth().then(() => {
-            this.setState({
-                isAuthed: true,
-                authUrl: null
-            });
-            document.body.style.overflow = null;
-        }).catch((url) => {
-            this.setState({
-                isAuthed: false,
-                authUrl: url
-            });
-        });
+        window.addEventListener('message', this.receiveMessage, false);
     }
 
     componentDidMount() {
@@ -49,7 +47,7 @@ class AuthPage extends Component {
     }
 
     render() {
-        return this.state.isAuthed ? <ReviewPage {...this.props} /> : (this.state.authUrl ? <iframe title="Penn Authentication" style={{ width: '100vw', height: '100vh' }} onLoad={this.checkAuth} src={this.state.authUrl} /> : <div></div>);
+        return this.state.isAuthed ? <ReviewPage {...this.props} /> : <iframe title="Penn Authentication" style={{ width: '100vw', height: '100vh' }} onLoad={this.checkAuth} src={this.state.authUrl} />;
     }
 }
 

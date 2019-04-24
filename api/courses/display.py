@@ -1,11 +1,17 @@
 import re
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.conf import settings
 from django.db.models import Q, Avg
 from statistics import mean
 
 from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
 from ..apiconsumer.models import APIUser
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 
 def titleize(name):
@@ -30,9 +36,13 @@ def is_pcr_data(func):
 
 def display_token(request):
     if isinstance(request.consumer, APIUser):
-        return JsonResponse({
-            "token": request.consumer.token
-        })
+        host_url = urlparse(request.GET['host'])
+        if host_url.scheme not in ['http', 'https'] or host_url.rsplit(":", 1)[0] not in settings.ALLOWED_HOSTS:
+            return JsonResponse({
+                "error": "Invalid host url passed to server."
+            })
+        host_url = "{}://{}/".format(host_url.scheme, host_url.netloc)
+        return HttpResponse("<html><head><style>body { background-color: #fafcff; }</style></head><body><script>window.parent.postMessage('{}', '{}');</script></body></html>".format(request.consumer.token, host_url))
 
     return JsonResponse({
         "error": "Cannot retrieve token with given parameters."
