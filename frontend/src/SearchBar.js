@@ -97,7 +97,7 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <form id="search" style={{ margin: '0 auto' }}>
+            <div id="search" style={{ margin: '0 auto' }}>
                 <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
                     Option: (props) => {
                         const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
@@ -131,7 +131,7 @@ class SearchBar extends Component {
                     option: styles => ({ ...styles, paddingTop: 5, paddingBottom: 5, cursor: 'pointer' }),
                     placeholder: styles => ({ ...styles, whiteSpace: 'nowrap', color: '#b2b2b2' })
                 }} />
-            </form>
+            </div>
         );
     }
 }
