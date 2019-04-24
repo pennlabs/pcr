@@ -5,6 +5,8 @@ import ReviewPage from './ReviewPage';
 import InfoPage from './InfoPage';
 import AuthPage from './AuthPage';
 
+// TODO: fix google analytics
+
 ReactDOM.render(<Router>
     <Switch>
         <Route exact path="/" component={ReviewPage} />

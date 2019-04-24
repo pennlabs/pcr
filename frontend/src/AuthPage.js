@@ -28,6 +28,7 @@ class AuthPage extends Component {
         document.body.style.overflow = null;
     }
 
+    // TODO: use window.postMessage and iframes to make auth flow more smooth
     checkAuth() {
         api_auth().then(() => {
             this.setState({
