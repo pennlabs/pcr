@@ -42,7 +42,7 @@ def display_token(request):
                 "error": "Invalid host url passed to server."
             })
         host_url = "{}://{}/".format(host_url.scheme, host_url.netloc)
-        return HttpResponse("<html><head><style>body { background-color: #fafcff; }</style></head><body><script>window.parent.postMessage('{}', '{}');</script></body></html>".format(request.consumer.token, host_url))
+        return HttpResponse("<html><head><style>body {{ background-color: #fafcff; }}</style></head><body><script>window.parent.postMessage('{}', '{}');</script></body></html>".format(request.consumer.token, host_url))
 
     return JsonResponse({
         "error": "Cannot retrieve token with given parameters."
