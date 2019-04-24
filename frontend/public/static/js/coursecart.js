@@ -32,7 +32,7 @@ const update = function() {
 
     //run through the courses in localStorage
     for (var key in localStorage) {
-        if (key.startsWith("columns-")) {
+        if (key.startsWith("meta-")) {
             continue;
         }
 
@@ -154,7 +154,7 @@ const drawCourses = function() {
         }
     $('#courseBox').html('');
     for (var key in localStorage) {
-        if (key.startsWith("columns-")) {
+        if (key.startsWith("meta-")) {
             continue;
         }
         var course;

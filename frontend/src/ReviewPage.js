@@ -80,6 +80,8 @@ class ReviewPage extends Component {
         if (this.state.type === "course") {
             api_live(this.state.code).then((result) => {
                 this.setState({ live_data: result });
+            }).catch(() => {
+                this.setState({ live_data: null });
             });
         }
         else {

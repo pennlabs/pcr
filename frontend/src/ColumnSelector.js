@@ -10,7 +10,7 @@ class ColumnSelector extends Component {
         this.setAllColumns = this.setAllColumns.bind(this);
         this.changeColumns = this.changeColumns.bind(this);
 
-        var defaultColumns = localStorage.getItem("columns-" + this.props.name);
+        var defaultColumns = localStorage.getItem("meta-" + this.props.name);
         if (defaultColumns) {
             defaultColumns = JSON.parse(defaultColumns);
         }
@@ -27,7 +27,7 @@ class ColumnSelector extends Component {
             return map;
         }, {});
         this.defaultColumns = Object.assign(this.defaultColumns, newColumns);
-        localStorage.setItem("columns-" + this.props.name, JSON.stringify(this.defaultColumns));
+        localStorage.setItem("meta-" + this.props.name, JSON.stringify(this.defaultColumns));
         this.props.onSelect(cols);
     }
 

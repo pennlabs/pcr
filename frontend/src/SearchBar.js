@@ -48,6 +48,14 @@ class SearchBar extends Component {
                 this._autocompleteCallback();
                 this._autocompleteCallback = null;
             }
+        }).catch(() => {
+            this.setState(state => ({
+                autocompleteOptions: []
+            }));
+            if (this._autocompleteCallback) {
+                this._autocompleteCallback();
+                this._autocompleteCallback = null;
+            }
         });
     }
 

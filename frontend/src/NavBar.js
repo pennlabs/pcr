@@ -8,7 +8,7 @@ class NavBar extends Component {
         super(props);
 
         this.state = {
-            courseCount: Object.keys(localStorage).filter((a) => !a.startsWith("columns")).length
+            courseCount: Object.keys(localStorage).filter((a) => !a.startsWith("meta-")).length
         };
 
         this.onStorageChange = this.onStorageChange.bind(this);
@@ -16,7 +16,7 @@ class NavBar extends Component {
 
     onStorageChange() {
         this.setState({
-            courseCount: Object.keys(localStorage).filter((a) => !a.startsWith("columns")).length
+            courseCount: Object.keys(localStorage).filter((a) => !a.startsWith("meta-")).length
         });
     }
 
