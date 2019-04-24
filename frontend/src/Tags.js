@@ -39,6 +39,8 @@ class Tags extends Component {
     }
 
     const syllabi = [].concat.apply([], Object.values(this.props.courses).map((a) => Object.values(a).map((b) => ({url: b.syllabus_url, name: b.section_id_normalized + ' - ' + (b.instructors.map((c) => c.name).join(', ') || 'Unknown')})).filter((b) => b.url))).sort((a, b) => a.name.localeCompare(b.name));
+    const prereq_string = [].concat.apply([], Object.values(this.props.courses).map((a) => Object.values(a).map((b) => b.prerequisite_notes.join(" ")).filter((b) => b))).join(" ");
+    const prereqs = [...new Set(prereq_string.match(/[A-Z]{2,4}[ -]\d{3}/g))].map((a) => a.replace(' ', '-'));
 
     return (
         <div>
@@ -55,7 +57,8 @@ class Tags extends Component {
                     {syllabi.map((a, i) => <div key={i}><a target="_blank" rel="noopener noreferrer" href={a.url}>{a.name}</a></div>)}
                 </Popover>}
             </div>
-            {!!Object.keys(new_instructors).length && <small>New Instructors: {Object.values(new_instructors).sort().map((item, i) => <span key={i}>{i > 0 && ", "}{this.props.instructor_links[item] ? <Link to={this.props.instructor_links[item]}>{item}</Link> : item}</span>)}</small>}
+            {!!prereqs.length && <div className="prereqs"><small>Prerequisites: {prereqs.map((a, i) => [i > 0 && ", ", <span key={i}><Link to={"/course/" + a}>{a}</Link></span>])}</small></div>}
+            {!!Object.keys(new_instructors).length && <div><small>New Instructors: {Object.values(new_instructors).sort().map((item, i) => <span key={i}>{i > 0 && ", "}{this.props.instructor_links[item] ? <Link to={this.props.instructor_links[item]}>{item}</Link> : item}</span>)}</small></div>}
         </div>
     );
   }
