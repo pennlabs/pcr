@@ -31,6 +31,7 @@ class AuthPage extends Component {
         }
         set_auth_token(e.data);
         this.setState({ isAuthed: true });
+        document.body.style.overflow = null;
     }
 
     componentWillUnmount() {
