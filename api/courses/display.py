@@ -41,9 +41,11 @@ def display_token(request):
                 "error": "No host url passed to server."
             })
         host_url = urlparse(request.GET['host'])
-        if host_url.scheme not in ['http', 'https'] or host_url.netloc.rsplit(":", 1)[0] not in settings.ALLOWED_HOSTS:
+        valid_scheme = host_url.scheme in ['http', 'https']
+        valid_host = host_url.netloc.rsplit(":", 1)[0] in settings.ALLOWED_HOSTS
+        if not valid_scheme or not valid_host:
             return JsonResponse({
-                "error": "Invalid host url passed to server."
+                "error": "Invalid host url passed to server. ({})".format("invalid protocol" if not valid_scheme else "invalid origin")
             })
         host_url = "{}://{}/".format(host_url.scheme, host_url.netloc)
         return HttpResponse("""
