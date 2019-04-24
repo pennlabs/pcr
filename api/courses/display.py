@@ -13,6 +13,7 @@ def titleize(name):
     name = re.sub(r"I(i+)", lambda m: "I" + m.group(1).upper(), name.strip().title())
     name = re.sub(r"(\d)(St|Nd|Rd|Th)", lambda m: m.group(1) + m.group(2).lower(), name)
     name = name.replace("'S", "'s")
+    return name
 
 
 def is_pcr_data(func):
