@@ -11,12 +11,16 @@ class SearchBar extends Component {
         super(props);
 
         this.state = {
-            autocompleteOptions: [],
+            autocompleteOptions: this.getSearchCache(),
             searchValue: null
         };
 
         this.autocompleteCallback = this.autocompleteCallback.bind(this);
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    getSearchCache() {
+        return "meta-search-cache" in localStorage ? JSON.parse(localStorage.getItem("meta-search-cache")).data : [];
     }
 
     componentDidMount() {
@@ -41,6 +45,7 @@ class SearchBar extends Component {
                     })
                 }
             ];
+            localStorage.setItem("meta-search-cache", JSON.stringify({data: formattedAutocomplete, time: Date.now()}));
             this.setState(state => ({
                 autocompleteOptions: formattedAutocomplete
             }));
@@ -50,7 +55,7 @@ class SearchBar extends Component {
             }
         }).catch(() => {
             this.setState(state => ({
-                autocompleteOptions: []
+                autocompleteOptions: this.getSearchCache()
             }));
             if (this._autocompleteCallback) {
                 this._autocompleteCallback();
