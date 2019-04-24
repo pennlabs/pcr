@@ -49,11 +49,11 @@ class ScoreBox extends Component {
 
         if (this.props.live_data) {
             const instructors_this_semester = {};
-            const data = {
-                open: 0,
-                all: 0
-            };
             this.props.live_data.instructors.forEach((a) => {
+                const data = {
+                    open: 0,
+                    all: 0
+                };
                 const key = convertInstructorName(a);
                 Object.values(this.props.live_data.courses).forEach((cat) => {
                     const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);

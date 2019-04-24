@@ -128,7 +128,8 @@ class SearchBar extends Component {
                         fontSize: this.props.isTitle ? '30px' : null
                     }),
                     input: styles => ({ ...styles, marginLeft: this.props.isTitle ? 0 : 10, outline: 'none', border: 'none' }),
-                    option: styles => ({ ...styles, paddingTop: 5, paddingBottom: 5, cursor: 'pointer' })
+                    option: styles => ({ ...styles, paddingTop: 5, paddingBottom: 5, cursor: 'pointer' }),
+                    placeholder: styles => ({ ...styles, whiteSpace: 'nowrap' })
                 }} />
             </form>
         );
