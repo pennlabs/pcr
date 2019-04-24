@@ -120,6 +120,8 @@ class InfoPage extends Component {
                 <p>Thanks and happy searching,</p>
                 <p><strong>Penn Labs</strong></p>
 
+                <img alt="Penn Labs" src="/static/image/labs.png" style={{ width: 100 }} />
+
                 <h1>Questions</h1>
                 <p>If you have any questions, take a look at our <Link to="faq">FAQs</Link> section.</p>
             </div>);
