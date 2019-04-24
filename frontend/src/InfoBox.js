@@ -156,7 +156,7 @@ class InfoBox extends Component {
                         </span>
                     }>
                     <div className="popover-title">Add to Cart</div>
-                    <div className="popover-content">
+                    <div className="popover-content" style={{ maxHeight: 400, overflowY: 'auto' }}>
                     <div id="divList">
                     <ul className="professorList">
                         <li>

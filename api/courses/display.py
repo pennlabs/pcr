@@ -10,7 +10,9 @@ from ..apiconsumer.models import APIUser
 
 def titleize(name):
     """ Titleize a course name or instructor, taking into account exceptions such as II. """
-    return name.strip().title().replace("Iii", "III").replace("Ii", "II").replace("'S", "'s").replace("Th", "th")
+    name = re.sub(r"I(i+)", lambda m: "I" + m.group(1).upper(), name.strip().title())
+    name = re.sub(r"(\d)(St|Nd|Rd|Th)", lambda m: m.group(1) + m.group(2).lower(), name)
+    name = name.replace("'S", "'s")
 
 
 def is_pcr_data(func):
