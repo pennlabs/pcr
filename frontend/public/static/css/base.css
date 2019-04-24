@@ -229,6 +229,7 @@ body {
 #content {
     padding: 30px 15px;
     margin: 0;
+    padding-bottom: 0;
 }
 
 input {
