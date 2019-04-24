@@ -38,7 +38,8 @@ class ReviewPage extends Component {
                     type: this.props.match.params.type,
                     code: this.props.match.params.code,
                     data: null,
-                    instructor_code: null
+                    instructor_code: null,
+                    error: null
                 },
                 this.getReviewData
             );
