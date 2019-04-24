@@ -36,13 +36,26 @@ def is_pcr_data(func):
 
 def display_token(request):
     if isinstance(request.consumer, APIUser):
+        if 'host' not in request.GET:
+            return JsonResponse({
+                "error": "No host url passed to server."
+            })
         host_url = urlparse(request.GET['host'])
         if host_url.scheme not in ['http', 'https'] or host_url.netloc.rsplit(":", 1)[0] not in settings.ALLOWED_HOSTS:
             return JsonResponse({
                 "error": "Invalid host url passed to server."
             })
         host_url = "{}://{}/".format(host_url.scheme, host_url.netloc)
-        return HttpResponse("<html><head><style>body {{ background-color: #fafcff; }}</style></head><body><script>window.parent.postMessage('{}', '{}');</script></body></html>".format(request.consumer.token, host_url))
+        return HttpResponse("""
+<html>
+    <head>
+        <title>Penn Labs Authentication</title>
+        <style>body {{ background-color: #fafcff; }}</style>
+    </head>
+    <body>
+        <script>window.parent.postMessage('{}', '{}');</script>
+    </body>
+</html>""".format(request.consumer.token, host_url))
 
     return JsonResponse({
         "error": "Cannot retrieve token with given parameters."
