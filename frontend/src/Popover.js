@@ -55,7 +55,7 @@ class Popover extends Component {
 
     componentDidUpdate() {
         ReactDOM.render(
-            <div style={{
+            this.state.isShown ? <div style={{
                 ...this.props.style,
                     position: 'absolute',
                     backgroundColor: 'white',
@@ -65,10 +65,9 @@ class Popover extends Component {
                     padding: 15,
                     boxShadow: '0 0 14px 0 rgba(0, 0, 0, 0.07)',
                     borderRadius: 4.8,
-                    display: this.state.isShown ? 'block' : 'none',
                     top: this.state.position && this.state.position[1],
                     left: this.state.position && this.state.position[0]
-            }}>{this.props.children}</div>, this.dialogElement);
+            }}>{this.props.children}</div> : undefined, this.dialogElement);
     }
 
     render() {
