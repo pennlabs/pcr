@@ -1,11 +1,18 @@
 from django.db import models
-from random import choice
+try:
+    from secrets import choice
+except ImportError:
+    from random import choice
 import string
 
 
 def generate_key():
     chars = string.ascii_uppercase + string.ascii_lowercase + string.digits + '_'
     return ''.join(choice(chars) for x in range(30))
+
+
+def generate_user_key():
+    return "user_{}".format(generate_key())
 
 
 def generate_api_consumer(token):
@@ -18,6 +25,30 @@ def generate_api_consumer(token):
         token=token,
         permission_level=2)
     return consumer
+
+
+class APIUser(models.Model):
+    username = models.CharField(max_length=200, unique=True)
+    token = models.CharField(max_length=200, unique=True, default=generate_user_key)
+
+    @property
+    def permission_level(self):
+        return 2
+
+    @property
+    def valid(self):
+        return True
+
+    @property
+    def access_pcr(self):
+        return True
+
+    @property
+    def access_secret(self):
+        return False
+
+    def __str__(self):
+        return "%s (user)" % (self.username)
 
 
 class APIConsumer(models.Model):
@@ -44,5 +75,5 @@ class APIConsumer(models.Model):
     def access_secret(self):
         return self.permission_level > 9000
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s (level %d)" % (self.name, self.permission_level)

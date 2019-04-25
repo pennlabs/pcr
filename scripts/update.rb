@@ -4,13 +4,12 @@
 # Given the new semester data in the form of 5 sql files, add these files to the existing database and create a new database.
 #
 # Prerequisites:
-#   - The 'backup-file.sql' in the same folder as the script should not exist.
 #   - The 5 sql files should be in the same folder as the script.
-#   - Change the following variables to the correct values (esp. SEMESTERS).
+#   - Pass in the correct values for semester and MySQL username and password.
 #   - The database PCRDEV should exist.
 #   - There should be an existing database in the format pcr_api_v{version}_{date}.
 #
-# Example: ./update.rb --password mysqlrootpassword --semester 2017A
+# Example: ./update.rb --password mysqlrootpassword --semester '2017A 2017B'
 #
 # Created by Eric Wang (@ezwang), 3/11/2018
 
@@ -21,9 +20,6 @@ options = {}
 OptionParser.new do |opts|
   opts.on('-o', '--overwrite-existing', 'Delete the most recent database and replace it.') do |v|
     options[:overwrite] = v
-  end
-  opts.on('-f', '--force', 'Delete the "backup-file.sql" file without confirmation.') do |v|
-    options[:force] = v
   end
   opts.on('-s', '--semester SEMESTER', 'Specify which semesters to import.') do |sem|
     options[:semester] = sem
@@ -41,13 +37,20 @@ MYSQL_PWD = options[:password]
 SQL_FILES = ['TEST_PCR_COURSE_DESC_V.sql', 'TEST_PCR_CROSSLIST_SUMMARY_V.sql', 'TEST_PCR_SUMMARY_HIST_V.sql', 'TEST_PCR_SUMMARY_V.sql']
 
 # location of pcr-api repo
-API_PATH = 'api.penncoursereview.com'
+API_PATH = 'pcr'
 
 # which semesters to import
 if options[:semester]
   SEMESTERS = options[:semester]
 else
   puts 'Please specify a semester to import with --semester!'
+  exit 1
+end
+
+# make sure pcr directory is set correctly
+unless File.exist?(File.join(API_PATH, 'manage.py'))
+  puts "The path to the pcr directory is set to '#{API_PATH}', but this folder does not seem valid!"
+  puts "No manage.py file found in the pcr directory."
   exit 1
 end
 
@@ -59,6 +62,13 @@ end
 
 past = Time.now
 
+# make sure we are in pcr virtual environment
+unless ENV.has_key?('VIRTUAL_ENV')
+  puts 'You do not appear to be running inside the pcr virtual environment, exiting...'
+  exit 1
+end
+
+# make sure that all sql files needed exist
 SQL_FILES.each do |file|
   unless File.exist?(file)
     puts "File '#{file}' does not exist, terminating script..."
@@ -71,6 +81,11 @@ raise 'Failed to retrieve database information!' unless $?.success?
 old_dbs = old_dbs.select { |db| db.start_with?("pcr_api") }.sort { |a, b| a.match(/v(\d+)/).captures[0].to_i <=> b.match(/v(\d+)/).captures[0].to_i }.reverse
 
 if options[:overwrite]
+  unless old_dbs[0].end_with?(Time.now.strftime("%Y%m%d"))
+    puts "Not deleting database #{old_dbs[0]}, too old."
+    puts "Exiting..."
+    exit 1
+  end
   old_db = old_dbs[1]
   puts "Deleting database #{old_dbs[0]}..."
   `echo 'DROP DATABASE #{old_dbs[0]};' | mysql -u #{MYSQL_USR} -p#{MYSQL_PWD}`
@@ -83,13 +98,15 @@ new_db = "pcr_api_v#{old_db_num + 1}_#{Time.now.strftime("%Y%m%d")}"
 
 puts "Identified old database as #{old_db}..."
 
+if old_db.end_with?(Time.now.strftime("%Y%m%d"))
+  puts "The old database (#{old_db}) was created today, this may not be the correct old database."
+  puts "Exiting..."
+  exit 1
+end
+
 if File.exist?('backup-file.sql')
-  if options[:force]
-    File.delete('backup-file.sql')
-  else
-    puts 'File "backup-file.sql" already exists, terminating script...'
-    exit 1
-  end
+  puts 'File "backup-file.sql" already exists, deleting...'
+  File.delete('backup-file.sql')
 end
 
 puts 'Dumping old database to backup-file.sql...'
@@ -99,11 +116,19 @@ puts 'Dumping old database to backup-file.sql...'
 puts 'Loading old database into PCRDEV...'
 
 `mysql -u #{MYSQL_USR} -p#{MYSQL_PWD} PCRDEV < backup-file.sql`
+File.delete('backup-file.sql') if $?.success?
 
 puts 'Formatting new sql files...'
 
 puts `/usr/bin/env bash #{File.join(API_PATH, 'scripts', 'sqledit.sh')}`
 raise 'Failed to format sql files!' unless $?.success?
+
+# remove all non-utf8 characters from sql files
+SQL_FILES.each do |file|
+  puts "Removing non-utf8 characters from '#{file}'..."
+  contents = IO.read(file).encode('UTF-8', :invalid => :replace, :undef => :replace)
+  IO.write(file, contents)
+end
 
 puts 'Importing sql files...'
 
@@ -138,8 +163,7 @@ puts 'Dumping PCRDEV to file...'
 puts "Loading file into #{new_db}..."
 
 `mysql -u #{MYSQL_USR} -p#{MYSQL_PWD} #{new_db} < backup-file.sql`
-
-File.delete('backup-file.sql')
+File.delete('backup-file.sql') if $?.success?
 
 present = Time.now
 

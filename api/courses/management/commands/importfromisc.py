@@ -509,7 +509,7 @@ class Command(BaseCommand):
                     num_nonexist += 1
                     continue
 
-                for xlist_id in xlist_ids.itervalues():
+                for xlist_id in xlist_ids.values():
                     if xlist_id is None:  # Don't waste time when we run out of xlists
                         break
                     self._log('--> Aliasing %s' % xlist_id)

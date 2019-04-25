@@ -1,9 +1,21 @@
 from django.conf import settings
 from django.http import JsonResponse
-from .models import APIConsumer, generate_api_consumer
+from .models import APIConsumer, APIUser, generate_api_consumer
 import requests
 
 BASE_API = 'https://api.pennlabs.org'
+
+
+class ShibbolethConsumer(object):
+    def __init__(self, username):
+        self.name = username
+        self.permission_level = 2
+        self.valid = True
+        self.access_pcr = True
+        self.access_secret = False
+
+    def __str__(self):
+        return "%s (level %d)" % (self.name, self.permission_level)
 
 
 class Authenticate(object):
@@ -25,13 +37,27 @@ class Authenticate(object):
 
         try:
             token = request.GET['token']
-        except:
+        except KeyError:
             return JsonResponse({"error": "No token provided."}, status=403)
 
-        try:
-            consumer = APIConsumer.objects.get(token=token)
-        except APIConsumer.DoesNotExist:
-            consumer = None
+        # The reverse proxy server (Nginx, Apache) sets the REMOTE_USER variable.
+        # PCR must be run using UWSGI in order to correctly receive this variable.
+        # Do not use headers to validate the Shibboleth token, there are some endpoints that
+        # do not have Shibboleth set up, allowing anyone to pass a header and gain access.
+
+        if token == 'shibboleth':
+            if not hasattr(request, 'environ') or not request.environ.get('REMOTE_USER'):
+                consumer = None
+            else:
+                consumer, _ = APIUser.objects.get_or_create(username=request.environ['REMOTE_USER'].lower().split('@')[0])
+        else:
+            try:
+                consumer = APIConsumer.objects.get(token=token)
+            except APIConsumer.DoesNotExist:
+                try:
+                    consumer = APIUser.objects.get(token=token)
+                except APIUser.DoesNotExist:
+                    consumer = None
 
         if request.GET.get('origin', None) == 'labs-api' and not consumer:
             validation = requests.get(BASE_API + '/validate/' + token).json()
