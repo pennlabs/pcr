@@ -3,7 +3,14 @@ const PUBLIC_API_TOKEN = "public";
 var API_TOKEN = "shibboleth";
 
 function api_fetch(url) {
-    return fetch(url);
+    return fetch(url).then(res => res.json()).then((res) => {
+        if (res.error === "Invalid token.") {
+            if (window.auth) {
+                window.auth.forceReauth();
+            }
+        }
+        return res;
+    });
 }
 
 export function set_auth_token(token) {
@@ -19,19 +26,19 @@ export function get_auth_url() {
 }
 
 export function api_autocomplete() {
-    return api_fetch(API_DOMAIN + "/api/display/autocomplete?token=" + PUBLIC_API_TOKEN).then(res => res.json());
+    return api_fetch(API_DOMAIN + "/api/display/autocomplete?token=" + PUBLIC_API_TOKEN);
 }
 
 export function api_live(code) {
-    return api_fetch(API_DOMAIN + "/live/" + encodeURIComponent(code)).then(res => res.json());
+    return api_fetch(API_DOMAIN + "/live/" + encodeURIComponent(code));
 }
 
 export function api_review_data(type, code) {
-    return api_fetch(API_DOMAIN + "/api/display/" + encodeURIComponent(type) + "/" + encodeURIComponent(code) + "?token=" + API_TOKEN).then(res => res.json());
+    return api_fetch(API_DOMAIN + "/api/display/" + encodeURIComponent(type) + "/" + encodeURIComponent(code) + "?token=" + API_TOKEN);
 }
 
 export function api_contact(name) {
-    return api_fetch("https://api.pennlabs.org/directory/search?name=" + encodeURIComponent(name)).then(res => res.json()).then((res) => {
+    return api_fetch("https://api.pennlabs.org/directory/search?name=" + encodeURIComponent(name)).then((res) => {
         if (res.result_data.length !== 1) {
             return null;
         }
@@ -46,5 +53,5 @@ export function api_contact(name) {
 }
 
 export function api_history(course, instructor) {
-    return api_fetch(API_DOMAIN + "/api/display/history/" + encodeURIComponent(course) + "/" + encodeURIComponent(instructor) + "?token=" + API_TOKEN).then(res => res.json());
+    return api_fetch(API_DOMAIN + "/api/display/history/" + encodeURIComponent(course) + "/" + encodeURIComponent(instructor) + "?token=" + API_TOKEN);
 }

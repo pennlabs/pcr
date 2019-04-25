@@ -9,10 +9,12 @@ class AuthPage extends Component {
 
         this.state = {
             isAuthed: false,
+            authRetry: false,
             authUrl: get_auth_url()
         };
 
         this.receiveMessage = this.receiveMessage.bind(this);
+        this.forceReauth = this.forceReauth.bind(this);
     }
 
     componentWillUpdate() {
@@ -32,16 +34,27 @@ class AuthPage extends Component {
             return;
         }
         set_auth_token(e.data);
-        this.setState({ isAuthed: true });
+        this.setState({ isAuthed: true, authRetry: false });
         document.body.style.overflow = null;
     }
 
+    forceReauth() {
+        if (!this.state.authRetry) {
+            this.setState({
+                isAuthed: false,
+                authRetry: true
+            });
+        }
+    }
+
     componentWillUnmount() {
+        window.auth = null;
         window.removeEventListener('message', this.receiveMessage, false);
         document.body.style.overflow = null;
     }
 
     componentDidMount() {
+        window.auth = this;
         window.addEventListener('message', this.receiveMessage, false);
     }
 
