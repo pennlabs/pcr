@@ -367,7 +367,7 @@ input {
 }
 .courseCartRow > .scorebox > .desc {
     font-size: 15px;
-    margin-top: -5px;
+    margin-top: -15px;
     color: white;
 }
 .courseCartRow > .scorebox > .num {

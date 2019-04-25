@@ -177,7 +177,7 @@ class InfoBox extends Component {
 
                 </div>
 
-                {!!this.props.data.aliases.length && <div className="crosslist">(Also: {this.props.data.aliases.map((cls, i) => <span key={i}>{i > 0 && ", "}<Link to={"/course/" + cls}>{cls}</Link></span>)})</div>}
+                {!!this.props.data.aliases.length && <div className="crosslist">Also: {this.props.data.aliases.map((cls, i) => [i > 0 && ", ", <Link key={i} to={"/course/" + cls}>{cls}</Link>])}</div>}
 
                 <p className="subtitle">{this.props.data.name}</p>
 
