@@ -9,7 +9,6 @@ class AuthPage extends Component {
 
         this.state = {
             isAuthed: false,
-            authRetry: false,
             authUrl: get_auth_url()
         };
 
@@ -34,17 +33,14 @@ class AuthPage extends Component {
             return;
         }
         set_auth_token(e.data);
-        this.setState({ isAuthed: true, authRetry: false });
+        this.setState({ isAuthed: true });
         document.body.style.overflow = null;
     }
 
     forceReauth() {
-        if (!this.state.authRetry) {
-            this.setState({
-                isAuthed: false,
-                authRetry: true
-            });
-        }
+        this.setState({
+            isAuthed: false
+        });
     }
 
     componentWillUnmount() {
