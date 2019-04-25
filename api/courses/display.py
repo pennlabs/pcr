@@ -3,6 +3,7 @@ import re
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.db.models import Q, Avg
+from django.views.decorators.cache import cache_page
 from statistics import mean
 
 from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
@@ -257,6 +258,7 @@ def display_history(request, course, instructor):
     })
 
 
+@cache_page(60 * 60)
 def display_autocomplete(request):
     courses = [{
         "category": "Courses",
