@@ -1,3 +1,5 @@
+import 'react-app-polyfill/ie9';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
