@@ -1,9 +1,11 @@
 from django.db import models
+from django.utils import timezone
 try:
     from secrets import choice
 except ImportError:
     from random import choice
 import string
+import datetime
 
 
 def generate_key():
@@ -30,6 +32,7 @@ def generate_api_consumer(token):
 class APIUser(models.Model):
     username = models.CharField(max_length=200, unique=True)
     token = models.CharField(max_length=200, unique=True, default=generate_user_key)
+    token_last_updated = models.DateTimeField(auto_now_add=True)
 
     @property
     def permission_level(self):
@@ -48,8 +51,10 @@ class APIUser(models.Model):
         return False
 
     def regenerate(self):
-        self.token = generate_user_key()
-        self.save(update_fields=['token'])
+        if self.token_last_updated + datetime.timedelta(hours=1) < timezone.now():
+            self.token_last_updated = timezone.now()
+            self.token = generate_user_key()
+            self.save(update_fields=['token', 'token_last_updated'])
 
     def __str__(self):
         return "%s (user)" % (self.username)
