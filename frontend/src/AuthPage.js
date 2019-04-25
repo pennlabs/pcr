@@ -28,8 +28,8 @@ class AuthPage extends Component {
         if (e.origin !== get_auth_origin()) {
             return;
         }
-        if (typeof e.data !== 'string') {
-            throw new TypeError('Invalid authentication response: ' + JSON.stringify(e.data));
+        if (typeof e.data !== 'string' || !e.data.startsWith('user_')) {
+            return;
         }
         set_auth_token(e.data);
         this.setState({ isAuthed: true });
