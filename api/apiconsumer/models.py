@@ -47,6 +47,10 @@ class APIUser(models.Model):
     def access_secret(self):
         return False
 
+    def regenerate(self):
+        self.token = generate_user_key()
+        self.save(update_fields=['token'])
+
     def __str__(self):
         return "%s (user)" % (self.username)
 

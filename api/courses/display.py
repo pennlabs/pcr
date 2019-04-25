@@ -38,6 +38,7 @@ def is_pcr_data(func):
 @never_cache
 def display_token(request):
     if isinstance(request.consumer, APIUser):
+        request.consumer.regenerate()
         if 'host' not in request.GET:
             return JsonResponse({
                 "error": "No host url passed to server."
