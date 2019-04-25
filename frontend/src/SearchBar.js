@@ -20,7 +20,11 @@ class SearchBar extends Component {
     }
 
     getSearchCache() {
-        return "meta-search-cache" in localStorage ? JSON.parse(localStorage.getItem("meta-search-cache")).data : [];
+        const data = localStorage.getItem("meta-search-cache");
+        if (data === null) {
+            return [];
+        }
+        return JSON.parse(data).data;
     }
 
     componentDidMount() {
