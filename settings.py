@@ -18,9 +18,6 @@ DOMAIN = os.getenv("DOMAIN", "http://localhost:8000/api/")
 assert DOMAIN.endswith("/")
 
 DEBUG = os.getenv("DEBUG", 'True') == 'True'
-# Do static caching (true only in production)
-DO_STATICGENERATOR = not DEBUG
-DO_CACHING = not DEBUG
 
 TEST_API_TOKEN = os.getenv("API_TEST_TOKEN", "")
 
@@ -166,17 +163,6 @@ INSTALLED_APPS = (
 
 CORS_URLS_REGEX = r'^/api/.*|/live/.*$' 
 
-# Caching
-if DO_CACHING:
-    timeout_hours = 24 * 7
-    CACHES = {
-        'default': {
-            'BACKEND': "django.core.cache.backends.filebased.FileBasedCache",
-            # The directory in LOCATION should be owned by user: www-data
-            'LOCATION': os.path.join(BASE_DIR, "CACHES/current"),
-            'TIMEOUT': 60 * 60 * timeout_hours  # now in seconds
-        }
-    }
 
 # Used for Django debug toolbar (or use debugsqlshell)
 try:
@@ -187,15 +173,6 @@ else:
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
     INSTALLED_APPS += ('debug_toolbar',)
     INTERNAL_IPS = ('158.130.103.7', '127.0.0.1')
-
-if DO_STATICGENERATOR:
-    MIDDLEWARE_CLASSES += \
-        ('staticgenerator.middleware.StaticGeneratorMiddleware',)
-    # I think WEB_ROOT is staticgenerator-specific
-    WEB_ROOT = os.path.join(PROJECT_PATH, "staticgenerator_output/write")
-    # not staticgenerator-specific, but that's all that needs it
-    SERVER_NAME = 'pennapps.com'
-    STATIC_GENERATOR_URLS = ('.*',)
 
 
 # Sentry error reporting
