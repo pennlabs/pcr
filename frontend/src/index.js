@@ -4,8 +4,8 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import ReviewPage from './ReviewPage';
 import InfoPage from './InfoPage';
 import AuthPage from './AuthPage';
+import GoogleAnalytics from './GoogleAnalytics';
 
-// TODO: fix google analytics
 
 ReactDOM.render(<Router>
     <Switch>
@@ -14,4 +14,5 @@ ReactDOM.render(<Router>
         <Route path="/:page(about|faq|cart)" component={InfoPage} />
         <Route component={InfoPage} />
     </Switch>
+    <GoogleAnalytics />
 </Router>, document.getElementById('root'));
