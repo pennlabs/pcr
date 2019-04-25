@@ -3,7 +3,7 @@ import re
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.db.models import Q, Avg
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page, never_cache
 from statistics import mean
 
 from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
@@ -35,6 +35,7 @@ def is_pcr_data(func):
     return wrapper
 
 
+@never_cache
 def display_token(request):
     if isinstance(request.consumer, APIUser):
         if 'host' not in request.GET:
