@@ -70,4 +70,9 @@ class Authenticate(object):
             request.consumer = consumer
             return None  # continue rendering
         else:
-            return JsonResponse({"error": "Invalid token."}, status=403)
+            resp = JsonResponse({"error": "Invalid token."}, status=403)
+            resp['Access-Control-Allow-Origin'] = '*'
+            resp['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS',
+            resp['Access-Control-Max-Age'] = 1000
+            resp['Access-Control-Allow-Headers'] = '*'
+            return resp
