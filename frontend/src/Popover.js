@@ -34,6 +34,9 @@ class Popover extends Component {
     }
 
     onHide(e) {
+        if (!this.refs.button) {
+            return;
+        }
         const buttonElement = ReactDOM.findDOMNode(this.refs.button);
         if (buttonElement.contains(e.target)) {
             return;
