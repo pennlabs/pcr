@@ -12,7 +12,6 @@ class AuthPage extends Component {
             authUrl: get_auth_url()
         };
 
-        this.checkAuth = this.checkAuth.bind(this);
         this.receiveMessage = this.receiveMessage.bind(this);
     }
 
@@ -39,16 +38,12 @@ class AuthPage extends Component {
         document.body.style.overflow = null;
     }
 
-    checkAuth() {
+    componentDidMount() {
         window.addEventListener('message', this.receiveMessage, false);
     }
 
-    componentDidMount() {
-        this.checkAuth();
-    }
-
     render() {
-        return this.state.isAuthed ? <ReviewPage {...this.props} /> : <iframe title="Penn Authentication" style={{ width: '100vw', height: '100vh' }} onLoad={this.checkAuth} src={this.state.authUrl} />;
+        return this.state.isAuthed ? <ReviewPage {...this.props} /> : <iframe title="Penn Authentication" style={{ width: '100vw', height: '100vh' }} src={this.state.authUrl} />;
     }
 }
 
