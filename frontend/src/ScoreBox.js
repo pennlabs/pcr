@@ -22,7 +22,7 @@ class ScoreBox extends Component {
         this.state = {
             data: null,
             columns: null,
-            isAverage: true,
+            isAverage: localStorage.getItem("meta-column-type") !== "recent",
             filtered: [],
             currentInstructors: {},
             filterAll: ""
@@ -34,6 +34,7 @@ class ScoreBox extends Component {
 
     handleClick(val) {
         return () => {
+            localStorage.setItem("meta-column-type", val ? "average" : "recent");
             this.setState(state => ({
                 isAverage: val
             }));
