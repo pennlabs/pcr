@@ -49,7 +49,7 @@ class DetailsBox extends Component {
                                 return rows.name.toLowerCase().includes(filter.value.toLowerCase()) || rows.semester.toLowerCase().includes(filter.value.toLowerCase());
                             }},
                             {id: 'forms', width: 150, Header: 'Forms', accessor: 'forms_returned', show: true, required: true, Cell: props => typeof props.value === 'undefined' ? <center className='empty'>N/A</center> : <center>{props.value} / {props.original.forms_produced} <small style={{ color: '#aaa', fontSize: '0.8em' }}>({(props.value / props.original.forms_produced * 100).toFixed(1)}%)</small></center>}
-                        ].concat(Object.keys(Object.values(res.sections)[0].ratings).map((info) => ({
+                        ].concat(Object.keys(Object.values(res.sections)[0].ratings).sort().map((info) => ({
                             id: info,
                             width: 150,
                             Header: getColumnName(info),

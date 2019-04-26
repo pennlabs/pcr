@@ -111,7 +111,7 @@ class ScoreBox extends Component {
             output.code = val.code;
             return output;
         });
-        const cols = Object.keys(columns).map((key) => {
+        const cols = Object.keys(columns).sort().map((key) => {
             var header = getColumnName(key);
             return {
                 id: key,
