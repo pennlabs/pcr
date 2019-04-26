@@ -21,7 +21,7 @@ export class CourseLine extends Component {
         const is_open = !this.props.data.is_closed && !this.props.data.is_cancelled;
         return <li>
             {this.props.data.section_id_normalized}
-            <i className={"fa fa-fw fa-" + (is_open ? 'check' : 'times')} />
+            <i className={"ml-2 fa fa-fw fa-" + (is_open ? 'check' : 'times')} />
             <span className="ml-2" style={{ color: '#aaa' }}>{this.props.data.meetings.map((a) => a.meeting_days + " " + a.start_time + " - " + a.end_time).join(", ")}</span>
         </li>;
     }
