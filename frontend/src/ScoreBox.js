@@ -59,13 +59,15 @@ class ScoreBox extends Component {
             this.props.live_data.instructors.forEach((a) => {
                 const data = {
                     open: 0,
-                    all: 0
+                    all: 0,
+                    sections: []
                 };
                 const key = convertInstructorName(a);
                 Object.values(this.props.live_data.courses).forEach((cat) => {
                     const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
                     data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
                     data.all += all_courses_by_instructor.length;
+                    data.sections = data.sections.concat(all_courses_by_instructor.map((a) => a.section_id_normalized));
                 });
                 instructors_this_semester[key] = data;
                 instructor_taught[key] = Infinity;
@@ -143,7 +145,14 @@ class ScoreBox extends Component {
             Cell: props => <span>
                 {is_course && <Link to={"/instructor/" + props.original.key} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></Link>}
                 {props.value}
-                {props.original.star && <PopoverTitle title={<span><b>{props.value}</b> is teaching during <b>{this.props.live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.</span>}><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}
+                {props.original.star && <PopoverTitle title={
+                    <span>
+                        <b>{props.value}</b> is teaching during <b>{this.props.live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.
+                        <ul style={{ marginBottom: 0 }}>
+                            {props.original.star.sections.sort().map((a, i) => <li key={i}>{a}</li>)}
+                        </ul>
+                    </span>
+                }><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}
             </span>,
             sortMethod: (a, b) => {
                 const aname = convertInstructorName(a);
