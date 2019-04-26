@@ -3,99 +3,144 @@ import { Link } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import Footer from './Footer';
+import Popover from './Popover';
+import { getColumnName } from './ScoreBox';
 
 
 class InfoPage extends Component {
-    componentDidMount() {
-        if (this.props.match.params.page === "cart") {
-            window.onCartLoad();
-        }
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showChooseCols: false,
+            isAverage: true,
+            courses: [],
+            excludedCourses: [],
+            boxValues: ['N/A', 'N/A', 'N/A', 'N/A'],
+            boxLabels: ['rCourseQuality', 'rInstructorQuality', 'rDifficulty', 'rWorkRequired']
+        };
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.match.params.page === "cart") {
-            window.onCartUnload();
-        }
-        if (this.props.match.params.page === "cart") {
-            window.onCartLoad();
-        }
+    componentDidMount() {
+        window.addEventListener('storage', this.regenerateRatings);
+        this.regenerateRatings();
     }
 
     componentWillUnmount() {
-        if (this.props.match.params.page === "cart") {
-            window.onCartUnload();
-        }
+        window.removeEventListener('storage', this.regenerateRatings);
+    }
+
+    regenerateRatings() {
+        const courses = Object.keys(localStorage).filter((k) => !k.startsWith("meta-")).map((k) => {
+            const out = JSON.parse(localStorage.getItem(k));
+            const typeDict = {};
+            out.info.forEach((v) => typeDict[v.category] = v);
+            out.info = typeDict;
+            out.course = k;
+            return out;
+        });
+        this.setState((state) => ({
+            courses: courses,
+            boxValues: state.boxLabels.map((type) => {
+                const scoreList = courses.filter((a) => state.excludedCourses.indexOf(a.course) === -1).map((a) => (a.info[type] || {average: null, recent: null})[state.isAverage ? 'average' : 'recent']).filter((a) => a !== null).map((a) => parseFloat(a));
+                if (!scoreList.length) {
+                    return "N/A";
+                }
+                else {
+                    return (scoreList.reduce((a, b) => a + b) / scoreList.length).toFixed(1);
+                }
+            })
+        }));
     }
 
     render() {
         var content = <center style={{ margin: 30 }}><div style={{ color: '#888', fontSize: '2em' }}>404 Page not Found</div></center>;
 
         if (this.props.match.params.page === "cart") {
+            const checkboxValues = ["rCourseQuality", "rInstructorQuality", "rDifficulty", "rAmountLearned", "rWorkRequired", "rReadingsValue", "rCommAbility", "rInstructorAccess", "rStimulateInterest", "rTAQuality", "rRecommendMajor", "rRecommendNonMajor"];
+            const checkboxLabels = ["Course Quality", "Instructor Quality", "Difficulty", "Amount Learned", "Amount of Work", "Value of Readings", "Instructor Communication", "Instructor Accessibility", "Ability to Stimulate Interest", "TA Quality", "Recommend for Majors", "Recommend for Non-Majors"];
+
+            const propertyShortNames = {
+                rCourseQuality: 'Course', rInstructorQuality: 'Instructor',
+                rDifficulty: 'Difficulty', rAmountLearned: 'Learned',
+                rWorkRequired: 'Workload', rReadingsValue: 'Reading',
+                rCommAbility: 'Instr Comm', rInstructorAccess: 'Access',
+                rStimulateInterest: 'Interest', rTAQuality: 'TA Quality',
+                rRecommendMajor: 'Major', rRecommendNonMajor: 'Non-Major'
+            };
+
             content = (
 <center className="box" style={{ margin: '30px auto', maxWidth: 720 }}>
     <p className="courseCartHeader title">My Course Cart</p>
     <p className="courseCartDesc">The course cart is a feature for you to see all the relevant reviews for your selected courses at once with at-a-glance statistics. Search for courses to add them to your cart.</p>
     <div id="bannerScore">
         <div className="scoreboxrow courseCartRow">
-            <div className="scorebox course">
-                <p className="num" id="courseBoxOne">0.0</p>
-                <p className="desc">Course</p>
-            </div>
-            <div className="scorebox instructor">
-                <p className="num" id="courseBoxTwo">0.0</p>
-                <p className="desc">Instructor</p>
-            </div>
-            <div className="scorebox difficulty">
-                <p className="num" id="courseBoxThree">0.0</p>
-                <p className="desc">Difficulty</p>
-            </div>
-            <div className="scorebox workload">
-                <p className="num" id="courseBoxFour">0.0</p>
-                <p className="desc">Workload</p>
-            </div>
+            {this.state.boxLabels.map((a, i) =>
+                <div key={i} className={"mb-2 scorebox " + ["course", "instructor", "difficulty", "workload"][i % 4]}>
+                    <p className="num">{this.state.boxValues[i]}</p>
+                    <p className="desc">{propertyShortNames[a]}</p>
+                </div>
+            )}
         </div>
     </div>
     <div className="clear"></div>
     <div className="fillerBox"></div>
-    <div id="choose-cols" style={{ display: 'none' }}>
-        <div id="choose-cols-inner">
-            <div className="disable-selection box" id="choose-cols-content">
-                <h1>Choose 4 columns to display</h1>
-                <div className="clearfix">
-                    <div className="col">
-                        <p><input type="checkbox" value="rCourseQuality" id="checkbox_rCourseQuality" name="rCourseQuality" /><label htmlFor="checkbox_rCourseQuality">Course Quality</label></p>
-                        <p><input type="checkbox" value="rInstructorQuality" id="checkbox_rInstructorQuality" name="rInstructorQuality" /><label htmlFor="checkbox_rInstructorQuality">Instructor Quality</label></p>
-                        <p><input type="checkbox" value="rDifficulty" id="checkbox_rDifficulty" name="rDifficulty" /><label htmlFor="checkbox_rDifficulty">Difficulty</label></p>
-                        <p><input type="checkbox" value="rAmountLearned" id="checkbox_rAmountLearned" name="rAmountLearned" /><label htmlFor="checkbox_rAmountLearned">Amount Learned</label></p>
-                        <p><input type="checkbox" value="rWorkRequired" id="checkbox_rWorkRequired" name="rWorkRequired" /><label htmlFor="checkbox_rWorkRequired">Amount of Work</label></p>
-                        <p><input type="checkbox" value="rReadingsValue" id="checkbox_rReadingsValue" name="rReadingsValue" /><label htmlFor="checkbox_rReadingsValue">Value of Readings</label></p>
-                        <p><input type="checkbox" value="rCommAbility" id="checkbox_rCommAbility" name="rCommAbility" /><label htmlFor="checkbox_rCommAbility">Instructor Communication</label></p>
+    {this.state.showChooseCols &&
+        <div id="choose-cols">
+            <div id="choose-cols-inner">
+                <div className="disable-selection box" id="choose-cols-content">
+                    <h3>Choose columns to display</h3>
+                    <div className="clearfix" style={{ textAlign: 'left' }}>
+                        {checkboxValues.map(
+                            (a, i) => <div style={{ width: '50%', display: 'inline-block' }} key={i}><input type="checkbox" onChange={(e) => {
+                                const pos = this.state.boxLabels.indexOf(a);
+                                if (pos === -1) {
+                                    this.setState((state) => {
+                                        state.boxValues.push('N/A');
+                                        state.boxLabels.push(a);
+                                        return {
+                                            boxValues: state.boxValues,
+                                            boxLabels: state.boxLabels
+                                        };
+                                    });
+                                }
+                                else {
+                                    this.setState((state) => {
+                                        state.boxValues.splice(pos, 1);
+                                        state.boxLabels.splice(pos, 1);
+                                        return {
+                                            boxValues: state.boxValues,
+                                            boxLabels: state.boxLabels
+                                        };
+                                    });
+                                }
+                                this.regenerateRatings();
+                            }} checked={this.state.boxLabels.indexOf(a) !== -1} value={a} id={"checkbox_" + a} name={a} className="mr-1" /><label htmlFor={"checkbox_" + a}>{checkboxLabels[i]}</label></div>
+                        )}
                     </div>
-                    <div className="col">
-                        <p><input type="checkbox" value="rInstructorAccess" id="checkbox_rInstructorAccess" name="rInstructorAccess" /><label htmlFor="checkbox_rInstructorAccess">Instructor Accessibility</label></p>
-                        <p><input type="checkbox" value="rStimulateInterest" id="checkbox_rStimulateInterest" name="rStimulateInterest" /><label htmlFor="checkbox_rStimulateInterest">Ability to Stimulate Interest</label></p>
-                        <p><input type="checkbox" value="rTAQuality" id="checkbox_rTAQuality" name="rTAQuality" /><label htmlFor="checkbox_rTAQuality">TA Quality</label></p>
-                        <p><input type="checkbox" value="rRecommendMajor" id="checkbox_rRecommendMajor" name="rRecommendMajor" /><label htmlFor="checkbox_rRecommendMajor">Recommend for Majors</label></p>
-                        <p><input type="checkbox" value="rRecommendNonMajor" id="checkbox_rRecommendNonMajor" name="rRecommendNonMajor" /><label htmlFor="checkbox_rRecommendNonMajor">Recommend for Non-Majors</label></p>
-                    </div>
-                </div>
-                <div id="buttons" className="clearfix">
-                    <div className="tooltip">
-                        <span className="tooltiptext" id="submitCategoriesPopup">Please Select Four Categories</span>
-                    </div>
-                    <input type="button" className="btn btn-primary" value="Submit" />
-                    <input type="button" className="btn btn-primary mr-2" value="Cancel" onClick={window.cancel_choose_cols} />
                 </div>
             </div>
         </div>
-    </div>
-    <button id="categoriesButton" className="btn btn-primary mr-2">Choose Categories</button>
+    }
+    <button className="btn btn-primary mr-2" onClick={() => this.setState((state) => ({ showChooseCols: !state.showChooseCols }))}>Choose Categories</button>
     <div id="toggleView" className="btn-group">
-        <span className="btn btn-primary" id="view_average" onClick={() => window.set_datamode(0)}>Average</span><span className="btn btn-secondary" id="view_recent" onClick={() => window.set_datamode(1)}>Most Recent</span>
+        <span className={"btn " + (this.state.isAverage ? "btn-primary" : "btn-secondary")} id="view_average" onClick={() => {this.setState({ isAverage: true }); this.regenerateRatings(); }}>Average</span>
+        <span className={"btn " + (this.state.isAverage ? "btn-secondary" : "btn-primary")} id="view_recent" onClick={() => {this.setState({ isAverage: false }); this.regenerateRatings(); }}>Most Recent</span>
     </div>
     <div className="clear"></div>
     <div id="boxHelpTag">Click a course to exclude it from the average.</div>
-    <div id="courseBox"></div>
+    <div id="courseBox">
+        {this.state.courses.map((a, i) =>
+            <Popover key={i} button={
+            <div onClick={() => {this.setState((state) => ({
+                excludedCourses: state.excludedCourses.indexOf(a.course) !== -1 ? state.excludedCourses.filter((b) => b !== a.course) : state.excludedCourses.concat([a.course])
+            })); this.regenerateRatings()}} style={{ display: 'inline-block' }} className={"courseInBox" + (this.state.excludedCourses.indexOf(a.course) !== -1 ? " courseInBoxGrayed" : "")}>
+                {a.course}
+                <Link to={'/course/' + a.course}><i className="fa fa-link" /></Link>
+                <i className="fa fa-times" onClick={() => {localStorage.removeItem(a.course); this.regenerateRatings()}} />
+            </div>} hover><b>{a.course}</b><br />{Object.values(a.info).sort((x, y) => x.category.localeCompare(y.category)).map((b, i) => <div key={i}>{getColumnName(b.category)} <span className="float-right ml-3">{this.state.isAverage ? b.average : b.recent}</span></div>)}</Popover>
+        )}
+    </div>
 </center>
             );
         }

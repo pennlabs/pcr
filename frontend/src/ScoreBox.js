@@ -5,7 +5,14 @@ import { convertInstructorName } from './Tags';
 import { PopoverTitle } from './Popover';
 import { Link } from 'react-router-dom';
 
+
 import 'react-table/react-table.css';
+
+
+export function getColumnName(key) {
+    return key.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec.");
+}
+
 
 class ScoreBox extends Component {
     constructor(props) {
@@ -105,7 +112,7 @@ class ScoreBox extends Component {
             return output;
         });
         const cols = Object.keys(columns).map((key) => {
-            var header = key.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec.");
+            var header = getColumnName(key);
             return {
                 id: key,
                 Header: header,

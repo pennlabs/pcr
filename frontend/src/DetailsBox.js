@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ScoreTable from './ScoreTable';
 import ColumnSelector from './ColumnSelector';
 import { api_history } from './api';
+import { getColumnName } from './ScoreBox';
 
 
 function compareSemesters(a, b) {
@@ -51,7 +52,7 @@ class DetailsBox extends Component {
                         ].concat(Object.keys(Object.values(res.sections)[0].ratings).map((info) => ({
                             id: info,
                             width: 150,
-                            Header: info.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec."),
+                            Header: getColumnName(info),
                             accessor: info,
                             Cell: props => <center className={!props.value ? "empty" : ""}>{isNaN(props.value) ? "N/A" : props.value.toFixed(2)}</center>,
                             show: true

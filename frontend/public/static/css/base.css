@@ -324,10 +324,6 @@ input {
     font-size: 15px;
     letter-spacing: -0.3px;
 }
-.scoreboxrow {
-    /*padding-bottom: 15px;
-    margin-bottom: 15px;*/
-}
 .scorebox.course {
     background-color: #6274f1;
 }
@@ -601,6 +597,8 @@ li.average {
 }
 .professorList {
     list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
 }
 .professorList > li > button {
     width: 100%;
@@ -712,6 +710,9 @@ table.professorList {
     min-height: 150px;
     width: 470px;
 }
+.courseInBox a {
+    color: white;
+}
 .courseInBox {
     margin-bottom: 6px;
     margin-right: 6px;
@@ -732,19 +733,19 @@ table.professorList {
 .courseInBoxGrayed:hover {
     background-color: #ccc;
 }
-.courseInBox > .fa-times {
+.courseInBox .fa-times {
     margin-top: 2px;
     margin-left: 8px;
 }
-.courseInBox > .fa-times:hover {
+.courseInBox .fa-times:hover {
     color: #df5d56;
 }
-.courseInBox > .fa-external-link-alt {
+.courseInBox .fa-link {
     margin-top: 2px;
     margin-left: 4px;
     font-size: 0.9em;
 }
-.courseInBox > .fa-external-link-alt:hover {
+.courseInBox .fa-link:hover {
     color: #76BF96;
 }
 #boxHelpTag {
