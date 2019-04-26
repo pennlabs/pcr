@@ -816,3 +816,7 @@ hr {
 .msg .fa-times {
     color: red;
 }
+
+.instructor-link:hover {
+    font-weight: 600;
+}
