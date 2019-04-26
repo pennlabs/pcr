@@ -29,33 +29,6 @@ input[type=search]:focus {
     margin: 0 3px;
 }
 
-.dataTables_scrollBody table thead tr {
-    visibility: collapse;
-}
-
-.dataTables_wrapper.no-footer .dataTables_scrollBody {
-    border-color: #ccc;
-}
-
-.dataTables_wrapper.no-footer .dataTables_scrollHead {
-    border-bottom: 1px solid #ccc !important;
-}
-
-.dataTables_scrollHead table, .dataTables_scrollBody table {
-    table-layout: fixed;
-    border-bottom: none;
-}
-
-table.dataTable {
-    margin: 0;
-}
-
-table.dataTable, table.dataTable th, table.dataTable td {
-    box-sizing: border-box;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-}
-
 #wrapper .column-selector {
     border: none;
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
@@ -138,24 +111,6 @@ table.dataTable, table.dataTable th, table.dataTable td {
     margin-top: -90px;
 }
 
-table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
-    background-color: rgb(221, 235, 236);
-}
-
-#scroll-indicator {
-    display: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 250px;
-    text-align: center;
-    padding-top: 125px;
-    color: #999;
-    pointer-events: none;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7) 25%, rgba(255, 255, 255, 1) 100%);
-}
-
 #live {
     font-size: 1.2em;
 }
@@ -189,17 +144,4 @@ table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
 
 #live .new-instructors {
     font-size: 0.8em;
-}
-
-.tooltip.show {
-    opacity: 1;
-}
-
-.tooltip-inner {
-    background-color: #6274f1;
-    color: white;
-}
-
-.tooltip-inner::before {
-    border: none;
 }
