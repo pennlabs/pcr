@@ -42,7 +42,7 @@ class InfoPage extends Component {
         this.setState((state) => ({
             courses: courses,
             boxValues: state.boxLabels.map((type) => {
-                const scoreList = courses.filter((a) => state.excludedCourses.indexOf(a.course) === -1).map((a) => (a.info[type] || {average: null, recent: null})[state.isAverage ? 'average' : 'recent']).filter((a) => a !== null).map((a) => parseFloat(a));
+                const scoreList = courses.filter((a) => state.excludedCourses.indexOf(a.course) === -1).map((a) => (a.info[type] || {average: null, recent: null})[state.isAverage ? 'average' : 'recent']).filter((a) => a !== null && !isNaN(a)).map((a) => parseFloat(a));
                 if (!scoreList.length) {
                     return "N/A";
                 }
@@ -51,6 +51,7 @@ class InfoPage extends Component {
                 }
             })
         }));
+        window.onCartUpdated();
     }
 
     render() {
@@ -138,7 +139,7 @@ class InfoPage extends Component {
                 {a.course}
                 <Link to={'/course/' + a.course}><i className="fa fa-link" /></Link>
                 <i className="fa fa-times" onClick={() => {localStorage.removeItem(a.course); this.regenerateRatings()}} />
-            </div>} hover><b>{a.course}</b><br />{Object.values(a.info).sort((x, y) => x.category.localeCompare(y.category)).map((b, i) => <div key={i}>{getColumnName(b.category)} <span className="float-right ml-3">{this.state.isAverage ? b.average : b.recent}</span></div>)}</Popover>
+            </div>} hover><b>{a.course}</b><br />{a.instructor}<br />{Object.values(a.info).sort((x, y) => x.category.localeCompare(y.category)).map((b, i) => <div key={i}>{getColumnName(b.category)} <span className="float-right ml-3">{this.state.isAverage ? b.average : b.recent}</span></div>)}</Popover>
         )}
     </div>
 </center>
