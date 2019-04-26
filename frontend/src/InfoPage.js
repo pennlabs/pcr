@@ -87,46 +87,42 @@ class InfoPage extends Component {
     <div className="clear"></div>
     <div className="fillerBox"></div>
     {this.state.showChooseCols &&
-        <div id="choose-cols">
-            <div id="choose-cols-inner">
-                <div className="disable-selection box" id="choose-cols-content">
-                    <h3>Choose columns to display</h3>
-                    <div className="clearfix" style={{ textAlign: 'left' }}>
-                        {checkboxValues.map(
-                            (a, i) => <div style={{ width: '50%', display: 'inline-block' }} key={i}><input type="checkbox" onChange={(e) => {
-                                const pos = this.state.boxLabels.indexOf(a);
-                                if (pos === -1) {
-                                    this.setState((state) => {
-                                        state.boxValues.push('N/A');
-                                        state.boxLabels.push(a);
-                                        return {
-                                            boxValues: state.boxValues,
-                                            boxLabels: state.boxLabels
-                                        };
-                                    });
-                                }
-                                else {
-                                    this.setState((state) => {
-                                        state.boxValues.splice(pos, 1);
-                                        state.boxLabels.splice(pos, 1);
-                                        return {
-                                            boxValues: state.boxValues,
-                                            boxLabels: state.boxLabels
-                                        };
-                                    });
-                                }
-                                this.regenerateRatings();
-                            }} checked={this.state.boxLabels.indexOf(a) !== -1} value={a} id={"checkbox_" + a} name={a} className="mr-1" /><label htmlFor={"checkbox_" + a}>{checkboxLabels[i]}</label></div>
-                        )}
-                    </div>
-                </div>
+        <div className="box">
+            <h3 style={{ fontSize: '1.5em' }}>Choose columns to display</h3>
+            <div className="clearfix" style={{ textAlign: 'left' }}>
+                {checkboxValues.map(
+                    (a, i) => <div style={{ width: '50%', display: 'inline-block' }} key={i}><input type="checkbox" onChange={(e) => {
+                        const pos = this.state.boxLabels.indexOf(a);
+                        if (pos === -1) {
+                            this.setState((state) => {
+                                state.boxValues.push('N/A');
+                                state.boxLabels.push(a);
+                                return {
+                                    boxValues: state.boxValues,
+                                    boxLabels: state.boxLabels
+                                };
+                            });
+                        }
+                        else {
+                            this.setState((state) => {
+                                state.boxValues.splice(pos, 1);
+                                state.boxLabels.splice(pos, 1);
+                                return {
+                                    boxValues: state.boxValues,
+                                    boxLabels: state.boxLabels
+                                };
+                            });
+                        }
+                        this.regenerateRatings();
+                    }} checked={this.state.boxLabels.indexOf(a) !== -1} value={a} id={"checkbox_" + a} name={a} className="mr-1" /><label htmlFor={"checkbox_" + a}>{checkboxLabels[i]}</label></div>
+                )}
             </div>
         </div>
     }
     <button className="btn btn-primary mr-2" onClick={() => this.setState((state) => ({ showChooseCols: !state.showChooseCols }))}>Choose Categories</button>
-    <div id="toggleView" className="btn-group">
-        <span className={"btn " + (this.state.isAverage ? "btn-primary" : "btn-secondary")} id="view_average" onClick={() => {this.setState({ isAverage: true }); this.regenerateRatings(); }}>Average</span>
-        <span className={"btn " + (this.state.isAverage ? "btn-secondary" : "btn-primary")} id="view_recent" onClick={() => {this.setState({ isAverage: false }); this.regenerateRatings(); }}>Most Recent</span>
+    <div className="btn-group">
+        <span className={"btn " + (this.state.isAverage ? "btn-primary" : "btn-secondary")} onClick={() => {this.setState({ isAverage: true }); this.regenerateRatings(); }}>Average</span>
+        <span className={"btn " + (this.state.isAverage ? "btn-secondary" : "btn-primary")} onClick={() => {this.setState({ isAverage: false }); this.regenerateRatings(); }}>Most Recent</span>
     </div>
     <div className="clear"></div>
     <div id="boxHelpTag">Click a course to exclude it from the average.</div>

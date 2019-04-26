@@ -46,14 +46,14 @@ class Tags extends Component {
         <div>
             <div id="live">
                 {is_taught ? <PopoverTitle title={<span>This course will be taught in <b>{this.props.term}</b>.</span>}><span className="badge badge-info">{this.props.term}</span></PopoverTitle>
-                           : <PopoverTitle title={<span>This course was last taught in <b>{most_recent}</b>.</span>}><span className="badge badge-default">{most_recent}</span></PopoverTitle>}
+                           : <PopoverTitle title={<span>This course was last taught in <b>{most_recent}</b>.</span>}><span className="badge badge-secondary">{most_recent}</span></PopoverTitle>}
                 {is_taught && <PopoverTitle title={<span>This course is <b>{this.props.credits}</b> credit unit(s).</span>}><span className="badge badge-primary">{this.props.credits} CU</span></PopoverTitle>}
                 {Object.values(this.props.courses).map((info, i) => {
                     const desc = info[0].activity_description;
                     const open = info.filter((a) => !a.is_closed && !a.is_cancelled).length;
                     return <PopoverTitle key={i} title={<span><b>{open}</b> out of <b>{info.length}</b> {desc.toLowerCase()} sections are open for this course.</span>}><span className={"badge " + (open ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open}/{info.length}</span></span></PopoverTitle>;
                 })}
-                {!!syllabi.length && <Popover button={<span className="badge badge-default">{syllabi.length} {syllabi.length !== 1 ? 'Syllabi' : 'Syllabus'}</span>}>
+                {!!syllabi.length && <Popover button={<span className="badge badge-secondary">{syllabi.length} {syllabi.length !== 1 ? 'Syllabi' : 'Syllabus'}</span>}>
                     {syllabi.map((a, i) => <div key={i}><a target="_blank" rel="noopener noreferrer" href={a.url}>{a.name}</a></div>)}
                 </Popover>}
             </div>
