@@ -307,8 +307,9 @@ input {
     font-size: 20px;
     letter-spacing: -0.5px;
     font-weight: normal;
+    margin-bottom: 0;
 }
-#banner-info .rosslist {
+#banner-info .crosslist {
     font-family:Verdana, Geneva, sans-serif;
     font-size:12px;
     color:#636363;
