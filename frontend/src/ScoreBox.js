@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import ScoreTable from './ScoreTable';
 import ColumnSelector from './ColumnSelector';
-import { convertInstructorName } from './Tags';
+import { convertInstructorName, CourseLine } from './Tags';
 import { PopoverTitle } from './Popover';
-import { Link } from 'react-router-dom';
 
 
 import 'react-table/react-table.css';
@@ -67,7 +68,7 @@ class ScoreBox extends Component {
                     const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
                     data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
                     data.all += all_courses_by_instructor.length;
-                    data.sections = data.sections.concat(all_courses_by_instructor.map((a) => a.section_id_normalized));
+                    data.sections = data.sections.concat(all_courses_by_instructor.map((a) => a));
                 });
                 instructors_this_semester[key] = data;
                 instructor_taught[key] = Infinity;
@@ -149,7 +150,7 @@ class ScoreBox extends Component {
                     <span>
                         <b>{props.value}</b> is teaching during <b>{this.props.live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.
                         <ul style={{ marginBottom: 0 }}>
-                            {props.original.star.sections.sort().map((a, i) => <li key={i}>{a}</li>)}
+                            {props.original.star.sections.sort((x, y) => x.section_id_normalized.localeCompare(y.section_id_normalized)).map((a, i) => <CourseLine key={i} data={a} />)}
                         </ul>
                     </span>
                 }><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}

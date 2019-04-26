@@ -304,11 +304,6 @@ input {
     font-weight: normal;
     margin-bottom: 0;
 }
-#banner-info .crosslist {
-    font-family:Verdana, Geneva, sans-serif;
-    font-size:12px;
-    color:#636363;
-}
 #banner-info .nowrap {
     white-space: nowrap;
 }
@@ -801,4 +796,23 @@ hr {
     border-top: 1px solid #ccc;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+.msg {
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    margin: 10px;
+    margin-left: 0;
+    padding: 15px;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.07);
+    border-radius: 4.8px;
+}
+
+.msg .fa-check {
+    color: green;
+}
+
+.msg .fa-times {
+    color: red;
 }

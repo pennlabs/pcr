@@ -15,6 +15,19 @@ function convertInstructorName(name) {
     return out;
 }
 
+
+export class CourseLine extends Component {
+    render() {
+        const is_open = !this.props.data.is_closed && !this.props.data.is_cancelled;
+        return <li>
+            {this.props.data.section_id_normalized}
+            <i className={"fa fa-fw fa-" + (is_open ? 'check' : 'times')} />
+            <span className="ml-2" style={{ color: '#aaa' }}>{this.props.data.meetings.map((a) => a.meeting_days + " " + a.start_time + " - " + a.end_time).join(", ")}</span>
+        </li>;
+    }
+}
+
+
 class Tags extends Component {
   render() {
     const existing = this.props.existing_instructors.map(convertInstructorName);
@@ -51,7 +64,14 @@ class Tags extends Component {
                 {Object.values(this.props.courses).map((info, i) => {
                     const desc = info[0].activity_description;
                     const open = info.filter((a) => !a.is_closed && !a.is_cancelled);
-                    return <PopoverTitle key={i} title={<span><b>{open.length}</b> out of <b>{info.length}</b> {desc.toLowerCase()} sections are open for this course.<ul style={{ marginBottom: 0 }}>{open.map((a) => a.section_id_normalized).sort().map((a, i) => <li key={i}>{a}</li>)}</ul></span>}><span className={"badge " + (open ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open.length}/{info.length}</span></span></PopoverTitle>;
+                    return <PopoverTitle key={i} title={
+                        <span>
+                            <b>{open.length}</b> out of <b>{info.length}</b> {desc.toLowerCase()} sections are open for this course.
+                            <ul style={{ marginBottom: 0 }}>
+                                {info.sort((x, y) => x.section_id_normalized.localeCompare(y.section_id_normalized)).map((a, i) => <CourseLine key={i} data={a} />)}
+                            </ul>
+                        </span>
+                    }><span className={"badge " + (open ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open.length}/{info.length}</span></span></PopoverTitle>;
                 })}
                 {!!syllabi.length && <Popover button={<span className="badge badge-secondary">{syllabi.length} {syllabi.length !== 1 ? 'Syllabi' : 'Syllabus'}</span>}>
                     {syllabi.map((a, i) => <div key={i}><a target="_blank" rel="noopener noreferrer" href={a.url}>{a.name}</a></div>)}
