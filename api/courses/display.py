@@ -58,9 +58,9 @@ def display_token(request):
         <style>body {{ background-color: #fafcff; }}</style>
     </head>
     <body>
-        <script>window.parent.postMessage('{}', '{}');</script>
+        <script>window.parent.postMessage({type: 'pcrAuth', username: '{}', token: '{}'}, '{}');</script>
     </body>
-</html>""".format(request.consumer.token, host_url))
+</html>""".format(request.consumer.username, request.consumer.token, host_url))
 
     return JsonResponse({
         "error": "Cannot retrieve token with given parameters."

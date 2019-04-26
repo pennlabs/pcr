@@ -29,10 +29,13 @@ class AuthPage extends Component {
         if (e.origin !== get_auth_origin()) {
             return;
         }
-        if (typeof e.data !== 'string' || !e.data.startsWith('user_')) {
+        if (e.data.type !== 'pcrAuth') {
             return;
         }
-        set_auth_token(e.data);
+        if (typeof e.data.token !== 'string' || !e.data.token.startsWith('user_')) {
+            return;
+        }
+        set_auth_token(e.data.token);
         this.setState({ isAuthed: true });
         document.body.style.overflow = null;
     }
