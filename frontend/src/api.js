@@ -1,20 +1,17 @@
 const API_DOMAIN = "https://penncoursereview.com";
 const PUBLIC_API_TOKEN = "public";
 var API_TOKEN = "shibboleth";
-var authRetryCount = 0;
 
 function api_fetch(url) {
-    return fetch(url).then(res => res.json()).then((res) => {
-        if (res.error === "Invalid token.") {
-            if (window.auth && authRetryCount < 5) {
-                authRetryCount += 2;
-                window.auth.forceReauth();
+    return new Promise((resolve, reject) => {
+        fetch(url).then(res => res.json()).then((res) => {
+            if (res.error === "Invalid token.") {
+                if (window.auth) {
+                    window.auth.forceReauth().then(() => resolve(api_fetch(url)));
+                }
             }
-        }
-        else {
-            authRetryCount -= 1;
-        }
-        return res;
+            resolve(res);
+        }).catch((e) => reject(e));
     });
 }
 

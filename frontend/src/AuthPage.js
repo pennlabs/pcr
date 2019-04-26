@@ -9,7 +9,8 @@ class AuthPage extends Component {
 
         this.state = {
             isAuthed: false,
-            authUrl: get_auth_url()
+            authUrl: get_auth_url(),
+            authPromises: []
         };
 
         this.receiveMessage = this.receiveMessage.bind(this);
@@ -36,13 +37,19 @@ class AuthPage extends Component {
             return;
         }
         set_auth_token(e.data.token);
-        this.setState({ isAuthed: true });
+        this.setState((state) => {
+            state.authPromises.forEach((a) => a());
+            return { isAuthed: true, authPromises: [] };
+        });
         document.body.style.overflow = null;
     }
 
     forceReauth() {
-        this.setState({
-            isAuthed: false
+        return new Promise((resolve, reject) => {
+            this.setState((state) => ({
+                isAuthed: false,
+                authPromises: state.authPromises.concat([resolve])
+            }));
         });
     }
 
