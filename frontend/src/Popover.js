@@ -68,8 +68,8 @@ class Popover extends Component {
                     padding: 15,
                     boxShadow: '0 0 14px 0 rgba(0, 0, 0, 0.07)',
                     borderRadius: 4.8,
-                    top: this.state.position && this.state.position[1],
-                    left: this.state.position && this.state.position[0]
+                    top: this.state.position && (this.state.position[1] + window.scrollY),
+                    left: this.state.position && (this.state.position[0] + window.scrollX)
             }}>{this.props.children}</div> : undefined, this.dialogElement);
     }
 
