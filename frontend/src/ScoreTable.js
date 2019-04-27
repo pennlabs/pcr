@@ -30,7 +30,7 @@ class ScoreTable extends Component {
     }
 
     render() {
-        return (<div className="mt-2">
+        return (<div>
             <ReactTable className="mb-2" {...this.props} showPagination={false} resizable={false} style={{ maxHeight: 400 }} getTrProps={
                 (state, rowInfo) => {
                     if (rowInfo && rowInfo.row) {

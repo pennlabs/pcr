@@ -73,7 +73,7 @@ class DetailsBox extends Component {
 
     render() {
         return (
-          <div id="course-details" className="box clearfix">
+          <div id="course-details" className="box">
           { this.props.instructor && !this.state.data ? <div>Loading...</div> : !this.state.data ?
               <div id="select-prof">
               <div>
@@ -85,12 +85,14 @@ class DetailsBox extends Component {
             </div> :
             <div id="course-details-wrapper">
               <h3><Link style={{ color: '#b2b2b2', textDecoration: 'none' }} to={"/instructor/" + this.props.instructor}>{this.state.data.instructor.name}</Link></h3>
-              <div className="btn-group">
-                  <button onClick={() => { this.setState({ viewingRatings: true }); }} id="view_ratings" className={"btn btn-sm " + (this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Ratings</button>
-                  <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
+              <div className="clearfix">
+                  <div className="btn-group">
+                      <button onClick={() => { this.setState({ viewingRatings: true }); }} id="view_ratings" className={"btn btn-sm " + (this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Ratings</button>
+                      <button onClick={() => { this.setState({ viewingRatings: false }); }} id="view_comments" className={"btn btn-sm " + (!this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Comments</button>
+                  </div>
+                  <ColumnSelector name="details" onSelect={(cols) => this.setState({ columns: cols })} columns={this.state.columns} buttonStyle="btn-sub" />
+                  {this.state.viewingRatings && <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>}
               </div>
-              <ColumnSelector name="details" onSelect={(cols) => this.setState({ columns: cols })} columns={this.state.columns} buttonStyle="btn-sub" />
-              {this.state.viewingRatings && <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>}
               {this.state.viewingRatings ? <div id="course-details-data">
                   <ScoreTable
                   sorted={[{id: 'semester', desc: false}]}

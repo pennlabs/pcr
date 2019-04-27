@@ -208,13 +208,17 @@ class ScoreBox extends Component {
         const is_course = this.props.type === "course";
 
         return (
-            <div className="box clearfix">
-                <div className="btn-group">
-                    <button onClick={this.handleClick(true)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
-                    <button onClick={this.handleClick(false)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
+            <div className="box">
+                <div className="clearfix">
+                    <div className="btn-group">
+                        <button onClick={this.handleClick(true)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
+                        <button onClick={this.handleClick(false)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
+                    </div>
+                    <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
+                    <div className="float-right">
+                        <label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label>
+                    </div>
                 </div>
-                <div className="float-right"><label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label></div>
-                <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
                 <ScoreTable multi={this.props.type === "department"} sorted={[{id: is_course ? 'name' : 'code', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
