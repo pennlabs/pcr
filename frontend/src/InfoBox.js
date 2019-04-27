@@ -85,6 +85,7 @@ class InfoBox extends Component {
                 content = this.props.data.instructors[key];
             }
             localStorage.setItem(this.props.data.code, JSON.stringify({
+                version: 1,
                 course: this.props.data.code,
                 instructor: content.name,
                 info: Object.keys(content.average_reviews).map((a) => ({category: a, average: content.average_reviews[a], recent: content.recent_reviews[a]}))

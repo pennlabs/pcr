@@ -34,8 +34,10 @@ class InfoPage extends Component {
         const courses = Object.keys(localStorage).filter((k) => !k.startsWith("meta-")).map((k) => {
             const out = JSON.parse(localStorage.getItem(k));
             const typeDict = {};
-            out.info.forEach((v) => typeDict[v.category] = v);
-            out.info = typeDict;
+            if (typeof out.info !== 'undefined') {
+                out.info.forEach((v) => typeDict[v.category] = v);
+                out.info = typeDict;
+            }
             out.course = k;
             return out;
         });
