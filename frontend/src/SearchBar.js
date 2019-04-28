@@ -53,15 +53,17 @@ class SearchBar extends Component {
             localStorage.setItem("meta-search-cache", JSON.stringify({data: formattedAutocomplete, time: Date.now()}));
             this.setState(state => ({
                 autocompleteOptions: formattedAutocomplete
-            }));
-            this._autocompleteCallback.forEach((x) => x());
-            this._autocompleteCallback = [];
+            }), () => {
+                this._autocompleteCallback.forEach((x) => x());
+                this._autocompleteCallback = [];
+            });
         }).catch(() => {
             this.setState(state => ({
                 autocompleteOptions: this.getSearchCache()
-            }));
-            this._autocompleteCallback.forEach((x) => x());
-            this._autocompleteCallback = [];
+            }), () => {
+                this._autocompleteCallback.forEach((x) => x());
+                this._autocompleteCallback = [];
+            });
         });
     }
 
