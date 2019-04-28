@@ -15,6 +15,7 @@ class SearchBar extends Component {
             searchValue: null
         };
 
+        this._autocompleteCallback = [];
         this.autocompleteCallback = this.autocompleteCallback.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
@@ -53,18 +54,14 @@ class SearchBar extends Component {
             this.setState(state => ({
                 autocompleteOptions: formattedAutocomplete
             }));
-            if (this._autocompleteCallback) {
-                this._autocompleteCallback();
-                this._autocompleteCallback = null;
-            }
+            this._autocompleteCallback.forEach((x) => x());
+            this._autocompleteCallback = [];
         }).catch(() => {
             this.setState(state => ({
                 autocompleteOptions: this.getSearchCache()
             }));
-            if (this._autocompleteCallback) {
-                this._autocompleteCallback();
-                this._autocompleteCallback = null;
-            }
+            this._autocompleteCallback.forEach((x) => x());
+            this._autocompleteCallback = [];
         });
     }
 
@@ -88,7 +85,7 @@ class SearchBar extends Component {
             ]);
         }
         else {
-            this._autocompleteCallback = (data) => { this.autocompleteCallback(inputValue, callback); };
+            this._autocompleteCallback.push((data) => { this.autocompleteCallback(inputValue, callback); });
         }
     }
 
