@@ -25,6 +25,7 @@ class ScoreBox extends Component {
             isAverage: localStorage.getItem("meta-column-type") !== "recent",
             filtered: [],
             currentInstructors: {},
+            currentCourses: {},
             filterAll: ""
         };
 
@@ -45,46 +46,63 @@ class ScoreBox extends Component {
     updateLiveData() {
         const instructor_taught = {};
 
-        Object.values(this.props.data.instructors).forEach((a) => {
-            const key = convertInstructorName(a.name);
-            if (a.most_recent_semester) {
-                const parts = a.most_recent_semester.split(" ");
-                instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
-            }
-            else {
-                instructor_taught[key] = 0;
-            }
-        });
-
-        if (this.props.live_data) {
-            const instructors_this_semester = {};
-            this.props.live_data.instructors.forEach((a) => {
-                const data = {
-                    open: 0,
-                    all: 0,
-                    sections: []
-                };
-                const key = convertInstructorName(a);
-                Object.values(this.props.live_data.courses).forEach((cat) => {
-                    const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
-                    data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
-                    data.all += all_courses_by_instructor.length;
-                    data.sections = data.sections.concat(all_courses_by_instructor.map((a) => a));
-                });
-                instructors_this_semester[key] = data;
-                instructor_taught[key] = Infinity;
+        if (this.props.type === "course") {
+            Object.values(this.props.data.instructors).forEach((a) => {
+                const key = convertInstructorName(a.name);
+                if (a.most_recent_semester) {
+                    const parts = a.most_recent_semester.split(" ");
+                    instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
+                }
+                else {
+                    instructor_taught[key] = 0;
+                }
             });
 
-            this.setState((state) => ({
-                currentInstructors: instructor_taught,
-                data: state.data.map((a) => ({...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
-            }));
+            if (this.props.live_data) {
+                const instructors_this_semester = {};
+                this.props.live_data.instructors.forEach((a) => {
+                    const data = {
+                        open: 0,
+                        all: 0,
+                        sections: []
+                    };
+                    const key = convertInstructorName(a);
+                    Object.values(this.props.live_data.courses).forEach((cat) => {
+                        const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
+                        data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
+                        data.all += all_courses_by_instructor.length;
+                        data.sections = data.sections.concat(all_courses_by_instructor.map((a) => a));
+                    });
+                    instructors_this_semester[key] = data;
+                    instructor_taught[key] = Infinity;
+                });
+
+                this.setState((state) => ({
+                    currentInstructors: instructor_taught,
+                    data: state.data.map((a) => ({...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
+                }));
+            }
+            else {
+                this.setState((state) => ({
+                    currentInstructors: instructor_taught,
+                    data: state.data.map((a) => ({...a, star: null}))
+                }));
+            }
         }
-        else {
-            this.setState((state) => ({
-                currentInstructors: instructor_taught,
-                data: state.data.map((a) => ({...a, star: null}))
-            }));
+        else if (this.props.type === "instructor") {
+            if (this.props.live_data) {
+                const courses = {};
+                Object.values(this.props.live_data.courses).forEach((a) => {
+                    const key = a.course_department + "-" + a.course_number;
+                    if (!(key in courses)) {
+                        courses[key] = [];
+                    }
+                    courses[key].push(a);
+                });
+                this.setState({
+                    currentCourses: courses
+                });
+            }
         }
     }
 
@@ -99,6 +117,7 @@ class ScoreBox extends Component {
 
         const columns = {};
         const is_course = this.props.type === "course";
+        const is_instructor = this.props.type === "instructor";
         const data = Object.keys(is_course ? results.instructors : results.courses).map((key) => {
             const val = is_course ? results.instructors[key] : results.courses[key];
             const output = {};
@@ -155,6 +174,11 @@ class ScoreBox extends Component {
                         </ul>
                     </span>
                 }><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}
+                {is_instructor && !!this.state.currentCourses[props.original.code] && <PopoverTitle title={
+                    <span>
+                        <b>{this.props.data.name}</b> will teach <b>{props.original.code}</b> in <b>{this.state.currentCourses[props.original.code][0].term_normalized}</b>.
+                    </span>
+                }><i className="ml-1 fa fa-star" /></PopoverTitle>}
             </span>,
             sortMethod: (a, b) => {
                 const aname = convertInstructorName(a);

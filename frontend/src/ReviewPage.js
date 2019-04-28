@@ -5,7 +5,7 @@ import NavBar from './NavBar';
 import DetailsBox from './DetailsBox';
 import SearchBar from './SearchBar';
 import Footer from './Footer';
-import { api_review_data, api_live } from './api';
+import { api_review_data, api_live, api_live_instructor } from './api';
 
 
 class ReviewPage extends Component {
@@ -67,8 +67,14 @@ class ReviewPage extends Component {
                 }
                 else {
                     this.setState({
-                        data: result
+                        data: result,
+                        live_data: null
                     });
+                    if (this.state.type === "instructor") {
+                        api_live_instructor(result.name.replace(/[^A-Za-z0-9 ]/g, '')).then((data) => {
+                            this.setState((state) => ({ live_data: state.data.name === result.name ? data : null }));
+                        });
+                    }
                 }
             }).catch(() => {
                 this.setState({

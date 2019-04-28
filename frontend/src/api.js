@@ -28,15 +28,19 @@ export function get_auth_url() {
 }
 
 export function api_autocomplete() {
-    return api_fetch(API_DOMAIN + "/api/display/autocomplete?token=" + PUBLIC_API_TOKEN);
+    return api_fetch(API_DOMAIN + "/api/display/autocomplete?token=" + encodeURIComponent(PUBLIC_API_TOKEN));
 }
 
 export function api_live(code) {
     return api_fetch(API_DOMAIN + "/live/" + encodeURIComponent(code));
 }
 
+export function api_live_instructor(name) {
+    return api_fetch("https://api.pennlabs.org/registrar/search/instructor?q=" + encodeURIComponent(name));
+}
+
 export function api_review_data(type, code) {
-    return api_fetch(API_DOMAIN + "/api/display/" + encodeURIComponent(type) + "/" + encodeURIComponent(code) + "?token=" + API_TOKEN);
+    return api_fetch(API_DOMAIN + "/api/display/" + encodeURIComponent(type) + "/" + encodeURIComponent(code) + "?token=" + encodeURIComponent(API_TOKEN));
 }
 
 export function api_contact(name) {
@@ -55,5 +59,5 @@ export function api_contact(name) {
 }
 
 export function api_history(course, instructor) {
-    return api_fetch(API_DOMAIN + "/api/display/history/" + encodeURIComponent(course) + "/" + encodeURIComponent(instructor) + "?token=" + API_TOKEN);
+    return api_fetch(API_DOMAIN + "/api/display/history/" + encodeURIComponent(course) + "/" + encodeURIComponent(instructor) + "?token=" + encodeURIComponent(API_TOKEN));
 }
