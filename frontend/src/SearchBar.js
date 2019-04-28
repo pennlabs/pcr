@@ -54,45 +54,46 @@ class SearchBar extends Component {
             this.setState(state => ({
                 autocompleteOptions: formattedAutocomplete
             }), () => {
-                this._autocompleteCallback.forEach((x) => x());
+                this._autocompleteCallback.forEach((x) => x(this.state.autocompleteOptions));
                 this._autocompleteCallback = [];
             });
         }).catch(() => {
             this.setState(state => ({
                 autocompleteOptions: this.getSearchCache()
             }), () => {
-                this._autocompleteCallback.forEach((x) => x());
+                this._autocompleteCallback.forEach((x) => x(this.state.autocompleteOptions));
                 this._autocompleteCallback = [];
             });
         });
     }
 
-    autocompleteCallback(inputValue) {
+    filterOptionsList(autocompleteOptions, inputValue) {
         inputValue = inputValue.toLowerCase();
+        return [
+            {
+                label: "Departments",
+                options: autocompleteOptions[0].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 10)
+            },
+            {
+                label: "Courses",
+                options: autocompleteOptions[1].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
+            },
+            {
+                label: "Instructors",
+                options: autocompleteOptions[2].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
+            }
+        ];
+    }
 
+    autocompleteCallback(inputValue) {
         return new Promise((resolve, reject) => {
             if (this.state.autocompleteOptions.length) {
-                resolve([
-                    {
-                        label: "Departments",
-                        options: this.state.autocompleteOptions[0].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 10)
-                    },
-                    {
-                        label: "Courses",
-                        options: this.state.autocompleteOptions[1].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
-                    },
-                    {
-                        label: "Instructors",
-                        options: this.state.autocompleteOptions[2].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
-                    }
-                ]);
+                resolve(this.state.autocompleteOptions);
             }
             else {
-                this._autocompleteCallback.push(() => {
-                    this.autocompleteCallback(inputValue).then(resolve).catch(reject);
-                });
+                this._autocompleteCallback.push(resolve);
             }
-        });
+        }).then((res) => this.filterOptionsList(res, inputValue));
     }
 
     handleChange(value) {
