@@ -67,28 +67,32 @@ class SearchBar extends Component {
         });
     }
 
-    autocompleteCallback(inputValue, callback) {
+    autocompleteCallback(inputValue) {
         inputValue = inputValue.toLowerCase();
 
-        if (this.state.autocompleteOptions.length) {
-            callback([
-                {
-                    label: "Departments",
-                    options: this.state.autocompleteOptions[0].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 10)
-                },
-                {
-                    label: "Courses",
-                    options: this.state.autocompleteOptions[1].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
-                },
-                {
-                    label: "Instructors",
-                    options: this.state.autocompleteOptions[2].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
-                }
-            ]);
-        }
-        else {
-            this._autocompleteCallback.push((data) => { this.autocompleteCallback(inputValue, callback); });
-        }
+        return new Promise((resolve, reject) => {
+            if (this.state.autocompleteOptions.length) {
+                resolve([
+                    {
+                        label: "Departments",
+                        options: this.state.autocompleteOptions[0].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 10)
+                    },
+                    {
+                        label: "Courses",
+                        options: this.state.autocompleteOptions[1].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
+                    },
+                    {
+                        label: "Instructors",
+                        options: this.state.autocompleteOptions[2].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
+                    }
+                ]);
+            }
+            else {
+                this._autocompleteCallback.push(() => {
+                    this.autocompleteCallback(inputValue).then(resolve).catch(reject);
+                });
+            }
+        });
     }
 
     handleChange(value) {
