@@ -152,7 +152,7 @@ class ScoreBox extends Component {
                                     { this.state.isAverage ? <span className={'cell_average' + (!props.value ? ' empty' : '')}>{props.value ? props.value.average : "N/A"}</span> :
                                     <span className={'cell_recent' + (!props.value ? ' empty' : '')}>{props.value ? props.value.recent : "N/A"}</span> }
                                </center>,
-                width: 150,
+                width: 140,
                 show: true
             };
         });
@@ -160,7 +160,7 @@ class ScoreBox extends Component {
             id: "name",
             Header: is_course ? "Instructor" : "Course",
             accessor: "name",
-            width: 300,
+            width: 270,
             show: true,
             required: true,
             Cell: props => <span>
