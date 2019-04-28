@@ -63,7 +63,8 @@ class SearchBar extends Component {
                 this._autocompleteCallback.forEach((x) => x(this.state.autocompleteOptions));
                 this._autocompleteCallback = [];
             });
-        }).catch(() => {
+        }).catch((e) => {
+            window.raven.captureException(e);
             this.setState(state => ({
                 autocompleteOptions: this.getSearchCache()
             }), () => {
