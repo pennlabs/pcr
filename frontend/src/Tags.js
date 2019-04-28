@@ -50,7 +50,9 @@ class Tags extends Component {
             const x = a.split(" ");
             return parseInt(x[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[x[0]];
         }));
-        most_recent = ['Spring', 'Summer', 'Fall'][semester_taught % 3] + " " + Math.floor(semester_taught / 3);
+        if (semester_taught > 0) {
+            most_recent = ['Spring', 'Summer', 'Fall'][semester_taught % 3] + " " + Math.floor(semester_taught / 3);
+        }
     }
 
     const syllabi = [].concat.apply([], Object.values(this.props.courses).map(
