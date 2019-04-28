@@ -50,7 +50,13 @@ class SearchBar extends Component {
                     })
                 }
             ];
-            localStorage.setItem("meta-search-cache", JSON.stringify({data: formattedAutocomplete, time: Date.now()}));
+
+            // Safari sometimes throws a QuotaExceededError, ignore the error in this case
+            try {
+                localStorage.setItem("meta-search-cache", JSON.stringify({data: formattedAutocomplete, time: Date.now()}));
+            }
+            catch (e) { }
+
             this.setState(state => ({
                 autocompleteOptions: formattedAutocomplete
             }), () => {
