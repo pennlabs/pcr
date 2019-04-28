@@ -19,6 +19,8 @@ class InfoPage extends Component {
             boxValues: ['N/A', 'N/A', 'N/A', 'N/A'],
             boxLabels: ['rCourseQuality', 'rInstructorQuality', 'rDifficulty', 'rWorkRequired']
         };
+
+        this.regenerateRatings = this.regenerateRatings.bind(this);
     }
 
     componentDidMount() {
