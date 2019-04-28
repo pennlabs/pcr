@@ -235,7 +235,7 @@ def display_history(request, course, instructor):
 
     sections = {}
 
-    for sec, name, sem in section_objects.values_list("id", "course__name", "course__semester"):
+    for sec, name, sem in section_objects.values_list("id", "name", "course__semester"):
         sections[sec] = {
             "course_name": titleize(name),
             "semester": str(sem),
