@@ -177,8 +177,11 @@ class ScoreBox extends Component {
                 {is_instructor && !!this.state.currentCourses[props.original.code] && <PopoverTitle title={
                     <span>
                         <b>{this.props.data.name}</b> will teach <b>{props.original.code}</b> in <b>{this.state.currentCourses[props.original.code][0].term_normalized}</b>.
+                        <ul style={{ marginBottom: 0 }}>
+                            {this.state.currentCourses[props.original.code].map((a, i) => <CourseLine key={i} data={a} />)}
+                        </ul>
                     </span>
-                }><i className="ml-1 fa fa-star" /></PopoverTitle>}
+                }><i className={"ml-1 fa-star " + (this.state.currentCourses[props.original.code].filter((a) => !a.is_closed && !a.is_cancelled).length ? "fa" : "far")} /></PopoverTitle>}
             </span>,
             sortMethod: (a, b) => {
                 const aname = convertInstructorName(a);
