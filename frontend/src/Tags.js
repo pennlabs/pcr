@@ -32,10 +32,12 @@ class Tags extends Component {
   render() {
     const existing = this.props.existing_instructors.map(convertInstructorName);
     const new_instructors = {};
-    this.props.instructors.forEach((i) => {
-        const key = convertInstructorName(i);
-        new_instructors[key] = i;
-    });
+    if (this.props.instructors) {
+        this.props.instructors.forEach((i) => {
+            const key = convertInstructorName(i);
+            new_instructors[key] = i;
+        });
+    }
     existing.forEach((i) => {
         delete new_instructors[i];
     });
@@ -51,8 +53,12 @@ class Tags extends Component {
         most_recent = ['Spring', 'Summer', 'Fall'][semester_taught % 3] + " " + Math.floor(semester_taught / 3);
     }
 
-    const syllabi = [].concat.apply([], Object.values(this.props.courses).map((a) => Object.values(a).map((b) => ({url: b.syllabus_url, name: b.section_id_normalized + ' - ' + (b.instructors.map((c) => c.name).join(', ') || 'Unknown')})).filter((b) => b.url))).sort((a, b) => a.name.localeCompare(b.name));
-    const prereq_string = [].concat.apply([], Object.values(this.props.courses).map((a) => Object.values(a).map((b) => b.prerequisite_notes.join(" ")).filter((b) => b))).join(" ");
+    const syllabi = [].concat.apply([], Object.values(this.props.courses).map(
+        (a) => Object.values(a).map(
+            (b) => ({url: b.syllabus_url, name: b.section_id_normalized + ' - ' + ((b.instructors || []).map((c) => c.name).join(', ') || 'Unknown')})
+        ).filter((b) => b.url))).sort((a, b) => a.name.localeCompare(b.name)
+    );
+    const prereq_string = [].concat.apply([], Object.values(this.props.courses).map((a) => Object.values(a).map((b) => (b.prerequisite_notes || []).join(" ")).filter((b) => b))).join(" ");
     const prereqs = [...new Set(prereq_string.match(/[A-Z]{2,4}[ -]\d{3}/g))].map((a) => a.replace(' ', '-'));
 
     return (
@@ -62,6 +68,9 @@ class Tags extends Component {
                            : <PopoverTitle title={<span>This course was last taught in <b>{most_recent}</b>.</span>}><span className="badge badge-secondary">{most_recent}</span></PopoverTitle>}
                 {is_taught && <PopoverTitle title={<span>This course is <b>{this.props.credits}</b> credit unit(s).</span>}><span className="badge badge-primary">{this.props.credits} CU</span></PopoverTitle>}
                 {Object.values(this.props.courses).map((info, i) => {
+                    if (!info.length) {
+                        return null;
+                    }
                     const desc = info[0].activity_description;
                     const open = info.filter((a) => !a.is_closed && !a.is_cancelled);
                     return <PopoverTitle key={i} title={

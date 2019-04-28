@@ -177,7 +177,7 @@ class InfoPage extends Component {
             content = (
                 <div id="faqs" className="center-narrow">
                   <h1>Frequently Asked Questions</h1>
-                  <div id="faq0">
+                  <div>
                     <p className="question">
                       How do I use the website?
                     </p>
@@ -186,7 +186,7 @@ class InfoPage extends Component {
                     </p>
                   </div>
 
-                  <div id="faq1">
+                  <div>
                     <p className="question">
                       What's new?
                     </p>
@@ -195,7 +195,7 @@ class InfoPage extends Component {
                     </p>
                   </div>
 
-                  <div id="faq2">
+                  <div>
                     <p className="question">
                       How are courses rated?
                     </p>
@@ -204,7 +204,16 @@ class InfoPage extends Component {
                     </p>
                   </div>
 
-                  <div id="faq3">
+                  <div>
+                    <p className="question">
+                      How often is data updated?
+                    </p>
+                    <p className="answer">
+                        Information pertaining to which sections are taught in the upcoming semester is updated every 24 hours.
+                    </p>
+                  </div>
+
+                  <div>
                     <p className="question">
                       What do the colors mean?
                     </p>

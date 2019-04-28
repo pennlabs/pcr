@@ -60,7 +60,7 @@ class ScoreBox extends Component {
 
             if (this.props.live_data) {
                 const instructors_this_semester = {};
-                this.props.live_data.instructors.forEach((a) => {
+                (this.props.live_data.instructors || []).forEach((a) => {
                     const data = {
                         open: 0,
                         all: 0,

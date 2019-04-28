@@ -553,8 +553,7 @@ The result is this, which is a little unclean, but it works.
 }
 #faqs p.question {
     color: #636363;
-    font-size: 24px;
-
+    font-size: 1.3em;
     margin-bottom:8px;
 }
 #faqs p.answer {
