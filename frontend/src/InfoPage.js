@@ -182,7 +182,9 @@ class InfoPage extends Component {
                       How do I use the website?
                     </p>
                     <p className="answer">
-                      Each professor or course has its own page. Summary ratings for the recent semester and for all semesters are provided at the top of each page, with more detailed rating information provided below. You can choose to view or hide each course rating criteria by clicking the link on the right side of the page. You can also toggle the view mode of ratings between aggregate and most recent on the left side of the page.
+                      Each professor, course, and department has its own page. Summary ratings for the recent semester and for all semesters are provided at the left of each page, with more detailed rating information provided on the right. You can choose to view or hide each course rating criteria by clicking the plus icon on the top of the table. You can also toggle the view mode of ratings between aggregate and most recent on the right side of the page.
+
+                      You can hover over the tags on the left side of the page or the stars on the right side of the page in order to learn more about courses offered in the upcoming semester.
                     </p>
                   </div>
 
