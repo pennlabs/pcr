@@ -11,7 +11,7 @@ class AuthPage extends Component {
 
         const token = Cookies.get('token');
         if (typeof token !== 'undefined') {
-            set_auth_token();
+            set_auth_token(token);
             this.state = { isAuthed: true };
         }
         else {
