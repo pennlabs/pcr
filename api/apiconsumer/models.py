@@ -58,7 +58,7 @@ class APIUser(models.Model):
 
     @property
     def expiration(self):
-        return self.token_last_updated + datetime.timedelta(hours=1)
+        return self.token_last_updated + datetime.timedelta(days=1)
 
     def __str__(self):
         return "%s (user)" % (self.username)
