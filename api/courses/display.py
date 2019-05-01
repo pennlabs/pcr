@@ -45,14 +45,15 @@ def display_token(request):
             return JsonResponse({
                 "error": "No redirect url passed to server."
             })
-        redirect_url = urlparse(request.GET['redirect'])
+        original_url = request.GET['redirect']
+        redirect_url = urlparse(original_url)
         valid_scheme = redirect_url.scheme in ['http', 'https']
         valid_host = redirect_url.netloc.rsplit(":", 1)[0] in settings.ALLOWED_HOSTS
         if not valid_scheme or not valid_host:
             return JsonResponse({
                 "error": "Invalid redirect url passed to server. ({})".format("invalid protocol" if not valid_scheme else "invalid origin")
             })
-        resp = redirect(redirect_url)
+        resp = redirect(original_url)
         resp.set_cookie('token', request.consumer.token, expires=request.consumer.expiration)
         return resp
 
