@@ -55,7 +55,7 @@ def display_token(request):
                 "error": "Invalid redirect url passed to server. ({})".format("invalid protocol" if not valid_scheme else "invalid origin")
             })
         resp = redirect(original_url)
-        resp.set_cookie('token', request.consumer.token, max_age=(request.consumer.expiration - timezone.now()).total_seconds())
+        resp.set_cookie('token', request.consumer.token, expires=request.consumer.expiration)
         return resp
 
     return JsonResponse({
