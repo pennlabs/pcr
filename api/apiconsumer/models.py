@@ -50,8 +50,8 @@ class APIUser(models.Model):
     def access_secret(self):
         return False
 
-    def regenerate(self):
-        if self.expiration <= timezone.now() or not self.token:
+    def regenerate(self, force=False):
+        if self.expiration <= timezone.now() or force:
             self.token_last_updated = timezone.now()
             self.token = generate_user_key()
             self.save(update_fields=['token', 'token_last_updated'])
