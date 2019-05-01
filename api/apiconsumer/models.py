@@ -51,10 +51,14 @@ class APIUser(models.Model):
         return False
 
     def regenerate(self):
-        if self.token_last_updated + datetime.timedelta(hours=1) < timezone.now():
+        if self.expiration < timezone.now():
             self.token_last_updated = timezone.now()
             self.token = generate_user_key()
             self.save(update_fields=['token', 'token_last_updated'])
+
+    @property
+    def expiration(self):
+        return self.token_last_updated + datetime.timedelta(hours=1)
 
     def __str__(self):
         return "%s (user)" % (self.username)

@@ -19,12 +19,8 @@ export function set_auth_token(token) {
     API_TOKEN = token;
 }
 
-export function get_auth_origin() {
-    return API_DOMAIN;
-}
-
-export function get_auth_url() {
-    return API_DOMAIN + "/api/display/token?token=shibboleth&host=" + encodeURIComponent(window.location.href);
+export function redirect_for_auth() {
+    window.location.href = API_DOMAIN + "/api/display/token?token=shibboleth&redirect=" + encodeURIComponent(window.location.href);
 }
 
 export function api_autocomplete() {

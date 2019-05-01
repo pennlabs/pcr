@@ -1,9 +1,11 @@
 import re
+import datetime
 
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.db.models import Q, Avg
 from django.views.decorators.cache import cache_page, never_cache
+from django.shortcuts import redirect
 from statistics import mean
 
 from .models import Alias, Course, Section, Review, ReviewBit, Instructor, Department, CourseHistory
@@ -39,28 +41,20 @@ def is_pcr_data(func):
 def display_token(request):
     if isinstance(request.consumer, APIUser):
         request.consumer.regenerate()
-        if 'host' not in request.GET:
+        if 'redirect' not in request.GET:
             return JsonResponse({
-                "error": "No host url passed to server."
+                "error": "No redirect url passed to server."
             })
-        host_url = urlparse(request.GET['host'])
-        valid_scheme = host_url.scheme in ['http', 'https']
-        valid_host = host_url.netloc.rsplit(":", 1)[0] in settings.ALLOWED_HOSTS
+        redirect_url = urlparse(request.GET['redirect'])
+        valid_scheme = redirect_url.scheme in ['http', 'https']
+        valid_host = redirect_url.netloc.rsplit(":", 1)[0] in settings.ALLOWED_HOSTS
         if not valid_scheme or not valid_host:
             return JsonResponse({
-                "error": "Invalid host url passed to server. ({})".format("invalid protocol" if not valid_scheme else "invalid origin")
+                "error": "Invalid redirect url passed to server. ({})".format("invalid protocol" if not valid_scheme else "invalid origin")
             })
-        host_url = "{}://{}/".format(host_url.scheme, host_url.netloc)
-        return HttpResponse("""
-<html>
-    <head>
-        <title>Penn Labs Authentication</title>
-        <style>body {{ background-color: #fafcff; }}</style>
-    </head>
-    <body>
-        <script>window.parent.postMessage({{type: 'pcrAuth', username: '{}', token: '{}'}}, '{}');</script>
-    </body>
-</html>""".format(request.consumer.username, request.consumer.token, host_url))
+        resp = redirect(redirect_url)
+        resp.set_cookie('token', request.consumer.token, expires=request.consumer.expiration)
+        return resp
 
     return JsonResponse({
         "error": "Cannot retrieve token with given parameters."
