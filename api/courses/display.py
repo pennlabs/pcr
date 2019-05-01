@@ -2,6 +2,7 @@ import re
 import datetime
 
 from django.http import JsonResponse, HttpResponse
+from django.utils import timezone
 from django.conf import settings
 from django.db.models import Q, Avg
 from django.views.decorators.cache import cache_page, never_cache
@@ -54,7 +55,7 @@ def display_token(request):
                 "error": "Invalid redirect url passed to server. ({})".format("invalid protocol" if not valid_scheme else "invalid origin")
             })
         resp = redirect(original_url)
-        resp.set_cookie('token', request.consumer.token, expires=request.consumer.expiration)
+        resp.set_cookie('token', request.consumer.token, max_age=(request.consumer.expiration - timezone.now()).total_seconds())
         return resp
 
     return JsonResponse({
