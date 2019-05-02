@@ -80,7 +80,7 @@ class DataTest(ViewTest):
         self.sectionid = section1.sectionnum
         alias1 = Alias.objects.create(
             course=cis110_1, department=cis, coursenum=1, semester=810)
-        alias2 = Alias.objects.create(
+        Alias.objects.create(
             course=cis110_1, department=ese, coursenum=1, semester=810)
         cis110_1.primary_alias = alias1
         cis110_1.save()
@@ -88,11 +88,11 @@ class DataTest(ViewTest):
             section=section1, instructor=instructor1,
             forms_returned=10, forms_produced=20, form_type=1,
             comments="Students enjoyed the course.")
-        reviewbit1 = ReviewBit.objects.create(
+        ReviewBit.objects.create(
             review=review1, field="Instructor Quality", score=3.0)
-        reviewbit2 = ReviewBit.objects.create(
+        ReviewBit.objects.create(
             review=review1, field="Difficulty", score=1.0)
-        reviewbit3 = ReviewBit.objects.create(
+        ReviewBit.objects.create(
             review=review1, field="Course Quality", score=2.0)
 
     def validate_results(self, path):

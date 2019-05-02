@@ -4,11 +4,10 @@ from optparse import make_option
 import time
 
 import MySQLdb as db
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.conf import settings
 
-from courses.models import (Alias, Course, CourseHistory, Department,
-                            Instructor, Review, ReviewBit, Section, Semester)
+from courses.models import Instructor, Review, Section
 
 
 class Command(BaseCommand):

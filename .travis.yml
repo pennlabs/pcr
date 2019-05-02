@@ -8,5 +8,5 @@ cache:
 install:
     pip install flake8 -r requirements.txt
 script:
-    flake8 --ignore=E501,W504 --exclude=venv,*/migrations/*,tests.py,*/commands/* api apps
+    flake8 --max-line-length=250 --exclude=*/migrations/* api apps
     ./manage.py test

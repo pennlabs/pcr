@@ -85,7 +85,13 @@ def display_course(request, course):
     reviewbits_average = ReviewBit.objects.filter(review__in=reviews).values("field").annotate(score=Avg('score'))
     reviewbits_recent = ReviewBit.objects.filter(review__in=reviews, review__section__course__semester=semester).values("field").annotate(score=Avg('score'))
 
-    instructors = {inst["id"]: {"name": titleize("{} {}".format(inst["first_name"] or "", inst["last_name"] or "")), "average_reviews": {}, "recent_reviews": {}} for inst in Instructor.objects.filter(Q(first_name__isnull=False) | Q(last_name__isnull=False), section__in=sections).values("id", "first_name", "last_name")}
+    instructors = {
+        inst["id"]: {
+            "name": titleize("{} {}".format(inst["first_name"] or "", inst["last_name"] or "")),
+            "average_reviews": {},
+            "recent_reviews": {}
+        } for inst in Instructor.objects.filter(Q(first_name__isnull=False) | Q(last_name__isnull=False), section__in=sections).values("id", "first_name", "last_name")
+    }
     instructor_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__instructors").annotate(score=Avg('score'))
     instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__instructors", "review__section__course__semester").annotate(score=Avg('score')).order_by("review__section__course__semester")
 
@@ -280,8 +286,9 @@ def display_autocomplete(request):
     } for code, name in Department.objects.all().values_list("code", "name")]
 
     instructor_set = {}
+    instructors_with_names = Instructor.objects.filter(Q(first_name__isnull=False) | Q(last_name__isnull=False))
 
-    for iid, first, last, dept in Instructor.objects.filter(Q(first_name__isnull=False) | Q(last_name__isnull=False)).values_list("id", "first_name", "last_name", "section__course__primary_alias__department__code").distinct():
+    for iid, first, last, dept in instructors_with_names.values_list("id", "first_name", "last_name", "section__course__primary_alias__department__code").distinct():
         code = "{}-{}-{}".format(iid, first.replace(" ", "-") if first is not None else "", last.replace(" ", "-") if last is not None else "")
         if code in instructor_set:
             if dept is not None:
