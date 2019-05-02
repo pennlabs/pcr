@@ -3,16 +3,7 @@ const PUBLIC_API_TOKEN = "public";
 var API_TOKEN = "shibboleth";
 
 function api_fetch(url) {
-    return new Promise((resolve, reject) => {
-        fetch(url).then(res => res.json()).then((res) => {
-            if (res.error === "Invalid token.") {
-                if (window.auth) {
-                    window.auth.forceReauth().then(() => resolve(api_fetch(url)));
-                }
-            }
-            resolve(res);
-        }).catch((e) => reject(e));
-    });
+    return fetch(url).then(res => res.json());
 }
 
 export function set_auth_token(token) {
