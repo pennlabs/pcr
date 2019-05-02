@@ -5,7 +5,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from api.search.views import search
-from api.static_content.views import serve_page
 
 
 urlpatterns = [
@@ -15,7 +14,6 @@ urlpatterns = [
     url(r'^', include('apps.static.urls')),
 
     url(r'^admin/', admin.site.urls),
-    url(r'^pcrsite-static/(?P<page>.*)$', serve_page),
     url(r'^search', search),
     url(r'^api/', include('api.courses.urls', namespace='api')),
 ]

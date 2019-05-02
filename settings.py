@@ -157,13 +157,12 @@ INSTALLED_APPS = (
 
     'api.courses',
     'api.apiconsumer',
-    'api.static_content',
     'django_extensions',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
-CORS_URLS_REGEX = r'^/api/.*|/live/.*$' 
+CORS_URLS_REGEX = r'^/api/.*$'
 
 
 # Used for Django debug toolbar (or use debugsqlshell)

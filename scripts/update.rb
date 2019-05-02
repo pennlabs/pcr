@@ -18,7 +18,7 @@ require 'optparse'
 options = {}
 
 OptionParser.new do |opts|
-  opts.on('-o', '--overwrite-existing', 'Delete the most recent database and replace it.') do |v|
+  opts.on('-o', '--overwrite', 'Delete the most recent database and replace it.') do |v|
     options[:overwrite] = v
   end
   opts.on('-s', '--semester SEMESTER', 'Specify which semesters to import.') do |sem|
