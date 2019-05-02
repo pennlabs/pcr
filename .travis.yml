@@ -9,3 +9,4 @@ install:
     pip install flake8 -r requirements.txt
 script:
     flake8 --ignore=E501,W504 --exclude=venv,*/migrations/*,tests.py,*/commands/* api apps
+    ./manage.py test

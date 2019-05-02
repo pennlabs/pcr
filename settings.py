@@ -19,12 +19,6 @@ assert DOMAIN.endswith("/")
 
 DEBUG = os.getenv("DEBUG", 'True') == 'True'
 
-TEST_API_TOKEN = os.getenv("API_TEST_TOKEN", "")
-
-# Make sure that the test API token is set when testing, or some tests will fail.
-if 'test' in sys.argv:
-    assert TEST_API_TOKEN
-
 # Used for the /chrome/api proxy endpoint
 PROXY_TOKEN = os.getenv("PROXY_TOKEN", None)
 
