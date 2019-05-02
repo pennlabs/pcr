@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import NavBar from './NavBar';
+import ErrorBox from './ErrorBox';
 import Footer from './Footer';
 import Popover from './Popover';
 import { getColumnName } from './ScoreBox';
@@ -59,7 +60,7 @@ class InfoPage extends Component {
     }
 
     render() {
-        var content = <center style={{ margin: 30 }}><div style={{ color: '#888', fontSize: '2em' }}>404 Page not Found</div></center>;
+        var content = <ErrorBox>404 Page not Found</ErrorBox>;
 
         if (this.props.match.params.page === "cart") {
             const checkboxValues = ["rCourseQuality", "rInstructorQuality", "rDifficulty", "rAmountLearned", "rWorkRequired", "rReadingsValue", "rCommAbility", "rInstructorAccess", "rStimulateInterest", "rTAQuality", "rRecommendMajor", "rRecommendNonMajor"];

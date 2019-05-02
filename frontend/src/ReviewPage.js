@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import InfoBox from './InfoBox';
+import ErrorBox from './ErrorBox';
 import ScoreBox from './ScoreBox';
 import NavBar from './NavBar';
 import DetailsBox from './DetailsBox';
@@ -146,10 +147,7 @@ class ReviewPage extends Component {
                             <i className='fa fa-spin fa-cog fa-fw' style={{ fontSize: '150px', color: '#aaa' }}></i>
                             <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading {this.state.code}...</h1>
                         </div>) :
-                        <div style={{ textAlign: 'center', padding: 45 }}>
-                            <i className='fa fa-exclamation-circle' style={{ fontSize: '150px', color: '#aaa' }}></i>
-                            <h1 style={{ fontSize: '1.5em', marginTop: 15 }}>{this.state.error}</h1>
-                        </div>
+                        <ErrorBox>{this.state.error}</ErrorBox>
                     }
                 <Footer />
             </div>
