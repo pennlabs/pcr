@@ -114,7 +114,19 @@ class ReviewPage extends Component {
         });
     }
 
+    static getDerivedStateFromError(error) {
+        return { error: "An unknown error occured." };
+    }
+
     render() {
+        if (this.state.error) {
+            return <div>
+                <NavBar />
+                <ErrorBox>{this.state.error}</ErrorBox>
+                <Footer />
+            </div>;
+        }
+
         if (!this.state.code) {
             return (
                 <div id="content" className="row">
@@ -132,7 +144,7 @@ class ReviewPage extends Component {
         return (
             <div>
                 <NavBar />
-                    { !this.state.error ? (this.state.data ?
+                    { this.state.data ?
                         <div id="content" className="row">
                             <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
                                 <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} selected_courses={this.state.selected_courses} />
@@ -146,8 +158,7 @@ class ReviewPage extends Component {
                         <div style={{ textAlign: 'center', padding: 45 }}>
                             <i className='fa fa-spin fa-cog fa-fw' style={{ fontSize: '150px', color: '#aaa' }}></i>
                             <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading {this.state.code}...</h1>
-                        </div>) :
-                        <ErrorBox>{this.state.error}</ErrorBox>
+                        </div>
                     }
                 <Footer />
             </div>

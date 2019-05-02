@@ -60,7 +60,7 @@ class InfoPage extends Component {
     }
 
     render() {
-        var content = <ErrorBox>404 Page not Found</ErrorBox>;
+        var content = <ErrorBox>404 Page Not Found</ErrorBox>;
 
         if (this.props.match.params.page === "cart") {
             const checkboxValues = ["rCourseQuality", "rInstructorQuality", "rDifficulty", "rAmountLearned", "rWorkRequired", "rReadingsValue", "rCommAbility", "rInstructorAccess", "rStimulateInterest", "rTAQuality", "rRecommendMajor", "rRecommendNonMajor"];
