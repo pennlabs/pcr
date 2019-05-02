@@ -12,15 +12,27 @@ class AuthPage extends Component {
         const token = Cookies.get('token');
         if (typeof token !== 'undefined') {
             set_auth_token(token);
-            this.state = { isAuthed: true };
+            Cookies.remove('doing_token_auth');
+            this.state = { isAuthed: true, authFailed: false };
         }
         else {
-            redirect_for_auth();
-            this.state = { isAuthed: false };
+            if (typeof Cookies.get('doing_token_auth') === 'undefined') {
+                Cookies.set('doing_token_auth', 'true');
+                redirect_for_auth();
+                this.state = { isAuthed: false, authFailed: false };
+            }
+            else {
+                Cookies.remove('doing_token_auth');
+                this.state = { isAuthed: false, authFailed: true };
+            }
         }
     }
 
     render() {
+        if (this.state.authFailed) {
+            return <div>Failed to perform Shibboleth authentication. Refresh the page to try again.</div>;
+        }
+
         return this.state.isAuthed ? <ReviewPage {...this.props} /> : null;
     }
 }
