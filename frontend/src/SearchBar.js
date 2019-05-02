@@ -11,21 +11,13 @@ class SearchBar extends Component {
         super(props);
 
         this.state = {
-            autocompleteOptions: this.getSearchCache(),
+            autocompleteOptions: [],
             searchValue: null
         };
 
         this._autocompleteCallback = [];
         this.autocompleteCallback = this.autocompleteCallback.bind(this);
         this.handleChange = this.handleChange.bind(this);
-    }
-
-    getSearchCache() {
-        const data = localStorage.getItem("meta-search-cache");
-        if (data === null) {
-            return [];
-        }
-        return JSON.parse(data).data;
     }
 
     componentDidMount() {
@@ -51,12 +43,6 @@ class SearchBar extends Component {
                 }
             ];
 
-            // Safari sometimes throws a QuotaExceededError, ignore the error in this case
-            try {
-                localStorage.setItem("meta-search-cache", JSON.stringify({data: formattedAutocomplete, time: Date.now()}));
-            }
-            catch (e) { }
-
             this.setState(state => ({
                 autocompleteOptions: formattedAutocomplete
             }), () => {
@@ -64,9 +50,9 @@ class SearchBar extends Component {
                 this._autocompleteCallback = [];
             });
         }).catch((e) => {
-            window.raven.captureException(e);
+            window.Raven.captureException(e);
             this.setState(state => ({
-                autocompleteOptions: this.getSearchCache()
+                autocompleteOptions: []
             }), () => {
                 this._autocompleteCallback.forEach((x) => x(this.state.autocompleteOptions));
                 this._autocompleteCallback = [];
