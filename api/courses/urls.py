@@ -62,6 +62,7 @@ urlpatterns = [
     url(r"^display/history/(?P<course>[^/]+)/(?P<instructor>[^/]+)$", display.display_history),
     url(r"^display/autocomplete$", display.display_autocomplete),
     url(r"^display/token$", display.display_token),
+    url(r"^display/live/(?P<course>[^/]+)$", display.display_live),
 
     # Misc
     url(r"^(?P<alias>.*)$", views.alias_misc),

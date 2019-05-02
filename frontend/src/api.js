@@ -19,7 +19,7 @@ export function api_autocomplete() {
 }
 
 export function api_live(code) {
-    return api_fetch(API_DOMAIN + "/live/" + encodeURIComponent(code));
+    return api_fetch(API_DOMAIN + "/api/display/live/" + encodeURIComponent(code) + "?token=" + encodeURIComponent(PUBLIC_API_TOKEN));
 }
 
 export function api_live_instructor(name) {
