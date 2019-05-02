@@ -21,7 +21,7 @@ class AuthPage extends Component {
         }
         else {
             if (typeof Cookies.get(temp_cookie_name) === 'undefined') {
-                Cookies.set(temp_cookie_name, 'true');
+                Cookies.set(temp_cookie_name, 'true', { expires: 1/1440 });
                 redirect_for_auth();
                 this.state = { isAuthed: false, authFailed: false };
             }
