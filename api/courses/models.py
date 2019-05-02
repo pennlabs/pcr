@@ -10,6 +10,11 @@ from .links import (RSRCS, DEPARTMENT_TOKEN, REVIEW_TOKEN,
 # Note: each class has get_absolute_url - this is for "url" when queried
 
 
+# python 2/3 compatibility
+def cmp(x, y):
+    return (x > y) - (x < y)
+
+
 class Semester:
     """ A semester, with a calendar year and a season.
     Season codes: (a,b,c) -> (Spring, Summer, Fall)

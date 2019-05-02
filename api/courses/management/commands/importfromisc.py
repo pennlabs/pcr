@@ -303,7 +303,7 @@ class Command(BaseCommand):
         tables = [self.ISC_SUMMARY_TABLE]
         # Prevents a few duplicates where the number of responses or from type
         # has changed.
-        group_by = ['pri_section',    'instructor_penn_id']
+        group_by = ['pri_section', 'instructor_penn_id']
         # We always take the first review with the highest number of responses.
         order_by = ['pri_section ASC',
                     'instructor_penn_id ASC', 'responses DESC']

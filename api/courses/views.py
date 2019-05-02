@@ -257,7 +257,7 @@ def alias_course(request, coursealias, path):
         semester_code, dept_code, coursenum_str = coursealias.upper().split('-')
         semester = semesterFromCode(semester_code)
         coursenum = int(coursenum_str)
-    except:
+    except ValueError:
         raise API404("Course alias %s not in correct format: YYYYS-DEPT-100." %
                      coursealias)
 
@@ -274,7 +274,7 @@ def alias_section(request, sectionalias):
         semester = semesterFromCode(semester_code)
         coursenum = int(coursenum_str)
         sectionnum = int(sectionnum_str)
-    except:
+    except ValueError:
         raise API404("Section alias %s not in correct format: YYYYS-DEPT-100-001."
                      % sectionalias)
 
@@ -288,7 +288,7 @@ def alias_coursehistory(request, historyalias, path):
     try:
         dept_code, coursenum_str = historyalias.upper().split('-')
         coursenum = int(coursenum_str)
-    except:
+    except ValueError:
         raise API404("Course alias %s not in correct format: DEPT-100." %
                      historyalias)
 

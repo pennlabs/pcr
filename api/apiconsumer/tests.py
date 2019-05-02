@@ -6,7 +6,6 @@ from django.test import TestCase
 from django.test.client import Client
 
 from api.apiconsumer.models import APIConsumer
-from api.courses.models import Department
 
 
 class NoTokenTest(TestCase):
