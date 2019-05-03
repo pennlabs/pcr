@@ -265,7 +265,6 @@ def display_history(request, course, instructor):
 @cache_page(60 * 60)
 def display_autocomplete(request):
     courses = [{
-        "category": "Courses",
         "title": "{} {:03d}".format(x, y),
         "desc": z,
         "url": "course/{}-{:03d}".format(x, y)
@@ -277,7 +276,6 @@ def display_autocomplete(request):
     courses = list(course_set.values())
 
     depts = [{
-        "category": "Departments",
         "title": code,
         "desc": name,
         "url": "department/{}".format(code)
@@ -293,7 +291,6 @@ def display_autocomplete(request):
                 instructor_set[code]["desc"].add(dept)
         else:
             instructor_set[code] = {
-                "category": "Instructors",
                 "title": titleize("{} {}".format(first or "", last or "")),
                 "desc": set([dept]) if dept is not None else set(),
                 "url": "instructor/{}".format(code)

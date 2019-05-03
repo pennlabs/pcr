@@ -33,19 +33,19 @@ class SearchBar extends Component {
                 {
                     label: "Departments",
                     options: result.departments.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc, category: 'Departments'};
                     })
                 },
                 {
                     label: "Courses",
                     options: result.courses.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + " " + i.desc};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + " " + i.desc, category: 'Courses'};
                     })
                 },
                 {
                     label: "Instructors",
                     options: result.instructors.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc, category: 'Instructors'};
                     })
                 }
             ];
