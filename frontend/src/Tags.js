@@ -10,7 +10,7 @@ function convertInstructorName(name) {
     if (name in nameCache) {
         return nameCache[name];
     }
-    const out = name.toUpperCase().replace(/[^a-zA-Z\s]/g, '').replace(/ [A-Z]+ /g, ' ');
+    const out = name.toUpperCase().substr(0, 30).replace(/[^a-zA-Z\s]/g, '').replace(/ [A-Z]+ /g, ' ');
     nameCache[name] = out;
     return out;
 }
