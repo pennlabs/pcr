@@ -314,7 +314,13 @@ def display_autocomplete(request):
 
 def display_live(request, course):
     title = course.upper().strip()
-    dept, code = title.split("-")
+    try:
+        dept, code = title.split("-")
+    except ValueError:
+        return JsonResponse({
+            "error": "Incorrectly formatted course code '{}'.".format(title)
+        })
+
     resp = requests.get("http://api.pennlabs.org/registrar/search?q={}".format(title))
     resp.raise_for_status()
     raw_data = resp.json()
