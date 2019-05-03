@@ -82,7 +82,7 @@ class Tags extends Component {
                                 {info.sort((x, y) => x.section_id_normalized.localeCompare(y.section_id_normalized)).map((a, i) => <CourseLine key={i} data={a} />)}
                             </ul>
                         </span>
-                    }><span className={"badge " + (open ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open.length}/{info.length}</span></span></PopoverTitle>;
+                    }><span className={"badge " + (open.length ? "badge-success" : "badge-danger")}>{desc}<span className="count">{open.length}/{info.length}</span></span></PopoverTitle>;
                 })}
                 {!!syllabi.length && <Popover button={<span className="badge badge-secondary">{syllabi.length} {syllabi.length !== 1 ? 'Syllabi' : 'Syllabus'}</span>}>
                     {syllabi.map((a, i) => <div key={i}><a target="_blank" rel="noopener noreferrer" href={a.url}>{a.name}</a></div>)}
