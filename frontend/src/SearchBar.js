@@ -6,6 +6,13 @@ import { api_autocomplete } from './api';
 import { withRouter } from 'react-router-dom';
 
 
+// Takes in a course (ex: CIS 160) and returns various formats (ex: CIS-160, CIS 160, CIS160).
+function expandCombo(course) {
+    const a = course.split(" ");
+    return course + " " + a[0] + "-" + a[1] + " " + a[0] + a[1];
+}
+
+
 class SearchBar extends Component {
     constructor(props) {
         super(props);
@@ -26,19 +33,19 @@ class SearchBar extends Component {
                 {
                     label: "Departments",
                     options: result.departments.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.keywords + " " + i.desc};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc};
                     })
                 },
                 {
                     label: "Courses",
                     options: result.courses.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.keywords + " " + i.desc};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + " " + i.desc};
                     })
                 },
                 {
                     label: "Instructors",
                     options: result.instructors.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.keywords + " " + i.desc};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc};
                     })
                 }
             ];
