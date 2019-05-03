@@ -5,11 +5,14 @@
 #
 # Prerequisites:
 #   - The 5 sql files should be in the same folder as the script.
-#   - Pass in the correct values for semester and MySQL username and password.
+#   - Pass in the correct arguments for semester and MySQL password.
+#   - You should be in the pcr virtual environment.
+#
+# Database Assumptions:
 #   - The database PCRDEV should exist.
 #   - There should be an existing database in the format pcr_api_v{version}_{date}.
 #
-# Example: ./update.rb --password mysqlrootpassword --semester '2017A 2017B'
+# Example Usage: ./update.rb --password <mysql root password> --semester '2017A 2017B' | tee log.txt
 #
 # Created by Eric Wang (@ezwang), 3/11/2018
 
@@ -36,8 +39,8 @@ MYSQL_PWD = options[:password]
 # sql files to import into PCRDEV
 SQL_FILES = ['TEST_PCR_COURSE_DESC_V.sql', 'TEST_PCR_CROSSLIST_SUMMARY_V.sql', 'TEST_PCR_SUMMARY_HIST_V.sql', 'TEST_PCR_SUMMARY_V.sql']
 
-# location of pcr-api repo
-API_PATH = 'pcr'
+# location of pcr repo
+API_PATH = File.dirname(File.dirname(File.realpath(__FILE__)))
 
 # which semesters to import
 if options[:semester]
