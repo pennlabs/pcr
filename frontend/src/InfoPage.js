@@ -36,6 +36,9 @@ class InfoPage extends Component {
     regenerateRatings() {
         const courses = Object.keys(localStorage).filter((k) => !k.startsWith("meta-")).map((k) => {
             const out = JSON.parse(localStorage.getItem(k));
+            if (typeof out !== 'object') {
+                return null;
+            }
             const typeDict = {};
             if (typeof out.info !== 'undefined') {
                 out.info.forEach((v) => typeDict[v.category] = v);
@@ -43,7 +46,7 @@ class InfoPage extends Component {
             }
             out.course = k;
             return out;
-        });
+        }).filter((a) => a !== null);
         this.setState((state) => ({
             courses: courses,
             boxValues: state.boxLabels.map((type) => {
