@@ -15,6 +15,14 @@ export function getColumnName(key) {
 }
 
 
+export function orderColumns(cols) {
+    const colSet = new Set(cols);
+    const fixedCols = ["rCourseQuality", "rInstructorQuality", "rDifficulty", "rAmountLearned"].filter((a) => colSet.has(a));
+    const fixedColsSet = new Set(fixedCols);
+    return fixedCols.concat(cols.filter((a) => !fixedColsSet.has(a)).sort());
+}
+
+
 class ScoreBox extends Component {
     constructor(props) {
         super(props);
@@ -134,7 +142,7 @@ class ScoreBox extends Component {
             output.code = val.code;
             return output;
         });
-        const cols = Object.keys(columns).sort().map((key) => {
+        const cols = orderColumns(Object.keys(columns)).map((key) => {
             var header = getColumnName(key);
             return {
                 id: key,
