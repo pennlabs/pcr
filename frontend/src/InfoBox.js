@@ -134,7 +134,7 @@ class InfoBox extends Component {
                         <li>
                             <button onClick={this.addToCourseCart("average")}>Average Professor</button>
                         </li>
-                    {Object.keys(instructors).map((key, i) =>
+                    {Object.keys(instructors).sort((a, b) => instructors[a].name.localeCompare(instructors[b].name)).map((key, i) =>
                         <li key={i}>
                             <button onClick={this.addToCourseCart(key)}>{instructors[key].name}</button>
                         </li>
