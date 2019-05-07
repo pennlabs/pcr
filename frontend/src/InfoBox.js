@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
+import reactStringReplace from 'react-string-replace';
 
 import Tags from './Tags';
 import ScoreboxRow from './ScoreboxRow';
@@ -225,7 +226,7 @@ class InfoBox extends Component {
             }
 
             { pageType === "course" &&
-                    <p className="desc">{this.props.data.description}</p>
+                    <p className="desc">{reactStringReplace(this.props.data.description, /([A-Z]{2,4}[ -]\d{3})/g, (m, i) => <Link to={"/course/" + m.replace(" ", "-")} key={i}>{m}</Link>)}</p>
             }
 
             </div>

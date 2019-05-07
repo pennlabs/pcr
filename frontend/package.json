@@ -12,6 +12,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.0.0",
     "react-select": "^2.4.3",
+    "react-string-replace": "^0.4.4",
     "react-table": "^6.10.0"
   },
   "scripts": {
