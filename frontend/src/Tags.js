@@ -88,7 +88,7 @@ class Tags extends Component {
                     {syllabi.map((a, i) => <div key={i}><a target="_blank" rel="noopener noreferrer" href={a.url}>{a.name}</a></div>)}
                 </Popover>}
             </div>
-            {!!prereqs.length && <div className="prereqs">Prerequisites: {prereqs.map((a, i) => [i > 0 && ", ", <span key={i}><Link to={"/course/" + a}>{a}</Link></span>])}</div>}
+            {!!prereqs.length && <div className="prereqs">Prerequisites: {prereqs.map((a, i) => [i > 0 && ", ", <span key={i}><Link to={"/course/" + a}>{a.replace('-', ' ')}</Link></span>])}</div>}
             {!!Object.keys(new_instructors).length && <div>New Instructors: {Object.values(new_instructors).sort().map((item, i) => <span key={i}>{i > 0 && ", "}{this.props.instructor_links[item] ? <Link to={this.props.instructor_links[item]}>{item}</Link> : item}</span>)}</div>}
         </div>
     );
