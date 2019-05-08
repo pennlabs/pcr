@@ -14,7 +14,7 @@ class InfoPage extends Component {
 
         this.state = {
             showChooseCols: false,
-            isAverage: true,
+            isAverage: localStorage.getItem("meta-column-type") !== "recent",
             courses: [],
             excludedCourses: [],
             boxValues: ['N/A', 'N/A', 'N/A', 'N/A'],
