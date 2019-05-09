@@ -1,4 +1,4 @@
-const API_DOMAIN = "https://penncoursereview.com";
+const API_DOMAIN = window.location.protocol + "//" + window.location.host;
 const PUBLIC_API_TOKEN = "public";
 var API_TOKEN = "shibboleth";
 
