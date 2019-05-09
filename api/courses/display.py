@@ -56,8 +56,8 @@ def display_token(request):
             })
 
         domain = None
-        if valid_host.startswith("www."):
-            domain = valid_host.split(".", 1)[1]
+        if redirect_url.netloc.startswith("www."):
+            domain = redirect_url.netloc.split(".", 1)[1]
 
         resp = redirect(original_url)
         resp.set_cookie('token', request.consumer.token, expires=request.consumer.expiration, domain=domain)
