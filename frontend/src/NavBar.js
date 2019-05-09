@@ -34,7 +34,7 @@ class NavBar extends Component {
         return (
             <div id="header">
                 <span className="float-left">
-                    <Link to="/"><div id="logo"></div></Link>
+                    <Link to="/" title="Go to Penn Course Review Home"><div id="logo"></div></Link>
                     <SearchBar />
                 </span>
                     <span className="float-right">

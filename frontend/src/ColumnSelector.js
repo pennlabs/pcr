@@ -49,7 +49,7 @@ class ColumnSelector extends Component {
     render() {
         var x = 0;
 
-        return <Popover style={{ width: 340 }} button={<button className={"btn btn-sm ml-2 " + (this.props.buttonStyle || "btn") + "-primary"}><i className="fa fa-plus"></i></button>}>
+        return <Popover style={{ width: 340 }} button={<button aria-label="Choose Columns" className={"btn btn-sm ml-2 " + (this.props.buttonStyle || "btn") + "-primary"}><i className="fa fa-plus"></i></button>}>
             <span onClick={this.setAllColumns(true)} className={"btn mb-2 mr-2 btn-sm " + (this.props.buttonStyle || "btn") + "-secondary"} style={{ width: 150, textAlign: 'center' }}>Select all</span>
             <span onClick={this.setAllColumns(false)} className={"btn mb-2 btn-sm " + (this.props.buttonStyle || "btn") + "-secondary"} style={{ width: 150, textAlign: 'center' }}>Clear</span>
             <hr />
