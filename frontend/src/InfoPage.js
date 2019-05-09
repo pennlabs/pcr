@@ -166,7 +166,7 @@ class InfoPage extends Component {
                 <p>Your evaluations and comments feed the Review, so the more information you provide about your courses and professors, the more comprehensive Penn Course Review will be.</p>
 
                 <p>If you want to look at courses on the go, <a href="https://pennlabs.org/mobile/">PennMobile</a> is available for download! In the courses section, you are able to view course descriptions and ratings!</p>
-                <p>Version 2.0 was built by Eric Wang, Cassandra Li, Rohan Menezes, Vinai Rachakonda, Brandon Lin, Yonah Mann, Josh Doman and designed by Tiffany Chang.</p>
+                <p>Version 2.0 was built by Eric Wang, Cassandra Li, Rohan Menezes, Vinai Rachakonda, Brandon Lin, Yonah Mann, Josh Doman, Jerry Lu, Daniel Tao and designed by Tiffany Chang.</p>
                 <p>Thanks and happy searching,</p>
                 <p><strong>Penn Labs</strong></p>
 
