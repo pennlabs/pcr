@@ -177,7 +177,7 @@ class ScoreBox extends Component {
                 {props.original.star && <PopoverTitle title={
                     <span>
                         <b>{props.value}</b> is teaching during <b>{this.props.live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.
-                        <ul style={{ marginBottom: 0 }}>
+                        <ul>
                             {props.original.star.sections.sort((x, y) => x.section_id_normalized.localeCompare(y.section_id_normalized)).map((a, i) => <CourseLine key={i} data={a} />)}
                         </ul>
                     </span>
@@ -185,7 +185,7 @@ class ScoreBox extends Component {
                 {is_instructor && !!this.state.currentCourses[props.original.code] && <PopoverTitle title={
                     <span>
                         <b>{this.props.data.name}</b> will teach <b>{props.original.code}</b> in <b>{this.state.currentCourses[props.original.code][0].term_normalized}</b>.
-                        <ul style={{ marginBottom: 0 }}>
+                        <ul>
                             {this.state.currentCourses[props.original.code].map((a, i) => <CourseLine key={i} data={a} />)}
                         </ul>
                     </span>
