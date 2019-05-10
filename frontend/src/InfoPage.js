@@ -129,8 +129,8 @@ class InfoPage extends Component {
     }
     <button className="btn btn-primary mr-2" onClick={() => this.setState((state) => ({ showChooseCols: !state.showChooseCols }))}>Choose Categories</button>
     <div className="btn-group">
-        <span className={"btn " + (this.state.isAverage ? "btn-primary" : "btn-secondary")} onClick={() => {this.setState({ isAverage: true }); this.regenerateRatings(); }}>Average</span>
-        <span className={"btn " + (this.state.isAverage ? "btn-secondary" : "btn-primary")} onClick={() => {this.setState({ isAverage: false }); this.regenerateRatings(); }}>Most Recent</span>
+        <span className={"btn " + (this.state.isAverage ? "btn-primary" : "btn-secondary")} onClick={() => {this.setState({ isAverage: true }, () => localStorage.setItem("meta-column-type", "average")); this.regenerateRatings(); }}>Average</span>
+        <span className={"btn " + (this.state.isAverage ? "btn-secondary" : "btn-primary")} onClick={() => {this.setState({ isAverage: false }, () => localStorage.setItem("meta-column-type", "recent")); this.regenerateRatings(); }}>Most Recent</span>
     </div>
     <div className="clear"></div>
     <div id="boxHelpTag">Click a course to exclude it from the average.</div>

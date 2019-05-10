@@ -4,10 +4,6 @@ body {
     background-color: #fafcff;
 }
 
-iframe {
-    border: none;
-}
-
 a, p, span {
     font-family: Lato, Helvetica, sans-serif;
 }
@@ -463,7 +459,7 @@ input {
 .table-search::after {
     position: absolute;
     content: '\f002';
-    top: 3px;
+    top: 0.3rem;
     right: 8px;
     color: #ccc;
 }
