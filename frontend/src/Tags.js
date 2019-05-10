@@ -63,12 +63,14 @@ class Tags extends Component {
     const prereq_string = [].concat.apply([], Object.values(this.props.courses).map((a) => Object.values(a).map((b) => (b.prerequisite_notes || []).join(" ")).filter((b) => b))).join(" ");
     const prereqs = [...new Set(prereq_string.match(/[A-Z]{2,4}[ -]\d{3}/g))].map((a) => a.replace(' ', '-'));
 
+    const course_name = this.props.data.code.replace("-", " ");
+
     return (
         <div>
             <div id="live">
-                {is_taught ? <PopoverTitle title={<span>This course will be taught in <b>{this.props.term}</b>.</span>}><span className="badge badge-info">{this.props.term}</span></PopoverTitle>
-                           : <PopoverTitle title={<span>This course was last taught in <b>{most_recent}</b>.</span>}><span className="badge badge-secondary">{most_recent}</span></PopoverTitle>}
-                {is_taught && <PopoverTitle title={<span>This course is <b>{this.props.credits}</b> credit unit(s).</span>}><span className="badge badge-primary">{this.props.credits} CU</span></PopoverTitle>}
+                {is_taught ? <PopoverTitle title={<span>{course_name} will be taught in <b>{this.props.term}</b>.</span>}><span className="badge badge-info">{this.props.term}</span></PopoverTitle>
+                           : <PopoverTitle title={<span>{course_name} was last taught in <b>{most_recent}</b>.</span>}><span className="badge badge-secondary">{most_recent}</span></PopoverTitle>}
+                {is_taught && <PopoverTitle title={<span>{course_name} is <b>{this.props.credits}</b> credit unit{this.props.credits === 1 || "s"}.</span>}><span className="badge badge-primary">{this.props.credits} CU</span></PopoverTitle>}
                 {Object.values(this.props.courses).map((info, i) => {
                     if (!info.length) {
                         return null;
@@ -77,7 +79,7 @@ class Tags extends Component {
                     const open = info.filter((a) => !a.is_closed && !a.is_cancelled);
                     return <PopoverTitle key={i} title={
                         <span>
-                            <b>{open.length}</b> out of <b>{info.length}</b> {desc.toLowerCase()} sections are open for this course.
+                            <b>{open.length}</b> out of <b>{info.length}</b> {desc.toLowerCase()} sections are open for {course_name}.
                             <ul style={{ marginBottom: 0 }}>
                                 {info.sort((x, y) => x.section_id_normalized.localeCompare(y.section_id_normalized)).map((a, i) => <CourseLine key={i} data={a} />)}
                             </ul>
