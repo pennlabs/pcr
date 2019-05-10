@@ -25,6 +25,10 @@ p, ul {
     margin-top: 0;
 }
 
+ul {
+    margin-bottom: 0;
+}
+
 label {
     display: inline-block;
     margin-bottom: 0.5rem;

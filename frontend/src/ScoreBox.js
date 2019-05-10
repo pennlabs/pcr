@@ -184,7 +184,7 @@ class ScoreBox extends Component {
                 }><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}
                 {is_instructor && !!this.state.currentCourses[props.original.code] && <PopoverTitle title={
                     <span>
-                        <b>{this.props.data.name}</b> will teach <b>{props.original.code}</b> in <b>{this.state.currentCourses[props.original.code][0].term_normalized}</b>.
+                        <b>{this.props.data.name}</b> will teach <b>{props.original.code.replace('-', ' ')}</b> in <b>{this.state.currentCourses[props.original.code][0].term_normalized}</b>.
                         <ul>
                             {this.state.currentCourses[props.original.code].map((a, i) => <CourseLine key={i} data={a} />)}
                         </ul>
