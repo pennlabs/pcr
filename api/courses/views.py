@@ -325,7 +325,12 @@ def dept_main(request, dept_code):
 
 def dept_reviews(request, dept_code):
     reviews = Review.objects.filter(
-        section__course__alias__department__code=dept_code)
+        section__course__alias__department__code=dept_code
+    ).prefetch_related('section', 
+                       'instructor', 
+                       'reviewbit_set')\
+                           .prefetch_related('section__course')\
+                           .prefetch_related('section__course__primary_alias')
     return JSON({RSRCS: [r.toJSON() for r in reviews]})
 
 
