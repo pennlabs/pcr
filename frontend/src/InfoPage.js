@@ -50,7 +50,7 @@ class InfoPage extends Component {
         this.setState((state) => ({
             courses: courses,
             boxValues: state.boxLabels.map((type) => {
-                const scoreList = courses.filter((a) => typeof a !== undefined && state.excludedCourses.indexOf(a.course) === -1).map((a) => (a.info[type] || {average: null, recent: null})[state.isAverage ? 'average' : 'recent']).filter((a) => a !== null && !isNaN(a)).map((a) => parseFloat(a));
+                const scoreList = courses.filter((a) => typeof a !== undefined && state.excludedCourses.indexOf(a.course) === -1).map((a) => ((a.info || {type: null})[type] || {average: null, recent: null})[state.isAverage ? 'average' : 'recent']).filter((a) => a !== null && !isNaN(a)).map((a) => parseFloat(a));
                 if (!scoreList.length) {
                     return "N/A";
                 }
