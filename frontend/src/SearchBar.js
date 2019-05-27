@@ -13,6 +13,9 @@ function expandCombo(course) {
 }
 
 
+/**
+ * The search bar that appears on the homepage and navigation bar.
+ */
 class SearchBar extends Component {
     constructor(props) {
         super(props);

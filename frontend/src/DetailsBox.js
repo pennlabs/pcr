@@ -18,6 +18,9 @@ function compareSemesters(a, b) {
 }
 
 
+/**
+ * The box below the course ratings table that contains student comments and semester information.
+ */
 class DetailsBox extends Component {
     constructor(props) {
         super(props);

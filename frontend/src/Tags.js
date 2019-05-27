@@ -28,6 +28,9 @@ export class CourseLine extends Component {
 }
 
 
+/**
+ * Shows information about course availability, prerequisites, and new instructors.
+ */
 class Tags extends Component {
   render() {
     const existing = this.props.existing_instructors.map(convertInstructorName);

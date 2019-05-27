@@ -3,6 +3,9 @@ import SearchBar from './SearchBar';
 import { Link } from 'react-router-dom';
 
 
+/**
+ * The navigation bar at the top of the page, containing the logo, search bar, and cart icon.
+ */
 class NavBar extends Component {
     constructor(props) {
         super(props);

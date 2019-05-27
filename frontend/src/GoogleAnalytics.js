@@ -2,6 +2,9 @@ import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 
+/**
+ * Dummy component to make Google Analytics work well with React router.
+ */
 class GoogleAnalytics extends Component {
     componentWillUpdate({ location, history }) {
         if (location.pathname === this.props.location.pathname) {

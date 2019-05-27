@@ -9,6 +9,9 @@ import Footer from './Footer';
 import { api_review_data, api_live, api_live_instructor } from './api';
 
 
+/**
+ * Represents a course, instructor, or department review page.
+ */
 class ReviewPage extends Component {
     constructor(props) {
         super(props);

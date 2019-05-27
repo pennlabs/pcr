@@ -23,6 +23,9 @@ export function orderColumns(cols) {
 }
 
 
+/**
+ * The top right box of a review page with the table of numerical scores.
+ */
 class ScoreBox extends Component {
     constructor(props) {
         super(props);

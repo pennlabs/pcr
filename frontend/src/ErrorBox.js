@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 
+/**
+ * A component that appears if an error occurs in the page.
+ */
 export default class ErrorBox extends Component {
     render() {
         return <div style={{ textAlign: 'center', padding: 45 }}>

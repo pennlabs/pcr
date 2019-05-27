@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Popover from './Popover';
 
 
+/**
+ * Used to select the columns that appear in a table.
+ */
 class ColumnSelector extends Component {
     constructor(props) {
         super(props);

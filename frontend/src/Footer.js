@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 
+/**
+ * The footer of every page.
+ */
 class Footer extends Component {
     render() {
         return (<div style={this.props.style} id="footer">

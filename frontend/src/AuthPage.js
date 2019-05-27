@@ -8,6 +8,9 @@ import ReviewPage from './ReviewPage';
 import { redirect_for_auth, set_auth_token } from './api';
 
 
+/**
+ * A wrapper around a review page that performs Shibboleth authentication.
+ */
 class AuthPage extends Component {
     constructor(props) {
         super(props);

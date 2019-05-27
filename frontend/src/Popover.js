@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 
+/**
+ * A component that represents a button and a box that appears when the button is clicked/hovered over.
+ */
 class Popover extends Component {
     constructor(props) {
         super(props);

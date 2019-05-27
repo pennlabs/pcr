@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 
 
+/**
+ * A wrapper for the react table with common table functionality and styling.
+ */
 class ScoreTable extends Component {
     constructor(props) {
         super(props);
