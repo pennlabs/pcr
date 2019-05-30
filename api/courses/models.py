@@ -565,6 +565,7 @@ class Section(models.Model):
             'name': self.name,
             'sectionnum': "%03d" % self.sectionnum,
             'path': self.get_absolute_url(),
+            'semester': self.course.semester.code(),
         }
 
     def toJSON(self):
