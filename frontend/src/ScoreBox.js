@@ -23,6 +23,12 @@ export function orderColumns(cols) {
 }
 
 
+/*
+ * Setting this to true colors all other cells depending on its value when compared to the selected row.
+ */
+const ENABLE_RELATIVE_COLORS = false;
+
+
 /**
  * The top right box of a review page with the table of numerical scores.
  */
@@ -37,11 +43,13 @@ class ScoreBox extends Component {
             filtered: [],
             currentInstructors: {},
             currentCourses: {},
-            filterAll: ""
+            filterAll: "",
+            selected: null
         };
 
         this.handleClick = this.handleClick.bind(this);
         this.updateLiveData = this.updateLiveData.bind(this);
+        this.onSelect = this.onSelect.bind(this);
     }
 
     handleClick(val) {
@@ -52,6 +60,13 @@ class ScoreBox extends Component {
             }));
             this.refs.table.resort();
         };
+    }
+
+    onSelect(val) {
+        this.setState((state) => ({
+            selected: val
+        }));
+        return this.props.onSelect(val);
     }
 
     updateLiveData() {
@@ -129,7 +144,8 @@ class ScoreBox extends Component {
         const columns = {};
         const is_course = this.props.type === "course";
         const is_instructor = this.props.type === "instructor";
-        const data = Object.keys(is_course ? results.instructors : results.courses).map((key) => {
+        const info_map = is_course ? results.instructors : results.courses;
+        const data = Object.keys(info_map).map((key) => {
             const val = is_course ? results.instructors[key] : results.courses[key];
             const output = {};
             Object.keys(val.average_reviews).forEach((col) => {
@@ -159,10 +175,37 @@ class ScoreBox extends Component {
                     }
                     return a ? 1 : -1;
                 },
-                Cell: props => <center>
-                                    { this.state.isAverage ? <span className={'cell_average' + (!props.value ? ' empty' : '')}>{props.value ? props.value.average : "N/A"}</span> :
-                                    <span className={'cell_recent' + (!props.value ? ' empty' : '')}>{props.value ? props.value.recent : "N/A"}</span> }
-                               </center>,
+                Cell: props => {
+                    const classes = [];
+                    const value = props.value ? (this.state.isAverage ? props.value.average : props.value.recent) : "N/A";
+
+                    if (!props.value) {
+                        classes.push('empty');
+                    }
+
+                    if (this.state.isAverage) {
+                        classes.push('cell_average');
+                    }
+                    else {
+                        classes.push('cell_recent');
+                    }
+
+                    if (ENABLE_RELATIVE_COLORS && this.state.selected in info_map && props.original.key !== this.state.selected) {
+                        const other_value = info_map[this.state.selected][this.state.isAverage ? "average_reviews" : "recent_reviews"][props.column.id];
+                        if (Math.abs(value - other_value) > 0.01) {
+                            if (value > other_value) {
+                                classes.push('lower');
+                            }
+                            else {
+                                classes.push('higher');
+                            }
+                        }
+                    }
+
+                    return <center>
+                        <span className={classes.join(' ')}>{value}</span>
+                    </center>;
+                },
                 width: 140,
                 show: true
             };
@@ -257,7 +300,7 @@ class ScoreBox extends Component {
                         <label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label>
                     </div>
                 </div>
-                <ScoreTable multi={this.props.type === "department"} sorted={[{id: is_course ? 'name' : 'code', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.props.onSelect} noun={is_course ? "instructor" : "course"} />
+                <ScoreTable multi={this.props.type === "department"} sorted={[{id: is_course ? 'name' : 'code', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
     }

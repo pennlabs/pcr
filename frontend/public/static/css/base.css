@@ -468,6 +468,14 @@ input {
     color: #aaa;
 }
 
+.lower {
+    color: #6274F1;
+}
+
+.higher {
+    color: #76BF96;
+}
+
 #course-details {
     flex: 1;
 }
