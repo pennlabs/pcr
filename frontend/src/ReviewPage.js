@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Cookies from 'universal-cookie';
 import InfoBox from './InfoBox';
 import ErrorBox from './ErrorBox';
 import ScoreBox from './ScoreBox';
@@ -10,11 +11,19 @@ import { api_review_data, api_live, api_live_instructor } from './api';
 
 
 /**
+ * Enable or disable the Penn Labs recruitment banner.
+ */
+const SHOW_RECRUITMENT_BANNER = true;
+
+
+/**
  * Represents a course, instructor, or department review page.
  */
 class ReviewPage extends Component {
     constructor(props) {
         super(props);
+
+        this.cookies = new Cookies();
 
         this.state = {
             type: this.props.match.params.type,
@@ -23,7 +32,8 @@ class ReviewPage extends Component {
             error: null,
             instructor_code: null,
             live_data: null,
-            selected_courses: null
+            selected_courses: null,
+            showBanner: SHOW_RECRUITMENT_BANNER && !this.cookies.get("hide_pcr_banner")
         };
 
         this.navigateToPage = this.navigateToPage.bind(this);
@@ -133,6 +143,17 @@ class ReviewPage extends Component {
         if (!this.state.code) {
             return (
                 <div id="content" className="row">
+                    {this.state.showBanner && <div id="banner">
+                        <span role="img" aria-label="Party Popper Emoji">🎉</span>{' '}
+                        <b>Want to build impactful products like Penn Course Review?</b>{' '}
+                        Join Penn Labs this fall! Sign up for our mailing list <a href="https://pennlabs.org/apply" target="_blank" rel="noopener noreferrer">here</a>!{' '}
+                        <span role="img" aria-label="Party Popper Emoji">🎉</span>
+                        <span className="close" onClick={(e) => {
+                            this.setState({ showBanner: false });
+                            this.cookies.set("hide_pcr_banner", true, { expires: new Date(Date.now() + 12096e5) });
+                            e.preventDefault();
+                        }}><i className="fa fa-times"></i></span>
+                    </div>}
                     <div className="col-md-12">
                         <div id="title">
                             <img src="/static/image/logo.png" alt="Penn Course Review" /> <span className="title-text">Penn Course Review</span>
