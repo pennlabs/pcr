@@ -4,11 +4,6 @@ import os
 import raven
 import dj_database_url
 
-ADMINS = (
-    ('Penn Labs', 'pennappslabs@gmail.com'),
-)
-
-MANAGERS = ADMINS
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
