@@ -13,7 +13,7 @@ import { api_review_data, api_live, api_live_instructor } from './api';
 /**
  * Enable or disable the Penn Labs recruitment banner.
  */
-const SHOW_RECRUITMENT_BANNER = true;
+const SHOW_RECRUITMENT_BANNER = false;
 
 
 /**
