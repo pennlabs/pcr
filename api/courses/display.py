@@ -267,16 +267,21 @@ def display_history(request, course, instructor):
 
 @cache_page(60 * 60)
 def display_autocomplete(request):
-    courses = [{
-        "title": "{} {:03d}".format(x, y),
-        "desc": z,
-        "url": "course/{}-{:03d}".format(x, y)
-    } for x, y, z in Alias.objects.all().values_list("department__code", "coursenum", "course__name").distinct()]
-
     course_set = {}
-    for course in courses:
-        course_set[course["title"]] = course
-    courses = list(course_set.values())
+    for dept, num, name in Course.objects.all().values_list("primary_alias__department__code", "primary_alias__coursenum", "name").distinct():
+        code = "{} {:03d}".format(dept, num)
+        if code in course_set:
+            if name is not None:
+                course_set[code]["desc"].add(name)
+        else:
+            course_set[code] = {
+                "title": code,
+                "desc": set([name]) if name is not None else set(),
+                "url": "course/{}-{:03d}".format(name, num)
+            }
+
+    for info in course_set.values():
+        info["desc"] = ", ".join(sorted(info["desc"]))
 
     depts = [{
         "title": code,
@@ -303,7 +308,7 @@ def display_autocomplete(request):
         info["desc"] = ", ".join(sorted(info["desc"]))
 
     return JsonResponse({
-        "courses": courses,
+        "courses": list(course_set.values()),
         "departments": depts,
         "instructors": list(instructor_set.values())
     })
