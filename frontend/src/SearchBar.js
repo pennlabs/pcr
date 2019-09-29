@@ -21,7 +21,7 @@ class SearchBar extends Component {
         super(props);
 
         this.state = {
-            autocompleteOptions: [],
+            autocompleteOptions: [],	
             searchValue: null
         };
 
@@ -31,7 +31,7 @@ class SearchBar extends Component {
     }
 
     componentDidMount() {
-        api_autocomplete().then((result) => {
+        api_autocomplete().then(result => {
             var formattedAutocomplete = [
                 {
                     label: "Departments",
@@ -42,7 +42,7 @@ class SearchBar extends Component {
                 {
                     label: "Courses",
                     options: result.courses.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + " " + i.desc, category: 'Courses'};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + " " + i.desc.join(" "), category: 'Courses'};
                     })
                 },
                 {
@@ -88,30 +88,40 @@ class SearchBar extends Component {
         ];
     }
 
+    // Called each time the input value inside the searchbar changes
     autocompleteCallback(inputValue) {
-        return new Promise((resolve, reject) => {
+        this.setState({ searchValue: inputValue });
+        return new Promise(resolve => {
             if (this.state.autocompleteOptions.length) {
                 resolve(this.state.autocompleteOptions);
             }
             else {
                 this._autocompleteCallback.push(resolve);
             }
-        }).then((res) => this.filterOptionsList(res, inputValue));
+        })
+        .then((res) => this.filterOptionsList(res, inputValue))
     }
 
+    // Called when an option is selected in the AsyncSelect component
     handleChange(value) {
         this.props.history.push("/" + value.url);
-        this.setState({
-            searchValue: null
-        });
     }
 
     render() {
+        let { state: parent } = this;
+        // Filters the inputted list of strings using the searchValue in this component's state
+        // TODO: Lazy load first applicable list element instead of filtering the entire list
+        const filterDescList = list => {
+            const { searchValue } = parent;
+            const filterValue = searchValue ? searchValue.toLowerCase() : "";
+            return list.filter(elem => elem.toLowerCase().indexOf(filterValue) !== -1);
+        };
         return (
             <div id="search" style={{ margin: '0 auto' }}>
                 <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
                     Option: (props) => {
-                        const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
+                        const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, data } = props;
+                        
                         return (<div ref={innerRef}
                         className={cx(css(getStyles('option', props)),
                             {
@@ -123,7 +133,18 @@ class SearchBar extends Component {
                             className
                         )} {...innerProps}>
                         <b>{children}</b>
-                        <span style={{ color: '#aaa', fontSize: '0.8em', marginLeft: 3 }}>{props.data.desc}</span>
+                        <span style={{ color: '#aaa', fontSize: '0.8em', marginLeft: 3 }}>
+                            {
+                                (() => {
+                                    const { desc } = data; 
+                                    if (Array.isArray(desc)) {
+                                        return filterDescList(desc)[0] || desc[0] 
+                                    } else {
+                                        return desc
+                                    }
+                                })()
+                            }
+                        </span>
                         </div>);
                     },
                     DropdownIndicator: this.props.isTitle ? null : (props) => <components.DropdownIndicator {...props}><i className="fa fa-search mr-1"></i></components.DropdownIndicator>
