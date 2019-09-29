@@ -171,3 +171,12 @@ if 'SENTRY_DSN' in os.environ:
         'dsn': os.getenv('SENTRY_DSN'),
         'release': raven.fetch_git_sha(os.path.abspath(os.curdir))
     }
+
+
+# Disable cache in development
+if DEBUG:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
