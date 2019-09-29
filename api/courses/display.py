@@ -137,7 +137,6 @@ def display_instructor(request, instructor):
             "error": "Could not find instructor matching code '{}'.".format(req_instructor)
         })
     sections = Section.objects.filter(instructors=instructor).order_by("course__semester")
-    courses = Course.objects.filter(section__in=sections)
     reviews = Review.objects.filter(instructor=instructor)
     course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__history").annotate(score=Avg('score'))
     course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__history", "review__section__course__semester").annotate(score=Avg('score')).order_by("review__section__course__semester")
