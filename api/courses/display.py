@@ -277,11 +277,11 @@ def display_autocomplete(request):
             course_set[code] = {
                 "title": code,
                 "desc": set([name]) if name is not None else set(),
-                "url": "course/{}-{:03d}".format(name, num)
+                "url": "course/{}-{:03d}".format(dept, num)
             }
 
     for info in course_set.values():
-        info["desc"] = ", ".join(sorted(info["desc"]))
+        info["desc"] = sorted(info["desc"])
 
     depts = [{
         "title": code,
