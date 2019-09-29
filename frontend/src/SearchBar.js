@@ -53,17 +53,17 @@ class SearchBar extends Component {
                 }
             ];
 
-            this.setState(state => ({
+            this.setState({
                 autocompleteOptions: formattedAutocomplete
-            }), () => {
+            }, () => {
                 this._autocompleteCallback.forEach((x) => x(this.state.autocompleteOptions));
                 this._autocompleteCallback = [];
             });
         }).catch((e) => {
             window.Raven.captureException(e);
-            this.setState(state => ({
+            this.setState({
                 autocompleteOptions: []
-            }), () => {
+            }, () => {
                 this._autocompleteCallback.forEach((x) => x(this.state.autocompleteOptions));
                 this._autocompleteCallback = [];
             });
