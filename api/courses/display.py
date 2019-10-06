@@ -318,7 +318,7 @@ def display_live(request, course):
             "error": "Incorrectly formatted course code '{}'.".format(title)
         })
 
-    resp = requests.get("http://api.pennlabs.org/registrar/search?q={}".format(title))
+    resp = requests.get("https://api.pennlabs.org/registrar/search?q={}".format(title))
     resp.raise_for_status()
     raw_data = resp.json()
     matching_courses = [course for course in raw_data["courses"] if course["course_department"].strip().upper() == dept and course["course_number"].strip().upper() == code and course["is_cancelled"] is not True]
