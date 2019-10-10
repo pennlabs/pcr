@@ -74,16 +74,16 @@ class SearchBar extends Component {
         inputValue = inputValue.toLowerCase();
         return [
             {
-                label: "Departments",
-                options: autocompleteOptions[0].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 10)
+                label: 'Departments',
+                options: fuzzysort.go(inputValue, autocompleteOptions[0].options, {key: 'keywords', threshold: -200, limit: 10}).map((a) => a.obj)
             },
             {
-                label: "Courses",
-                options: autocompleteOptions[1].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
+                label: 'Courses',
+                options: fuzzysort.go(inputValue, autocompleteOptions[1].options, {key: 'keywords', threshold: -200, limit: 25}).map((a) => a.obj)
             },
             {
-                label: "Instructors",
-                options: autocompleteOptions[2].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
+                label: 'Instructors',
+                options: fuzzysort.go(inputValue, autocompleteOptions[2].options, {key: 'keywords', threshold: -200, limit: 25}).map((a) => a.obj)
             }
         ];
     }
