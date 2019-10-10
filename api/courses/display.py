@@ -268,7 +268,7 @@ def display_history(request, course, instructor):
 @cache_page(60 * 60)
 def display_autocomplete(request):
     course_set = {}
-    for dept, num, name in Course.objects.all().values_list("primary_alias__department__code", "primary_alias__coursenum", "name").distinct():
+    for dept, num, name in Section.objects.all().values_list("course__primary_alias__department__code", "course__primary_alias__coursenum", "name").distinct():
         code = "{} {:03d}".format(dept, num)
         if code in course_set:
             if name is not None:
