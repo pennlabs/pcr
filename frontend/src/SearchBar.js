@@ -4,12 +4,19 @@ import { components } from 'react-select';
 import { css } from 'emotion';
 import { api_autocomplete } from './api';
 import { withRouter } from 'react-router-dom';
+import fuzzysort from 'fuzzysort';
 
 
 // Takes in a course (ex: CIS 160) and returns various formats (ex: CIS-160, CIS 160, CIS160).
 function expandCombo(course) {
-    const a = course.split(" ");
-    return course + " " + a[0] + "-" + a[1] + " " + a[0] + a[1];
+    const a = course.split(' ');
+    return course + ' ' + a[0] + '-' + a[1] + ' ' + a[0] + a[1];
+}
+
+
+// Attempt to reduce the size of the description string to make search faster.
+function minimizeDescription(desc) {
+    return desc.replace(/[^A-Za-z ]/g, ' ').substring(0, 200);
 }
 
 
@@ -36,19 +43,19 @@ class SearchBar extends Component {
                 {
                     label: "Departments",
                     options: result.departments.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc, category: 'Departments'};
+                        return {...i, value: i.url, label: i.title, group: i.category, search_desc: fuzzysort.prepare(i.desc), category: 'Departments'};
                     })
                 },
                 {
                     label: "Courses",
                     options: result.courses.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + ' ' + (typeof i.desc === 'string' ? i.desc : i.desc.join(' ')), category: 'Courses'};
+                        return {...i, value: i.url, label: i.title, group: i.category, search_title: fuzzysort.prepare(expandCombo(i.title)), search_desc: fuzzysort.prepare(minimizeDescription(i.desc.join(' '))), category: 'Courses'};
                     })
                 },
                 {
                     label: "Instructors",
                     options: result.instructors.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc, category: 'Instructors'};
+                        return {...i, value: i.url, label: i.title, group: i.category, search_desc: fuzzysort.prepare(i.desc), category: 'Instructors'};
                     })
                 }
             ];
@@ -60,6 +67,7 @@ class SearchBar extends Component {
                 this._autocompleteCallback = [];
             });
         }).catch((e) => {
+            console.error(e);
             window.Raven.captureException(e);
             this.setState({
                 autocompleteOptions: []
@@ -71,19 +79,34 @@ class SearchBar extends Component {
     }
 
     filterOptionsList(autocompleteOptions, inputValue) {
-        inputValue = inputValue.toLowerCase();
+        if (!inputValue) {
+            return [
+                {
+                    label: 'Departments',
+                    options: autocompleteOptions[0].options.slice(0, 10)
+                },
+                {
+                    label: 'Courses',
+                    options: autocompleteOptions[1].options.slice(0, 25)
+                },
+                {
+                    label: 'Instructors',
+                    options: autocompleteOptions[2].options.slice(0, 25)
+                }
+            ];
+        }
         return [
             {
                 label: 'Departments',
-                options: fuzzysort.go(inputValue, autocompleteOptions[0].options, {key: 'keywords', threshold: -200, limit: 10}).map((a) => a.obj)
+                options: fuzzysort.go(inputValue, autocompleteOptions[0].options, {keys: ['title', 'search_desc'], threshold: -200, limit: 10}).map((a) => a.obj)
             },
             {
                 label: 'Courses',
-                options: fuzzysort.go(inputValue, autocompleteOptions[1].options, {key: 'keywords', threshold: -200, limit: 25}).map((a) => a.obj)
+                options: fuzzysort.go(inputValue, autocompleteOptions[1].options, {keys: ['search_title', 'search_desc'], threshold: -200, limit: 25}).map((a) => a.obj)
             },
             {
                 label: 'Instructors',
-                options: fuzzysort.go(inputValue, autocompleteOptions[2].options, {key: 'keywords', threshold: -200, limit: 25}).map((a) => a.obj)
+                options: fuzzysort.go(inputValue, autocompleteOptions[2].options, {keys: ['title', 'search_desc'], threshold: -200, limit: 25}).map((a) => a.obj)
             }
         ];
     }
@@ -109,13 +132,6 @@ class SearchBar extends Component {
 
     render() {
         let { state: parent } = this;
-        // Filters the inputted list of strings using the searchValue in this component's state
-        // TODO: Lazy load first applicable list element instead of filtering the entire list
-        const filterDescList = list => {
-            const { searchValue } = parent;
-            const filterValue = searchValue ? searchValue.toLowerCase() : "";
-            return list.filter(elem => elem.toLowerCase().indexOf(filterValue) !== -1);
-        };
         return (
             <div id="search" style={{ margin: '0 auto' }}>
                 <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
@@ -137,7 +153,8 @@ class SearchBar extends Component {
                                 (() => {
                                     const { desc } = data;
                                     if (Array.isArray(desc)) {
-                                        return filterDescList(desc)[0] || desc[0] 
+                                        const opt = fuzzysort.go(parent.searchValue, desc, {threshold: -Infinity, limit: 1}).map((a) => a.target)
+                                        return opt[0] || desc[0]
                                     } else {
                                         return desc
                                     }
