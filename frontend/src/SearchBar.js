@@ -42,7 +42,7 @@ class SearchBar extends Component {
                 {
                     label: "Courses",
                     options: result.courses.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + " " + i.desc.join(" "), category: 'Courses'};
+                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + ' ' + (typeof i.desc === 'string' ? i.desc : i.desc.join(' ')), category: 'Courses'};
                     })
                 },
                 {
@@ -121,7 +121,6 @@ class SearchBar extends Component {
                 <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
                     Option: (props) => {
                         const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, data } = props;
-                        
                         return (<div ref={innerRef}
                         className={cx(css(getStyles('option', props)),
                             {
@@ -136,7 +135,7 @@ class SearchBar extends Component {
                         <span style={{ color: '#aaa', fontSize: '0.8em', marginLeft: 3 }}>
                             {
                                 (() => {
-                                    const { desc } = data; 
+                                    const { desc } = data;
                                     if (Array.isArray(desc)) {
                                         return filterDescList(desc)[0] || desc[0] 
                                     } else {
