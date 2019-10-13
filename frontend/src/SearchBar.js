@@ -14,9 +14,17 @@ function expandCombo(course) {
 }
 
 
-// Attempt to reduce the size of the description string to make search faster.
-function minimizeDescription(desc) {
-    return desc.replace(/[^A-Za-z ]/g, ' ').substring(0, 200);
+// Remove duplicate courses by title.
+function removeDuplicates(dups) {
+    const used = new Set();
+    const clean = [];
+    dups.forEach((i) => {
+        if (!used.has(i.title)) {
+            used.add(i.title);
+            clean.push(i);
+        }
+    });
+    return clean;
 }
 
 
@@ -39,6 +47,16 @@ class SearchBar extends Component {
 
     componentDidMount() {
         api_autocomplete().then(result => {
+            const courses = result.courses.map((i) => {
+                return {...i, value: i.url, label: i.title, group: i.category, category: 'Courses'};
+            });
+            const courses_index = [courses.map((i) => ({ term: fuzzysort.prepare(expandCombo(i.title)), id: i.title }))];
+            courses.forEach((i) => {
+                courses_index.push(i.desc.map((j) => {
+                    return { term: fuzzysort.prepare(j), id: i.title };
+                }));
+            });
+
             var formattedAutocomplete = [
                 {
                     label: "Departments",
@@ -48,9 +66,11 @@ class SearchBar extends Component {
                 },
                 {
                     label: "Courses",
-                    options: result.courses.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, search_title: fuzzysort.prepare(expandCombo(i.title)), search_desc: fuzzysort.prepare(minimizeDescription(i.desc.join(' '))), category: 'Courses'};
-                    })
+                    options: courses.reduce((map, obj) => {
+                        map[obj.title] = obj;
+                        return map;
+                    }, {}),
+                    search_index: courses_index.flat()
                 },
                 {
                     label: "Instructors",
@@ -87,7 +107,7 @@ class SearchBar extends Component {
                 },
                 {
                     label: 'Courses',
-                    options: autocompleteOptions[1].options.slice(0, 25)
+                    options: Object.values(autocompleteOptions[1].options).slice(0, 25)
                 },
                 {
                     label: 'Instructors',
@@ -95,20 +115,24 @@ class SearchBar extends Component {
                 }
             ];
         }
-        return [
-            {
-                label: 'Departments',
-                options: fuzzysort.go(inputValue, autocompleteOptions[0].options, {keys: ['title', 'search_desc'], threshold: -200, limit: 10}).map((a) => a.obj)
-            },
-            {
-                label: 'Courses',
-                options: fuzzysort.go(inputValue, autocompleteOptions[1].options, {keys: ['search_title', 'search_desc'], threshold: -200, limit: 25}).map((a) => a.obj)
-            },
-            {
-                label: 'Instructors',
-                options: fuzzysort.go(inputValue, autocompleteOptions[2].options, {keys: ['title', 'search_desc'], threshold: -200, limit: 25}).map((a) => a.obj)
-            }
-        ];
+        return fuzzysort.goAsync(inputValue, autocompleteOptions[1].search_index, {key: 'term', threshold: -2000, limit: 25}).then(course_results => {
+            return [
+                {
+                    label: 'Departments',
+                    options: fuzzysort.go(inputValue, autocompleteOptions[0].options, {keys: ['title', 'search_desc'], threshold: -200, limit: 10}).map((a) => a.obj)
+                },
+                {
+                    label: 'Courses',
+                    options: removeDuplicates(course_results.map((a) => autocompleteOptions[1].options[a.obj.id]))
+                },
+                {
+                    label: 'Instructors',
+                    options: fuzzysort.go(inputValue, autocompleteOptions[2].options, {keys: ['title', 'search_desc'], threshold: -200, limit: 25}).map((a) => a.obj)
+                }
+            ];
+        }).catch((e) => {
+            console.error(e);
+        });
     }
 
     // Called each time the input value inside the searchbar changes
