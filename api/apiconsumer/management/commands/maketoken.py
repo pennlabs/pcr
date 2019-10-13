@@ -1,12 +1,12 @@
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 
-from apiconsumer.models import APIConsumer
+from api.apiconsumer.models import APIConsumer
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
     help = "Create a token for development"
 
-    def handle_noargs(self, **options):
+    def handle(self, **options):
         token = APIConsumer(name="public",
                             email="",
                             description="",

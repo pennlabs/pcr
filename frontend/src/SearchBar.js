@@ -4,12 +4,27 @@ import { components } from 'react-select';
 import { css } from 'emotion';
 import { api_autocomplete } from './api';
 import { withRouter } from 'react-router-dom';
+import fuzzysort from 'fuzzysort';
 
 
 // Takes in a course (ex: CIS 160) and returns various formats (ex: CIS-160, CIS 160, CIS160).
 function expandCombo(course) {
-    const a = course.split(" ");
-    return course + " " + a[0] + "-" + a[1] + " " + a[0] + a[1];
+    const a = course.split(' ');
+    return course + ' ' + a[0] + '-' + a[1] + ' ' + a[0] + a[1];
+}
+
+
+// Remove duplicate courses by title.
+function removeDuplicates(dups) {
+    const used = new Set();
+    const clean = [];
+    dups.forEach((i) => {
+        if (!used.has(i.title)) {
+            used.add(i.title);
+            clean.push(i);
+        }
+    });
+    return clean;
 }
 
 
@@ -21,7 +36,7 @@ class SearchBar extends Component {
         super(props);
 
         this.state = {
-            autocompleteOptions: [],
+            autocompleteOptions: [],	
             searchValue: null
         };
 
@@ -31,39 +46,52 @@ class SearchBar extends Component {
     }
 
     componentDidMount() {
-        api_autocomplete().then((result) => {
+        api_autocomplete().then(result => {
+            const courses = result.courses.map((i) => {
+                return {...i, value: i.url, label: i.title, group: i.category, category: 'Courses'};
+            });
+            const courses_index = [courses.map((i) => ({ term: fuzzysort.prepare(expandCombo(i.title)), id: i.title }))];
+            courses.forEach((i) => {
+                courses_index.push(i.desc.map((j) => {
+                    return { term: fuzzysort.prepare(j), id: i.title };
+                }));
+            });
+
             var formattedAutocomplete = [
                 {
                     label: "Departments",
                     options: result.departments.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc, category: 'Departments'};
+                        return {...i, value: i.url, label: i.title, group: i.category, search_desc: fuzzysort.prepare(i.desc), category: 'Departments'};
                     })
                 },
                 {
                     label: "Courses",
-                    options: result.courses.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: expandCombo(i.title) + " " + i.desc, category: 'Courses'};
-                    })
+                    options: courses.reduce((map, obj) => {
+                        map[obj.title] = obj;
+                        return map;
+                    }, {}),
+                    search_index: courses_index.flat()
                 },
                 {
                     label: "Instructors",
                     options: result.instructors.map((i) => {
-                        return {...i, value: i.url, label: i.title, group: i.category, keywords: i.title + " " + i.desc, category: 'Instructors'};
+                        return {...i, value: i.url, label: i.title, group: i.category, search_desc: fuzzysort.prepare(i.desc), category: 'Instructors'};
                     })
                 }
             ];
 
-            this.setState(state => ({
+            this.setState({
                 autocompleteOptions: formattedAutocomplete
-            }), () => {
+            }, () => {
                 this._autocompleteCallback.forEach((x) => x(this.state.autocompleteOptions));
                 this._autocompleteCallback = [];
             });
         }).catch((e) => {
+            console.error(e);
             window.Raven.captureException(e);
-            this.setState(state => ({
+            this.setState({
                 autocompleteOptions: []
-            }), () => {
+            }, () => {
                 this._autocompleteCallback.forEach((x) => x(this.state.autocompleteOptions));
                 this._autocompleteCallback = [];
             });
@@ -71,47 +99,68 @@ class SearchBar extends Component {
     }
 
     filterOptionsList(autocompleteOptions, inputValue) {
-        inputValue = inputValue.toLowerCase();
-        return [
-            {
-                label: "Departments",
-                options: autocompleteOptions[0].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 10)
-            },
-            {
-                label: "Courses",
-                options: autocompleteOptions[1].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
-            },
-            {
-                label: "Instructors",
-                options: autocompleteOptions[2].options.filter((i) => i.keywords.toLowerCase().indexOf(inputValue) !== -1).splice(0, 25)
-            }
-        ];
+        if (!inputValue) {
+            return [
+                {
+                    label: 'Departments',
+                    options: autocompleteOptions[0].options.slice(0, 10)
+                },
+                {
+                    label: 'Courses',
+                    options: Object.values(autocompleteOptions[1].options).slice(0, 25)
+                },
+                {
+                    label: 'Instructors',
+                    options: autocompleteOptions[2].options.slice(0, 25)
+                }
+            ];
+        }
+        return fuzzysort.goAsync(inputValue, autocompleteOptions[1].search_index, {key: 'term', threshold: -2000, limit: 25}).then(course_results => {
+            return [
+                {
+                    label: 'Departments',
+                    options: fuzzysort.go(inputValue, autocompleteOptions[0].options, {keys: ['title', 'search_desc'], threshold: -200, limit: 10}).map((a) => a.obj)
+                },
+                {
+                    label: 'Courses',
+                    options: removeDuplicates(course_results.map((a) => autocompleteOptions[1].options[a.obj.id]))
+                },
+                {
+                    label: 'Instructors',
+                    options: fuzzysort.go(inputValue, autocompleteOptions[2].options, {keys: ['title', 'search_desc'], threshold: -200, limit: 25}).map((a) => a.obj)
+                }
+            ];
+        }).catch((e) => {
+            console.error(e);
+        });
     }
 
+    // Called each time the input value inside the searchbar changes
     autocompleteCallback(inputValue) {
-        return new Promise((resolve, reject) => {
+        this.setState({ searchValue: inputValue });
+        return new Promise(resolve => {
             if (this.state.autocompleteOptions.length) {
                 resolve(this.state.autocompleteOptions);
             }
             else {
                 this._autocompleteCallback.push(resolve);
             }
-        }).then((res) => this.filterOptionsList(res, inputValue));
+        })
+        .then((res) => this.filterOptionsList(res, inputValue))
     }
 
+    // Called when an option is selected in the AsyncSelect component
     handleChange(value) {
         this.props.history.push("/" + value.url);
-        this.setState({
-            searchValue: null
-        });
     }
 
     render() {
+        let { state: parent } = this;
         return (
             <div id="search" style={{ margin: '0 auto' }}>
                 <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
                     Option: (props) => {
-                        const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
+                        const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, data } = props;
                         return (<div ref={innerRef}
                         className={cx(css(getStyles('option', props)),
                             {
@@ -123,7 +172,19 @@ class SearchBar extends Component {
                             className
                         )} {...innerProps}>
                         <b>{children}</b>
-                        <span style={{ color: '#aaa', fontSize: '0.8em', marginLeft: 3 }}>{props.data.desc}</span>
+                        <span style={{ color: '#aaa', fontSize: '0.8em', marginLeft: 3 }}>
+                            {
+                                (() => {
+                                    const { desc } = data;
+                                    if (Array.isArray(desc)) {
+                                        const opt = fuzzysort.go(parent.searchValue, desc, {threshold: -Infinity, limit: 1}).map((a) => a.target)
+                                        return opt[0] || desc[0]
+                                    } else {
+                                        return desc
+                                    }
+                                })()
+                            }
+                        </span>
                         </div>);
                     },
                     DropdownIndicator: this.props.isTitle ? null : (props) => <components.DropdownIndicator {...props}><i className="fa fa-search mr-1"></i></components.DropdownIndicator>
