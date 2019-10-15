@@ -169,18 +169,19 @@ class ReviewPage extends Component {
                 <NavBar />
                     { this.state.data ?
                         <div id="content" className="row">
-                            <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
-                                <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} selected_courses={this.state.selected_courses} />
+                            <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">l
+                                <InfoBox type={type} code={code} data={data} live_data={live_data} selected_courses={selected_courses} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
                                 <ScoreBox data={data} type={type} live_data={live_data} onSelect={{instructor: this.showRowHistory, course: this.showRowHistory, department: this.showDepartmentGraph}[type]} />
                                 { type === "course" && <DetailsBox type={type} course={code} instructor={row_code} /> }
+                                { type === "instructor" && <DetailsBox type={type} course={row_code} instructor={code} /> }
                             </div>
                         </div>
                         :
                         <div style={{ textAlign: 'center', padding: 45 }}>
                             <i className='fa fa-spin fa-cog fa-fw' style={{ fontSize: '150px', color: '#aaa' }}></i>
-                            <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading {this.state.code}...</h1>
+                            <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading {code}...</h1>
                         </div>
                     }
                 <Footer />
