@@ -82,9 +82,11 @@ class DetailsBox extends Component {
               <div id="select-prof">
               <div>
                   <h3 id="select-prof-text">{ type === "instructor" ? "Select a course to see individual sections, comments and more details." : "Select an instructor to see comments and more details."}</h3>
-                  <object type="image/svg+xml" data="/static/image/prof.svg">
+                  { (type === "course") ? <object type="image/svg+xml" data="/static/image/prof.svg">
                     <img alt="Professor Icon" src="/static/image/prof.png" />
-                  </object>
+                  </object> : <object type="image/svg+xml" data="/static/image/books-and-bag.svg">
+                    <img alt="Class Icon" src="/static/image/books-and-bag.png" />
+                  </object> } 
               </div>
             </div> :
             <div id="course-details-wrapper">
