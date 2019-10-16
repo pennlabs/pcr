@@ -79,12 +79,12 @@ class DetailsBox extends Component {
         return (
           <div id="course-details" className="box">
           { ((type === "course" && instructor) || (type === "instructor" && course)) && !this.state.data ? <div>Loading...</div> : !this.state.data ?
-              <div id="select-prof">
+              <div id="select-row">
               <div>
-                  <h3 id="select-prof-text">{ type === "instructor" ? "Select a course to see individual sections, comments, and more details." : "Select an instructor to see individual sections, comments, and more details."}</h3>
+                  <h3 id="select-row-text">{ type === "instructor" ? "Select a course to see individual sections, comments, and more details." : "Select an instructor to see individual sections, comments, and more details."}</h3>
                   { type === "course" ? <object type="image/svg+xml" data="/static/image/prof.svg">
                     <img alt="Professor Icon" src="/static/image/prof.png" />
-                  </object> : <object type="image/svg+xml" data="/static/image/books-and-bag.svg">
+                  </object> : <object type="image/svg+xml" id="select-course-icon" data="/static/image/books-and-bag.svg">
                     <img alt="Class Icon" src="/static/image/books-and-bag.png" />
                   </object> } 
               </div>
