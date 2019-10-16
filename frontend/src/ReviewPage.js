@@ -169,7 +169,7 @@ class ReviewPage extends Component {
                 <NavBar />
                     { this.state.data ?
                         <div id="content" className="row">
-                            <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">l
+                            <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
                                 <InfoBox type={type} code={code} data={data} live_data={live_data} selected_courses={selected_courses} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
