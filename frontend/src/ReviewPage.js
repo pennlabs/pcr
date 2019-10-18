@@ -30,7 +30,7 @@ class ReviewPage extends Component {
             code: this.props.match.params.code,
             data: null,
             error: null,
-            instructor_code: null,
+            row_code: null,
             live_data: null,
             selected_courses: null,
             showBanner: SHOW_RECRUITMENT_BANNER && !this.cookies.get("hide_pcr_banner")
@@ -38,7 +38,7 @@ class ReviewPage extends Component {
 
         this.navigateToPage = this.navigateToPage.bind(this);
         this.getReviewData = this.getReviewData.bind(this);
-        this.showInstructorHistory = this.showInstructorHistory.bind(this);
+        this.showRowHistory = this.showRowHistory.bind(this);
         this.showDepartmentGraph = this.showDepartmentGraph.bind(this);
     }
 
@@ -52,7 +52,7 @@ class ReviewPage extends Component {
                     type: this.props.match.params.type,
                     code: this.props.match.params.code,
                     data: null,
-                    instructor_code: null,
+                    row_code: null,
                     error: null
                 },
                 this.getReviewData
@@ -115,10 +115,8 @@ class ReviewPage extends Component {
         this.props.history.push(value);
     }
 
-    showInstructorHistory(instructor) {
-        this.setState({
-            instructor_code: instructor
-        });
+    showRowHistory(row_code) {
+        this.setState({ row_code });
     }
 
     showDepartmentGraph(val) {
@@ -165,23 +163,25 @@ class ReviewPage extends Component {
             );
         }
 
+        const { code, data, row_code, live_data, selected_courses, type } = this.state;
         return (
             <div>
                 <NavBar />
                     { this.state.data ?
                         <div id="content" className="row">
                             <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
-                                <InfoBox type={this.state.type} code={this.state.code} data={this.state.data} live_data={this.state.live_data} selected_courses={this.state.selected_courses} />
+                                <InfoBox type={type} code={code} data={data} live_data={live_data} selected_courses={selected_courses} />
                             </div>
                             <div className="col-sm-12 col-md-8 main-col">
-                                <ScoreBox data={this.state.data} type={this.state.type} live_data={this.state.live_data} onSelect={{instructor: (course) => course && this.navigateToPage("/course/" + course), course: this.showInstructorHistory, department: this.showDepartmentGraph}[this.state.type]} />
-                                { this.state.type === "course" && <DetailsBox course={this.state.code} instructor={this.state.instructor_code} /> }
+                                <ScoreBox data={data} type={type} live_data={live_data} onSelect={{instructor: this.showRowHistory, course: this.showRowHistory, department: this.showDepartmentGraph}[type]} />
+                                { type === "course" && <DetailsBox type={type} course={code} instructor={row_code} /> }
+                                { type === "instructor" && <DetailsBox type={type} course={row_code} instructor={code} /> }
                             </div>
                         </div>
                         :
                         <div style={{ textAlign: 'center', padding: 45 }}>
                             <i className='fa fa-spin fa-cog fa-fw' style={{ fontSize: '150px', color: '#aaa' }}></i>
-                            <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading {this.state.code}...</h1>
+                            <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading {code}...</h1>
                         </div>
                     }
                 <Footer />
