@@ -7,14 +7,18 @@ import { getColumnName, orderColumns } from './ScoreBox';
 
 
 function compareSemesters(a, b) {
-    const ay = parseInt(a.split(" ")[1]);
-    const by = parseInt(b.split(" ")[1]);
+    const ay = parseInt(a.split(' ')[1]);
+    const by = parseInt(b.split(' ')[1]);
+    const as = a.split(' ')[0];
+    const bs = b.split(' ')[0];
 
     if (ay !== by) {
         return by - ay;
     }
 
-    return b.localeCompare(a);
+    const mapping = {'Fall': 'A', 'Summer': 'B', 'Spring': 'C'};
+
+    return mapping[as].localeCompare(mapping[bs]);
 }
 
 
