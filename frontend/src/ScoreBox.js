@@ -268,7 +268,7 @@ class ScoreBox extends Component {
                 width: 100,
                 show: true,
                 required: true,
-                Cell: props => <center><Link to={"/course/" + props.value}>{props.value}</Link></center>
+                Cell: props => <center><Link to={"/course/" + props.value} title={"Go to " + props.value}>{props.value}</Link></center>
             });
         }
         this.setState(state => ({

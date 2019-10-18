@@ -38,7 +38,7 @@ class DetailsBox extends Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.instructor !== this.props.instructor || prevProps.course !== this.props.course) {
-            if (this.props.instructor !== null) {
+            if (this.props.instructor !== null && this.props.course !== null) {
                 api_history(this.props.course, this.props.instructor).then((res) => {
                     const list = [...new Set(Object.values(res.sections).filter((a) => a.comments).sort((a, b) => compareSemesters(a.semester, b.semester)).map((a) => a.semester))];
                     this.setState((state) => ({
@@ -75,19 +75,22 @@ class DetailsBox extends Component {
     }
 
     render() {
+        const { course, instructor, type } = this.props;
         return (
           <div id="course-details" className="box">
-          { this.props.instructor && !this.state.data ? <div>Loading...</div> : !this.state.data ?
-              <div id="select-prof">
+          { ((type === "course" && instructor) || (type === "instructor" && course)) && !this.state.data ? <div>Loading...</div> : !this.state.data ?
+              <div id="select-row">
               <div>
-                  <h3 id="select-prof-text">Select a professor to see comments and more details.</h3>
-                  <object type="image/svg+xml" data="/static/image/prof.svg">
+                  <h3 id="select-row-text">{ type === "instructor" ? "Select a course to see individual sections, comments, and more details." : "Select an instructor to see individual sections, comments, and more details."}</h3>
+                  { type === "course" ? <object type="image/svg+xml" data="/static/image/prof.svg">
                     <img alt="Professor Icon" src="/static/image/prof.png" />
-                  </object>
+                  </object> : <object type="image/svg+xml" id="select-course-icon" data="/static/image/books-and-bag.svg">
+                    <img alt="Class Icon" src="/static/image/books-and-bag.png" />
+                  </object> } 
               </div>
             </div> :
             <div id="course-details-wrapper">
-              <h3><Link style={{ color: '#b2b2b2', textDecoration: 'none' }} to={"/instructor/" + this.props.instructor}>{this.state.data.instructor.name}</Link></h3>
+              <h3><Link style={{ color: '#b2b2b2', textDecoration: 'none' }} to={type === "course" ? `/instructor/${instructor}` : `/course/${course}`}>{type === "course" ? this.state.data.instructor.name : course}</Link></h3>
               <div className="clearfix">
                   <div className="btn-group">
                       <button onClick={() => { this.setState({ viewingRatings: true }); }} id="view_ratings" className={"btn btn-sm " + (this.state.viewingRatings ? "btn-sub-primary" : "btn-sub-secondary")}>Ratings</button>
