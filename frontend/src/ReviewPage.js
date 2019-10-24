@@ -30,6 +30,7 @@ class ReviewPage extends Component {
             code: this.props.match.params.code,
             data: null,
             error: null,
+            error_detail: null,
             row_code: null,
             live_data: null,
             selected_courses: null,
@@ -76,7 +77,8 @@ class ReviewPage extends Component {
             api_review_data(this.state.type, this.state.code).then((result) => {
                 if (result.error) {
                     this.setState({
-                        error: result.error
+                        error: result.error,
+                        error_detail: result.detail
                     });
                 }
                 else {
@@ -133,7 +135,7 @@ class ReviewPage extends Component {
         if (this.state.error) {
             return <div>
                 <NavBar />
-                <ErrorBox>{this.state.error}</ErrorBox>
+                <ErrorBox detail={this.state.error_detail}>{this.state.error}</ErrorBox>
                 <Footer />
             </div>;
         }

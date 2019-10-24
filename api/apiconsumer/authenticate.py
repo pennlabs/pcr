@@ -32,13 +32,13 @@ class Authenticate(object):
 
         old_path = request.path_info
 
-        if not old_path.startswith("/api/") and settings.API_HOST not in request.META.get("HTTP_HOST", ""):
+        if not old_path.startswith('/api/') and settings.API_HOST not in request.META.get('HTTP_HOST', ''):
             return None
 
         try:
             token = request.GET['token']
         except KeyError:
-            return JsonResponse({"error": "No token provided."}, status=403)
+            return JsonResponse({'error': 'No token provided.'}, status=403)
 
         # The reverse proxy server (Nginx, Apache) sets the REMOTE_USER variable.
         # PCR must be run using UWSGI in order to correctly receive this variable.
@@ -70,7 +70,7 @@ class Authenticate(object):
             request.consumer = consumer
             return None  # continue rendering
         else:
-            resp = JsonResponse({"error": "Invalid token."}, status=403)
+            resp = JsonResponse({'error': 'Invalid token.', 'detail': 'Try logging out and in again.'}, status=403)
             resp['Access-Control-Allow-Origin'] = '*'
             resp['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS',
             resp['Access-Control-Max-Age'] = 1000
