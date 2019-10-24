@@ -124,7 +124,7 @@ def display_course(request, course):
 
 @is_pcr_data
 def display_instructor(request, instructor):
-    req_instructor = instructor
+    req_instructor = instructor.replace('.', '-')
     info = re.match(r"(\d+)-+(\w+)-+(\w*)", req_instructor)
     if info is None:
         return JsonResponse({
