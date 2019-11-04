@@ -126,6 +126,14 @@ def semester_dept(request, semester_code, dept_code):
     return JSON(dept.toJSON())
 
 
+def semester_reviews(request, semester_code):
+    sem = semesterFromCode(semester_code)
+    reviews = Review.objects.filter(
+        section__course__semester=sem
+    ).prefetch_related('section', 'instructor', 'reviewbit_set', 'section__course', 'section__course__primary_alias')
+    return JSON({RSRCS: [r.toJSON() for r in reviews]})
+
+
 def instructors(request):
     if not request.consumer.access_pcr:
         # This method is only available to those with review data access.
