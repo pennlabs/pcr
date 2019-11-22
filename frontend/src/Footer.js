@@ -10,7 +10,7 @@ class Footer extends Component {
     render() {
         return (<div style={this.props.style} id="footer">
             <div id="footer-inner">
-                <Link to="/about">About</Link> | <Link to="/faq">FAQs</Link> | <a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheet/viewform?formkey=dFNZYW92cFM1YnpKUzlLcXRDZVQ4VGc6MQ#gid=0faq">Feedback</a> | <a onClick={() => Cookies.remove('token')} href="/logout">Logout</a>
+                <Link to="/about">About</Link> | <Link to="/faq">FAQs</Link> | <a target="_blank" rel="noopener noreferrer" href="https://airtable.com/shrVygSaHDL6BswfT">Feedback</a> | <a onClick={() => Cookies.remove('token')} href="/logout">Logout</a>
 
                 <p id="copyright">
                 Made with <i style={{color: '#F56F71'}} className="fa fa-heart" /> by <a href="https://pennlabs.org"><strong>Penn Labs</strong></a> | Hosted by <a href="https://www.stwing.upenn.edu/"><strong>STWing</strong></a>
