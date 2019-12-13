@@ -235,7 +235,7 @@ def display_history(request, course, instructor):
         return JsonResponse({
             "error": "Could not find course matching code '{}' with instructor '{}'.".format(course, req_instructor)
         })
-    reviews = Review.objects.filter(section__in=section_objects)
+    reviews = Review.objects.filter(section__in=section_objects, instructor=instructor)
     reviewbits = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__course__name", "review__section__course__semester").annotate(score=Avg('score'))
 
     sections = {}
