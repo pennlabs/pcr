@@ -97,15 +97,15 @@ def display_course(request, course):
             "recent_reviews": {}
         } for inst in Instructor.objects.filter(Q(first_name__isnull=False) | Q(last_name__isnull=False), section__in=sections).values("id", "first_name", "last_name")
     }
-    instructor_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__instructors").annotate(score=Avg('score'))
-    instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__section__instructors", "review__section__course__semester").annotate(score=Avg('score')).order_by("review__section__course__semester")
+    instructor_average_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__instructor").annotate(score=Avg('score'))
+    instructor_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values("field", "review__instructor", "review__section__course__semester").annotate(score=Avg('score')).order_by("review__section__course__semester")
 
     for rating in instructor_average_ratings:
-        instructors[rating["review__section__instructors"]]["average_reviews"][rating["field"]] = round(rating["score"], 2)
+        instructors[rating["review__instructor"]]["average_reviews"][rating["field"]] = round(rating["score"], 2)
 
     for rating in instructor_recent_ratings:
-        instructors[rating["review__section__instructors"]]["recent_reviews"][rating["field"]] = round(rating["score"], 2)
-        instructors[rating["review__section__instructors"]]["most_recent_semester"] = str(rating["review__section__course__semester"])
+        instructors[rating["review__instructor"]]["recent_reviews"][rating["field"]] = round(rating["score"], 2)
+        instructors[rating["review__instructor"]]["most_recent_semester"] = str(rating["review__section__course__semester"])
 
     instructors = {("{}-{}".format(k, re.sub(r"[^\w]", "-", v["name"]))): v for k, v in instructors.items()}
 
