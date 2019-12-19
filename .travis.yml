@@ -6,7 +6,8 @@ cache:
     directories:
         - "$HOME/.cache/pip"
 install:
-    pip install flake8 -r requirements.txt
+    pip install pipenv
+    pipenv install --dev
 script:
-    flake8 --max-line-length=250 --exclude=*/migrations/* api apps
-    ./manage.py test
+    pipenv run flake8
+    pipenv run ./manage.py test

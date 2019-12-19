@@ -1,5 +1,4 @@
 # Django settings for PCR
-import sys
 import os
 import raven
 import dj_database_url
@@ -93,7 +92,7 @@ STATICFILES_DIRS = [
 ]
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY= os.getenv("SECRET_KEY", 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
+SECRET_KEY = os.getenv("SECRET_KEY", 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
 assert SECRET_KEY, "No secret key provided"
 
 MIDDLEWARE_CLASSES = (
@@ -156,7 +155,7 @@ CORS_URLS_REGEX = r'^/api/.*$'
 
 # Used for Django debug toolbar (or use debugsqlshell)
 try:
-    import debug_toolbar
+    import debug_toolbar  # noqa
 except ImportError:
     pass
 else:

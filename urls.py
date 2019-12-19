@@ -1,7 +1,5 @@
-from django.conf import settings
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
-from django.conf.urls.static import static
 from django.contrib import admin
 
 from api.search.views import search
