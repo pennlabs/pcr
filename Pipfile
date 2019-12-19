@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+dj-database-url = "*"
+django-cors-headers = "*"
+django-extensions = "*"
+mysqlclient = "*"
+raven = "*"
+requests = "*"
+staticgenerator = "*"
+Django = "==1.11.23"
+
+[requires]
+python_version = "3"
