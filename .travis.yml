@@ -6,8 +6,8 @@ cache:
     directories:
         - "$HOME/.cache/pip"
 install:
-    pip install pipenv
-    pipenv install --dev
+    - pip install pipenv
+    - pipenv install --dev
 script:
-    pipenv run flake8
-    pipenv run ./manage.py test
+    - pipenv run flake8
+    - pipenv run ./manage.py test
