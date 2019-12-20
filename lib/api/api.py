@@ -10,7 +10,9 @@ from api.apiconsumer.models import APIConsumer
 @functools.lru_cache(maxsize=32768)
 def api(domain, *args, **kwargs):
     if not "token" in kwargs:
-        kwargs["token"] = APIConsumer.objects.filter(permission_level__gte=2).first().token
+        consumer = APIConsumer.objects.filter(permission_level__gte=2).first()
+        if consumer is not None:
+            kwargs["token"] = consumer.token
     assert domain.endswith("/")
     path = "".join(
         (domain, "/".join([str(arg) for arg in args])))
