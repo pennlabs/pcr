@@ -17,6 +17,7 @@ raven = "*"
 requests = "*"
 staticgenerator = "*"
 Django = "==1.11.23"
+uwsgi = "*"
 
 [requires]
 python_version = "3"
