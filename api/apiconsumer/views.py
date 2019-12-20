@@ -1,22 +1,21 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .forms import TokenForm, ResetTokenForm
-
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import render_to_string
-from .tokens import account_activation_token
-
-from .models import APIConsumer
-from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+
+from .forms import ResetTokenForm, TokenForm
+from .models import APIConsumer
+from .tokens import account_activation_token
 
 
 def form(request):
     if request.method == 'POST':
         form = TokenForm(request.POST)
         if form.is_valid():
-            if not form.cleaned_data.get('email').endswith("upenn.edu"):
+            if not form.cleaned_data.get('email').endswith('upenn.edu'):
                 return HttpResponse('Invalid upenn.edu username')
             user = form.save(commit=False)
             user.is_active = False
@@ -78,4 +77,4 @@ def reset_token(request):
             return HttpResponse('Your API token was resent.')
     else:
         form = ResetTokenForm()
-    return render(request, "api/reset_token.html", {'form': form})
+    return render(request, 'api/reset_token.html', {'form': form})
