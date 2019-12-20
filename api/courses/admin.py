@@ -71,8 +71,13 @@ class ReviewAdmin(admin.ModelAdmin):
 
 
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ('course', 'content')
+    list_display = ('course_name', 'content', 'start', 'end')
     list_filter = ('start', 'end')
+
+    def course_name(self, obj):
+        if obj.course is None:
+            return 'All'
+        return ', '.join(sorted(set('{}-{}'.format(x, y) for x, y in obj.course.course_set.values_list('primary_alias__department__code', 'primary_alias__coursenum'))))
 
 
 admin.site.register(Instructor, InstructorAdmin)
