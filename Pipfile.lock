@@ -71,11 +71,11 @@
         },
         "django-labs-accounts": {
             "hashes": [
-                "sha256:ce51d5dbab0c15b9c6ab8569a9dce9da9f3bd253f90912a79bdd365932b63bb8",
-                "sha256:e4d1f5341d2ab72bcb6d0ee41fbe0a0360494a02e2f511ed3f20c68a4425f38f"
+                "sha256:b8e20ab53786dfd1a4c27e0aa27911d1cb50df3fdc1a39bbffd89a5b2a46c61f",
+                "sha256:e5dfabc736185ee839fdcc0fe0a52445c09aad6cdc5e9820506b5c013bec79ec"
             ],
             "index": "pypi",
-            "version": "==0.5.0"
+            "version": "==0.5.1"
         },
         "idna": {
             "hashes": [
