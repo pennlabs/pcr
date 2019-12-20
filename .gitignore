@@ -51,7 +51,8 @@ nosetests.xml
 coverage.xml
 *,cover
 
-venv
+venv/
+.venv/
 compilecoffee
 staticgenerator_output/*
 CACHES/*
