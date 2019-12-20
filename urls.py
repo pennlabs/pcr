@@ -6,7 +6,6 @@ from api.search.views import search
 
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name="index.html"), name="index"),
     url(r'^', include('apps.pcr_detail.urls')),
     url(r'^', include('apps.searchbar.urls')),
     url(r'^', include('apps.static.urls')),
