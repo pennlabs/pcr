@@ -4,15 +4,14 @@ Tests for the API views.
 These are run by `./manage.py test`.
 """
 import json
-import requests
 
+import requests
 from django.conf import settings
 from django.test import TestCase
 from django.test.client import Client
 
 from api.apiconsumer.models import APIConsumer
-from models import (Alias, Course, CourseHistory, Department, Instructor,
-                    Section, Review, ReviewBit)
+from models import Alias, Course, CourseHistory, Department, Instructor, Review, ReviewBit, Section
 
 
 class ViewTest(TestCase):
@@ -30,10 +29,10 @@ class ViewTest(TestCase):
         `super(ChildTest, self).setUp()` to create the consumer and client.
         """
         self.consumer = APIConsumer.objects.create(
-            name="test",
-            email="test@test.com",
-            description="",
-            token="root",
+            name='test',
+            email='test@test.com',
+            description='',
+            token='root',
             permission_level=9001
         )
         self.client = Client()
@@ -47,7 +46,7 @@ class ViewTest(TestCase):
         try:
             content = json.loads(response.content)
         except ValueError as e:
-            self.fail("%s (s=\"%s\")" % (e, response.content))
+            self.fail('%s (s="%s")' % (e, response.content))
         self.assertTrue(content['valid'], content)
         return content['result']
 
@@ -62,20 +61,20 @@ class DataTest(ViewTest):
             code='CIS', name='Computer Science')
         ese = Department.objects.create(
             code='ESE', name='Electrical Engineering')
-        cis110 = CourseHistory.objects.create(notes="None.")
+        cis110 = CourseHistory.objects.create(notes='None.')
         self.histid = cis110.id
         cis110_1 = Course.objects.create(
             semester=810,
-            name="CIS 110",
+            name='CIS 110',
             credits=1.0,
-            description="intro to CS.",
+            description='intro to CS.',
             history=cis110
         )
         self.courseid = cis110_1.id
         instructor1 = Instructor.objects.create(
-            first_name="John", last_name="Doe")
+            first_name='John', last_name='Doe')
         section1 = Section.objects.create(
-            course=cis110_1, name="Intro to CS",
+            course=cis110_1, name='Intro to CS',
             sectionnum='001', sectiontype='LEC')
         self.sectionid = section1.sectionnum
         alias1 = Alias.objects.create(
@@ -87,13 +86,13 @@ class DataTest(ViewTest):
         review1 = Review.objects.create(
             section=section1, instructor=instructor1,
             forms_returned=10, forms_produced=20, form_type=1,
-            comments="Students enjoyed the course.")
+            comments='Students enjoyed the course.')
         ReviewBit.objects.create(
-            review=review1, field="Instructor Quality", score=3.0)
+            review=review1, field='Instructor Quality', score=3.0)
         ReviewBit.objects.create(
-            review=review1, field="Difficulty", score=1.0)
+            review=review1, field='Difficulty', score=1.0)
         ReviewBit.objects.create(
-            review=review1, field="Course Quality", score=2.0)
+            review=review1, field='Course Quality', score=2.0)
 
     def validate_results(self, path):
         """Check that there are, in fact, results."""
@@ -105,20 +104,20 @@ class DataTest(ViewTest):
 
     def test_dept_should_have(self):
         result = self.get_result('/depts/CIS')
-        self.assertTrue("coursehistories" in result)
-        self.assertTrue("id" in result)
-        self.assertTrue("name" in result)
-        self.assertTrue("path" in result)
-        self.assertTrue("reviews" in result)
+        self.assertTrue('coursehistories' in result)
+        self.assertTrue('id' in result)
+        self.assertTrue('name' in result)
+        self.assertTrue('path' in result)
+        self.assertTrue('reviews' in result)
 
     def test_coursehistory_should_have(self):
         result = self.get_result('/coursehistories/{}'.format(self.histid))
-        self.assertTrue("aliases" in result)
-        self.assertTrue("courses" in result)
-        self.assertTrue("id" in result)
-        self.assertTrue("name" in result)
-        self.assertTrue("path" in result)
-        self.assertTrue("reviews" in result)
+        self.assertTrue('aliases' in result)
+        self.assertTrue('courses' in result)
+        self.assertTrue('id' in result)
+        self.assertTrue('name' in result)
+        self.assertTrue('path' in result)
+        self.assertTrue('reviews' in result)
 
     def test_presence_of_instructors(self):
         self.validate_results('/instructors')
@@ -126,23 +125,23 @@ class DataTest(ViewTest):
     def test_instructor_should_have(self):
         instructor = Instructor.objects.all()[0]
         result = self.get_result(instructor.get_absolute_url())
-        self.assertTrue("id" in result)
-        self.assertTrue("name" in result)
-        self.assertTrue("path" in result)
-        self.assertTrue("reviews" in result)
+        self.assertTrue('id' in result)
+        self.assertTrue('name' in result)
+        self.assertTrue('path' in result)
+        self.assertTrue('reviews' in result)
 
     def test_course_should_have(self):
         result = self.get_result('/courses/{}'.format(self.histid))
-        self.assertTrue("aliases" in result)
-        self.assertTrue("coursehistories" in result)
-        self.assertTrue("credits" in result)
-        self.assertTrue("description" in result)
-        self.assertTrue("id" in result)
-        self.assertTrue("name" in result)
-        self.assertTrue("path" in result)
-        self.assertTrue("reviews" in result)
-        self.assertTrue("sections" in result)
-        self.assertTrue("semester" in result)
+        self.assertTrue('aliases' in result)
+        self.assertTrue('coursehistories' in result)
+        self.assertTrue('credits' in result)
+        self.assertTrue('description' in result)
+        self.assertTrue('id' in result)
+        self.assertTrue('name' in result)
+        self.assertTrue('path' in result)
+        self.assertTrue('reviews' in result)
+        self.assertTrue('sections' in result)
+        self.assertTrue('semester' in result)
 
     def test_presence_of_course_reviews(self):
         self.validate_results('/courses/{}/reviews'.format(self.courseid))
@@ -152,16 +151,16 @@ class DataTest(ViewTest):
 
     def test_section_should_have(self):
         result = self.get_result('/courses/{}/sections/{}/'.format(self.courseid, self.sectionid))
-        self.assertTrue("aliases" in result)
-        self.assertTrue("courses" in result)
-        self.assertTrue("group" in result)
-        self.assertTrue("id" in result)
-        self.assertTrue("instructors" in result)
-        self.assertTrue("meetingtimes" in result)
-        self.assertTrue("name" in result)
-        self.assertTrue("path" in result)
-        self.assertTrue("reviews" in result)
-        self.assertTrue("sectionnum" in result)
+        self.assertTrue('aliases' in result)
+        self.assertTrue('courses' in result)
+        self.assertTrue('group' in result)
+        self.assertTrue('id' in result)
+        self.assertTrue('instructors' in result)
+        self.assertTrue('meetingtimes' in result)
+        self.assertTrue('name' in result)
+        self.assertTrue('path' in result)
+        self.assertTrue('reviews' in result)
+        self.assertTrue('sectionnum' in result)
 
     def test_presence_of_section_reviews(self):
         self.validate_results('/courses/{}/sections/{}/reviews'.format(self.courseid, self.sectionid))
@@ -170,14 +169,14 @@ class DataTest(ViewTest):
         result = self.get_result('/courses/{}/sections/{}/reviews'.format(self.courseid, self.sectionid))
         review = result['values'][0]
 
-        self.assertTrue("comments" in review)
-        self.assertTrue("id" in review)
-        self.assertTrue("instructor" in review)
-        self.assertTrue("num_reviewers" in review)
-        self.assertTrue("num_students" in review)
-        self.assertTrue("path" in review)
-        self.assertTrue("ratings" in review)
-        self.assertTrue("section" in review)
+        self.assertTrue('comments' in review)
+        self.assertTrue('id' in review)
+        self.assertTrue('instructor' in review)
+        self.assertTrue('num_reviewers' in review)
+        self.assertTrue('num_students' in review)
+        self.assertTrue('path' in review)
+        self.assertTrue('ratings' in review)
+        self.assertTrue('section' in review)
 
         comments = review['comments']
         instructor = review['instructor']
@@ -186,9 +185,9 @@ class DataTest(ViewTest):
         num_students = review['num_students']
         section = review['section']
 
-        self.assertTrue(comments != "null", msg=comments)
+        self.assertTrue(comments != 'null', msg=comments)
         self.assertTrue(len(comments) > 0, msg=comments)
-        self.assertTrue(instructor['name'] == "John Doe", msg=instructor)
+        self.assertTrue(instructor['name'] == 'John Doe', msg=instructor)
         self.assertTrue(len(ratings) > 0, msg=result)
         self.assertTrue(int(num_reviewers) > 0)
         self.assertTrue(int(num_students) > 0)

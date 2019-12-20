@@ -1,10 +1,10 @@
-from django.contrib import admin
-from django.http import HttpResponse
 from django.conf.urls import url
-from django.contrib.sites.models import Site
+from django.contrib import admin
 from django.contrib.auth.models import Group
+from django.contrib.sites.models import Site
+from django.http import HttpResponse
 
-from .models import Instructor, Course, Section, Review
+from .models import Course, Instructor, Review, Section
 
 
 admin.site.unregister(Group)
@@ -26,8 +26,8 @@ class CourseAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super(CourseAdmin, self).get_urls()
         my_urls = [
-            url(r'^generate_cache/$', lambda request: HttpResponse("you clicked generate cache")),
-            url(r'^push_to_live/$', lambda request: HttpResponse("you clicked push to live"))
+            url(r'^generate_cache/$', lambda request: HttpResponse('you clicked generate cache')),
+            url(r'^push_to_live/$', lambda request: HttpResponse('you clicked push to live'))
         ]
         return my_urls + urls
 

@@ -24,10 +24,10 @@ class NoTokenTest(TestCase):
 class Permission0Test(TestCase):
     def setUp(self):
         self.consumer = APIConsumer.objects.create(
-            name="test",
-            email="test@test.com",
-            description="",
-            token="root",
+            name='test',
+            email='test@test.com',
+            description='',
+            token='root',
             permission_level=0
         )
         self.client = Client()
@@ -40,10 +40,10 @@ class Permission0Test(TestCase):
 class Permission1Test(TestCase):
     def setUp(self):
         self.consumer = APIConsumer.objects.create(
-            name="test",
-            email="test@test.com",
-            description="",
-            token="root",
+            name='test',
+            email='test@test.com',
+            description='',
+            token='root',
             permission_level=1
         )
         self.client = Client()

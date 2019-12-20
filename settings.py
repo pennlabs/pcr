@@ -1,32 +1,32 @@
 # Django settings for PCR
-import sys
 import os
-import raven
+
 import dj_database_url
+import raven
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # For hitting the API
-DOMAIN = os.getenv("DOMAIN", "http://localhost:8000/api/")
+DOMAIN = os.getenv('DOMAIN', 'http://localhost:8000/api/')
 # Otherwise, weird bugs occur wherever DOMAIN is used.
-assert DOMAIN.endswith("/")
+assert DOMAIN.endswith('/')
 
-DEBUG = os.getenv("DEBUG", 'True') == 'True'
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 # Used for the /chrome/api proxy endpoint
-PROXY_TOKEN = os.getenv("PROXY_TOKEN", None)
+PROXY_TOKEN = os.getenv('PROXY_TOKEN', None)
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "[::1]",
-                 "penncoursereview.com", "www.penncoursereview.com",
-                 "api.penncoursereview.com"]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '[::1]',
+                 'penncoursereview.com', 'www.penncoursereview.com',
+                 'api.penncoursereview.com']
 
-API_HOST = "api.penncoursereview.com"
+API_HOST = 'api.penncoursereview.com'
 
-DISPLAY_NAME = os.getenv("API_DISPLAY_NAME", "/")
+DISPLAY_NAME = os.getenv('API_DISPLAY_NAME', '/')
 
 # Ensure DISPLAY_NAME is never used relatively by beginning with forward slash
-assert DISPLAY_NAME.startswith("/")
+assert DISPLAY_NAME.startswith('/')
 
 # making template path relative to allow for modular development
 # thanks http://komunitasweb.com/2010/06/relative-path-for-your-django-project/
@@ -35,9 +35,9 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 # Necessary for `courses/management/commands/importfromisc.py` and
 #               `courses/management/commands/mergeprofs.py`
-IMPORT_DATABASE_NAME = os.getenv("API_IMPORT_DATABASE_NAME", "old_pcr_2011b")
-IMPORT_DATABASE_USER = os.getenv("API_IMPORT_DATABASE_USER", "pcr-daemon")
-IMPORT_DATABASE_PWD = os.getenv("API_IMPORT_DATABASE_PWD")
+IMPORT_DATABASE_NAME = os.getenv('API_IMPORT_DATABASE_NAME', 'old_pcr_2011b')
+IMPORT_DATABASE_USER = os.getenv('API_IMPORT_DATABASE_USER', 'pcr-daemon')
+IMPORT_DATABASE_PWD = os.getenv('API_IMPORT_DATABASE_PWD')
 
 DATABASES = {
     'default': {
@@ -48,8 +48,8 @@ DATABASES = {
 
 DATABASES['default'].update(dj_database_url.config(conn_max_age=600))
 
-if DATABASES["default"]["ENGINE"].endswith("mysql"):
-    DATABASES["default"]["OPTIONS"] = {
+if DATABASES['default']['ENGINE'].endswith('mysql'):
+    DATABASES['default']['OPTIONS'] = {
         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
     }
 
@@ -89,12 +89,12 @@ STATIC_URL = '/static/'
 
 # Path to local staticfiles
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
+    os.path.join(BASE_DIR, 'static')
 ]
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY= os.getenv("SECRET_KEY", 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
-assert SECRET_KEY, "No secret key provided"
+SECRET_KEY = os.getenv('SECRET_KEY', 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
+assert SECRET_KEY, 'No secret key provided!'
 
 MIDDLEWARE_CLASSES = (
     'api.middleware.ApiHostMiddleware',
@@ -156,7 +156,7 @@ CORS_URLS_REGEX = r'^/api/.*$'
 
 # Used for Django debug toolbar (or use debugsqlshell)
 try:
-    import debug_toolbar
+    import debug_toolbar  # noqa
 except ImportError:
     pass
 else:

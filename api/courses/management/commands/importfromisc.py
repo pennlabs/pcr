@@ -13,11 +13,10 @@ import time
 import traceback
 
 import MySQLdb as db
-from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.core.management.base import BaseCommand
 
-from ....courses.models import (Alias, Course, CourseHistory, Department,
-                                Instructor, Review, ReviewBit, Section, Semester)
+from ....courses.models import Alias, Course, CourseHistory, Department, Instructor, Review, ReviewBit, Section, Semester
 
 
 class Command(BaseCommand):
@@ -58,10 +57,10 @@ class Command(BaseCommand):
         parser.add_argument('-a', '--otheraliases', action='store_true',
                             help=('Also check the ISC crosslist table for aliases, '
                                   'not just the normal summary table. Note that '
-                                  'this usually doesn\'t end up adding more aliases '
+                                  'this usually does not end up adding more aliases '
                                   '(and <10 when it does). It also generates a bunch '
                                   '(>20 errors) in trying to crosslist courses '
-                                  'that don\'t exist.'))
+                                  'that do not exist.'))
         parser.add_argument('-c', '--comments', action='store_true',
                             help=('Import the comments from the old-PCR DB dump, '
                                   'not the full course data form ISC. Note that this '
@@ -630,18 +629,18 @@ class Command(BaseCommand):
             group_by: List of fields to group (aggregate) by
             order_by: List of fields to order by
         """
-        query = ["SELECT", ", ".join(fields), "FROM", ", ".join(tables)]
+        query = ['SELECT', ', '.join(fields), 'FROM', ', '.join(tables)]
 
         if conditions:
-            query.extend(["WHERE", " AND ".join(conditions)])
+            query.extend(['WHERE', ' AND '.join(conditions)])
 
         if group_by:
-            query.extend(["GROUP BY", ", ".join(group_by)])
+            query.extend(['GROUP BY', ', '.join(group_by)])
 
         if order_by:
-            query.extend(["ORDER BY", ", ".join(order_by)])
+            query.extend(['ORDER BY', ', '.join(order_by)])
 
-        return self.query(" ".join(query))
+        return self.query(' '.join(query))
 
     def _log(self, msg, v=1):
         """Log messages to standard out, depending on the verbosity."""

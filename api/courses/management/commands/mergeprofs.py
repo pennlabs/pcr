@@ -1,11 +1,11 @@
 __author__ = 'Kyle Hardgrave (kyleh@sas.upenn.edu)'
 
-from optparse import make_option
 import time
+from optparse import make_option
 
 import MySQLdb as db
-from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.core.management.base import BaseCommand
 
 from courses.models import Instructor, Review, Section
 
@@ -84,18 +84,18 @@ class Command(BaseCommand):
             group_by: List of fields to group (aggregate) by
             order_by: List of fields to order by
         """
-        query = ["SELECT", ", ".join(fields), "FROM", ", ".join(tables)]
+        query = ['SELECT', ', '.join(fields), 'FROM', ', '.join(tables)]
 
         if conditions:
-            query.extend(["WHERE", " AND ".join(conditions)])
+            query.extend(['WHERE', ' AND '.join(conditions)])
 
         if group_by:
-            query.extend(["GROUP BY", ", ".join(group_by)])
+            query.extend(['GROUP BY', ', '.join(group_by)])
 
         if order_by:
-            query.extend(["ORDER BY", ", ".join(order_by)])
+            query.extend(['ORDER BY', ', '.join(order_by)])
 
-        return self.query(" ".join(query))
+        return self.query(' '.join(query))
 
     def query(self, query_str, args=None):
         """A simple wrapper for our MySQL queries."""

@@ -1,5 +1,6 @@
-from .models import APIConsumer, APIUser
 from django.contrib import admin
+
+from .models import APIConsumer, APIUser
 
 
 class APIConsumerAdmin(admin.ModelAdmin):

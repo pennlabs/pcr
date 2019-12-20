@@ -1,11 +1,14 @@
+import datetime
+import string
+
 from django.db import models
 from django.utils import timezone
+
+
 try:
     from secrets import choice
 except ImportError:
     from random import choice
-import string
-import datetime
 
 
 def generate_key():
@@ -14,16 +17,16 @@ def generate_key():
 
 
 def generate_user_key():
-    return "user_{}".format(generate_key())
+    return 'user_{}'.format(generate_key())
 
 
 def generate_api_consumer(token):
-    name = "Labs API " + token
-    email = "admin+" + token + "@pennlabs.org"
+    name = 'Labs API ' + token
+    email = 'admin+' + token + '@pennlabs.org'
     consumer = APIConsumer.objects.create(
         name=name,
         email=email,
-        description="Penn Labs API automatic authentication",
+        description='Penn Labs API automatic authentication',
         token=token,
         permission_level=2)
     return consumer
@@ -61,7 +64,7 @@ class APIUser(models.Model):
         return self.token_last_updated + datetime.timedelta(days=1)
 
     def __str__(self):
-        return "%s (user)" % (self.username)
+        return '%s (user)' % (self.username)
 
 
 class APIConsumer(models.Model):
@@ -89,4 +92,4 @@ class APIConsumer(models.Model):
         return self.permission_level > 9000
 
     def __str__(self):
-        return "%s (level %d)" % (self.name, self.permission_level)
+        return '%s (level %d)' % (self.name, self.permission_level)
