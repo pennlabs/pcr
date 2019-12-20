@@ -1,7 +1,8 @@
 # Django settings for PCR
 import os
-import raven
+
 import dj_database_url
+import raven
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
