@@ -89,7 +89,7 @@ def main():
                 'email': 'pennappslabs@gmail.com',
                 'description': 'This public token should only have elevated permissions in a development environment. DO NOT USE IN PRODUCTION.',
                 'token': 'public',
-                'permission_level': 9000
+                'permission_level': 2
             }
         })
 
