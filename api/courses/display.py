@@ -5,7 +5,7 @@ from statistics import mean
 import requests
 from django.db.models import Avg, Q
 from django.http import JsonResponse
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page, never_cache
 
 from .models import Alias, Course, CourseHistory, Department, Instructor, Review, ReviewBit, Section
 
@@ -273,6 +273,13 @@ def display_autocomplete(request):
         'courses': list(course_set.values()),
         'departments': depts,
         'instructors': list(instructor_set.values())
+    })
+
+
+@never_cache
+def display_auth(request):
+    return JsonResponse({
+        'authed': request.user.is_authenticated
     })
 
 

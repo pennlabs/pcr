@@ -6,16 +6,18 @@ function api_fetch(url) {
     return fetch(url).then(res => res.json());
 }
 
-export function set_auth_token(token) {
-    API_TOKEN = token;
-}
-
 export function redirect_for_auth() {
     window.location.href = API_DOMAIN + "/accounts/login/?next=" + encodeURIComponent(window.location.href);
 }
 
 export function api_autocomplete() {
     return api_fetch(API_DOMAIN + "/api/display/autocomplete?token=" + encodeURIComponent(PUBLIC_API_TOKEN));
+}
+
+export function api_is_authenticated(func) {
+    api_fetch(API_DOMAIN + "/api/display/auth?token=" + encodeURIComponent(PUBLIC_API_TOKEN)).then((data) => {
+        func(data.authed);
+    });
 }
 
 export function api_live(code) {
