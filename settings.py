@@ -205,6 +205,9 @@ if DEBUG:
         'PLATFORM_URL': 'https://platform-dev.pennlabs.org',
         'CUSTOM_ADMIN': False,
     })
+
+    # Disable https requirement for oauth in development
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 else:
     PLATFORM_ACCOUNTS.update({
         'REDIRECT_URI': PLATFORM_ACCOUNTS['REDIRECT_URI'] or 'https://penncoursereview.com/accounts/callback/',

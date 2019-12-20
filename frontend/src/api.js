@@ -1,6 +1,6 @@
 const API_DOMAIN = window.location.protocol + "//" + window.location.host;
 const PUBLIC_API_TOKEN = "public";
-var API_TOKEN = "shibboleth";
+var API_TOKEN = "platform";
 
 function api_fetch(url) {
     return fetch(url).then(res => res.json());
@@ -11,7 +11,7 @@ export function set_auth_token(token) {
 }
 
 export function redirect_for_auth() {
-    window.location.href = API_DOMAIN + "/api/display/token?token=shibboleth&redirect=" + encodeURIComponent(window.location.href);
+    window.location.href = API_DOMAIN + "/accounts/login/?next=" + encodeURIComponent(window.location.href);
 }
 
 export function api_autocomplete() {
