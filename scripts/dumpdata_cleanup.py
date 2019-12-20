@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
+import argparse
 import json
 import sys
-import argparse
 from collections import defaultdict
 
 
@@ -10,6 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description='Cleanup and reduce PCR Django fixture data dump. Writes the new data dump json to stdout.')
     parser.add_argument('file', type=str, help='The input file to parse, generated from the ./manage.py dumpdata command.')
     parser.add_argument('--no-reference-cleanup', action='store_true', help='Do not remove objects with broken references.')
+    parser.add_argument('--no-public-token', action='store_true', help='Do not include a development public token in the data dump.')
 
     args = parser.parse_args()
 
@@ -77,6 +78,20 @@ def main():
                         new_items.append(item)
                 print('[Round {}] Applied rule {} -> kept {}/{} item(s)'.format(num, (model, field, to), new_sum, old_sum), file=sys.stderr)
                 items = new_items
+
+    # Insert public token for development
+    if not args.no_public_token:
+        items.append({
+            'model': 'apiconsumer.apiconsumer',
+            'pk': 1,
+            'fields': {
+                'name': 'Public Token (Development Only)',
+                'email': 'pennappslabs@gmail.com',
+                'description': 'This public token should only have elevated permissions in a development environment. DO NOT USE IN PRODUCTION.',
+                'token': 'public',
+                'permission_level': 9000
+            }
+        })
 
     print(json.dumps(items))
 
