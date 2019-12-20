@@ -127,6 +127,9 @@ def semester_dept(request, semester_code, dept_code):
 
 
 def semester_reviews(request, semester_code):
+    if not request.consumer.access_pcr:
+        # This method is only available to those with review data access.
+        raise API404("This is not the database dump you are looking for.")
     sem = semesterFromCode(semester_code)
     reviews = Review.objects.filter(
         section__course__semester=sem
