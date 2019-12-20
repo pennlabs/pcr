@@ -1,7 +1,9 @@
+import requests
 from django.conf import settings
 from django.http import JsonResponse
+
 from .models import APIConsumer, APIUser, generate_api_consumer
-import requests
+
 
 BASE_API = 'https://api.pennlabs.org'
 
@@ -15,7 +17,7 @@ class ShibbolethConsumer(object):
         self.access_secret = False
 
     def __str__(self):
-        return "%s (level %d)" % (self.name, self.permission_level)
+        return '%s (level %d)' % (self.name, self.permission_level)
 
 
 class Authenticate(object):

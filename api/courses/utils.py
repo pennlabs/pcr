@@ -24,7 +24,7 @@ def cross_domain_ajax(func):
     """ Sets Access Control request headers. """
     def wrap(request, *args, **kwargs):
         # Firefox sends 'OPTIONS' request for cross-domain javascript call.
-        if request.method != "OPTIONS":
+        if request.method != 'OPTIONS':
             response = func(request, *args, **kwargs)
         else:
             response = HttpResponse()

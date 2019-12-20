@@ -13,4 +13,4 @@ Serves PennCourseReview.
 
 """
 
-__all__ = ["urls"]
+__all__ = ['urls']

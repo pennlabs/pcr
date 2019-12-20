@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
 # import each of the handlers
-from . import views, display
-from .utils import cross_domain_ajax, API404
+from . import display, views
+from .utils import API404, cross_domain_ajax
 
 
 def dispatch_404(message=None, perhaps=None):
@@ -13,72 +13,72 @@ def dispatch_404(message=None, perhaps=None):
 
 urlpatterns = [
     # Index
-    url(r"^$", views.index),
+    url(r'^$', views.index),
 
     # Instructors
-    url(r"^instructors/?$", views.instructors),
-    url(r"^instructors/(?P<instructor_id>[^/]+)/?$", views.instructor_main, name="instructor"),
-    url(r"^instructors/(?P<instructor_id>[^/]+)/sections/?$", views.instructor_sections),
-    url(r"^instructors/(?P<instructor_id>[^/]+)/reviews$/?", views.instructor_reviews),
+    url(r'^instructors/?$', views.instructors),
+    url(r'^instructors/(?P<instructor_id>[^/]+)/?$', views.instructor_main, name='instructor'),
+    url(r'^instructors/(?P<instructor_id>[^/]+)/sections/?$', views.instructor_sections),
+    url(r'^instructors/(?P<instructor_id>[^/]+)/reviews$/?', views.instructor_reviews),
 
     # Course Histories
-    url(r"^coursehistories/?$", views.course_histories),
-    url(r"^coursehistories/(?P<histid>\d+)/?$", views.coursehistory_main, name="history"),
-    url(r"^coursehistories/(?P<histid>\d+)/reviews/?$", views.coursehistory_reviews),
-    url(r"^coursehistories/(?P<historyalias>[^/]+)(?P<path>.*)", views.alias_coursehistory),
+    url(r'^coursehistories/?$', views.course_histories),
+    url(r'^coursehistories/(?P<histid>\d+)/?$', views.coursehistory_main, name='history'),
+    url(r'^coursehistories/(?P<histid>\d+)/reviews/?$', views.coursehistory_reviews),
+    url(r'^coursehistories/(?P<historyalias>[^/]+)(?P<path>.*)', views.alias_coursehistory),
 
     # Departments
-    url(r"^depts/?$", views.depts),
-    url(r"^depts/(?P<dept_code>[^/]+)/?$", views.dept_main, name="department"),
-    url(r"^depts/(?P<dept_code>[^/]+)/reviews/?$", views.dept_reviews),
+    url(r'^depts/?$', views.depts),
+    url(r'^depts/(?P<dept_code>[^/]+)/?$', views.dept_main, name='department'),
+    url(r'^depts/(?P<dept_code>[^/]+)/reviews/?$', views.dept_reviews),
 
     # Semesters
-    url(r"^semesters/?$", views.semesters),
-    url(r"^semesters/(?P<semester_code>[^/]+)/?$", views.semester_main, name="semester"),
-    url(f"^semesters/(?P<semester_code>[^/]+)/reviews/", views.semester_reviews, name="semrevs"),
-    url(r"^semesters/(?P<semester_code>[^/]+)/(?P<dept_code>[^/]+)/?$", views.semester_dept, name="semdept"),
+    url(r'^semesters/?$', views.semesters),
+    url(r'^semesters/(?P<semester_code>[^/]+)/?$', views.semester_main, name='semester'),
+    url(r'^semesters/(?P<semester_code>[^/]+)/reviews/', views.semester_reviews, name='semrevs'),
+    url(r'^semesters/(?P<semester_code>[^/]+)/(?P<dept_code>[^/]+)/?$', views.semester_dept, name='semdept'),
 
     # Buildings
-    url(r"^building/?$", views.buildings),
-    url(r"^building/(?P<code>[^/]+)/?$", views.building_main, name="building"),
+    url(r'^building/?$', views.buildings),
+    url(r'^building/(?P<code>[^/]+)/?$', views.building_main, name='building'),
 
     # Courses
-    url(r"^courses/?$", dispatch_404("sorry, no global course list")),
-    url(r"^courses/(?P<courseid>\d+)/?$", views.course_main, name="course"),
-    url(r"^courses/(?P<courseid>\d+)/reviews/?$", views.course_reviews),
-    url(r"^courses/(?P<courseid>\d+)/sections/?$", views.course_sections),
-    url(r"^courses/(?P<courseid>\d+)/sections/(?P<sectionnum>[^/]+)/?$", views.section_main, name="section"),
-    url(r"^courses/(?P<courseid>\d+)/sections/(?P<sectionnum>[^/]+)/reviews/?$", views.section_reviews),
-    url(r"^courses/(?P<courseid>\d+)/sections/(?P<sectionnum>[^/]+)/reviews/(?P<instructor_id>[^/]+)/?$", views.review_main, name="review"),
-    url(r"^courses/(?P<coursealias>[^/]+)(?P<path>.*)$", views.alias_course),
+    url(r'^courses/?$', dispatch_404('sorry, no global course list')),
+    url(r'^courses/(?P<courseid>\d+)/?$', views.course_main, name='course'),
+    url(r'^courses/(?P<courseid>\d+)/reviews/?$', views.course_reviews),
+    url(r'^courses/(?P<courseid>\d+)/sections/?$', views.course_sections),
+    url(r'^courses/(?P<courseid>\d+)/sections/(?P<sectionnum>[^/]+)/?$', views.section_main, name='section'),
+    url(r'^courses/(?P<courseid>\d+)/sections/(?P<sectionnum>[^/]+)/reviews/?$', views.section_reviews),
+    url(r'^courses/(?P<courseid>\d+)/sections/(?P<sectionnum>[^/]+)/reviews/(?P<instructor_id>[^/]+)/?$', views.review_main, name='review'),
+    url(r'^courses/(?P<coursealias>[^/]+)(?P<path>.*)$', views.alias_course),
 
     # Sections
-    url(r"^sections$", dispatch_404("sorry, no global sections list")),
-    url(r"^sections/(?P<sectionalias>[^/]+)$", views.alias_section),
+    url(r'^sections$', dispatch_404('sorry, no global sections list')),
+    url(r'^sections/(?P<sectionalias>[^/]+)$', views.alias_section),
 
     # Display
-    url(r"^display/course/(?P<course>[^/]+)$", display.display_course),
-    url(r"^display/instructor/(?P<instructor>[^/]+)$", display.display_instructor),
-    url(r"^display/department/(?P<dept>[^/]+)$", display.display_dept),
-    url(r"^display/history/(?P<course>[^/]+)/(?P<instructor>[^/]+)$", display.display_history),
-    url(r"^display/autocomplete$", display.display_autocomplete),
-    url(r"^display/token$", display.display_token),
-    url(r"^display/live/(?P<course>[^/]+)$", display.display_live),
+    url(r'^display/course/(?P<course>[^/]+)$', display.display_course),
+    url(r'^display/instructor/(?P<instructor>[^/]+)$', display.display_instructor),
+    url(r'^display/department/(?P<dept>[^/]+)$', display.display_dept),
+    url(r'^display/history/(?P<course>[^/]+)/(?P<instructor>[^/]+)$', display.display_history),
+    url(r'^display/autocomplete$', display.display_autocomplete),
+    url(r'^display/token$', display.display_token),
+    url(r'^display/live/(?P<course>[^/]+)$', display.display_live),
 
     # Misc
-    url(r"^(?P<alias>.*)$", views.alias_misc),
+    url(r'^(?P<alias>.*)$', views.alias_misc),
 ]
 
 
 def handle_errors(func):
     def wrap(request, *args, **kwargs):
         try:
-            if not request.consumer.access_pcr and "review" in request.path:
-                raise API404("This API token does not have access to review data.")
+            if not request.consumer.access_pcr and 'review' in request.path:
+                raise API404('This API token does not have access to review data.')
             response = func(request, *args, **kwargs)
         except API404 as e:
             obj = {
-                'help': "See %s for API documentation." % views.DOCS_HTML,
+                'help': 'See %s for API documentation.' % views.DOCS_HTML,
                 'error': 'Error 404. The resource could not be found: ' + request.path
             }
             if e.perhaps:

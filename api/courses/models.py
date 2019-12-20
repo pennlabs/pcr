@@ -3,9 +3,8 @@ import re
 from django.db import models
 from django.shortcuts import reverse
 
-from .links import (RSRCS, DEPARTMENT_TOKEN, REVIEW_TOKEN,
-                    COURSEHISTORY_TOKEN, COURSE_TOKEN, SECTION_TOKEN,
-                    INSTRUCTOR_TOKEN)
+from .links import COURSE_TOKEN, COURSEHISTORY_TOKEN, DEPARTMENT_TOKEN, INSTRUCTOR_TOKEN, REVIEW_TOKEN, RSRCS, SECTION_TOKEN
+
 
 # Note: each class has get_absolute_url - this is for "url" when queried
 
@@ -29,12 +28,12 @@ class Semester:
           Valid inputs (all case-insensitive): Semester(2010, 'c') ==
             Semester('2010', 'c') == Semester('2010c') """
         if year is None:
-            year, semester = 1740, "a"  # the epoch
+            year, semester = 1740, 'a'  # the epoch
         if semester is None:
             year, semester = year[:-1], year[-1]
-        semesternum = "abc".find(semester.lower())
+        semesternum = 'abc'.find(semester.lower())
         if semesternum == -1:
-            raise ValueError("Invalid semester code: " + semester)
+            raise ValueError('Invalid semester code: ' + semester)
 
         self.year = int(year)  # calendar year
         self.semesternum = semesternum  # (0,1,2) -> (Spring, Summer, Fall)
@@ -50,20 +49,20 @@ class Semester:
     @property
     def seasoncodeABC(self):
         """ Returns the season code. """
-        return "ABC"[self.semesternum]
+        return 'ABC'[self.semesternum]
 
     def code(self):
         """ Returns code YYYYa (calendar year + season code) """
-        return "%4d%s" % (self.year, self.seasoncodeABC)
+        return '%4d%s' % (self.year, self.seasoncodeABC)
 
     def __repr__(self):
-        return "Semester(%d,\"%s\")" % (self.year, self.seasoncodeABC)
+        return 'Semester(%d,"%s")' % (self.year, self.seasoncodeABC)
 
     def __str__(self):
-        return "%s %d" % (["Spring", "Summer", "Fall"][self.semesternum], self.year)
+        return '%s %d' % (['Spring', 'Summer', 'Fall'][self.semesternum], self.year)
 
     def get_absolute_url(self):
-        return reverse("api:semester", kwargs={"semester_code": self.code()})
+        return reverse('api:semester', kwargs={'semester_code': self.code()})
 
     def __cmp__(self, other):
         if other:
@@ -97,25 +96,25 @@ def semesterFromID(id):
     """ Given a numerical semester ID, return a semester. """
     if isinstance(id, Semester):
         return id
-    return Semester(1740 + id / 3, "abc"[id % 3])
+    return Semester(1740 + id / 3, 'abc'[id % 3])
 
 
 def semesterFromCode(yyyys):
     if len(yyyys) != 5:
-        raise Exception("too many or too few characters")
+        raise Exception('too many or too few characters')
     year = int(yyyys[:4])
     season = yyyys[4].lower()
     return Semester(year=year, semester=season)
 
 
 class SemesterField(models.Field):
-    description = "A semester during which a course may be offered"
+    description = 'A semester during which a course may be offered'
 
     def __init__(self, *args, **kwargs):
         super(SemesterField, self).__init__(*args, **kwargs)
 
     def get_internal_type(self):
-        return "SemesterField"
+        return 'SemesterField'
 
     def db_type(self, connection):
         return 'smallint'
@@ -123,14 +122,14 @@ class SemesterField(models.Field):
     def to_python(self, value):
         if isinstance(value, Semester):
             return value
-        if value == "":
+        if value == '':
             return Semester()
-        if "HACKS!":  # commence hack:
+        if 'HACKS!':  # commence hack:
             try:
-                seasons = ["Spring", "Summer", "Fall"]
-                tmp_season, tmp_year = value.split(" ")
+                seasons = ['Spring', 'Summer', 'Fall']
+                tmp_season, tmp_year = value.split(' ')
                 if tmp_season in seasons:
-                    return Semester(tmp_year, "abc"[seasons.index(tmp_season)])
+                    return Semester(tmp_year, 'abc'[seasons.index(tmp_season)])
             except (ValueError, AttributeError):
                 pass
         try:
@@ -148,7 +147,7 @@ class SemesterField(models.Field):
             return value.id
         if isinstance(value, int):
             return value
-        raise TypeError("Invalid type passed to SemesterField!")
+        raise TypeError('Invalid type passed to SemesterField!')
 
 
 class Department(models.Model):
@@ -198,7 +197,7 @@ class Department(models.Model):
 
     def get_absolute_url(self):
         # don't know actual semester
-        return reverse("api:department", kwargs={"dept_code": self.code})
+        return reverse('api:department', kwargs={'dept_code': self.code})
 
     def toShortJSON(self):
         return {
@@ -216,7 +215,7 @@ class Department(models.Model):
 
         # Post 1.0/nice to have, reviews for semester-department.
         result[REVIEW_TOKEN] = {
-            'path': "%s/%s" % (self.get_absolute_url(), REVIEW_TOKEN)}
+            'path': '%s/%s' % (self.get_absolute_url(), REVIEW_TOKEN)}
 
         return result
 
@@ -229,7 +228,7 @@ class CourseHistory(models.Model):
     notes = models.TextField()
 
     def __str__(self):
-        return u"CourseHistory ID %d (%s)" % (self.id, self.notes)
+        return u'CourseHistory ID %d (%s)' % (self.id, self.notes)
 
     @property
     def aliases(self):
@@ -239,7 +238,7 @@ class CourseHistory(models.Model):
         return Alias.objects.filter(course__history=self).only('coursenum', 'department__name')
 
     def get_absolute_url(self):
-        return reverse("api:history", kwargs={"histid": self.id})
+        return reverse('api:history', kwargs={'histid': self.id})
 
     # name_override: string, or None
     # aliases_override: list of (dept, num) tuple pairs, or None
@@ -257,7 +256,7 @@ class CourseHistory(models.Model):
             'id': self.id,
             'name': name,
             'path': self.get_absolute_url(),
-            'aliases': ["%s-%03d" % (code[0], code[1]) for code in aliases]
+            'aliases': ['%s-%03d' % (code[0], code[1]) for code in aliases]
         }
 
     def toJSON(self, name_override=None, aliases_override=None, courses_override=None):
@@ -301,7 +300,7 @@ class Course(models.Model):
         'Alias', related_name='courses', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s %s" % (self.id, self.name)
+        return '%s %s' % (self.id, self.name)
 
     @property
     def tokens(self):
@@ -319,14 +318,14 @@ class Course(models.Model):
         """
         tokens = []
         for alias in self.getAliases():
-            tokens.append(alias.lower().replace("-", ""))
+            tokens.append(alias.lower().replace('-', ''))
             tokens.append(alias.lower())
-            tokens.extend(alias.lower().split("-"))
+            tokens.extend(alias.lower().split('-'))
         tokens.extend(self.name.lower().split())
         return tokens
 
     def get_absolute_url(self):
-        return reverse("api:course", kwargs={"courseid": self.id})
+        return reverse('api:course', kwargs={'courseid': self.id})
 
     @property
     def code(self):
@@ -334,7 +333,7 @@ class Course(models.Model):
                             self.primary_alias.coursenum)
 
     def getAliases(self):
-        return ["%s-%03d" % (x.department_id, x.coursenum)
+        return ['%s-%03d' % (x.department_id, x.coursenum)
                 for x in self.alias_set.all()]
 
     def toShortJSON(self):
@@ -360,7 +359,7 @@ class Course(models.Model):
             REVIEW_TOKEN: {
                 'path': '%s/%s' % (path, REVIEW_TOKEN),
             },
-            COURSEHISTORY_TOKEN: {'path': reverse("api:history", kwargs={"histid": self.history_id})},
+            COURSEHISTORY_TOKEN: {'path': reverse('api:history', kwargs={'histid': self.history_id})},
         })
 
         return result
@@ -410,11 +409,11 @@ class Instructor(models.Model):
 
     @property
     def name(self):
-        return (self.first_name or "") + " " + (self.last_name or "")
+        return (self.first_name or '') + ' ' + (self.last_name or '')
 
     @property
     def temp_id(self):
-        return re.sub(r"[^\w]", "-", "%d %s" % (self.id, self.name))
+        return re.sub(r'[^\w]', '-', '%d %s' % (self.id, self.name))
         # for pennapps demo only
 
     @property
@@ -426,11 +425,11 @@ class Instructor(models.Model):
         ['uriel', 'spiegel']
         >>> i.delete()
         """
-        name = self.name or ""
+        name = self.name or ''
         return name.lower().split()
 
     def get_absolute_url(self):
-        return reverse("instructor", args=(self.temp_id,))
+        return reverse('instructor', args=(self.temp_id,))
 
     def __str__(self):
         return self.name
@@ -464,12 +463,12 @@ class Instructor(models.Model):
     def toJSON(self, extra=[]):
         result = self.toShortJSON()
         result[SECTION_TOKEN] = {
-            'path': "%s/%s" % (self.get_absolute_url(), SECTION_TOKEN)}
+            'path': '%s/%s' % (self.get_absolute_url(), SECTION_TOKEN)}
         if 'sections' in extra:
             result[SECTION_TOKEN][RSRCS] = [x.toShortJSON()
                                             for x in self.section_set.all()]
         result[REVIEW_TOKEN] = {
-            'path': "%s/%s" % (self.get_absolute_url(), REVIEW_TOKEN)}
+            'path': '%s/%s' % (self.get_absolute_url(), REVIEW_TOKEN)}
         if 'reviews' in extra:
             result[REVIEW_TOKEN][RSRCS] = [x.toShortJSON()
                                            for x in self.review_set.all()]
@@ -490,7 +489,7 @@ class Alias(models.Model):
     oldpcr_id = models.IntegerField(null=True)
 
     def __str__(self):
-        return "%s: %s-%03d (%s)" % (self.course_id,
+        return '%s: %s-%03d (%s)' % (self.course_id,
                                      self.department,
                                      self.coursenum,
                                      self.semester.code()
@@ -533,14 +532,14 @@ class Section(models.Model):
     oldpcr_id = models.IntegerField(null=True)
 
     def __str__(self):
-        return "%s-%03d " % (self.course, self.sectionnum)
+        return '%s-%03d ' % (self.course, self.sectionnum)
 
     def get_absolute_url(self):
-        return reverse("api:section", kwargs={"courseid": self.course_id, "sectionnum": self.sectionnum})
+        return reverse('api:section', kwargs={'courseid': self.course_id, 'sectionnum': self.sectionnum})
 
     class Meta:
         """ To hold uniqueness constraint """
-        unique_together = (("course", "sectionnum"),)
+        unique_together = (('course', 'sectionnum'),)
 
     # TODO: Deprecate
     def getAliases(self):
@@ -548,12 +547,12 @@ class Section(models.Model):
 
     @property
     def aliases(self):
-        return ["%s-%03d" % (alias, self.sectionnum)
+        return ['%s-%03d' % (alias, self.sectionnum)
                 for alias in self.course.getAliases()]
 
     @property
     def api_id(self):
-        return "%s-%03d" % (self.course_id, self.sectionnum)
+        return '%s-%03d' % (self.course_id, self.sectionnum)
 
     def toShortJSON(self):
         pri_alias = self.course.primary_alias
@@ -563,7 +562,7 @@ class Section(models.Model):
             'primary_alias': '%s-%03d-%03d' % (
                 pri_alias.department_id, pri_alias.coursenum, self.sectionnum),
             'name': self.name,
-            'sectionnum': "%03d" % self.sectionnum,
+            'sectionnum': '%03d' % self.sectionnum,
             'path': self.get_absolute_url(),
             'semester': self.course.semester.code(),
         }
@@ -595,22 +594,22 @@ class Review(models.Model):
 
     class Meta:
         """ To hold uniqueness constraint """
-        unique_together = (("section", "instructor"),)
+        unique_together = (('section', 'instructor'),)
 
     def __str__(self):
-        return "Review for %s" % str(self.section)
+        return 'Review for %s' % str(self.section)
 
     def get_absolute_url(self):
-        pennkey = self.instructor.temp_id if self.instructor else "99999-JAIME-MUNDO"
-        return reverse("api:review", kwargs={"courseid": self.section.course_id, "sectionnum": self.section.sectionnum, "instructor_id": pennkey})
+        pennkey = self.instructor.temp_id if self.instructor else '99999-JAIME-MUNDO'
+        return reverse('api:review', kwargs={'courseid': self.section.course_id, 'sectionnum': self.section.sectionnum, 'instructor_id': pennkey})
 
     def toShortJSON(self):
         return {
             'id': '%s-%s' % (self.section.api_id, self.instructor.temp_id),
             'section': self.section.toShortJSON(),
             'instructor': self.instructor.toShortJSON() if self.instructor_id else None,
-            'path': reverse("api:review", kwargs={"courseid": self.section.course_id, "sectionnum": self.section.sectionnum,
-                            "instructor_id": self.instructor.temp_id if self.instructor_id else "99999-JAIME-MUNDO"})
+            'path': reverse('api:review', kwargs={'courseid': self.section.course_id, 'sectionnum': self.section.sectionnum,
+                            'instructor_id': self.instructor.temp_id if self.instructor_id else '99999-JAIME-MUNDO'})
         }
 
     def toJSON(self):
@@ -619,7 +618,7 @@ class Review(models.Model):
         result.update({
             'num_reviewers': self.forms_returned,
             'num_students': self.forms_produced,
-            'ratings': dict((bit.field, "%1.2f" % bit.score) for bit in bits),
+            'ratings': dict((bit.field, '%1.2f' % bit.score) for bit in bits),
             'comments': self.comments,
         })
 
@@ -634,10 +633,10 @@ class ReviewBit(models.Model):
 
     class Meta:
         """ To hold uniqueness constraint """
-        unique_together = (("review", "field"),)
+        unique_together = (('review', 'field'),)
 
     def __str__(self):
-        return "%s - %s: %s" % (str(self.review), self.field, self.score)
+        return '%s - %s: %s' % (str(self.review), self.field, self.score)
 
 
 class Building(models.Model):
@@ -651,7 +650,7 @@ class Building(models.Model):
         return self.code
 
     def get_absolute_url(self):
-        return reverse("api:building", kwargs={"code": self.code})
+        return reverse('api:building', kwargs={'code': self.code})
 
     def toJSON(self):
         return {
@@ -673,13 +672,13 @@ class Room(models.Model):
 
     class Meta:
         """ To hold uniqueness constraint """
-        unique_together = (("building", "roomnum"),)
+        unique_together = (('building', 'roomnum'),)
 
     def __str__(self):
-        if self.name != "":
+        if self.name != '':
             return self.name
         else:
-            return "%s %s" % (self.building, self.roomnum)
+            return '%s %s' % (self.building, self.roomnum)
         # TODO: change to spaces to hyphens, for consistency w/ courses?
 
 
@@ -694,7 +693,7 @@ class MeetingTime(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "%s %s - %s @ %s" % (self.day, self.start, self.end, self.room)
+        return '%s %s - %s @ %s' % (self.day, self.start, self.end, self.room)
 
     def toJSON(self):
         return {
@@ -723,7 +722,7 @@ class SemesterDepartment:
         return str((self.semester, self.department))
 
     def get_absolute_url(self):
-        return reverse("api:semdept", kwargs={"semester_code": self.semester.code(), "dept_code": self.department.code})
+        return reverse('api:semdept', kwargs={'semester_code': self.semester.code(), 'dept_code': self.department.code})
 
     def toShortJSON(self):
         return {

@@ -1,14 +1,16 @@
-from django.shortcuts import render
-from django.http import Http404
-from .models import Instructor, CourseHistory, Department
 from collections import OrderedDict
+
+from django.http import Http404
+from django.shortcuts import render
+
+from .models import CourseHistory, Department, Instructor
 
 
 def instructor(request, id):
     try:
         instructor = Instructor(id)
     except ValueError:
-        raise Http404("Instructor {} does not exist!".format(id))
+        raise Http404('Instructor {} does not exist!'.format(id))
     context = {
         'item': instructor,
         'reviews': instructor.reviews,
@@ -41,7 +43,7 @@ def course(request, title):
     try:
         coursehistory = CourseHistory(title)
     except ValueError:
-        raise Http404("Course {} does not exist!".format(title))
+        raise Http404('Course {} does not exist!'.format(title))
     reviews = set(
         review for course in coursehistory.courses for section in course.sections for review in section.reviews)
     grouped_reviews = sorted_instructors_by_sem(reviews)
@@ -60,7 +62,7 @@ def department(request, name):
     try:
         department = Department(name)
     except ValueError:
-        raise Http404("Department {} does not exist!".format(name))
+        raise Http404('Department {} does not exist!'.format(name))
     context = {
         'item': department,
         'reviews': set(review for coursehistory in department.coursehistories

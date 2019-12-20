@@ -5,8 +5,9 @@ from django.db.models import Q
 from django.http import HttpResponseBadRequest
 from django.views.decorators.http import require_GET
 
-from ..json_helpers import JSON
 from ..courses.models import Alias, Department, Instructor
+from ..json_helpers import JSON
+
 
 # Field name for the query value
 QUERY_FIELD = 'q'
@@ -46,12 +47,12 @@ def search(request):
     """
     try:
         if QUERY_FIELD not in request.GET:
-            raise ValueError("expected `q`, got %s" % request.GET.keys())
+            raise ValueError('expected `q`, got %s' % request.GET.keys())
         q = request.GET[QUERY_FIELD]
 
         result_type = request.GET.get(RESULT_TYPE_FIELD, DEFAULT_RESULT_TYPE)
         if result_type not in RESULT_TYPES:
-            raise ValueError("invalid result type: '%s'" % result_type)
+            raise ValueError('invalid result type: "%s"' % result_type)
 
         count = _nat(request.GET.get(COUNT_FIELD, DEFAULT_COUNT))
         page = _nat(request.GET.get(PAGE_FIELD, DEFAULT_PAGE))
@@ -99,7 +100,7 @@ def _retrieve_courses(q, count):
     # a token in q,
     # then listing courses whose name matches `q`.
 
-    tokens = set(q.split() + q.split("-"))
+    tokens = set(q.split() + q.split('-'))
 
     # split queries at the first number to handle cases like "cis110" or
     # "econ001"
@@ -124,8 +125,8 @@ def _retrieve_courses(q, count):
             nums.append(num)
     q4 = Q(coursenum__in=nums)
     a1 = (Alias.objects.filter(q1 | q2 | q3)
-          .order_by("coursenum")
-          .order_by("-semester"))
+          .order_by('coursenum')
+          .order_by('-semester'))
     r0 = [a.course for a in a1.filter(q4)[:count]]
     r1 = [a.course for a in a1.exclude(q4).filter(q2 | q3)[:count - len(r0)]]
     r2 = [a.course
@@ -205,7 +206,7 @@ def _nat(n):
     """
     n = int(n)
     if n < 0:
-        raise ValueError("could not convert string to natural: '%s'" % n)
+        raise ValueError('could not convert string to natural: "%s"' % n)
     return n
 
 
@@ -219,4 +220,4 @@ def _index_digit(s):
     for i, c in enumerate(s):
         if c.isdigit():
             return i
-    raise ValueError("digit not found")
+    raise ValueError('digit not found')

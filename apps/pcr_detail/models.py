@@ -34,9 +34,9 @@ class ComparableMixin(object):
 
 class Review(ComparableMixin, object):
     def __init__(self, rid):
-        tokens = rid.split("-")
+        tokens = rid.split('-')
         # NOTE: Since a professor's name is hyphen separated we have to be careful
-        course_id, section_id, instructor_id = tokens[0], tokens[1], "-".join(
+        course_id, section_id, instructor_id = tokens[0], tokens[1], '-'.join(
             tokens[2:])
         try:
             raw_self = api('courses', course_id, 'sections',
@@ -68,7 +68,7 @@ class Review(ComparableMixin, object):
         return hash(self.id)
 
     def __repr__(self):
-        return "Review(%s)" % self.id
+        return 'Review(%s)' % self.id
 
 
 class Instructor(ComparableMixin, object):
@@ -98,7 +98,9 @@ class Instructor(ComparableMixin, object):
         return set(Review(review_id) for review_id in self.__review_ids)
 
     def taught(self, course):
-        """Check if an instructor taught a course."""
+        """
+        Check if an instructor taught a course.
+        """
         for section in self.sections:
             if section.course == course:
                 return True
@@ -114,12 +116,12 @@ class Instructor(ComparableMixin, object):
         return hash(self.id)
 
     def __repr__(self):
-        return "Instructor(%s)" % self.name
+        return 'Instructor(%s)' % self.name
 
 
 class Section(ComparableMixin, object):
     def __init__(self, sid):
-        course_id, section_id = sid.split("-")
+        course_id, section_id = sid.split('-')
         try:
             raw_self = api('courses', course_id, 'sections', section_id)
         except ValueError as e:
@@ -154,7 +156,7 @@ class Section(ComparableMixin, object):
         return hash(self.id)
 
     def __repr__(self):
-        return "Section(%s)" % self.id
+        return 'Section(%s)' % self.id
 
 
 class Course(ComparableMixin, object):
@@ -170,7 +172,7 @@ class Course(ComparableMixin, object):
             self.description = raw_self['description']
             self.semester = raw_self['semester']
             self.__coursehistory_id = raw_self['coursehistories']['path'].split(
-                "/")[-1]
+                '/')[-1]
             self.__section_ids = set(
                 section['id'] for section in raw_self['sections']['values'])
 
@@ -184,7 +186,7 @@ class Course(ComparableMixin, object):
 
     @property
     def url(self):
-        return "courses/%s" % self.id
+        return 'courses/%s' % self.id
 
     def __cmp__(self, other):
         return cmp(self.id, other.id)
@@ -235,7 +237,7 @@ class CourseHistory(ComparableMixin, object):
             for course in sorted(self.courses, key=lambda c: c.semester, reverse=True):
                 if instructor.taught(course):
                     return course.primary_alias
-            raise ValueError("instructor never taught course")
+            raise ValueError('instructor never taught course')
 
     @property
     def description(self):

@@ -4,13 +4,13 @@ from api.apiconsumer.models import APIConsumer
 
 
 class Command(BaseCommand):
-    help = "Create a token for development"
+    help = 'Create a token for development'
 
     def handle(self, **options):
-        token = APIConsumer(name="public",
-                            email="",
-                            description="",
-                            token="public",
+        token = APIConsumer(name='public',
+                            email='',
+                            description='',
+                            token='public',
                             permission_level=2,
                             )
         token.save()

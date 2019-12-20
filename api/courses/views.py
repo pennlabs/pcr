@@ -1,24 +1,23 @@
 import json
-
 from collections import defaultdict
+
 from django.http import HttpResponse
 from django.shortcuts import redirect, reverse
 
-from .utils import current_semester, API404
 from ..json_helpers import JSON
-from .models import (Course, Department, Review, Alias, Building, CourseHistory,
-                     Section, Instructor, SemesterDepartment, semesterFromID,
-                     semesterFromCode, )
 from .links import RSRCS
+from .models import Alias, Building, Course, CourseHistory, Department, Instructor, Review, Section, SemesterDepartment, semesterFromCode, semesterFromID
+from .utils import API404, current_semester
+
 
 DOCS_URL = 'http://pennlabs.org/console/docs.html'
-DOCS_HTML = "<a href='%s'>%s</a>" % (DOCS_URL, DOCS_URL)
+DOCS_HTML = '<a href="%s">%s</a>' % (DOCS_URL, DOCS_URL)
 
 
 def course_histories(request):
     if not request.consumer.access_secret:
         # This method is for the PCR site only.
-        raise API404("This is not the database dump you are looking for.")
+        raise API404('This is not the database dump you are looking for.')
 
     # 1. get and aggregate all course alias data
     alias_fields = ['coursenum', 'department__code',
@@ -32,7 +31,7 @@ def course_histories(request):
     # name_override would not happen and it would fetch their real names and that
     # would be slow)
     hist_to_aliases = defaultdict(set)
-    hist_to_name = defaultdict(lambda: "")
+    hist_to_name = defaultdict(lambda: '')
     for e in query_results:
         hist_to_aliases[e['course__history']].add(
             (e['department__code'], e['coursenum']))
@@ -140,7 +139,7 @@ def semester_reviews(request, semester_code):
 def instructors(request):
     if not request.consumer.access_pcr:
         # This method is only available to those with review data access.
-        raise API404("This is not the database dump you are looking for.")
+        raise API404('This is not the database dump you are looking for.')
 
     # get departments for every instructor
     # 1.  Professor id --> set of courses they teach
@@ -165,7 +164,7 @@ def instructors(request):
 
     def make_instructor_json(i):
         json = i.toShortJSON()
-        json["depts"] = instructor_to_depts(i)
+        json['depts'] = instructor_to_depts(i)
         return json
 
     # 3. get and aggregate all course alias data no 'this semester only' prof, please
@@ -176,20 +175,20 @@ def instructors(request):
 
 
 def instructor_main(request, instructor_id):
-    db_id = int(instructor_id.split("-")[0])
+    db_id = int(instructor_id.split('-')[0])
     c = Instructor.objects.get(id=db_id)
     return JSON(c.toJSON(extra=['sections', 'reviews']))
 
 
 def instructor_sections(request, instructor_id):
-    db_id = int(instructor_id.split("-")[0])
+    db_id = int(instructor_id.split('-')[0])
     sections = Instructor.objects.get(id=db_id).section_set.all()
 
     return JSON({RSRCS: [s.toJSON() for s in sections]})
 
 
 def instructor_reviews(request, instructor_id):
-    db_id = int(instructor_id.split("-")[0])
+    db_id = int(instructor_id.split('-')[0])
     sections = Instructor.objects.get(id=db_id).section_set.all()
     reviews = sum([list(s.review_set.all()) for s in sections], [])
 
@@ -225,7 +224,7 @@ def course_sections(request, courseid):
 
 def course_history(request, path, courseid):
     course = Course.objects.get(id=int(courseid))
-    return redirect(reverse("api:history", histid=course.history_id) + "?token=" + request.GET.get("token", ""))
+    return redirect(reverse('api:history', histid=course.history_id) + '?token=' + request.GET.get('token', ''))
 
 
 def section_main(request, courseid, sectionnum):
@@ -235,7 +234,7 @@ def section_main(request, courseid, sectionnum):
         section = Section.objects.get(sectionnum=sectionnum, course=courseid)
         return JSON(section.toJSON())
     except Section.DoesNotExist:
-        raise API404("Section %03d of course %d not found" %
+        raise API404('Section %03d of course %d not found' %
                      (sectionnum, courseid))
 
 
@@ -246,20 +245,20 @@ def section_reviews(request, courseid, sectionnum):
         section = Section.objects.get(sectionnum=sectionnum, course=courseid)
         return JSON({RSRCS: [r.toJSON() for r in section.review_set.all()]})
     except Section.DoesNotExist:
-        raise API404("Section %03d of course %d not found" %
+        raise API404('Section %03d of course %d not found' %
                      (sectionnum, courseid))
 
 
 def review_main(request, courseid, sectionnum, instructor_id):
     try:
-        db_instructor_id = int(instructor_id.split("-")[0])
+        db_instructor_id = int(instructor_id.split('-')[0])
         db_review = Review.objects.get(section__sectionnum=sectionnum,
                                        section__course=courseid,
                                        instructor__id=db_instructor_id)
         review = db_review
         return JSON(review.toJSON())
     except Review.DoesNotExist:
-        raise API404("Review for %s for section %03d of course %d not found" %
+        raise API404('Review for %s for section %03d of course %d not found' %
                      (instructor_id, sectionnum, courseid))
 
 
@@ -269,13 +268,13 @@ def alias_course(request, coursealias, path):
         semester = semesterFromCode(semester_code)
         coursenum = int(coursenum_str)
     except ValueError:
-        raise API404("Course alias %s not in correct format: YYYYS-DEPT-100." %
+        raise API404('Course alias %s not in correct format: YYYYS-DEPT-100.' %
                      coursealias)
 
     courseid = Alias.objects.get(semester=semester,
                                  department=dept_code,
                                  coursenum=coursenum).course_id
-    return redirect(reverse("api:course", kwargs={"courseid": courseid}) + path + "?token=" + request.GET.get("token", ""))
+    return redirect(reverse('api:course', kwargs={'courseid': courseid}) + path + '?token=' + request.GET.get('token', ''))
 
 
 def alias_section(request, sectionalias):
@@ -286,13 +285,13 @@ def alias_section(request, sectionalias):
         coursenum = int(coursenum_str)
         sectionnum = int(sectionnum_str)
     except ValueError:
-        raise API404("Section alias %s not in correct format: YYYYS-DEPT-100-001."
+        raise API404('Section alias %s not in correct format: YYYYS-DEPT-100-001.'
                      % sectionalias)
 
     courseid = Alias.objects.get(semester=semester,
                                  department=dept_code,
                                  coursenum=coursenum).course_id
-    return redirect(reverse("api:section", courseid=courseid, sectionnum=sectionnum) + "?token=" + request.GET.get("token", ""))
+    return redirect(reverse('api:section', courseid=courseid, sectionnum=sectionnum) + '?token=' + request.GET.get('token', ''))
 
 
 def alias_coursehistory(request, historyalias, path):
@@ -300,27 +299,27 @@ def alias_coursehistory(request, historyalias, path):
         dept_code, coursenum_str = historyalias.upper().split('-')
         coursenum = int(coursenum_str)
     except ValueError:
-        raise API404("Course alias %s not in correct format: DEPT-100." %
+        raise API404('Course alias %s not in correct format: DEPT-100.' %
                      historyalias)
 
     try:
         latest_alias = Alias.objects.filter(
             department=dept_code, coursenum=coursenum).order_by('-semester')[0]
     except IndexError:
-        raise API404("Course alias %s does not exist." % historyalias)
+        raise API404('Course alias %s does not exist.' % historyalias)
 
-    return redirect(reverse("api:history", kwargs={"histid": latest_alias.course.history_id}) + path + "?token=" + request.GET.get("token", ""))
+    return redirect(reverse('api:history', kwargs={'histid': latest_alias.course.history_id}) + path + '?token=' + request.GET.get('token', ''))
 
 
 def alias_misc(request, alias):
-    content = json.dumps({"error": "Unmatched query '%s'" % alias,
-                          "valid": False,
-                          "version": "0.3"},
+    content = json.dumps({'error': 'Unmatched query "%s"' % alias,
+                          'valid': False,
+                          'version': '0.3'},
                          sort_keys=True,
                          indent=3)
     return HttpResponse(status=404,
                         content=content,
-                        content_type="application/json")
+                        content_type='application/json')
 
 
 def depts(request):
@@ -347,17 +346,17 @@ def dept_reviews(request, dept_code):
 
 def buildings(request):
     # TODO
-    return JSON({RSRCS: [Building(code="LEVH", name="Levine Hall").toJSON()]})
+    return JSON({RSRCS: [Building(code='LEVH', name='Levine Hall').toJSON()]})
 
 
 def building_main(request, code):
     code = code.upper()
-    if code != "LEVH":
-        raise API404("Building %s not found" % code)
+    if code != 'LEVH':
+        raise API404('Building %s not found' % code)
 
-    return JSON(Building(code="LEVH", name="Levine Hall").toJSON())
+    return JSON(Building(code='LEVH', name='Levine Hall').toJSON())
 
 
 def index(request):
-    return JSON("Welcome to the Penn Labs PCR API. For docs, see %s."
+    return JSON('Welcome to the Penn Labs PCR API. For docs, see %s.'
                 % DOCS_HTML)
