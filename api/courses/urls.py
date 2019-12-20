@@ -35,6 +35,7 @@ urlpatterns = [
     # Semesters
     url(r"^semesters/?$", views.semesters),
     url(r"^semesters/(?P<semester_code>[^/]+)/?$", views.semester_main, name="semester"),
+    url(f"^semesters/(?P<semester_code>[^/]+)/reviews/", views.semester_reviews, name="semrevs"),
     url(r"^semesters/(?P<semester_code>[^/]+)/(?P<dept_code>[^/]+)/?$", views.semester_dept, name="semdept"),
 
     # Buildings
