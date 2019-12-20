@@ -1,8 +1,6 @@
-import datetime
 import string
 
 from django.db import models
-from django.utils import timezone
 
 
 try:
@@ -20,22 +18,14 @@ def generate_user_key():
     return 'user_{}'.format(generate_key())
 
 
-def generate_api_consumer(token):
-    name = 'Labs API ' + token
-    email = 'admin+' + token + '@pennlabs.org'
-    consumer = APIConsumer.objects.create(
-        name=name,
-        email=email,
-        description='Penn Labs API automatic authentication',
-        token=token,
-        permission_level=2)
-    return consumer
-
-
-class APIUser(models.Model):
-    username = models.CharField(max_length=200, unique=True)
-    token = models.CharField(max_length=200, unique=True, default=generate_user_key)
-    token_last_updated = models.DateTimeField(auto_now_add=True)
+class APIUser(object):
+    """
+    Fake model class used to represent a logged in user.
+    User management is handled by platform authentication.
+    """
+    def __init__(self, username, token=None):
+        self.username = username
+        self.token = token
 
     @property
     def permission_level(self):
@@ -52,16 +42,6 @@ class APIUser(models.Model):
     @property
     def access_secret(self):
         return False
-
-    def regenerate(self, force=False):
-        if self.expiration <= timezone.now() or force:
-            self.token_last_updated = timezone.now()
-            self.token = generate_user_key()
-            self.save(update_fields=['token', 'token_last_updated'])
-
-    @property
-    def expiration(self):
-        return self.token_last_updated + datetime.timedelta(days=1)
 
     def __str__(self):
         return '%s (user)' % (self.username)

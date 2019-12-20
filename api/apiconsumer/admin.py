@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import APIConsumer, APIUser
+from .models import APIConsumer
 
 
 class APIConsumerAdmin(admin.ModelAdmin):
@@ -8,9 +8,4 @@ class APIConsumerAdmin(admin.ModelAdmin):
     list_filter = ('permission_level',)
 
 
-class APIUserAdmin(admin.ModelAdmin):
-    search_fields = ('username',)
-
-
 admin.site.register(APIConsumer, APIConsumerAdmin)
-admin.site.register(APIUser, APIUserAdmin)
