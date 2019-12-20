@@ -96,7 +96,7 @@ STATICFILES_DIRS = [
 SECRET_KEY = os.getenv('SECRET_KEY', 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
 assert SECRET_KEY, 'No secret key provided!'
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'api.middleware.ApiHostMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -160,7 +160,7 @@ try:
 except ImportError:
     pass
 else:
-    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
     INSTALLED_APPS += ('debug_toolbar',)
     INTERNAL_IPS = ('158.130.103.7', '127.0.0.1')
 

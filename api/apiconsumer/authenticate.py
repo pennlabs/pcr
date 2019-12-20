@@ -26,8 +26,10 @@ class Authenticate(object):
     the view via request.consumer so the view knows what access level the consumer
     has."""
 
-    def process_request(self, request):
+    def __init__(self, get_response):
+        self.get_response = get_response
 
+    def __call__(self, request):
         # We use status=403 for errors. There are HTTP status codes for
         # authentication failure, where 403 is for denied access.
         # https://en.wikipedia.org/wiki/HTTP_403
@@ -35,7 +37,7 @@ class Authenticate(object):
         old_path = request.path_info
 
         if not old_path.startswith('/api/') and settings.API_HOST not in request.META.get('HTTP_HOST', ''):
-            return None
+            return self.get_response(request)
 
         try:
             token = request.GET['token']
@@ -70,7 +72,7 @@ class Authenticate(object):
         if consumer is not None and consumer.valid:
             # The found consumer is added to the request object, in request.consumer.
             request.consumer = consumer
-            return None  # continue rendering
+            return self.get_response(request)
         else:
             resp = JsonResponse({'error': 'Invalid token.', 'detail': 'Try logging out and in again.'}, status=403)
             resp['Access-Control-Allow-Origin'] = '*'

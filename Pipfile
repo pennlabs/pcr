@@ -16,7 +16,7 @@ mysqlclient = "*"
 raven = "*"
 requests = "*"
 staticgenerator = "*"
-Django = "==1.11.23"
+Django = "*"
 uwsgi = "*"
 
 [requires]

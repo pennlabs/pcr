@@ -5,6 +5,9 @@ from . import display, views
 from .utils import API404, cross_domain_ajax
 
 
+app_name = 'courses_app'
+
+
 def dispatch_404(message=None, perhaps=None):
     def view(request):
         raise API404(message)
