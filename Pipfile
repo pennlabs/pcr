@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 flake8 = "*"
 flake8-isort = "*"
+flake8-quotes = "*"
 
 [packages]
 dj-database-url = "*"
@@ -16,7 +17,6 @@ raven = "*"
 requests = "*"
 staticgenerator = "*"
 Django = "==1.11.23"
-flake8-quotes = "*"
 
 [requires]
 python_version = "3"
