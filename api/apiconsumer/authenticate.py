@@ -45,8 +45,8 @@ class Authenticate(object):
         # Do not use headers to validate the Shibboleth token, there are some endpoints that
         # do not have Shibboleth set up, allowing anyone to pass a header and gain access.
 
-        if token == 'shibboleth':
-            if request.is_authenticated:
+        if token in ['shibboleth', 'platform']:
+            if request.user.is_authenticated:
                 consumer = APIUser(username=request.user.username)
             else:
                 consumer = None
