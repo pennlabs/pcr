@@ -1,3 +1,4 @@
+import datetime
 import itertools
 import re
 from statistics import mean
@@ -40,7 +41,8 @@ def display_course(request, course):
     dept, num = info.groups()
     aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
     courses = Course.objects.filter(alias__in=aliases)
-    notes = Note.objects.filter(Q(course__isnull=True) | Q(course__course__in=courses))
+    time = datetime.datetime.now()
+    notes = Note.objects.filter(Q(course__isnull=True) | Q(course__course__in=courses), Q(start__isnull=True) | Q(start__lt=time), Q(end__isnull=True) | Q(end__gt=time))
     other_aliases = Alias.objects.filter(course__in=courses).values_list('department__code', 'coursenum').distinct()
     course_latest_semester = courses.order_by('-semester').first()
     if course_latest_semester is None:
