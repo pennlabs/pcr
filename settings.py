@@ -60,6 +60,13 @@ if DATABASES['default']['ENGINE'].endswith('mysql'):
 # system time zone.
 TIME_ZONE = 'America/New_York'
 
+# Authentication Backends
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.LabsUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
@@ -98,6 +105,7 @@ assert SECRET_KEY, 'No secret key provided!'
 
 MIDDLEWARE = (
     'api.middleware.ApiHostMiddleware',
+    'accounts.middleware.OAuth2TokenMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -147,6 +155,7 @@ INSTALLED_APPS = (
     'api.courses',
     'api.apiconsumer',
     'django_extensions',
+    'accounts.apps.AccountsConfig',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -180,3 +189,23 @@ if DEBUG:
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
+
+
+# Labs Accounts Settings
+PLATFORM_ACCOUNTS = {
+    'REDIRECT_URI': os.environ.get('LABS_REDIRECT_URI'),
+    'ADMIN_PERMISSION': 'pcr_admin'
+}
+
+if DEBUG:
+    PLATFORM_ACCOUNTS.update({
+        'REDIRECT_URI': os.environ.get('LABS_REDIRECT_URI', 'http://localhost:8000/accounts/callback/'),
+        'CLIENT_ID': 'clientid',
+        'CLIENT_SECRET': 'supersecretclientsecret',
+        'PLATFORM_URL': 'https://platform-dev.pennlabs.org',
+        'CUSTOM_ADMIN': False,
+    })
+else:
+    PLATFORM_ACCOUNTS.update({
+        'REDIRECT_URI': PLATFORM_ACCOUNTS['REDIRECT_URI'] or 'https://penncoursereview.com/accounts/callback/',
+    })

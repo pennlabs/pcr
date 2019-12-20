@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ff50fd1eefbe8d846563e96fb64bc6844567930fd904656d764c59b4b7c4420c"
+            "sha256": "18e38ab05e90db25134c34e598c19bae9ad2befa6277614d8f5dbdf54bef7a42"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -69,6 +69,14 @@
             "index": "pypi",
             "version": "==2.2.5"
         },
+        "django-labs-accounts": {
+            "hashes": [
+                "sha256:ce51d5dbab0c15b9c6ab8569a9dce9da9f3bd253f90912a79bdd365932b63bb8",
+                "sha256:e4d1f5341d2ab72bcb6d0ee41fbe0a0360494a02e2f511ed3f20c68a4425f38f"
+            ],
+            "index": "pypi",
+            "version": "==0.5.0"
+        },
         "idna": {
             "hashes": [
                 "sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407",
@@ -85,6 +93,13 @@
             ],
             "index": "pypi",
             "version": "==1.4.6"
+        },
+        "oauthlib": {
+            "hashes": [
+                "sha256:bee41cc35fcca6e988463cacc3bcb8a96224f470ca547e697b604cc697b2f889",
+                "sha256:df884cd6cbe20e32633f1db1072e9356f53638e4361bef4e8b03c9127c9328ea"
+            ],
+            "version": "==3.1.0"
         },
         "pytz": {
             "hashes": [
@@ -108,6 +123,13 @@
             ],
             "index": "pypi",
             "version": "==2.22.0"
+        },
+        "requests-oauthlib": {
+            "hashes": [
+                "sha256:7f71572defaecd16372f9006f33c2ec8c077c3cfa6f5911a9a90202beb513f3d",
+                "sha256:b4261601a71fd721a8bd6d7aa1cc1d6a8a93b4a9f5e96626f8e4d91e8beeaa6a"
+            ],
+            "version": "==1.3.0"
         },
         "six": {
             "hashes": [

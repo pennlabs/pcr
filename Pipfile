@@ -18,6 +18,7 @@ requests = "*"
 staticgenerator = "*"
 Django = "*"
 uwsgi = "*"
+django-labs-accounts = "*"
 
 [requires]
 python_version = "3"
