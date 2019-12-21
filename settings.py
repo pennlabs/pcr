@@ -95,11 +95,6 @@ MEDIA_URL = ''
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# Path to local staticfiles
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = os.getenv('SECRET_KEY', 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
 assert SECRET_KEY, 'No secret key provided!'
