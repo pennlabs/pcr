@@ -108,13 +108,12 @@ MIDDLEWARE = (
     'accounts.middleware.OAuth2TokenMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'api.apiconsumer.authenticate.Authenticate',
 )
 
@@ -155,10 +154,22 @@ INSTALLED_APPS = (
     'api.courses',
     'api.apiconsumer',
     'django_extensions',
+    'corsheaders',
     'accounts.apps.AccountsConfig',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+# Django CORS Settings
+CORS_ORIGIN_REGEX_WHITELIST = [
+    r'^https://[\w-]+.penncoursereview.com$',
+    r'^https://penncoursereview.com$'
+]
+
+if DEBUG:
+    CORS_ORIGIN_REGEX_WHITELIST += [
+            r'^http://(localhost|127\.0\.0\.1)(:\d+)?$'
+    ]
 
 CORS_URLS_REGEX = r'^/api/.*$'
 

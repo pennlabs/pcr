@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 # import each of the handlers
 from . import display, views
-from .utils import API404, cross_domain_ajax
+from .utils import API404
 
 
 app_name = 'courses_app'
@@ -94,4 +94,4 @@ def handle_errors(func):
 
 
 for pattern in urlpatterns:
-    pattern.callback = handle_errors(cross_domain_ajax(pattern.callback))
+    pattern.callback = handle_errors(pattern.callback)
