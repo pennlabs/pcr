@@ -154,7 +154,7 @@ class InfoBox extends Component {
 
                 <p className="subtitle">{this.props.data.name}</p>
 
-                {this.props.data.notes.map((a, i) => <div key={i} className="note"><i className="fa fa-thumbtack"></i> {a}</div>)}
+                {this.props.data.notes.map((note, i) => <div key={i} className="note"><i className="fa fa-thumbtack"></i> {note}</div>)}
 
                 { this.props.type === "course" && this.props.live_data &&
                     <Tags {...this.props.live_data} data={this.props.data} existing_instructors={Object.values(this.props.data.instructors).map((a) => a.name)} />
