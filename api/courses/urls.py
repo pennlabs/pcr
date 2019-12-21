@@ -2,7 +2,10 @@ from django.conf.urls import url
 
 # import each of the handlers
 from . import display, views
-from .utils import API404, cross_domain_ajax
+from .utils import API404
+
+
+app_name = 'courses_app'
 
 
 def dispatch_404(message=None, perhaps=None):
@@ -62,8 +65,8 @@ urlpatterns = [
     url(r'^display/department/(?P<dept>[^/]+)$', display.display_dept),
     url(r'^display/history/(?P<course>[^/]+)/(?P<instructor>[^/]+)$', display.display_history),
     url(r'^display/autocomplete$', display.display_autocomplete),
-    url(r'^display/token$', display.display_token),
     url(r'^display/live/(?P<course>[^/]+)$', display.display_live),
+    url(r'^display/auth$', display.display_auth),
 
     # Misc
     url(r'^(?P<alias>.*)$', views.alias_misc),
@@ -91,4 +94,4 @@ def handle_errors(func):
 
 
 for pattern in urlpatterns:
-    pattern.callback = handle_errors(cross_domain_ajax(pattern.callback))
+    pattern.callback = handle_errors(pattern.callback)

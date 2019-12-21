@@ -60,6 +60,13 @@ if DATABASES['default']['ENGINE'].endswith('mysql'):
 # system time zone.
 TIME_ZONE = 'America/New_York'
 
+# Authentication Backends
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.backends.LabsUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
@@ -96,17 +103,17 @@ STATICFILES_DIRS = [
 SECRET_KEY = os.getenv('SECRET_KEY', 'kwb0pv&py&-&rzw4li@+%o9e)krlmk576)u)m)m_#)@oho(d9^')
 assert SECRET_KEY, 'No secret key provided!'
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'api.middleware.ApiHostMiddleware',
+    'accounts.middleware.OAuth2TokenMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'api.apiconsumer.authenticate.Authenticate',
 )
 
@@ -147,9 +154,22 @@ INSTALLED_APPS = (
     'api.courses',
     'api.apiconsumer',
     'django_extensions',
+    'corsheaders',
+    'accounts.apps.AccountsConfig',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+# Django CORS Settings
+CORS_ORIGIN_REGEX_WHITELIST = [
+    r'^https://[\w-]+.penncoursereview.com$',
+    r'^https://penncoursereview.com$'
+]
+
+if DEBUG:
+    CORS_ORIGIN_REGEX_WHITELIST += [
+            r'^http://(localhost|127\.0\.0\.1)(:\d+)?$'
+    ]
 
 CORS_URLS_REGEX = r'^/api/.*$'
 
@@ -160,7 +180,7 @@ try:
 except ImportError:
     pass
 else:
-    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
     INSTALLED_APPS += ('debug_toolbar',)
     INTERNAL_IPS = ('158.130.103.7', '127.0.0.1')
 
@@ -180,3 +200,26 @@ if DEBUG:
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
+
+
+# Labs Accounts Settings
+PLATFORM_ACCOUNTS = {
+    'REDIRECT_URI': os.environ.get('LABS_REDIRECT_URI'),
+    'ADMIN_PERMISSION': 'pcr_admin'
+}
+
+if DEBUG:
+    PLATFORM_ACCOUNTS.update({
+        'REDIRECT_URI': os.environ.get('LABS_REDIRECT_URI', 'http://localhost:8000/accounts/callback/'),
+        'CLIENT_ID': 'clientid',
+        'CLIENT_SECRET': 'supersecretclientsecret',
+        'PLATFORM_URL': 'https://platform-dev.pennlabs.org',
+        'CUSTOM_ADMIN': False,
+    })
+
+    # Disable https requirement for oauth in development
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+else:
+    PLATFORM_ACCOUNTS.update({
+        'REDIRECT_URI': PLATFORM_ACCOUNTS['REDIRECT_URI'] or 'https://penncoursereview.com/accounts/callback/',
+    })

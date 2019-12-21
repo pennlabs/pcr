@@ -3,20 +3,11 @@ import re
 from statistics import mean
 
 import requests
-from django.conf import settings
 from django.db.models import Avg, Q
 from django.http import JsonResponse
-from django.shortcuts import redirect
 from django.views.decorators.cache import cache_page, never_cache
 
-from ..apiconsumer.models import APIUser
 from .models import Alias, Course, CourseHistory, Department, Instructor, Review, ReviewBit, Section
-
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    from urlparse import urlparse
 
 
 def titleize(name):
@@ -37,36 +28,6 @@ def is_pcr_data(func):
 
         return func(request, *args, **kwargs)
     return wrapper
-
-
-@never_cache
-def display_token(request):
-    if isinstance(request.consumer, APIUser):
-        request.consumer.regenerate()
-        if 'redirect' not in request.GET:
-            return JsonResponse({
-                'error': 'No redirect url passed to server.'
-            })
-        original_url = request.GET['redirect']
-        redirect_url = urlparse(original_url)
-        valid_scheme = redirect_url.scheme in ['http', 'https']
-        valid_host = redirect_url.netloc.rsplit(':', 1)[0] in settings.ALLOWED_HOSTS
-        if not valid_scheme or not valid_host:
-            return JsonResponse({
-                'error': 'Invalid redirect url passed to server. ({})'.format('invalid protocol' if not valid_scheme else 'invalid origin')
-            })
-
-        domain = None
-        if redirect_url.netloc.startswith('www.'):
-            domain = redirect_url.netloc.split('.', 1)[1]
-
-        resp = redirect(original_url)
-        resp.set_cookie('token', request.consumer.token, expires=request.consumer.expiration, domain=domain)
-        return resp
-
-    return JsonResponse({
-        'error': 'Cannot retrieve token with given parameters.'
-    })
 
 
 @is_pcr_data
@@ -312,6 +273,13 @@ def display_autocomplete(request):
         'courses': list(course_set.values()),
         'departments': depts,
         'instructors': list(instructor_set.values())
+    })
+
+
+@never_cache
+def display_auth(request):
+    return JsonResponse({
+        'authed': request.user.is_authenticated
     })
 
 
