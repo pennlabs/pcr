@@ -71,12 +71,16 @@ class ReviewAdmin(admin.ModelAdmin):
 
 
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ('course_name', 'content', 'start', 'end')
+    list_display = ('page', 'content', 'start', 'end')
     list_filter = ('start', 'end')
 
-    def course_name(self, obj):
+    def page(self, obj):
         if obj.history is None:
-            return 'All'
+            if obj.instructor is None:
+                return 'All'
+            return obj.instructor.name.strip()
+        if obj.instructor is not None:
+            return 'None'
         return ', '.join(sorted(set('{}-{}'.format(x, y) for x, y in obj.history.course_set.values_list('primary_alias__department__code', 'primary_alias__coursenum'))))
 
 

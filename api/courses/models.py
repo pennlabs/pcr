@@ -223,12 +223,13 @@ class Department(models.Model):
 class Note(models.Model):
     """
     A note that is displayed to users when they navigate to a certain
-    course. Can be temporary or permanant.
+    course or instructor. Can be temporary or permanant.
     """
     content = models.TextField()
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
     history = models.ForeignKey('CourseHistory', null=True, blank=True, on_delete=models.CASCADE)
+    instructor = models.ForeignKey('Instructor', null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return '<Note: {}>'.format(self.content)

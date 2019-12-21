@@ -42,7 +42,7 @@ def display_course(request, course):
     aliases = Alias.objects.filter(department__code__iexact=dept, coursenum=num)
     courses = Course.objects.filter(alias__in=aliases)
     time = datetime.datetime.now()
-    notes = Note.objects.filter(Q(history__isnull=True) | Q(history__course__in=courses), Q(start__isnull=True) | Q(start__lt=time), Q(end__isnull=True) | Q(end__gt=time))
+    notes = Note.objects.filter(Q(instructor__isnull=True), Q(history__isnull=True) | Q(history__course__in=courses), Q(start__isnull=True) | Q(start__lt=time), Q(end__isnull=True) | Q(end__gt=time))
     other_aliases = Alias.objects.filter(course__in=courses).values_list('department__code', 'coursenum').distinct()
     course_latest_semester = courses.order_by('-semester').first()
     if course_latest_semester is None:
@@ -76,7 +76,7 @@ def display_course(request, course):
 
     return JsonResponse({
         'code': '{}-{:03d}'.format(dept, int(num)),
-        'notes': list(notes.values_list('content')),
+        'notes': list(notes.values_list('content', flat=True)),
         'aliases': ['{}-{:03d}'.format(x, y) for x, y in other_aliases if not (x == dept and y == int(num))],
         'name': course_latest_semester.name,
         'description': course_latest_semester.description.strip(),
@@ -102,6 +102,8 @@ def display_instructor(request, instructor):
         return JsonResponse({
             'error': 'Could not find instructor matching code "{}".'.format(req_instructor)
         })
+    time = datetime.datetime.now()
+    notes = Note.objects.filter(Q(instructor__isnull=True) | Q(instructor=instructor), Q(history__isnull=True), Q(start__isnull=True) | Q(start__lt=time), Q(end__isnull=True) | Q(end__gt=time))
     sections = Section.objects.filter(instructors=instructor).order_by('course__semester')
     reviews = Review.objects.filter(instructor=instructor)
     course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values('field', 'review__section__course__history').annotate(score=Avg('score'))
@@ -128,6 +130,7 @@ def display_instructor(request, instructor):
     return JsonResponse({
         'id': instructor.id,
         'name': titleize(instructor.name),
+        'notes': list(notes.values_list('content', flat=True)),
         'average_ratings': {key: round(mean([bit['score'] for bit in course_recent_ratings.filter(field=key).values('score')]), 1) for key in rating_keys},
         'recent_ratings': {bit['field']: round(bit['score'], 1) for bit in course_recent_ratings},
         'num_sections': sections.count(),
