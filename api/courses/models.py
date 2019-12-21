@@ -228,7 +228,7 @@ class Note(models.Model):
     content = models.TextField()
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
-    course = models.ForeignKey('CourseHistory', null=True, blank=True, on_delete=models.CASCADE)
+    history = models.ForeignKey('CourseHistory', null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return '<Note: {}>'.format(self.content)

@@ -75,9 +75,9 @@ class NoteAdmin(admin.ModelAdmin):
     list_filter = ('start', 'end')
 
     def course_name(self, obj):
-        if obj.course is None:
+        if obj.history is None:
             return 'All'
-        return ', '.join(sorted(set('{}-{}'.format(x, y) for x, y in obj.course.course_set.values_list('primary_alias__department__code', 'primary_alias__coursenum'))))
+        return ', '.join(sorted(set('{}-{}'.format(x, y) for x, y in obj.history.course_set.values_list('primary_alias__department__code', 'primary_alias__coursenum'))))
 
 
 admin.site.register(Instructor, InstructorAdmin)
