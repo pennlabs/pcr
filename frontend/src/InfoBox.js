@@ -154,6 +154,8 @@ class InfoBox extends Component {
 
                 <p className="subtitle">{this.props.data.name}</p>
 
+                {this.props.data.notes.map((note, i) => <div key={i} className="note"><i className="fa fa-thumbtack"></i> {note}</div>)}
+
                 { this.props.type === "course" && this.props.live_data &&
                     <Tags {...this.props.live_data} data={this.props.data} existing_instructors={Object.values(this.props.data.instructors).map((a) => a.name)} />
                 }
@@ -161,21 +163,22 @@ class InfoBox extends Component {
             }
 
             { pageType === "instructor" &&
-                    <div className="instructor">
+                <div className="instructor">
                     <div className="title">{this.props.data.name}</div>
                     {this.state.contact &&
                         <div>
                         <p className="desc">Email: <a href={"mailto:" + this.state.contact.email}>{this.state.contact.email.toLowerCase()}</a></p>
                         </div>
                     }
-                    </div>
+                    {this.props.data.notes.map((note, i) => <div key={i} className="note"><i className="fa fa-thumbtack"></i> {note}</div>)}
+                </div>
             }
 
             { pageType === "department" &&
-                    <div className="department">
-                    <div className="title">{this.props.data.name}</div>
-                    <p className="subtitle">{this.props.data.code}</p>
-                    </div>
+                <div className="department">
+                <div className="title">{this.props.data.name}</div>
+                <p className="subtitle">{this.props.data.code}</p>
+                </div>
             }
 
             </div>

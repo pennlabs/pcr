@@ -220,6 +220,21 @@ class Department(models.Model):
         return result
 
 
+class Note(models.Model):
+    """
+    A note that is displayed to users when they navigate to a certain
+    course or instructor. Can be temporary or permanant.
+    """
+    content = models.TextField()
+    start = models.DateTimeField(null=True, blank=True)
+    end = models.DateTimeField(null=True, blank=True)
+    history = models.ForeignKey('CourseHistory', null=True, blank=True, on_delete=models.CASCADE)
+    instructor = models.ForeignKey('Instructor', null=True, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '<Note: {}>'.format(self.content)
+
+
 class CourseHistory(models.Model):
     """A course, as it has existed for many semesters. Various courses
        (several Courses each of CIS 160, CIS 260, CSE 260...) will all

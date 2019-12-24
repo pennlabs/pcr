@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
 
-from .models import Course, Instructor, Review, Section
+from .models import Course, Instructor, Note, Review, Section
 
 
 admin.site.unregister(Group)
@@ -70,10 +70,25 @@ class ReviewAdmin(admin.ModelAdmin):
         return obj.section.sectionnum
 
 
+class NoteAdmin(admin.ModelAdmin):
+    list_display = ('page', 'content', 'start', 'end')
+    list_filter = ('start', 'end')
+
+    def page(self, obj):
+        if obj.history is None:
+            if obj.instructor is None:
+                return 'All'
+            return obj.instructor.name.strip()
+        if obj.instructor is not None:
+            return 'None'
+        return ', '.join(sorted(set('{}-{}'.format(x, y) for x, y in obj.history.course_set.values_list('primary_alias__department__code', 'primary_alias__coursenum'))))
+
+
 admin.site.register(Instructor, InstructorAdmin)
 admin.site.register(Course, CourseAdmin)
-admin.site.register(Section, SectionAdmin)
+admin.site.register(Note, NoteAdmin)
 admin.site.register(Review, ReviewAdmin)
+admin.site.register(Section, SectionAdmin)
 
 """
  add urls to some Admin's get_urls(self)
