@@ -61,3 +61,4 @@ autocomplete_data.json/
 
 db.sqlite3
 db.sqlite3-journal
+static/
