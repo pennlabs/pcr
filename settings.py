@@ -142,9 +142,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'apps.pcr_detail',
-    'apps.searchbar',
-    'apps.static',
     'raven.contrib.django.raven_compat',
 
     'api.courses',
