@@ -158,7 +158,7 @@ class SearchBar extends Component {
         let { state: parent } = this;
         return (
             <div id="search" style={{ margin: '0 auto' }}>
-                <AsyncSelect onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
+                <AsyncSelect autoFocus={this.props.isTitle} onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
                     Option: (props) => {
                         const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, data } = props;
                         return (<div ref={innerRef}
