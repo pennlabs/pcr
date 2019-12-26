@@ -35,14 +35,17 @@ class SearchBar extends Component {
     constructor(props) {
         super(props);
 
+        this.selectRef = React.createRef();
+
         this.state = {
-            autocompleteOptions: [],	
+            autocompleteOptions: [],
             searchValue: null
         };
 
         this._autocompleteCallback = [];
         this.autocompleteCallback = this.autocompleteCallback.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.setFocusedOption = this.setFocusedOption.bind(this);
     }
 
     componentDidMount() {
@@ -146,7 +149,16 @@ class SearchBar extends Component {
                 this._autocompleteCallback.push(resolve);
             }
         })
-        .then((res) => this.filterOptionsList(res, inputValue))
+        .then(res => this.filterOptionsList(res, inputValue))
+        .then(res => {
+            this.setFocusedOption();
+            return res;
+        })
+    }
+
+    // Hack to modify the handler to set the first option as the most relevant option
+    setFocusedOption() {
+        this.selectRef.current.select.select.getNextFocusedOption = options => options[0];
     }
 
     // Called when an option is selected in the AsyncSelect component
@@ -158,7 +170,7 @@ class SearchBar extends Component {
         let { state: parent } = this;
         return (
             <div id="search" style={{ margin: '0 auto' }}>
-                <AsyncSelect autoFocus={this.props.isTitle} onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
+                <AsyncSelect ref={this.selectRef} autoFocus={this.props.isTitle} onChange={this.handleChange} value={this.state.searchValue} placeholder={this.props.isTitle ? "Search for a class or professor" : ""} loadOptions={this.autocompleteCallback} defaultOptions components={{
                     Option: (props) => {
                         const { children,  className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, data } = props;
                         return (<div ref={innerRef}
