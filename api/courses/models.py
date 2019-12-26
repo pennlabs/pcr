@@ -444,7 +444,7 @@ class Instructor(models.Model):
         return name.lower().split()
 
     def get_absolute_url(self):
-        return reverse('instructor', args=(self.temp_id,))
+        return reverse('api:instructor', args=(self.temp_id,))
 
     def __str__(self):
         return self.name
