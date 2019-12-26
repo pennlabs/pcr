@@ -319,7 +319,7 @@ def display_live(request, course):
         last_name = name.rsplit(' ', 1)[-1]
         objs = Instructor.objects.filter(first_name__icontains=first_name, last_name__icontains=last_name)
         if objs.count() == 1:
-            instructor_links[name] = objs.first().get_absolute_url()
+            instructor_links[name] = objs.first().temp_id
 
     data = {
         'courses': courses,
