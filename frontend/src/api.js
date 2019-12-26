@@ -10,8 +10,12 @@ export function redirect_for_auth() {
     window.location.href = API_DOMAIN + "/accounts/login/?next=" + encodeURIComponent(window.location.href);
 }
 
+export function get_logout_url() {
+    return API_DOMAIN + "/accounts/logout/?next=" + encodeURIComponent(window.location.origin + "/logout");
+}
+
 export function redirect_for_logout() {
-    window.location.href = API_DOMAIN + "/accounts/logout/?next=" + encodeURIComponent(window.location.origin + "/logout");
+    window.location.href = get_logout_url();
 }
 
 export function api_autocomplete() {
