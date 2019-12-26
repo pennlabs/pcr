@@ -1,6 +1,6 @@
 # Penn Course Review
 
-[![Build Status](https://travis-ci.org/pennlabs/pcr.svg?branch=master)](https://travis-ci.org/pennlabs/pcr)
+[![CircleCI](https://circleci.com/gh/pennlabs/pcr.svg?style=svg)](https://circleci.com/gh/pennlabs/pcr)
 
 The source code for [Penn Course Review](https://penncoursereview.com/).
 
