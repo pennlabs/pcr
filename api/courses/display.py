@@ -112,7 +112,7 @@ def display_instructor(request, instructor):
 
     output = {}
 
-    for dept, num, name, sem, iden in sections.values_list('course__primary_alias__department', 'course__primary_alias__coursenum', 'name', 'course__semester', 'course__history__id'):
+    for dept, num, name, sem, iden in sections.values_list('course__primary_alias__department', 'course__primary_alias__coursenum', 'name', 'course__semester', 'course__history__id').distinct():
         if iden not in output:
             code = '{}-{:03d}'.format(dept, num)
             output[iden] = {
@@ -120,8 +120,11 @@ def display_instructor(request, instructor):
                 'name': titleize(name),
                 'average_reviews': {},
                 'recent_reviews': {},
+                'num_semesters': 1,
                 'latest_semester': str(sem) 
             }
+        else:
+            output[iden]['num_semesters'] += 1
 
     for rating in course_average_ratings:
         output[rating['review__section__course__history']]['average_reviews'][rating['field']] = round(rating['score'], 2)
