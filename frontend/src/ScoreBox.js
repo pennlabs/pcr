@@ -81,14 +81,14 @@ class ScoreBox extends Component {
 
             if (live_data) {
                 const instructors_this_semester = {};
-                (live_data.instructors || []).forEach((a) => {
+                (live_data.instructors || []).forEach(a => {
                     const data = {
                         open: 0,
                         all: 0,
                         sections: []
                     };
                     const key = convertInstructorName(a);
-                    Object.values(live_data.courses).forEach((cat) => {
+                    Object.values(live_data.courses).forEach(cat => {
                         const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
                         data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
                         data.all += all_courses_by_instructor.length;
