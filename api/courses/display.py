@@ -121,7 +121,7 @@ def display_instructor(request, instructor):
                 'average_reviews': {},
                 'recent_reviews': {},
                 'num_semesters': 1,
-                'latest_semester': str(sem) 
+                'latest_semester': str(sem)
             }
         else:
             output[iden]['num_semesters'] += 1
