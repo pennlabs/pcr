@@ -6,7 +6,8 @@ import { api_history } from './api';
 import { getColumnName, orderColumns } from './ScoreBox';
 
 
-function compareSemesters(a, b) {
+// TODO: Move functions like compareSemesters and getColumnName in ScoreBox into a utils file
+export function compareSemesters(a, b) {
     const ay = parseInt(a.split(' ')[1]);
     const by = parseInt(b.split(' ')[1]);
     const as = a.split(' ')[0];

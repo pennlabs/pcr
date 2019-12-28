@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import ScoreTable from './ScoreTable';
 import ColumnSelector from './ColumnSelector';
+import { compareSemesters } from './DetailsBox';
 import { convertInstructorName, CourseLine } from './Tags';
 import { PopoverTitle } from './Popover';
 
@@ -13,6 +14,7 @@ export function getColumnName(key) {
     return key.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec.");
 }
 
+const capitalize = (str) => str.replace(/(?:^|\s)\S/g, e => e.toUpperCase());
 
 export function orderColumns(cols) {
     const colSet = new Set(cols);
@@ -72,7 +74,7 @@ class ScoreBox extends Component {
                 const key = convertInstructorName(a.name);
                 if (a.most_recent_semester) {
                     const parts = a.most_recent_semester.split(" ");
-                    instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
+                    instructor_taught[key] = parseInt(parts[1]) * 3 + { 'Spring': 0, 'Summer': 1, 'Fall': 2 }[parts[0]];
                 }
                 else {
                     instructor_taught[key] = 0;
@@ -100,13 +102,13 @@ class ScoreBox extends Component {
 
                 this.setState((state) => ({
                     currentInstructors: instructor_taught,
-                    data: state.data.map((a) => ({...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
+                    data: state.data.map((a) => ({ ...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
                 }));
             }
             else {
                 this.setState((state) => ({
                     currentInstructors: instructor_taught,
-                    data: state.data.map((a) => ({...a, star: null}))
+                    data: state.data.map((a) => ({ ...a, star: null }))
                 }));
             }
         }
@@ -140,14 +142,22 @@ class ScoreBox extends Component {
         const is_course = type === "course";
         const is_instructor = type === "instructor";
         const info_map = is_course ? results.instructors : results.courses;
-        const data = Object.keys(info_map).map((key) => {
+
+        const EXTRA_KEYS = ['latest_semester', 'num_semesters'];
+        const SEM_SORT_KEY = 'latest_semester';
+
+        const data = Object.keys(info_map).map(key => {
             const val = is_course ? results.instructors[key] : results.courses[key];
             const output = {};
-            Object.keys(val.average_reviews).forEach((col) => {
+            Object.keys(val.average_reviews).forEach(col => {
                 output[col] = {
                     average: val.average_reviews[col].toFixed(2),
                     recent: val.recent_reviews[col].toFixed(2)
                 };
+                columns[col] = true;
+            });
+            if (!is_course) EXTRA_KEYS.map(col => {
+                output[col] = val[col];
                 columns[col] = true;
             });
             output.key = is_course ? key : val.code;
@@ -156,6 +166,7 @@ class ScoreBox extends Component {
             output.code = val.code;
             return output;
         });
+
         const cols = orderColumns(Object.keys(columns)).map(key => {
             var header = getColumnName(key);
             return {
@@ -205,6 +216,34 @@ class ScoreBox extends Component {
                 show: true
             };
         });
+
+        if (!is_course) EXTRA_KEYS.forEach(colName => cols.push({
+            id: colName,
+            Header: capitalize(colName.replace("_", " ")),
+            accessor: colName,
+            sortMethod: SEM_SORT_KEY === colName ? compareSemesters : (a, b) => a > b ? 1 : -1,
+            Cell: props => {
+                const classes = [];
+                const value = props.value ? props.value : "N/A";
+
+                if (!props.value) {
+                    classes.push('empty');
+                }
+
+                if (this.state.isAverage) {
+                    classes.push('cell_average');
+                }
+                else {
+                    classes.push('cell_recent');
+                }
+                return <center>
+                    <span className={classes.join(' ')}>{value}</span>
+                </center>;
+            },
+            width: 140,
+            show: true
+        }));
+
         cols.unshift({
             id: "name",
             Header: is_course ? "Instructor" : "Course",
@@ -213,7 +252,7 @@ class ScoreBox extends Component {
             show: true,
             required: true,
             Cell: props => <span>
-                {is_course && <Link to={"/instructor/" + props.original.key} title={"Go to " + props.value} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></Link>}
+                {is_course && <Link to={"/instructor/" + props.original.key} title={"Go to " + props.value} className="mr-1" style={{ color: 'rgb(102, 146, 161)' }}><i className="instructor-link far fa-user"></i></Link>}
                 {props.value}
                 {props.original.star && <PopoverTitle title={
                     <span>
@@ -267,7 +306,7 @@ class ScoreBox extends Component {
             });
         }
         this.setState({ data, columns: cols });
-        
+
         if (live_data) {
             this.updateLiveData();
         }
@@ -289,10 +328,10 @@ class ScoreBox extends Component {
                     </div>
                     <ColumnSelector name="score" columns={this.state.columns} onSelect={columns => this.setState({ columns })} />
                     <div className="float-right">
-                        <label className="table-search"><input value={this.state.filterAll} onChange={val => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label>
+                        <label className="table-search"><input value={this.state.filterAll} onChange={val => this.setState({ filtered: [{ id: "name", value: val.target.value }], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label>
                     </div>
                 </div>
-                <ScoreTable multi={this.props.type === "department"} sorted={[{id: is_course ? 'name' : 'code', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.onSelect} noun={is_course ? "instructor" : "course"} />
+                <ScoreTable multi={this.props.type === "department"} sorted={[{ id: is_course ? 'name' : 'code', desc: false }]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.onSelect} noun={is_course ? "instructor" : "course"} />
             </div>
         );
     }
