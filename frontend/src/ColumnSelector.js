@@ -18,7 +18,16 @@ class ColumnSelector extends Component {
             defaultColumns = JSON.parse(defaultColumns);
         }
         else {
-            defaultColumns = {rInstructorQuality: true, rCourseQuality: true, rDifficulty: true, rAmountLearned: true};
+            defaultColumns = {
+                ...(props.type === "instructor" && {
+                    latest_semester: true,
+                    num_semesters: true,
+                }),
+                rInstructorQuality: true,
+                rCourseQuality: true,
+                rDifficulty: true,
+                rAmountLearned: true
+            };
         }
         this.defaultColumns = defaultColumns;
         this.changeColumns(this.props.columns.map((a) => ({...a, show: a.required || !!defaultColumns[a.id]})));
