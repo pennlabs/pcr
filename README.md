@@ -1,6 +1,6 @@
 # Penn Course Review
 
-[![Build Status](https://travis-ci.org/pennlabs/pcr.svg?branch=master)](https://travis-ci.org/pennlabs/pcr)
+[![CircleCI](https://circleci.com/gh/pennlabs/pcr.svg?style=svg)](https://circleci.com/gh/pennlabs/pcr)
 
 The source code for [Penn Course Review](https://penncoursereview.com/).
 
@@ -15,24 +15,23 @@ Pennsylvania.
 To set up your development environment:
 
 ```bash
-virtualenv --python=python3 venv
-source venv/bin/activate
-pip install -r requirements.txt
+pipenv install --dev
 
 cd frontend
 npm install
 ```
 
-To run the API server:
-
-Ensure that the `DATABASE_URL` environment variable is set to the correct value.
+To run the API server, obtain the `fixtures.json` file from a club member and run:
 
 ```bash
-source venv/bin/activate
+pipenv shell
+./manage.py migrate
+./manage.py loaddata fixtures.json
+./manage.py maketoken
 ./manage.py runserver
 ```
 
-To run the frontend, run:
+To run the frontend, run the following command in a separate terminal:
 ```bash
 cd frontend
 npm start

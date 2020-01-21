@@ -13,7 +13,7 @@ import { api_review_data, api_live, api_live_instructor } from './api';
 /**
  * Enable or disable the Penn Labs recruitment banner.
  */
-const SHOW_RECRUITMENT_BANNER = false;
+const SHOW_RECRUITMENT_BANNER = true;
 
 
 /**
@@ -147,7 +147,7 @@ class ReviewPage extends Component {
                     {this.state.showBanner && <div id="banner">
                         <span role="img" aria-label="Party Popper Emoji">🎉</span>{' '}
                         <b>Want to build impactful products like Penn Course Review?</b>{' '}
-                        Join Penn Labs this fall! Apply <a href="https://pennlabs.org/apply" target="_blank" rel="noopener noreferrer">here</a>!{' '}
+                        Join Penn Labs this spring! Apply <a href="https://pennlabs.org/apply" target="_blank" rel="noopener noreferrer">here</a>!{' '}
                         <span role="img" aria-label="Party Popper Emoji">🎉</span>
                         <span className="close" onClick={(e) => {
                             this.setState({ showBanner: false });
