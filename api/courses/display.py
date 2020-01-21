@@ -104,7 +104,7 @@ def display_instructor(request, instructor):
         })
     time = datetime.datetime.now()
     notes = Note.objects.filter(Q(instructor__isnull=True) | Q(instructor=instructor), Q(history__isnull=True), Q(start__isnull=True) | Q(start__lt=time), Q(end__isnull=True) | Q(end__gt=time))
-    sections = Section.objects.filter(instructors=instructor).order_by('course__semester')
+    sections = Section.objects.filter(instructors=instructor).order_by('-course__semester')
     reviews = Review.objects.filter(instructor=instructor)
     course_average_ratings = ReviewBit.objects.filter(review__in=reviews).values('field', 'review__section__course__history').annotate(score=Avg('score'))
     course_recent_ratings = ReviewBit.objects.filter(review__in=reviews).values('field', 'review__section__course__history', 'review__section__course__semester').annotate(score=Avg('score')).order_by('review__section__course__semester')
@@ -112,14 +112,19 @@ def display_instructor(request, instructor):
 
     output = {}
 
-    for dept, num, name, iden in sections.values_list('course__primary_alias__department', 'course__primary_alias__coursenum', 'name', 'course__history__id').distinct():
-        code = '{}-{:03d}'.format(dept, num)
-        output[iden] = {
-            'code': code,
-            'name': titleize(name),
-            'average_reviews': {},
-            'recent_reviews': {}
-        }
+    for dept, num, name, sem, iden in sections.values_list('course__primary_alias__department', 'course__primary_alias__coursenum', 'name', 'course__semester', 'course__history__id').distinct():
+        if iden not in output:
+            code = '{}-{:03d}'.format(dept, num)
+            output[iden] = {
+                'code': code,
+                'name': titleize(name),
+                'average_reviews': {},
+                'recent_reviews': {},
+                'num_semesters': 1,
+                'latest_semester': str(sem)
+            }
+        else:
+            output[iden]['num_semesters'] += 1
 
     for rating in course_average_ratings:
         output[rating['review__section__course__history']]['average_reviews'][rating['field']] = round(rating['score'], 2)

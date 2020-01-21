@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import ScoreTable from './ScoreTable';
 import ColumnSelector from './ColumnSelector';
+import { compareSemesters } from './DetailsBox';
 import { convertInstructorName, CourseLine } from './Tags';
 import { PopoverTitle } from './Popover';
-
 
 import 'react-table/react-table.css';
 
@@ -14,10 +14,11 @@ export function getColumnName(key) {
     return key.substring(1).split(/(?=[A-Z])/).join(" ").replace("T A", "TA").replace(/Recommend/g, "Rec.");
 }
 
+const capitalize = (str) => str.replace(/(?:^|\s)\S/g, e => e.toUpperCase());
 
 export function orderColumns(cols) {
     const colSet = new Set(cols);
-    const fixedCols = ["rCourseQuality", "rInstructorQuality", "rDifficulty", "rAmountLearned"].filter((a) => colSet.has(a));
+    const fixedCols = ["latest_semester", "num_semesters", "rCourseQuality", "rInstructorQuality", "rDifficulty", "rAmountLearned"].filter((a) => colSet.has(a));
     const fixedColsSet = new Set(fixedCols);
     return fixedCols.concat(cols.filter((a) => !fixedColsSet.has(a)).sort());
 }
@@ -55,45 +56,41 @@ class ScoreBox extends Component {
     handleClick(val) {
         return () => {
             localStorage.setItem("meta-column-type", val ? "average" : "recent");
-            this.setState(state => ({
-                isAverage: val
-            }));
+            this.setState({ isAverage: val });
             this.refs.table.resort();
         };
     }
 
-    onSelect(val) {
-        this.setState((state) => ({
-            selected: val
-        }));
-        return this.props.onSelect(val);
+    onSelect(selected) {
+        this.setState({ selected });
+        return this.props.onSelect(selected);
     }
 
     updateLiveData() {
         const instructor_taught = {};
-
-        if (this.props.type === "course") {
-            Object.values(this.props.data.instructors).forEach((a) => {
+        const { data, live_data, type } = this.props;
+        if (type === "course") {
+            Object.values(data.instructors).forEach((a) => {
                 const key = convertInstructorName(a.name);
                 if (a.most_recent_semester) {
                     const parts = a.most_recent_semester.split(" ");
-                    instructor_taught[key] = parseInt(parts[1]) * 3 + {'Spring': 0, 'Summer': 1, 'Fall': 2}[parts[0]];
+                    instructor_taught[key] = parseInt(parts[1]) * 3 + { 'Spring': 0, 'Summer': 1, 'Fall': 2 }[parts[0]];
                 }
                 else {
                     instructor_taught[key] = 0;
                 }
             });
 
-            if (this.props.live_data) {
+            if (live_data) {
                 const instructors_this_semester = {};
-                (this.props.live_data.instructors || []).forEach((a) => {
+                (live_data.instructors || []).forEach(a => {
                     const data = {
                         open: 0,
                         all: 0,
                         sections: []
                     };
                     const key = convertInstructorName(a);
-                    Object.values(this.props.live_data.courses).forEach((cat) => {
+                    Object.values(live_data.courses).forEach(cat => {
                         const all_courses_by_instructor = cat.filter((a) => a.instructors.map((b) => convertInstructorName(b.name)).indexOf(key) !== -1).filter((a) => !a.is_cancelled);
                         data.open += all_courses_by_instructor.filter((a) => !a.is_closed).length;
                         data.all += all_courses_by_instructor.length;
@@ -105,20 +102,20 @@ class ScoreBox extends Component {
 
                 this.setState((state) => ({
                     currentInstructors: instructor_taught,
-                    data: state.data.map((a) => ({...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
+                    data: state.data.map((a) => ({ ...a, star: instructors_this_semester[convertInstructorName(a.name)] }))
                 }));
             }
             else {
                 this.setState((state) => ({
                     currentInstructors: instructor_taught,
-                    data: state.data.map((a) => ({...a, star: null}))
+                    data: state.data.map((a) => ({ ...a, star: null }))
                 }));
             }
         }
-        else if (this.props.type === "instructor") {
-            if (this.props.live_data) {
+        else if (type === "instructor") {
+            if (live_data) {
                 const courses = {};
-                Object.values(this.props.live_data.courses).forEach((a) => {
+                Object.values(live_data.courses).forEach((a) => {
                     const key = a.course_department + "-" + a.course_number;
                     if (!(key in courses)) {
                         courses[key] = [];
@@ -139,20 +136,28 @@ class ScoreBox extends Component {
     }
 
     componentDidMount() {
-        const results = this.props.data;
+        const { data: results, live_data, type } = this.props;
 
         const columns = {};
-        const is_course = this.props.type === "course";
-        const is_instructor = this.props.type === "instructor";
+        const is_course = type === "course";
+        const is_instructor = type === "instructor";
         const info_map = is_course ? results.instructors : results.courses;
-        const data = Object.keys(info_map).map((key) => {
+
+        const EXTRA_KEYS = ['latest_semester', 'num_semesters'];
+        const SEM_SORT_KEY = 'latest_semester';
+
+        const data = Object.keys(info_map).map(key => {
             const val = is_course ? results.instructors[key] : results.courses[key];
             const output = {};
-            Object.keys(val.average_reviews).forEach((col) => {
+            Object.keys(val.average_reviews).forEach(col => {
                 output[col] = {
                     average: val.average_reviews[col].toFixed(2),
                     recent: val.recent_reviews[col].toFixed(2)
                 };
+                columns[col] = true;
+            });
+            if (is_instructor) EXTRA_KEYS.forEach(col => {
+                output[col] = val[col];
                 columns[col] = true;
             });
             output.key = is_course ? key : val.code;
@@ -161,55 +166,90 @@ class ScoreBox extends Component {
             output.code = val.code;
             return output;
         });
-        const cols = orderColumns(Object.keys(columns)).map((key) => {
-            var header = getColumnName(key);
-            return {
-                id: key,
-                Header: header,
-                accessor: key,
-                sortMethod: (a, b) => {
-                    if (a && b) {
-                        a = this.state.isAverage ? a.average : a.recent;
-                        b = this.state.isAverage ? b.average : b.recent;
-                        return a > b ? 1 : -1;
-                    }
-                    return a ? 1 : -1;
-                },
-                Cell: props => {
-                    const classes = [];
-                    const value = props.value ? (this.state.isAverage ? props.value.average : props.value.recent) : "N/A";
 
-                    if (!props.value) {
-                        classes.push('empty');
-                    }
+        const cols = []
 
-                    if (this.state.isAverage) {
-                        classes.push('cell_average');
-                    }
-                    else {
-                        classes.push('cell_recent');
-                    }
+        if (is_instructor) EXTRA_KEYS.forEach(colName => cols.push({
+            id: colName,
+            Header: capitalize(colName.replace("_", " ")),
+            accessor: colName,
+            sortMethod: SEM_SORT_KEY === colName ? compareSemesters : (a, b) => a > b ? 1 : -1,
+            Cell: props => {
+                const classes = [];
+                const value = props.value ? props.value : "N/A";
 
-                    if (ENABLE_RELATIVE_COLORS && this.state.selected in info_map && props.original.key !== this.state.selected) {
-                        const other_value = info_map[this.state.selected][this.state.isAverage ? "average_reviews" : "recent_reviews"][props.column.id];
-                        if (Math.abs(value - other_value) > 0.01) {
-                            if (value > other_value) {
-                                classes.push('lower');
-                            }
-                            else {
-                                classes.push('higher');
+                if (!props.value) {
+                    classes.push('empty');
+                }
+
+                if (this.state.isAverage) {
+                    classes.push('cell_average');
+                }
+                else {
+                    classes.push('cell_recent');
+                }
+                return <center>
+                    <span className={classes.join(' ')}>{value}</span>
+                </center>;
+            },
+            width: 140,
+            show: true
+        }));
+
+        orderColumns(Object.keys(columns))
+            // Remove columns that don't start with r, as they are not RatingBit values and
+            // shouldn't be generated by this logic
+            .filter(key => key && key.charAt(0) === 'r')
+            .forEach(key => {
+                let header = getColumnName(key);
+                cols.push({
+                    id: key,
+                    Header: header,
+                    accessor: key,
+                    sortMethod: (a, b) => {
+                        if (a && b) {
+                            a = this.state.isAverage ? a.average : a.recent;
+                            b = this.state.isAverage ? b.average : b.recent;
+                            return a > b ? 1 : -1;
+                        }
+                        return a ? 1 : -1;
+                    },
+                    Cell: props => {
+                        const classes = [];
+                        const value = props.value ? (this.state.isAverage ? props.value.average : props.value.recent) : "N/A";
+
+                        if (!props.value) {
+                            classes.push('empty');
+                        }
+
+                        if (this.state.isAverage) {
+                            classes.push('cell_average');
+                        }
+                        else {
+                            classes.push('cell_recent');
+                        }
+
+                        if (ENABLE_RELATIVE_COLORS && this.state.selected in info_map && props.original.key !== this.state.selected) {
+                            const other_value = info_map[this.state.selected][this.state.isAverage ? "average_reviews" : "recent_reviews"][props.column.id];
+                            if (Math.abs(value - other_value) > 0.01) {
+                                if (value > other_value) {
+                                    classes.push('lower');
+                                }
+                                else {
+                                    classes.push('higher');
+                                }
                             }
                         }
-                    }
 
-                    return <center>
-                        <span className={classes.join(' ')}>{value}</span>
-                    </center>;
-                },
-                width: 140,
-                show: true
-            };
-        });
+                        return <center>
+                            <span className={classes.join(' ')}>{value}</span>
+                        </center>;
+                    },
+                    width: 140,
+                    show: true
+                });
+            })
+
         cols.unshift({
             id: "name",
             Header: is_course ? "Instructor" : "Course",
@@ -218,11 +258,11 @@ class ScoreBox extends Component {
             show: true,
             required: true,
             Cell: props => <span>
-                {is_course && <Link to={"/instructor/" + props.original.key} title={"Go to " + props.value} className="mr-1" style={{color: 'rgb(102, 146, 161)'}}><i className="instructor-link far fa-user"></i></Link>}
+                {is_course && <Link to={"/instructor/" + props.original.key} title={"Go to " + props.value} className="mr-1" style={{ color: 'rgb(102, 146, 161)' }}><i className="instructor-link far fa-user"></i></Link>}
                 {props.value}
                 {props.original.star && <PopoverTitle title={
                     <span>
-                        <b>{props.value}</b> is teaching during <b>{this.props.live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.
+                        <b>{props.value}</b> is teaching during <b>{live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.
                         <ul>
                             {props.original.star.sections.sort((x, y) => x.section_id_normalized.localeCompare(y.section_id_normalized)).map((a, i) => <CourseLine key={i} data={a} />)}
                         </ul>
@@ -230,7 +270,7 @@ class ScoreBox extends Component {
                 }><i className={'fa-star ml-1 ' + (props.original.star.open ? 'fa' : 'far')}></i></PopoverTitle>}
                 {is_instructor && !!this.state.currentCourses[props.original.code] && <PopoverTitle title={
                     <span>
-                        <b>{this.props.data.name}</b> will teach <b>{props.original.code.replace('-', ' ')}</b> in <b>{this.state.currentCourses[props.original.code][0].term_normalized}</b>.
+                        <b>{results.name}</b> will teach <b>{props.original.code.replace('-', ' ')}</b> in <b>{this.state.currentCourses[props.original.code][0].term_normalized}</b>.
                         <ul>
                             {this.state.currentCourses[props.original.code].map((a, i) => <CourseLine key={i} data={a} />)}
                         </ul>
@@ -271,36 +311,66 @@ class ScoreBox extends Component {
                 Cell: props => <center><Link to={"/course/" + props.value} title={"Go to " + props.value}>{props.value}</Link></center>
             });
         }
-        this.setState(state => ({
-            data: data,
-            columns: cols
-        }));
+        this.setState({ data, columns: cols });
 
-        if (this.props.live_data) {
+        if (live_data) {
             this.updateLiveData();
         }
     }
 
     render() {
-        if (!this.state.data) {
+        const { data, columns, filterAll, filtered } = this.state;
+        const { type } = this.props;
+        const is_course = type === "course";
+
+        if (!data) {
             return <h1>Loading Data...</h1>;
         }
-
-        const is_course = this.props.type === "course";
 
         return (
             <div className="box">
                 <div className="clearfix">
                     <div className="btn-group">
-                        <button onClick={this.handleClick(true)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}>Average</button>
-                        <button onClick={this.handleClick(false)} className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}>Most Recent</button>
+                        <button
+                            onClick={this.handleClick(true)}
+                            className={"btn btn-sm " + (this.state.isAverage ? 'btn-primary' : 'btn-secondary')}
+                        >
+                            Average
+                        </button>
+                        <button
+                            onClick={this.handleClick(false)}
+                            className={"btn btn-sm " + (this.state.isAverage ? 'btn-secondary' : 'btn-primary')}
+                        >
+                            Most Recent
+                        </button>
                     </div>
-                    <ColumnSelector name="score" columns={this.state.columns} onSelect={(cols) => this.setState({ columns: cols })} />
+                    <ColumnSelector
+                        name="score"
+                        type={type}
+                        columns={columns}
+                        onSelect={columns => this.setState({ columns })}
+                    />
                     <div className="float-right">
-                        <label className="table-search"><input value={this.state.filterAll} onChange={(val) => this.setState({ filtered: [{id: "name", value: val.target.value}], filterAll: val.target.value })} type="search" className="form-control form-control-sm" /></label>
+                        <label className="table-search">
+                            <input
+                                value={filterAll}
+                                onChange={val => this.setState({ filtered: [{ id: "name", value: val.target.value }], filterAll: val.target.value })}
+                                type="search"
+                                className="form-control form-control-sm"
+                            />
+                        </label>
                     </div>
                 </div>
-                <ScoreTable multi={this.props.type === "department"} sorted={[{id: is_course ? 'name' : 'code', desc: false}]} ref="table" filtered={this.state.filtered} data={this.state.data} columns={this.state.columns} onSelect={this.onSelect} noun={is_course ? "instructor" : "course"} />
+                <ScoreTable
+                    multi={type === "department"}
+                    sorted={[{ id: is_course ? 'name' : 'code', desc: false }]}
+                    ref="table"
+                    filtered={filtered}
+                    data={data}
+                    columns={columns}
+                    onSelect={this.onSelect}
+                    noun={is_course ? "instructor" : "course"}
+                />
             </div>
         );
     }

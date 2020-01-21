@@ -73,8 +73,9 @@ class ReviewPage extends Component {
     }
 
     getReviewData() {
-        if (this.state.type && this.state.code) {
-            api_review_data(this.state.type, this.state.code).then((result) => {
+        const { type, code } = this.state;
+        if (type && code) {
+            api_review_data(type, code).then(result => {
                 if (result.error) {
                     this.setState({
                         error: result.error,
@@ -86,8 +87,8 @@ class ReviewPage extends Component {
                         data: result
                     });
                     if (this.state.type === "instructor") {
-                        api_live_instructor(result.name.replace(/[^A-Za-z0-9 ]/g, '')).then((data) => {
-                            this.setState((state) => ({ live_data: state.data.name === result.name ? data : null }));
+                        api_live_instructor(result.name.replace(/[^A-Za-z0-9 ]/g, '')).then(data => {
+                            this.setState(state => ({ live_data: state.data.name === result.name ? data : null }));
                         });
                     }
                 }
@@ -98,8 +99,8 @@ class ReviewPage extends Component {
             });
         }
 
-        if (this.state.type === "course") {
-            api_live(this.state.code).then((result) => {
+        if (type === "course") {
+            api_live(code).then(result => {
                 this.setState({ live_data: result });
             }).catch(() => {
                 this.setState({ live_data: null });

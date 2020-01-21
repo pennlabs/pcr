@@ -35,10 +35,10 @@ class ScoreTable extends Component {
     render() {
         return (<div>
             <ReactTable className="mb-2" {...this.props} showPagination={false} resizable={false} style={{ maxHeight: 400 }} getTrProps={
-                (state, rowInfo) => {
+                (_, rowInfo) => {
                     if (rowInfo && rowInfo.row) {
                         return {
-                            onClick: (e) => {
+                            onClick: () => {
                                 this.setState((state) => {
                                     const noRow = this.props.multi ? rowInfo.index in state.selected : rowInfo.index === state.selected;
                                     if (this.props.multi) {
