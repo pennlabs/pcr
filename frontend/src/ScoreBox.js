@@ -260,7 +260,7 @@ class ScoreBox extends Component {
             Cell: props => <span>
                 {is_course && <Link to={"/instructor/" + props.original.key} title={"Go to " + props.value} className="mr-1" style={{ color: 'rgb(102, 146, 161)' }}><i className="instructor-link far fa-user"></i></Link>}
                 {props.value}
-                {props.original.star && <PopoverTitle title={
+                {props.original.star && live_data && <PopoverTitle title={
                     <span>
                         <b>{props.value}</b> is teaching during <b>{live_data.term}</b> and <b>{props.original.star.open}</b> out of <b>{props.original.star.all}</b> section(s) are open.
                         <ul>
