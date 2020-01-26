@@ -44,7 +44,7 @@ class AuthPage extends Component {
         if (this.state.authFailed) {
             return <div>
                 <NavBar />
-                <ErrorBox>Could not perform Shibboleth authentication.<br />Refresh this page to try again.</ErrorBox>
+                <ErrorBox>Could not perform Platform authentication.<br />Refresh this page to try again.</ErrorBox>
                 <Footer />
             </div>;
         }
