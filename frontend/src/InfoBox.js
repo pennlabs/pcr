@@ -6,7 +6,7 @@ import reactStringReplace from 'react-string-replace'
 import Tags from './Tags'
 import ScoreboxRow from './ScoreboxRow'
 import Popover from './Popover'
-import { api_contact } from './api'
+import { apiContact } from './api'
 
 /**
  * Information box on the left most side, containing scores and descriptions
@@ -31,7 +31,7 @@ class InfoBox extends Component {
   componentDidMount() {
     const { type, data } = this.props
     if (type === 'instructor') {
-      api_contact(data.name).then((res) => this.setState({ contact: res }))
+      apiContact(data.name).then((res) => this.setState({ contact: res }))
     }
   }
 

@@ -4,7 +4,7 @@ import { components } from 'react-select'
 import { css } from 'emotion'
 import { withRouter } from 'react-router-dom'
 import fuzzysort from 'fuzzysort'
-import { api_autocomplete } from './api'
+import { apiAutocomplete } from './api'
 
 // Takes in a course (ex: CIS 160) and returns various formats (ex: CIS-160, CIS 160, CIS160).
 function expandCombo(course) {
@@ -46,7 +46,7 @@ class SearchBar extends Component {
   }
 
   componentDidMount() {
-    api_autocomplete().then((result) => {
+    apiAutocomplete().then((result) => {
       const courses = result.courses.map((i) => ({
         ...i, value: i.url, label: i.title, group: i.category, category: 'Courses',
       }))
