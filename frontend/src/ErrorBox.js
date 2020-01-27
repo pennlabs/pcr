@@ -1,5 +1,3 @@
-import React from 'react'
-
 /**
  * A component that appears if an error occurs in the page.
  */

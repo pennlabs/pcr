@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Bar } from 'react-chartjs-2'
 import reactStringReplace from 'react-string-replace'
