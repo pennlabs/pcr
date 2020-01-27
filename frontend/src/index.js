@@ -1,7 +1,6 @@
 import 'react-app-polyfill/ie11'
 import 'react-app-polyfill/stable'
 
-import React from 'react'
 import ReactDOM from 'react-dom'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 import ReviewPage from './ReviewPage'
