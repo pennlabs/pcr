@@ -29,6 +29,7 @@ class ColumnSelector extends Component {
     }
     this.defaultColumns = defaultColumns
 
+    this.handleToggleGenerator = this.handleToggleGenerator.bind(this)
     this.setAllColumns = this.setAllColumns.bind(this)
     this.changeColumns = this.changeColumns.bind(this)
 
@@ -46,7 +47,7 @@ class ColumnSelector extends Component {
     onSelect(cols)
   }
 
-  handleToggle(i) {
+  handleToggleGenerator(i) {
     return () => {
       const columnsCopy = Array.from(this.props.columns)
       columnsCopy[i] = { ...columnsCopy[i], show: !columnsCopy[i].show }
@@ -74,7 +75,7 @@ class ColumnSelector extends Component {
             return false
           }
           x += 1
-          return <span key={i} onClick={this.handleToggle(i)} style={{ width: 150, textAlign: 'center' }} className={`btn mt-2 btn-sm ${x % 2 === 1 ? 'mr-2 ' : ''}${this.props.buttonStyle || 'btn'}${item.show ? '-primary' : '-secondary'}`}>{item.Header}</span>
+          return <span key={i} onClick={this.handleToggleGenerator(i)} style={{ width: 150, textAlign: 'center' }} className={`btn mt-2 btn-sm ${x % 2 === 1 ? 'mr-2 ' : ''}${this.props.buttonStyle || 'btn'}${item.show ? '-primary' : '-secondary'}`}>{item.Header}</span>
         })}
       </Popover>
     )
