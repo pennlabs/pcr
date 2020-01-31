@@ -44,7 +44,7 @@ class DetailsBox extends Component {
       if (this.props.instructor !== null && this.props.course !== null) {
         apiHistory(this.props.course, this.props.instructor).then((res) => {
           const list = [...new Set(Object.values(res.sections).filter((a) => a.comments).sort((a, b) => compareSemesters(a.semester, b.semester)).map((a) => a.semester))]
-          this.setState((state) => ({
+          this.setState(state => ({
             data: res,
             columns: [
               {

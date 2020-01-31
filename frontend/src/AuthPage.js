@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import Cookies from 'js-cookie'
 
 import NavBar from './NavBar'
