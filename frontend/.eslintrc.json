@@ -31,6 +31,7 @@
     "no-unused-vars": ["warn"],
     "camelcase": 0,
     "react/jsx-uses-vars": [2],
+    "react/prop-types": 0,
     "no-console": ["warn"]
   }
 }
