@@ -40,9 +40,10 @@ class ColumnSelector extends Component {
       map[obj.id] = obj.show
       return map
     }, {})
+    const { name, onSelect } = this.props
     this.defaultColumns = Object.assign(this.defaultColumns, newColumns)
-    localStorage.setItem(`meta-${this.props.name}`, JSON.stringify(this.defaultColumns))
-    this.props.onSelect(cols)
+    localStorage.setItem(`meta-${name}`, JSON.stringify(this.defaultColumns))
+    onSelect(cols)
   }
 
   handleToggle(i) {
