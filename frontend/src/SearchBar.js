@@ -85,7 +85,6 @@ class SearchBar extends Component {
         this._autocompleteCallback = []
       })
     }).catch((e) => {
-      console.error(e)
       window.Raven.captureException(e)
       this.setState({
         autocompleteOptions: [],
@@ -126,9 +125,7 @@ class SearchBar extends Component {
         label: 'Instructors',
         options: fuzzysort.go(inputValue, autocompleteOptions[2].options, { keys: ['title', 'search_desc'], threshold: -200, limit: 25 }).map((a) => a.obj),
       },
-    ]).catch((e) => {
-      console.error(e)
-    })
+    ])
   }
 
   // Called each time the input value inside the searchbar changes

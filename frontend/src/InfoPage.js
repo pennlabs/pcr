@@ -42,7 +42,9 @@ class InfoPage extends Component {
         }
         const typeDict = {}
         if (typeof out.info !== 'undefined') {
-          out.info.forEach((v) => typeDict[v.category] = v)
+          out.info.forEach((v) => {
+            typeDict[v.category] = v
+          })
           out.info = typeDict
         }
         out.course = k
@@ -54,9 +56,9 @@ class InfoPage extends Component {
       courses,
       boxValues: boxLabels.map((type) => {
         const scoreList = courses
-          .filter((a) => typeof a !== undefined && excludedCourses.indexOf(a.course) === -1)
-          .map((a) => ((a.info || { type: null })[type] || { average: null, recent: null })[isAverage ? 'average' : 'recent'])
-          .filter((a) => a !== null && !isNaN(a)).map((a) => parseFloat(a))
+          .filter(a => typeof a !== 'undefined' && excludedCourses.indexOf(a.course) === -1)
+          .map(a => ((a.info || { type: null })[type] || { average: null, recent: null })[isAverage ? 'average' : 'recent'])
+          .filter(a => a !== null && !isNaN(a)).map((a) => parseFloat(a))
         return scoreList.length ? (scoreList.reduce((a, b) => a + b) / scoreList.length).toFixed(1) : 'N/A'
       }),
     }))
