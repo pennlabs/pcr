@@ -52,7 +52,7 @@ class ScoreBox extends Component {
 
     this.handleClick = this.handleClick.bind(this)
     this.updateLiveData = this.updateLiveData.bind(this)
-    this.onSelect = this.onSelect.bind(this)
+    this.handleSelect = this.handleSelect.bind(this)
   }
 
   handleClick(val) {
@@ -63,7 +63,7 @@ class ScoreBox extends Component {
     }
   }
 
-  onSelect(selected) {
+  handleSelect(selected) {
     this.setState({ selected })
     return this.props.onSelect(selected)
   }
@@ -404,7 +404,7 @@ class ScoreBox extends Component {
           filtered={filtered}
           data={data}
           columns={columns}
-          onSelect={this.onSelect}
+          onSelect={this.handleSelect}
           noun={is_course ? 'instructor' : 'course'}
         />
       </div>

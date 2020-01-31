@@ -23,8 +23,8 @@ class InfoBox extends Component {
       inCourseCart: !!localStorage.getItem(this.props.data.code),
     }
 
-    this.addToCourseCart = this.addToCourseCart.bind(this)
-    this.removeFromCourseCart = this.removeFromCourseCart.bind(this)
+    this.handleAdd = this.handleAdd.bind(this)
+    this.handleRemove = this.handleRemove.bind(this)
     this.getChartData = this.getChartData.bind(this)
   }
 
@@ -46,7 +46,7 @@ class InfoBox extends Component {
     }
   }
 
-  addToCourseCart(key) {
+  handleAdd(key) {
     return () => {
       let content
       if (key === 'average') {
@@ -91,7 +91,7 @@ class InfoBox extends Component {
     }
   }
 
-  removeFromCourseCart() {
+  handleRemove() {
     localStorage.removeItem(this.props.data.code)
     this.setState({ inCourseCart: false })
     window.onCartUpdated()
@@ -117,7 +117,7 @@ class InfoBox extends Component {
                       <span className='float-right'>
                         {this.state.inCourseCart
                           ? (
-                            <span onClick={this.removeFromCourseCart} className='courseCart btn btn-action' title='Remove from Cart'>
+                            <span onClick={this.handleRemove} className='courseCart btn btn-action' title='Remove from Cart'>
                               <i className='fa fa-fw fa-trash-alt' />
                             </span>
                           )
@@ -133,11 +133,11 @@ class InfoBox extends Component {
                                 <div id='divList'>
                                   <ul className='professorList'>
                                     <li>
-                                      <button onClick={this.addToCourseCart('average')}>Average Professor</button>
+                                      <button onClick={this.handleAdd('average')}>Average Professor</button>
                                     </li>
                                     {Object.keys(instructors).sort((a, b) => instructors[a].name.localeCompare(instructors[b].name)).map((key, i) => (
                                       <li key={i}>
-                                        <button onClick={this.addToCourseCart(key)}>{instructors[key].name}</button>
+                                        <button onClick={this.handleAdd(key)}>{instructors[key].name}</button>
                                       </li>
                                     ))}
                                   </ul>
