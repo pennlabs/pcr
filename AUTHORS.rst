@@ -2,7 +2,21 @@
 Authors
 ================================================================================
 
-PennCourseReview is written and maintained by various contributors.
+PennCourseReview is written and maintained thanks to various contributors.
+
+In no particular order, the contributors are:
+
+Active
+########
+
+- Eric Wang
+
+- Daniel Tao
+
+- Kevin Sun
+
+Inactive
+########
 
 - Ceasar Bautista
 
@@ -28,4 +42,18 @@ PennCourseReview is written and maintained by various contributors.
 
 - Prakhar Bhandari
 
+- Greg Terrono
+
+- Sumit Shyamsukha
+
 - Adel Qalieh
+
+- Adam Domingoes
+
+- Brandon Lin
+
+- Cassandra Li
+
+- Jerry Lu
+
+- Cameron Cabo
