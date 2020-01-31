@@ -5,7 +5,7 @@ import NavBar from './NavBar'
 import Footer from './Footer'
 import ErrorBox from './ErrorBox'
 import ReviewPage from './ReviewPage'
-import { redirectForAuth, apiIsAuthenticated } from './api'
+import { redirect_for_auth, api_is_authenticated } from './api'
 
 /**
  * A wrapper around a review page that performs Shibboleth authentication.

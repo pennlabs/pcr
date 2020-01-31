@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { getLogoutUrl } from './api'
+import { get_logout_url } from './api'
 
 /**
  * The footer of every page.
@@ -14,7 +14,7 @@ const Footer = ({ style }) => (
       {' '}|{' '}
       <a target='_blank' rel='noopener noreferrer' href='https://airtable.com/shrVygSaHDL6BswfT'>Feedback</a>
       {' '}|{' '}
-      <a href={getLogoutUrl()}>Logout</a>
+      <a href={get_logout_url()}>Logout</a>
 
       <p id='copyright'>
         Made with
