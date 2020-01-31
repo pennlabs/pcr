@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 
 /**
  * Three colored boxes with numerical rating values, used in the course description box.

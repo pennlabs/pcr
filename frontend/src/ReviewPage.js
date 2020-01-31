@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import Cookies from 'universal-cookie'
 import InfoBox from './InfoBox'
 import ErrorBox from './ErrorBox'
@@ -124,7 +124,7 @@ class ReviewPage extends Component {
     })
   }
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(error) {
     return { error: 'An unknown error occured.' }
   }
 
