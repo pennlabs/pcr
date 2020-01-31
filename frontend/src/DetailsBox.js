@@ -98,6 +98,8 @@ class DetailsBox extends Component {
           }))
         })
       } else {
+        // TODO: Switch to functional component and use useEffect(() => {...}, [])
+        // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
           data: null,
           semesterList: [],

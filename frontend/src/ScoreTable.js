@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import ReactTable from 'react-table'
 
 /**
@@ -18,6 +18,8 @@ class ScoreTable extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.data !== this.props.data) {
+      // TODO: Switch to functional component and use useEffect(() => {...}, [])
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ selected: this.props.multi ? {} : null })
       if (this.props.onSelect) {
         this.props.onSelect(this.props.multi ? {} : null)
@@ -40,37 +42,35 @@ class ScoreTable extends Component {
           showPagination={false}
           resizable={false}
           style={{ maxHeight: 400 }}
-          getTrProps={
-            (_, rowInfo) => {
-              if (rowInfo && rowInfo.row) {
-                return {
-                  onClick: () => {
-                    this.setState((state) => {
-                      const noRow = this.props.multi ? rowInfo.index in state.selected : rowInfo.index === state.selected
-                      if (this.props.multi) {
-                        if (noRow) {
-                          delete state.selected[rowInfo.index]
-                        } else {
-                          state.selected[rowInfo.index] = rowInfo
-                        }
-                        if (this.props.onSelect) {
-                          this.props.onSelect(state.selected)
-                        }
-                        return { selected: { ...state.selected } }
+          getTrProps={(_, rowInfo) => {
+            if (rowInfo && rowInfo.row) {
+              return {
+                onClick: () => {
+                  this.setState((state) => {
+                    const noRow = this.props.multi ? rowInfo.index in state.selected : rowInfo.index === state.selected
+                    if (this.props.multi) {
+                      if (noRow) {
+                        delete state.selected[rowInfo.index]
+                      } else {
+                        state.selected[rowInfo.index] = rowInfo
                       }
-
                       if (this.props.onSelect) {
-                        this.props.onSelect(noRow ? null : rowInfo.original.key)
+                        this.props.onSelect(state.selected)
                       }
-                      return { selected: noRow ? null : rowInfo.index }
-                    })
-                  },
-                  className: (this.props.multi ? rowInfo.index in this.state.selected : rowInfo.index === this.state.selected) ? 'selected' : undefined,
-                }
+                      return { selected: { ...state.selected } }
+                    }
+
+                    if (this.props.onSelect) {
+                      this.props.onSelect(noRow ? null : rowInfo.original.key)
+                    }
+                    return { selected: noRow ? null : rowInfo.index }
+                  })
+                },
+                className: (this.props.multi ? rowInfo.index in this.state.selected : rowInfo.index === this.state.selected) ? 'selected' : undefined,
               }
-              return {}
             }
-          }
+            return {}
+          }}
           minRows={0}
           pageSize={this.props.data.length}
           sorted={this.state.sorted}

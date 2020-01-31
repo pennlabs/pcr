@@ -48,14 +48,15 @@ class ReviewPage extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.match.params.type !== prevProps.match.params.type || this.props.match.params.code !== prevProps.match.params.code) {
+      // TODO: Switch to functional component and use useEffect(() => {...}, [])
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         type: this.props.match.params.type,
         code: this.props.match.params.code,
         data: null,
         row_code: null,
         error: null,
-      },
-      this.getReviewData)
+      }, this.getReviewData)
     }
   }
 
@@ -124,7 +125,7 @@ class ReviewPage extends Component {
     })
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { error: 'An unknown error occured.' }
   }
 
@@ -181,6 +182,9 @@ class ReviewPage extends Component {
     const {
       code, data, row_code, live_data, selected_courses, type,
     } = this.state
+
+    const handleSelect = { instructor: this.showRowHistory, course: this.showRowHistory, department: this.showDepartmentGraph }[type]
+
     return (
       <div>
         <NavBar />
@@ -191,7 +195,7 @@ class ReviewPage extends Component {
                 <InfoBox type={type} code={code} data={data} live_data={live_data} selected_courses={selected_courses} />
               </div>
               <div className='col-sm-12 col-md-8 main-col'>
-                <ScoreBox data={data} type={type} live_data={live_data} onSelect={{ instructor: this.showRowHistory, course: this.showRowHistory, department: this.showDepartmentGraph }[type]} />
+                <ScoreBox data={data} type={type} live_data={live_data} onSelect={handleSelect} />
                 {type === 'course' && <DetailsBox type={type} course={code} instructor={row_code} />}
                 {type === 'instructor' && <DetailsBox type={type} course={row_code} instructor={code} />}
               </div>
