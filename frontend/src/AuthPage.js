@@ -35,7 +35,7 @@ class AuthPage extends Component {
         </div>
       )
     }
-
+    // TODO: Add loading spinner instead of null
     return isAuthed ? <ReviewPage {...this.props} /> : null
   }
 }
