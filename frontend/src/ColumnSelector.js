@@ -16,11 +16,14 @@ class ColumnSelector extends Component {
     if (defaultColumns) {
       defaultColumns = JSON.parse(defaultColumns)
     } else {
-      defaultColumns = {
-        ...(props.type === 'instructor' && {
+      const instructorProps = props.type === 'instructor'
+        ? {
           latest_semester: true,
           num_semesters: true,
-        }),
+        }
+        : {}
+      defaultColumns = {
+        ...instructorProps,
         rInstructorQuality: true,
         rCourseQuality: true,
         rDifficulty: true,
