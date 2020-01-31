@@ -7,23 +7,20 @@ import Popover from './Popover'
 class ColumnSelector extends Component {
   constructor(props) {
     super(props)
-
-    this.handleToggle = this.handleToggle.bind(this)
-    this.setAllColumns = this.setAllColumns.bind(this)
-    this.changeColumns = this.changeColumns.bind(this)
-
-    let defaultColumns = localStorage.getItem(`meta-${this.props.name}`)
+    const { columns, type, name } = props
+    let defaultColumns = localStorage.getItem(`meta-${name}`)
     if (defaultColumns) {
       defaultColumns = JSON.parse(defaultColumns)
     } else {
-      const instructorProps = props.type === 'instructor'
+      const instructorFields = type === 'instructor'
         ? {
           latest_semester: true,
           num_semesters: true,
         }
         : {}
+
       defaultColumns = {
-        ...instructorProps,
+        ...instructorFields,
         rInstructorQuality: true,
         rCourseQuality: true,
         rDifficulty: true,
@@ -31,7 +28,11 @@ class ColumnSelector extends Component {
       }
     }
     this.defaultColumns = defaultColumns
-    this.changeColumns(this.props.columns.map((a) => ({ ...a, show: a.required || !!defaultColumns[a.id] })))
+
+    this.setAllColumns = this.setAllColumns.bind(this)
+    this.changeColumns = this.changeColumns.bind(this)
+
+    this.changeColumns(columns.map((a) => ({ ...a, show: a.required || !!defaultColumns[a.id] })))
   }
 
   changeColumns(cols) {
