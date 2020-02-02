@@ -4,7 +4,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["standard", "standard-react"],
+  "extends": ["standard"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -31,7 +31,9 @@
     "no-unused-vars": ["warn"],
     "camelcase": 0,
     "react/jsx-uses-vars": [2],
+    "react/jsx-uses-react": "warn",
     "react/prop-types": 0,
-    "no-console": ["warn"]
+    "no-console": ["warn"],
+    "indent": ["warn"]
   }
 }
