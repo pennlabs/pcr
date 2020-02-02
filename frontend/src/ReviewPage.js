@@ -33,7 +33,8 @@ class ReviewPage extends Component {
       row_code: null,
       live_data: null,
       selected_courses: null,
-      showBanner: SHOW_RECRUITMENT_BANNER && !this.cookies.get('hide_pcr_banner'),
+      showBanner:
+        SHOW_RECRUITMENT_BANNER && !this.cookies.get('hide_pcr_banner'),
     }
 
     this.navigateToPage = this.navigateToPage.bind(this)
@@ -47,16 +48,22 @@ class ReviewPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.type !== prevProps.match.params.type || this.props.match.params.code !== prevProps.match.params.code) {
+    if (
+      this.props.match.params.type !== prevProps.match.params.type ||
+      this.props.match.params.code !== prevProps.match.params.code
+    ) {
       // TODO: Switch to functional component and use useEffect(() => {...}, [])
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        type: this.props.match.params.type,
-        code: this.props.match.params.code,
-        data: null,
-        row_code: null,
-        error: null,
-      }, this.getReviewData)
+      this.setState(
+        {
+          type: this.props.match.params.type,
+          code: this.props.match.params.code,
+          data: null,
+          row_code: null,
+          error: null,
+        },
+        this.getReviewData,
+      )
     }
   }
 
@@ -74,35 +81,44 @@ class ReviewPage extends Component {
   getReviewData() {
     const { type, code } = this.state
     if (type && code) {
-      api_review_data(type, code).then((result) => {
-        if (result.error) {
-          this.setState({
-            error: result.error,
-            error_detail: result.detail,
-          })
-        } else {
-          this.setState({
-            data: result,
-          })
-          if (this.state.type === 'instructor') {
-            api_live_instructor(result.name.replace(/[^A-Za-z0-9 ]/g, '')).then((data) => {
-              this.setState((state) => ({ live_data: state.data.name === result.name ? data : null }))
+      api_review_data(type, code)
+        .then(result => {
+          if (result.error) {
+            this.setState({
+              error: result.error,
+              error_detail: result.detail,
             })
+          } else {
+            this.setState({
+              data: result,
+            })
+            if (this.state.type === 'instructor') {
+              api_live_instructor(
+                result.name.replace(/[^A-Za-z0-9 ]/g, ''),
+              ).then(data => {
+                this.setState(state => ({
+                  live_data: state.data.name === result.name ? data : null,
+                }))
+              })
+            }
           }
-        }
-      }).catch(() => {
-        this.setState({
-          error: 'Could not retrieve review information at this time. Please try again later!',
         })
-      })
+        .catch(() => {
+          this.setState({
+            error:
+              'Could not retrieve review information at this time. Please try again later!',
+          })
+        })
     }
 
     if (type === 'course') {
-      api_live(code).then((result) => {
-        this.setState({ live_data: result })
-      }).catch(() => {
-        this.setState({ live_data: null })
-      })
+      api_live(code)
+        .then(result => {
+          this.setState({ live_data: result })
+        })
+        .catch(() => {
+          this.setState({ live_data: null })
+        })
     } else {
       this.setState({ live_data: null })
     }
@@ -134,7 +150,9 @@ class ReviewPage extends Component {
       return (
         <div>
           <NavBar />
-          <ErrorBox detail={this.state.error_detail}>{this.state.error}</ErrorBox>
+          <ErrorBox detail={this.state.error_detail}>
+            {this.state.error}
+          </ErrorBox>
           <Footer />
         </div>
       )
@@ -145,20 +163,29 @@ class ReviewPage extends Component {
         <div id='content' className='row'>
           {this.state.showBanner && (
             <div id='banner'>
-              <span role='img' aria-label='Party Popper Emoji'>🎉</span>
-              {' '}
-              <b>Want to build impactful products like Penn Course Review?</b>
-              {' '}
-              Join Penn Labs this spring! Apply
-              {' '}
-              <a href='https://pennlabs.org/apply' target='_blank' rel='noopener noreferrer'>here</a>!
-              {' '}
-              <span role='img' aria-label='Party Popper Emoji'>🎉</span>
+              <span role='img' aria-label='Party Popper Emoji'>
+                🎉
+              </span>{' '}
+              <b>Want to build impactful products like Penn Course Review?</b>{' '}
+              Join Penn Labs this spring! Apply{' '}
+              <a
+                href='https://pennlabs.org/apply'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                here
+              </a>
+              !{' '}
+              <span role='img' aria-label='Party Popper Emoji'>
+                🎉
+              </span>
               <span
                 className='close'
-                onClick={(e) => {
+                onClick={e => {
                   this.setState({ showBanner: false })
-                  this.cookies.set('hide_pcr_banner', true, { expires: new Date(Date.now() + 12096e5) })
+                  this.cookies.set('hide_pcr_banner', true, {
+                    expires: new Date(Date.now() + 12096e5),
+                  })
                   e.preventDefault()
                 }}
               >
@@ -168,8 +195,7 @@ class ReviewPage extends Component {
           )}
           <div className='col-md-12'>
             <div id='title'>
-              <img src='/static/image/logo.png' alt='Penn Course Review' />
-              {' '}
+              <img src='/static/image/logo.png' alt='Penn Course Review' />{' '}
               <span className='title-text'>Penn Course Review</span>
             </div>
           </div>
@@ -180,38 +206,61 @@ class ReviewPage extends Component {
     }
 
     const {
-      code, data, row_code, live_data, selected_courses, type,
+      code,
+      data,
+      row_code,
+      live_data,
+      selected_courses,
+      type,
     } = this.state
 
-    const handleSelect = { instructor: this.showRowHistory, course: this.showRowHistory, department: this.showDepartmentGraph }[type]
+    const handleSelect = {
+      instructor: this.showRowHistory,
+      course: this.showRowHistory,
+      department: this.showDepartmentGraph,
+    }[type]
 
     return (
       <div>
         <NavBar />
-        {this.state.data
-          ? (
-            <div id='content' className='row'>
-              <div className='col-sm-12 col-md-4 sidebar-col box-wrapper'>
-                <InfoBox type={type} code={code} data={data} live_data={live_data} selected_courses={selected_courses} />
-              </div>
-              <div className='col-sm-12 col-md-8 main-col'>
-                <ScoreBox data={data} type={type} live_data={live_data} onSelect={handleSelect} />
-                {type === 'course' && <DetailsBox type={type} course={code} instructor={row_code} />}
-                {type === 'instructor' && <DetailsBox type={type} course={row_code} instructor={code} />}
-              </div>
+        {this.state.data ? (
+          <div id='content' className='row'>
+            <div className='col-sm-12 col-md-4 sidebar-col box-wrapper'>
+              <InfoBox
+                type={type}
+                code={code}
+                data={data}
+                live_data={live_data}
+                selected_courses={selected_courses}
+              />
             </div>
-          )
-          : (
-            <div style={{ textAlign: 'center', padding: 45 }}>
-              <i className='fa fa-spin fa-cog fa-fw' style={{ fontSize: '150px', color: '#aaa' }} />
-              <h1 style={{ fontSize: '2em', marginTop: 15 }}>
-                Loading
-                {' '}
-                {code}
-                ...
-              </h1>
+            <div className='col-sm-12 col-md-8 main-col'>
+              <ScoreBox
+                data={data}
+                type={type}
+                live_data={live_data}
+                onSelect={handleSelect}
+              />
+              {type === 'course' && (
+                <DetailsBox type={type} course={code} instructor={row_code} />
+              )}
+              {type === 'instructor' && (
+                <DetailsBox type={type} course={row_code} instructor={code} />
+              )}
             </div>
-          )}
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', padding: 45 }}>
+            <i
+              className='fa fa-spin fa-cog fa-fw'
+              style={{ fontSize: '150px', color: '#aaa' }}
+            />
+            <h1 style={{ fontSize: '2em', marginTop: 15 }}>
+              Loading {code}
+              ...
+            </h1>
+          </div>
+        )}
         <Footer />
       </div>
     )
