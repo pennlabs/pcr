@@ -28,7 +28,7 @@ class ScoreTable extends Component {
   }
 
   resort() {
-    this.setState((state) => ({
+    this.setState(state => ({
       sorted: state.sorted.slice(),
     }))
   }
@@ -46,8 +46,10 @@ class ScoreTable extends Component {
             if (rowInfo && rowInfo.row) {
               return {
                 onClick: () => {
-                  this.setState((state) => {
-                    const noRow = this.props.multi ? rowInfo.index in state.selected : rowInfo.index === state.selected
+                  this.setState(state => {
+                    const noRow = this.props.multi
+                      ? rowInfo.index in state.selected
+                      : rowInfo.index === state.selected
                     if (this.props.multi) {
                       if (noRow) {
                         delete state.selected[rowInfo.index]
@@ -66,7 +68,11 @@ class ScoreTable extends Component {
                     return { selected: noRow ? null : rowInfo.index }
                   })
                 },
-                className: (this.props.multi ? rowInfo.index in this.state.selected : rowInfo.index === this.state.selected) ? 'selected' : undefined,
+                className: (this.props.multi
+                  ? rowInfo.index in this.state.selected
+                  : rowInfo.index === this.state.selected)
+                  ? 'selected'
+                  : undefined,
               }
             }
             return {}
@@ -74,13 +80,15 @@ class ScoreTable extends Component {
           minRows={0}
           pageSize={this.props.data.length}
           sorted={this.state.sorted}
-          onSortedChange={(sorted) => { this.setState({ sorted }) }}
+          onSortedChange={sorted => {
+            this.setState({ sorted })
+          }}
         />
         <span id='course-table_info'>
           Showing
-          {this.props.data.length}
-          {' '}
-          {(this.props.noun || 'row') + (this.props.data.length !== 1 ? 's' : '')}
+          {this.props.data.length}{' '}
+          {(this.props.noun || 'row') +
+            (this.props.data.length !== 1 ? 's' : '')}
         </span>
       </div>
     )
