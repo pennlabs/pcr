@@ -305,10 +305,10 @@ class ScoreBox extends Component {
             <Link
               to={`/instructor/${props.original.key}`}
               title={`Go to ${props.value}`}
-              className='mr-1'
+              className="mr-1"
               style={{ color: 'rgb(102, 146, 161)' }}
             >
-              <i className='instructor-link far fa-user' />
+              <i className="instructor-link far fa-user" />
             </Link>
           )}
           {props.value}
@@ -436,9 +436,9 @@ class ScoreBox extends Component {
     }
 
     return (
-      <div className='box'>
-        <div className='clearfix'>
-          <div className='btn-group'>
+      <div className="box">
+        <div className="clearfix">
+          <div className="btn-group">
             <button
               onClick={this.handleClick(true)}
               className={`btn btn-sm ${
@@ -457,22 +457,23 @@ class ScoreBox extends Component {
             </button>
           </div>
           <ColumnSelector
-            name='score'
+            name="score"
             type={type}
             columns={columns}
             onSelect={columns => this.setState({ columns })}
           />
-          <div className='float-right'>
-            <label className='table-search'>
+          <div className="float-right">
+            <label className="table-search">
               <input
                 value={filterAll}
                 onChange={val =>
                   this.setState({
                     filtered: [{ id: 'name', value: val.target.value }],
                     filterAll: val.target.value,
-                  })}
-                type='search'
-                className='form-control form-control-sm'
+                  })
+                }
+                type="search"
+                className="form-control form-control-sm"
               />
             </label>
           </div>
@@ -480,7 +481,7 @@ class ScoreBox extends Component {
         <ScoreTable
           multi={type === 'department'}
           sorted={[{ id: is_course ? 'name' : 'code', desc: false }]}
-          ref='table'
+          ref="table"
           filtered={filtered}
           data={data}
           columns={columns}

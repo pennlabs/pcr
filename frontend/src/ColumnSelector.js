@@ -76,11 +76,11 @@ class ColumnSelector extends Component {
         style={{ width: 340 }}
         button={
           <button
-            aria-label='Choose Columns'
+            aria-label="Choose Columns"
             className={`btn btn-sm ml-2 ${this.props.buttonStyle ||
               'btn'}-primary`}
           >
-            <i className='fa fa-plus' />
+            <i className="fa fa-plus" />
           </button>
         }
       >

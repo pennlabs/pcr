@@ -37,7 +37,7 @@ class ScoreTable extends Component {
     return (
       <div>
         <ReactTable
-          className='mb-2'
+          className="mb-2"
           {...this.props}
           showPagination={false}
           resizable={false}
@@ -84,7 +84,7 @@ class ScoreTable extends Component {
             this.setState({ sorted })
           }}
         />
-        <span id='course-table_info'>
+        <span id="course-table_info">
           Showing
           {this.props.data.length}{' '}
           {(this.props.noun || 'row') +

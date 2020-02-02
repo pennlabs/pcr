@@ -64,7 +64,7 @@ class Popover extends Component {
     ReactDOM.render(
       this.state.isShown ? (
         <div
-          className='msg'
+          className="msg"
           style={{
             ...this.props.style,
             top: this.state.position && this.state.position[1] + window.scrollY,
@@ -84,7 +84,7 @@ class Popover extends Component {
   render() {
     return (
       <span
-        ref='button'
+        ref="button"
         style={{ cursor: 'pointer' }}
         onClick={!this.props.hover ? () => this.onToggle() : undefined}
         onMouseEnter={this.props.hover ? () => this.onToggle(true) : undefined}

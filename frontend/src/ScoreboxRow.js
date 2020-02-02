@@ -25,27 +25,27 @@ class ScoreboxRow extends Component {
     }
 
     return (
-      <div className='scorebox-desc-row'>
-        <div className='scoredesc'>
-          <p className='title'>{this.props.value}</p>{' '}
-          <p className='subtitle'>{this.props.num_sections} Sections</p>
+      <div className="scorebox-desc-row">
+        <div className="scoredesc">
+          <p className="title">{this.props.value}</p>{' '}
+          <p className="subtitle">{this.props.num_sections} Sections</p>
         </div>
-        <div className='scoreboxrow'>
+        <div className="scoreboxrow">
           <div className={`scorebox course ${getColor(this.props.course)}`}>
-            <p className='num'>{numOrNA(this.props.course)}</p>
-            <p className='desc'>Course</p>
+            <p className="num">{numOrNA(this.props.course)}</p>
+            <p className="desc">Course</p>
           </div>
           <div
             className={`scorebox instructor ${getColor(this.props.instructor)}`}
           >
-            <p className='num'>{numOrNA(this.props.instructor)}</p>
-            <p className='desc'>Instructor</p>
+            <p className="num">{numOrNA(this.props.instructor)}</p>
+            <p className="desc">Instructor</p>
           </div>
           <div
             className={`scorebox difficulty ${getColor(this.props.difficulty)}`}
           >
-            <p className='num'>{numOrNA(this.props.difficulty)}</p>
-            <p className='desc'>Difficulty</p>
+            <p className="num">{numOrNA(this.props.difficulty)}</p>
+            <p className="desc">Difficulty</p>
           </div>
         </div>
       </div>

@@ -36,18 +36,18 @@ class NavBar extends Component {
 
   render() {
     return (
-      <div id='header'>
-        <span className='float-left'>
-          <Link to='/' title='Go to Penn Course Review Home'>
-            <div id='logo' />
+      <div id="header">
+        <span className="float-left">
+          <Link to="/" title="Go to Penn Course Review Home">
+            <div id="logo" />
           </Link>
           <SearchBar />
         </span>
-        <span className='float-right'>
-          <Link to='/cart' id='cart-icon' title='Course Cart'>
-            <i id='cart' className='fa fa-shopping-cart' />
+        <span className="float-right">
+          <Link to="/cart" id="cart-icon" title="Course Cart">
+            <i id="cart" className="fa fa-shopping-cart" />
             {this.state.courseCount > 0 && (
-              <span id='cart-count'>{this.state.courseCount}</span>
+              <span id="cart-count">{this.state.courseCount}</span>
             )}
           </Link>
         </span>

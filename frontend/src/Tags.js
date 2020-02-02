@@ -26,7 +26,7 @@ export class CourseLine extends Component {
       <li>
         {this.props.data.section_id_normalized}
         <i className={`ml-2 fa fa-fw fa-${is_open ? 'check' : 'times'}`} />
-        <span className='ml-2' style={{ color: '#aaa' }}>
+        <span className="ml-2" style={{ color: '#aaa' }}>
           {this.props.data.meetings
             .map(a => `${a.meeting_days} ${a.start_time} - ${a.end_time}`)
             .join(', ')}
@@ -106,7 +106,7 @@ class Tags extends Component {
 
     return (
       <div>
-        <div id='live'>
+        <div id="live">
           {is_taught ? (
             <PopoverTitle
               title={
@@ -115,7 +115,7 @@ class Tags extends Component {
                 </span>
               }
             >
-              <span className='badge badge-info'>{this.props.term}</span>
+              <span className="badge badge-info">{this.props.term}</span>
             </PopoverTitle>
           ) : (
             <PopoverTitle
@@ -125,7 +125,7 @@ class Tags extends Component {
                 </span>
               }
             >
-              <span className='badge badge-secondary'>{most_recent}</span>
+              <span className="badge badge-secondary">{most_recent}</span>
             </PopoverTitle>
           )}
           {is_taught && (
@@ -137,7 +137,7 @@ class Tags extends Component {
                 </span>
               }
             >
-              <span className='badge badge-primary'>
+              <span className="badge badge-primary">
                 {this.props.credits} CU
               </span>
             </PopoverTitle>
@@ -176,7 +176,7 @@ class Tags extends Component {
                   }`}
                 >
                   {desc}
-                  <span className='count'>
+                  <span className="count">
                     {open.length}/{info.length}
                   </span>
                 </span>
@@ -186,7 +186,7 @@ class Tags extends Component {
           {!!syllabi.length && (
             <Popover
               button={
-                <span className='badge badge-secondary'>
+                <span className="badge badge-secondary">
                   {syllabi.length}{' '}
                   {syllabi.length !== 1 ? 'Syllabi' : 'Syllabus'}
                 </span>
@@ -194,7 +194,7 @@ class Tags extends Component {
             >
               {syllabi.map((a, i) => (
                 <div key={i}>
-                  <a target='_blank' rel='noopener noreferrer' href={a.url}>
+                  <a target="_blank" rel="noopener noreferrer" href={a.url}>
                     {a.name}
                   </a>
                 </div>
@@ -203,7 +203,7 @@ class Tags extends Component {
           )}
         </div>
         {!!prereqs.length && (
-          <div className='prereqs'>
+          <div className="prereqs">
             Prerequisites:
             {prereqs.map((a, i) => [
               i > 0 && ', ',

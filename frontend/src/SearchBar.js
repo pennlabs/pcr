@@ -212,7 +212,7 @@ class SearchBar extends Component {
   render() {
     const { state: parent } = this
     return (
-      <div id='search' style={{ margin: '0 auto' }}>
+      <div id="search" style={{ margin: '0 auto' }}>
         <AsyncSelect
           ref={this.selectRef}
           autoFocus={this.props.isTitle}
@@ -277,7 +277,7 @@ class SearchBar extends Component {
               ? null
               : props => (
                 <components.DropdownIndicator {...props}>
-                  <i className='fa fa-search mr-1' />
+                  <i className="fa fa-search mr-1" />
                 </components.DropdownIndicator>
               ),
           }}

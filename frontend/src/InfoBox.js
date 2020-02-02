@@ -130,40 +130,40 @@ class InfoBox extends Component {
     }
 
     return (
-      <div className='box'>
-        <div id='banner-info' data-type='course'>
+      <div className="box">
+        <div id="banner-info" data-type="course">
           {pageType === 'course' && (
-            <div className='course'>
-              <div className='title'>
+            <div className="course">
+              <div className="title">
                 {(this.props.data.code || '').replace('-', ' ')}
 
-                <span className='float-right'>
+                <span className="float-right">
                   {this.state.inCourseCart ? (
                     <span
                       onClick={this.handleRemove}
-                      className='courseCart btn btn-action'
-                      title='Remove from Cart'
+                      className="courseCart btn btn-action"
+                      title="Remove from Cart"
                     >
-                      <i className='fa fa-fw fa-trash-alt' />
+                      <i className="fa fa-fw fa-trash-alt" />
                     </span>
                   ) : (
                     <Popover
                       button={
                         <span
-                          className='courseCart btn btn-action'
-                          title='Add to Cart'
+                          className="courseCart btn btn-action"
+                          title="Add to Cart"
                         >
-                          <i className='fa fa-fw fa-cart-plus' />
+                          <i className="fa fa-fw fa-cart-plus" />
                         </span>
                       }
                     >
-                      <div className='popover-title'>Add to Cart</div>
+                      <div className="popover-title">Add to Cart</div>
                       <div
-                        className='popover-content'
+                        className="popover-content"
                         style={{ maxHeight: 400, overflowY: 'auto' }}
                       >
-                        <div id='divList'>
-                          <ul className='professorList'>
+                        <div id="divList">
+                          <ul className="professorList">
                             <li>
                               <button onClick={this.handleAdd('average')}>
                                 Average Professor
@@ -188,19 +188,19 @@ class InfoBox extends Component {
                     </Popover>
                   )}{' '}
                   <a
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    title='Get Alerted'
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Get Alerted"
                     href={`https://penncoursealert.com/?course=${this.props.code}&source=pcr`}
-                    className='btn btn-action'
+                    className="btn btn-action"
                   >
-                    <i className='fas fa-fw fa-bell' />
+                    <i className="fas fa-fw fa-bell" />
                   </a>
                 </span>
               </div>
 
               {!!this.props.data.aliases.length && (
-                <div className='crosslist'>
+                <div className="crosslist">
                   Also:
                   {this.props.data.aliases.map((cls, i) => [
                     i > 0 && ', ',
@@ -211,11 +211,11 @@ class InfoBox extends Component {
                 </div>
               )}
 
-              <p className='subtitle'>{this.props.data.name}</p>
+              <p className="subtitle">{this.props.data.name}</p>
 
               {this.props.data.notes.map((note, i) => (
-                <div key={i} className='note'>
-                  <i className='fa fa-thumbtack' /> {note}
+                <div key={i} className="note">
+                  <i className="fa fa-thumbtack" /> {note}
                 </div>
               ))}
 
@@ -232,11 +232,11 @@ class InfoBox extends Component {
           )}
 
           {pageType === 'instructor' && (
-            <div className='instructor'>
-              <div className='title'>{this.props.data.name}</div>
+            <div className="instructor">
+              <div className="title">{this.props.data.name}</div>
               {this.state.contact && (
                 <div>
-                  <p className='desc'>
+                  <p className="desc">
                     Email:
                     <a href={`mailto:${this.state.contact.email}`}>
                       {this.state.contact.email.toLowerCase()}
@@ -245,25 +245,25 @@ class InfoBox extends Component {
                 </div>
               )}
               {this.props.data.notes.map((note, i) => (
-                <div key={i} className='note'>
-                  <i className='fa fa-thumbtack' /> {note}
+                <div key={i} className="note">
+                  <i className="fa fa-thumbtack" /> {note}
                 </div>
               ))}
             </div>
           )}
 
           {pageType === 'department' && (
-            <div className='department'>
-              <div className='title'>{this.props.data.name}</div>
-              <p className='subtitle'>{this.props.data.code}</p>
+            <div className="department">
+              <div className="title">{this.props.data.name}</div>
+              <p className="subtitle">{this.props.data.code}</p>
             </div>
           )}
         </div>
 
         {pageType !== 'department' && (
-          <div id='banner-score'>
+          <div id="banner-score">
             <ScoreboxRow
-              value='Average'
+              value="Average"
               instructor={this.props.data.average_ratings.rInstructorQuality}
               course={this.props.data.average_ratings.rCourseQuality}
               difficulty={this.props.data.average_ratings.rDifficulty}
@@ -271,7 +271,7 @@ class InfoBox extends Component {
             />
 
             <ScoreboxRow
-              value='Recent'
+              value="Recent"
               instructor={this.props.data.recent_ratings.rInstructorQuality}
               course={this.props.data.recent_ratings.rCourseQuality}
               difficulty={this.props.data.recent_ratings.rDifficulty}
@@ -281,13 +281,13 @@ class InfoBox extends Component {
         )}
 
         {pageType === 'department' && (
-          <div className='department-content'>
+          <div className="department-content">
             {this.props.selected_courses &&
             Object.keys(this.props.selected_courses).length ? (
-              <div id='row-select-chart-container'>
+                <div id="row-select-chart-container">
                   <Bar
-                  data={this.getChartData()}
-                  options={{
+                    data={this.getChartData()}
+                    options={{
                       scales: {
                         yAxes: [
                           {
@@ -300,14 +300,14 @@ class InfoBox extends Component {
                         ],
                       },
                     }}
-                />
+                  />
                 </div>
               ) : (
-                <div id='row-select-placeholder'>
-                  <object type='image/svg+xml' data='/static/image/selectrow.svg'>
-                    <img alt='Select Row' src='/static/image/selectrow.svg' />
+                <div id="row-select-placeholder">
+                  <object type="image/svg+xml" data="/static/image/selectrow.svg">
+                    <img alt="Select Row" src="/static/image/selectrow.svg" />
                   </object>
-                  <div id='row-select-text'>
+                  <div id="row-select-text">
                   Select a few rows to begin comparing courses.
                   </div>
                 </div>
@@ -316,7 +316,7 @@ class InfoBox extends Component {
         )}
 
         {pageType === 'course' && (
-          <p className='desc'>
+          <p className="desc">
             {reactStringReplace(
               this.props.data.description,
               /([A-Z]{2,4}[ -]\d{3})/g,

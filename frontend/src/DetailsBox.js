@@ -96,7 +96,7 @@ class DetailsBox extends Component {
                 required: true,
                 Cell: props =>
                   typeof props.value === 'undefined' ? (
-                    <center className='empty'>N/A</center>
+                    <center className="empty">N/A</center>
                   ) : (
                     <center>
                       {props.value} / {props.original.forms_produced}{' '}
@@ -149,36 +149,36 @@ class DetailsBox extends Component {
   render() {
     const { course, instructor, type } = this.props
     return (
-      <div id='course-details' className='box'>
+      <div id="course-details" className="box">
         {((type === 'course' && instructor) ||
           (type === 'instructor' && course)) &&
         !this.state.data ? (
-          <div>Loading...</div>
+            <div>Loading...</div>
           ) : !this.state.data ? (
-            <div id='select-row'>
+            <div id="select-row">
               <div>
-                <h3 id='select-row-text'>
+                <h3 id="select-row-text">
                   {type === 'instructor'
                     ? 'Select a course to see individual sections, comments, and more details.'
                     : 'Select an instructor to see individual sections, comments, and more details.'}
                 </h3>
                 {type === 'course' ? (
-                  <object type='image/svg+xml' data='/static/image/prof.svg'>
-                    <img alt='Professor Icon' src='/static/image/prof.png' />
+                  <object type="image/svg+xml" data="/static/image/prof.svg">
+                    <img alt="Professor Icon" src="/static/image/prof.png" />
                   </object>
                 ) : (
                   <object
-                    type='image/svg+xml'
-                    id='select-course-icon'
-                    data='/static/image/books-and-bag.svg'
+                    type="image/svg+xml"
+                    id="select-course-icon"
+                    data="/static/image/books-and-bag.svg"
                   >
-                    <img alt='Class Icon' src='/static/image/books-and-bag.png' />
+                    <img alt="Class Icon" src="/static/image/books-and-bag.png" />
                   </object>
                 )}
               </div>
             </div>
           ) : (
-            <div id='course-details-wrapper'>
+            <div id="course-details-wrapper">
               <h3>
                 <Link
                   style={{ color: '#b2b2b2', textDecoration: 'none' }}
@@ -191,18 +191,18 @@ class DetailsBox extends Component {
                   {type === 'course' ? this.state.data.instructor.name : course}
                 </Link>
               </h3>
-              <div className='clearfix'>
-                <div className='btn-group'>
+              <div className="clearfix">
+                <div className="btn-group">
                   <button
                     onClick={() => {
                       this.setState({ viewingRatings: true })
                     }}
-                    id='view_ratings'
+                    id="view_ratings"
                     className={`btn btn-sm ${
                     this.state.viewingRatings
                       ? 'btn-sub-primary'
                       : 'btn-sub-secondary'
-                    }`}
+                  }`}
                   >
                   Ratings
                   </button>
@@ -210,41 +210,42 @@ class DetailsBox extends Component {
                     onClick={() => {
                       this.setState({ viewingRatings: false })
                     }}
-                    id='view_comments'
+                    id="view_comments"
                     className={`btn btn-sm ${
                     !this.state.viewingRatings
                       ? 'btn-sub-primary'
                       : 'btn-sub-secondary'
-                    }`}
+                  }`}
                   >
                   Comments
                   </button>
                 </div>
                 <ColumnSelector
-                  name='details'
+                  name="details"
                   onSelect={cols => this.setState({ columns: cols })}
                   columns={this.state.columns}
-                  buttonStyle='btn-sub'
+                  buttonStyle="btn-sub"
                 />
                 {this.state.viewingRatings && (
-                  <div className='float-right'>
-                    <label className='table-search'>
+                  <div className="float-right">
+                    <label className="table-search">
                       <input
                         value={this.state.filterAll}
                         onChange={val =>
                           this.setState({
                             filtered: [{ id: 'name', value: val.target.value }],
                             filterAll: val.target.value,
-                          })}
-                        type='search'
-                        className='form-control form-control-sm'
+                          })
+                        }
+                        type="search"
+                        className="form-control form-control-sm"
                       />
                     </label>
                   </div>
                 )}
               </div>
               {this.state.viewingRatings ? (
-                <div id='course-details-data'>
+                <div id="course-details-data">
                   <ScoreTable
                     sorted={[{ id: 'semester', desc: false }]}
                     filtered={this.state.filtered}
@@ -256,12 +257,12 @@ class DetailsBox extends Component {
                       forms_returned: i.forms_returned,
                     }))}
                     columns={this.state.columns}
-                    noun='section'
+                    noun="section"
                   />
                 </div>
               ) : (
-                <div id='course-details-comments' className='clearfix mt-2'>
-                  <div className='list'>
+                <div id="course-details-comments" className="clearfix mt-2">
+                  <div className="list">
                     {this.state.semesterList.map((info, i) => (
                       <div
                         key={i}
@@ -276,7 +277,7 @@ class DetailsBox extends Component {
                       </div>
                     ))}
                   </div>
-                  <div className='comments'>
+                  <div className="comments">
                     {Object.values(this.state.data.sections)
                       .filter(
                         info =>

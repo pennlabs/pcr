@@ -160,27 +160,27 @@ class ReviewPage extends Component {
 
     if (!this.state.code) {
       return (
-        <div id='content' className='row'>
+        <div id="content" className="row">
           {this.state.showBanner && (
-            <div id='banner'>
-              <span role='img' aria-label='Party Popper Emoji'>
+            <div id="banner">
+              <span role="img" aria-label="Party Popper Emoji">
                 🎉
               </span>{' '}
               <b>Want to build impactful products like Penn Course Review?</b>{' '}
               Join Penn Labs this spring! Apply{' '}
               <a
-                href='https://pennlabs.org/apply'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="https://pennlabs.org/apply"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 here
               </a>
               !{' '}
-              <span role='img' aria-label='Party Popper Emoji'>
+              <span role="img" aria-label="Party Popper Emoji">
                 🎉
               </span>
               <span
-                className='close'
+                className="close"
                 onClick={e => {
                   this.setState({ showBanner: false })
                   this.cookies.set('hide_pcr_banner', true, {
@@ -189,14 +189,14 @@ class ReviewPage extends Component {
                   e.preventDefault()
                 }}
               >
-                <i className='fa fa-times' />
+                <i className="fa fa-times" />
               </span>
             </div>
           )}
-          <div className='col-md-12'>
-            <div id='title'>
-              <img src='/static/image/logo.png' alt='Penn Course Review' />{' '}
-              <span className='title-text'>Penn Course Review</span>
+          <div className="col-md-12">
+            <div id="title">
+              <img src="/static/image/logo.png" alt="Penn Course Review" />{' '}
+              <span className="title-text">Penn Course Review</span>
             </div>
           </div>
           <SearchBar isTitle />
@@ -224,8 +224,8 @@ class ReviewPage extends Component {
       <div>
         <NavBar />
         {this.state.data ? (
-          <div id='content' className='row'>
-            <div className='col-sm-12 col-md-4 sidebar-col box-wrapper'>
+          <div id="content" className="row">
+            <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
               <InfoBox
                 type={type}
                 code={code}
@@ -234,7 +234,7 @@ class ReviewPage extends Component {
                 selected_courses={selected_courses}
               />
             </div>
-            <div className='col-sm-12 col-md-8 main-col'>
+            <div className="col-sm-12 col-md-8 main-col">
               <ScoreBox
                 data={data}
                 type={type}
@@ -252,7 +252,7 @@ class ReviewPage extends Component {
         ) : (
           <div style={{ textAlign: 'center', padding: 45 }}>
             <i
-              className='fa fa-spin fa-cog fa-fw'
+              className="fa fa-spin fa-cog fa-fw"
               style={{ fontSize: '150px', color: '#aaa' }}
             />
             <h1 style={{ fontSize: '2em', marginTop: 15 }}>
