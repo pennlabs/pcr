@@ -265,7 +265,7 @@ class ScoreBox extends Component {
         <span>
           {is_course && <Link to={`/instructor/${props.original.key}`} title={`Go to ${props.value}`} className='mr-1' style={{ color: 'rgb(102, 146, 161)' }}><i className='instructor-link far fa-user' /></Link>}
           {props.value}
-          {props.original.star && (
+          {props.original.star && live_data && (
             <PopoverTitle title={(
               <span>
                 <b>{props.value}</b>

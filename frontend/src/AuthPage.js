@@ -27,7 +27,7 @@ class AuthPage extends Component {
         <div>
           <NavBar />
           <ErrorBox>
-            Could not perform Shibboleth authentication.
+            Could not perform Platform authentication.
             <br />
             Refresh this page to try again.
           </ErrorBox>
