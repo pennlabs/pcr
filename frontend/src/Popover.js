@@ -51,8 +51,10 @@ class Popover extends Component {
   }
 
   onToggle(val) {
-    const buttonElement = ReactDOM.findDOMNode(this.refs.button).getBoundingClientRect()
-    this.setState((state) => ({
+    const buttonElement = ReactDOM.findDOMNode(
+      this.refs.button,
+    ).getBoundingClientRect()
+    this.setState(state => ({
       isShown: typeof val === 'undefined' ? !state.isShown : val,
       position: [buttonElement.left, buttonElement.bottom],
     }))
@@ -65,13 +67,17 @@ class Popover extends Component {
           className='msg'
           style={{
             ...this.props.style,
-            top: this.state.position && (this.state.position[1] + window.scrollY),
-            left: this.state.position && (this.state.position[0] + window.scrollX),
+            top: this.state.position && this.state.position[1] + window.scrollY,
+            left:
+              this.state.position && this.state.position[0] + window.scrollX,
           }}
         >
           {this.props.children}
         </div>
-      ) : undefined, this.dialogElement,
+      ) : (
+        undefined
+      ),
+      this.dialogElement,
     )
   }
 
@@ -92,7 +98,11 @@ class Popover extends Component {
 
 class PopoverTitle extends Component {
   render() {
-    return <Popover hover button={this.props.children}>{this.props.title}</Popover>
+    return (
+      <Popover hover button={this.props.children}>
+        {this.props.title}
+      </Popover>
+    )
   }
 }
 
