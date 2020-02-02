@@ -12,12 +12,13 @@ class ColumnSelector extends Component {
     if (defaultColumns) {
       defaultColumns = JSON.parse(defaultColumns)
     } else {
-      const instructorFields = type === 'instructor'
-        ? {
-          latest_semester: true,
-          num_semesters: true,
-        }
-        : {}
+      const instructorFields =
+        type === 'instructor'
+          ? {
+            latest_semester: true,
+            num_semesters: true,
+          }
+          : {}
 
       defaultColumns = {
         ...instructorFields,
@@ -33,7 +34,9 @@ class ColumnSelector extends Component {
     this.setAllColumns = this.setAllColumns.bind(this)
     this.changeColumns = this.changeColumns.bind(this)
 
-    this.changeColumns(columns.map((a) => ({ ...a, show: a.required || !!defaultColumns[a.id] })))
+    this.changeColumns(
+      columns.map(a => ({ ...a, show: a.required || !!defaultColumns[a.id] })),
+    )
   }
 
   changeColumns(cols) {
@@ -57,7 +60,10 @@ class ColumnSelector extends Component {
 
   setAllColumns(val) {
     return () => {
-      const columnsCopy = this.props.columns.map((a) => ({ ...a, show: a.required || val }))
+      const columnsCopy = this.props.columns.map(a => ({
+        ...a,
+        show: a.required || val,
+      }))
       this.changeColumns(columnsCopy)
     }
   }
@@ -66,16 +72,53 @@ class ColumnSelector extends Component {
     let x = 0
 
     return (
-      <Popover style={{ width: 340 }} button={<button aria-label='Choose Columns' className={`btn btn-sm ml-2 ${this.props.buttonStyle || 'btn'}-primary`}><i className='fa fa-plus' /></button>}>
-        <span onClick={this.setAllColumns(true)} className={`btn mb-2 mr-2 btn-sm ${this.props.buttonStyle || 'btn'}-secondary`} style={{ width: 150, textAlign: 'center' }}>Select all</span>
-        <span onClick={this.setAllColumns(false)} className={`btn mb-2 btn-sm ${this.props.buttonStyle || 'btn'}-secondary`} style={{ width: 150, textAlign: 'center' }}>Clear</span>
+      <Popover
+        style={{ width: 340 }}
+        button={
+          <button
+            aria-label='Choose Columns'
+            className={`btn btn-sm ml-2 ${this.props.buttonStyle ||
+              'btn'}-primary`}
+          >
+            <i className='fa fa-plus' />
+          </button>
+        }
+      >
+        <span
+          onClick={this.setAllColumns(true)}
+          className={`btn mb-2 mr-2 btn-sm ${this.props.buttonStyle ||
+            'btn'}-secondary`}
+          style={{ width: 150, textAlign: 'center' }}
+        >
+          Select all
+        </span>
+        <span
+          onClick={this.setAllColumns(false)}
+          className={`btn mb-2 btn-sm ${this.props.buttonStyle ||
+            'btn'}-secondary`}
+          style={{ width: 150, textAlign: 'center' }}
+        >
+          Clear
+        </span>
         <hr />
         {this.props.columns.map((item, i) => {
           if (item.required) {
             return false
           }
           x += 1
-          return <span key={i} onClick={this.handleToggleGenerator(i)} style={{ width: 150, textAlign: 'center' }} className={`btn mt-2 btn-sm ${x % 2 === 1 ? 'mr-2 ' : ''}${this.props.buttonStyle || 'btn'}${item.show ? '-primary' : '-secondary'}`}>{item.Header}</span>
+          return (
+            <span
+              key={i}
+              onClick={this.handleToggleGenerator(i)}
+              style={{ width: 150, textAlign: 'center' }}
+              className={`btn mt-2 btn-sm ${x % 2 === 1 ? 'mr-2 ' : ''}${this
+                .props.buttonStyle || 'btn'}${
+                item.show ? '-primary' : '-secondary'
+              }`}
+            >
+              {item.Header}
+            </span>
+          )
         })}
       </Popover>
     )
