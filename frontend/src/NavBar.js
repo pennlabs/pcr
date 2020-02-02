@@ -10,7 +10,8 @@ class NavBar extends Component {
     super(props)
 
     this.state = {
-      courseCount: Object.keys(localStorage).filter((a) => !a.startsWith('meta-')).length,
+      courseCount: Object.keys(localStorage).filter(a => !a.startsWith('meta-'))
+        .length,
     }
 
     this.onStorageChange = this.onStorageChange.bind(this)
@@ -18,7 +19,8 @@ class NavBar extends Component {
 
   onStorageChange() {
     this.setState({
-      courseCount: Object.keys(localStorage).filter((a) => !a.startsWith('meta-')).length,
+      courseCount: Object.keys(localStorage).filter(a => !a.startsWith('meta-'))
+        .length,
     })
   }
 
@@ -36,13 +38,17 @@ class NavBar extends Component {
     return (
       <div id='header'>
         <span className='float-left'>
-          <Link to='/' title='Go to Penn Course Review Home'><div id='logo' /></Link>
+          <Link to='/' title='Go to Penn Course Review Home'>
+            <div id='logo' />
+          </Link>
           <SearchBar />
         </span>
         <span className='float-right'>
           <Link to='/cart' id='cart-icon' title='Course Cart'>
             <i id='cart' className='fa fa-shopping-cart' />
-            {this.state.courseCount > 0 && <span id='cart-count'>{this.state.courseCount}</span>}
+            {this.state.courseCount > 0 && (
+              <span id='cart-count'>{this.state.courseCount}</span>
+            )}
           </Link>
         </span>
       </div>
