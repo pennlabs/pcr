@@ -85,8 +85,7 @@ class ScoreTable extends Component {
           }}
         />
         <span id="course-table_info">
-          Showing
-          {this.props.data.length}{' '}
+          Showing {this.props.data.length}{' '}
           {(this.props.noun || 'row') +
             (this.props.data.length !== 1 ? 's' : '')}
         </span>
