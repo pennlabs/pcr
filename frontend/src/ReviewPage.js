@@ -131,8 +131,8 @@ class ReviewPage extends Component {
     this.props.history.push(value)
   }
 
-  showRowHistory(row_code) {
-    this.setState({ row_code })
+  showRowHistory(rowCode) {
+    this.setState({ row_code: rowCode })
   }
 
   showDepartmentGraph(val) {
@@ -208,9 +208,9 @@ class ReviewPage extends Component {
     const {
       code,
       data,
-      row_code,
-      live_data,
-      selected_courses,
+      row_code: rowCode,
+      live_data: liveData,
+      selected_courses: selectedCourses,
       type,
     } = this.state
 
@@ -230,22 +230,22 @@ class ReviewPage extends Component {
                 type={type}
                 code={code}
                 data={data}
-                live_data={live_data}
-                selected_courses={selected_courses}
+                live_data={liveData}
+                selected_courses={selectedCourses}
               />
             </div>
             <div className="col-sm-12 col-md-8 main-col">
               <ScoreBox
                 data={data}
                 type={type}
-                live_data={live_data}
+                live_data={liveData}
                 onSelect={handleSelect}
               />
               {type === 'course' && (
-                <DetailsBox type={type} course={code} instructor={row_code} />
+                <DetailsBox type={type} course={code} instructor={rowCode} />
               )}
               {type === 'instructor' && (
-                <DetailsBox type={type} course={row_code} instructor={code} />
+                <DetailsBox type={type} course={rowCode} instructor={code} />
               )}
             </div>
           </div>
