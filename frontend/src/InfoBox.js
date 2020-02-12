@@ -80,14 +80,12 @@ class InfoBox extends Component {
         })
         Object.keys(averageReviews).forEach(i => {
           averageReviews[i] = (
-            averageReviews[i].reduce((a, b) => a + b) /
-            averageReviews[i].length
+            averageReviews[i].reduce((a, b) => a + b) / averageReviews[i].length
           ).toFixed(2)
         })
         Object.keys(recentReviews).forEach(i => {
           recentReviews[i] = (
-            recentReviews[i].reduce((a, b) => a + b) /
-            recentReviews[i].length
+            recentReviews[i].reduce((a, b) => a + b) / recentReviews[i].length
           ).toFixed(2)
         })
         content = {

@@ -93,13 +93,13 @@ class ReviewPage extends Component {
               data: result,
             })
             if (this.state.type === 'instructor') {
-              apiLiveInstructor(
-                result.name.replace(/[^A-Za-z0-9 ]/g, ''),
-              ).then(data => {
-                this.setState(state => ({
-                  live_data: state.data.name === result.name ? data : null,
-                }))
-              })
+              apiLiveInstructor(result.name.replace(/[^A-Za-z0-9 ]/g, '')).then(
+                data => {
+                  this.setState(state => ({
+                    live_data: state.data.name === result.name ? data : null,
+                  }))
+                },
+              )
             }
           }
         })

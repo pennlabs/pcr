@@ -109,9 +109,7 @@ class ScoreBox extends Component {
                     .indexOf(key) !== -1,
               )
               .filter(a => !a.is_cancelled)
-            data.open += coursesByInstructor.filter(
-              a => !a.is_closed,
-            ).length
+            data.open += coursesByInstructor.filter(a => !a.is_closed).length
             data.all += coursesByInstructor.length
             data.sections = data.sections.concat(
               coursesByInstructor.map(a => a),
