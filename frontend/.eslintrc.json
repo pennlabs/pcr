@@ -29,7 +29,7 @@
       }
     ],
     "no-unused-vars": ["warn"],
-    "camelcase": 0,
+    "camelcase": 1,
     "react/jsx-uses-vars": [2],
     "react/jsx-uses-react": "warn",
     "react/prop-types": 0,
