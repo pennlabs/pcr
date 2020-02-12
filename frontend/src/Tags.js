@@ -21,11 +21,11 @@ function convertInstructorName(name) {
 
 export class CourseLine extends Component {
   render() {
-    const is_open = !this.props.data.is_closed && !this.props.data.is_cancelled
+    const isOpen = !this.props.data.is_closed && !this.props.data.is_cancelled
     return (
       <li>
         {this.props.data.section_id_normalized}
-        <i className={`ml-2 fa fa-fw fa-${is_open ? 'check' : 'times'}`} />
+        <i className={`ml-2 fa fa-fw fa-${isOpen ? 'check' : 'times'}`} />
         <span className="ml-2" style={{ color: '#aaa' }}>
           {this.props.data.meetings
             .map(a => `${a.meeting_days} ${a.start_time} - ${a.end_time}`)
@@ -42,22 +42,22 @@ export class CourseLine extends Component {
 class Tags extends Component {
   render() {
     const existing = this.props.existing_instructors.map(convertInstructorName)
-    const new_instructors = {}
+    const newInstructors = {}
     if (this.props.instructors) {
       this.props.instructors.forEach(i => {
         const key = convertInstructorName(i)
-        new_instructors[key] = i
+        newInstructors[key] = i
       })
     }
     existing.forEach(i => {
-      delete new_instructors[i]
+      delete newInstructors[i]
     })
 
-    const is_taught = Object.values(this.props.courses).length > 0
-    let most_recent = null
+    const isTaught = Object.values(this.props.courses).length > 0
+    let mostRecent = null
 
-    if (!is_taught) {
-      const semester_taught = Math.max(
+    if (!isTaught) {
+      const semesterTaught = Math.max(
         ...Object.values(this.props.data.instructors)
           .map(a => a.most_recent_semester)
           .filter(a => typeof a !== 'undefined')
@@ -66,10 +66,10 @@ class Tags extends Component {
             return parseInt(x[1]) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[x[0]]
           }),
       )
-      if (semester_taught > 0) {
-        most_recent = `${
-          ['Spring', 'Summer', 'Fall'][semester_taught % 3]
-        } ${Math.floor(semester_taught / 3)}`
+      if (semesterTaught > 0) {
+        mostRecent = `${
+          ['Spring', 'Summer', 'Fall'][semesterTaught % 3]
+        } ${Math.floor(semesterTaught / 3)}`
       }
     }
 
@@ -88,7 +88,7 @@ class Tags extends Component {
         ),
       )
       .sort((a, b) => a.name.localeCompare(b.name))
-    const prereq_string = [].concat
+    const prereqString = [].concat
       .apply(
         [],
         Object.values(this.props.courses).map(a =>
@@ -99,19 +99,19 @@ class Tags extends Component {
       )
       .join(' ')
     const prereqs = [
-      ...new Set(prereq_string.match(/[A-Z]{2,4}[ -]\d{3}/g)),
+      ...new Set(prereqString.match(/[A-Z]{2,4}[ -]\d{3}/g)),
     ].map(a => a.replace(' ', '-'))
 
-    const course_name = this.props.data.code.replace('-', ' ')
+    const courseName = this.props.data.code.replace('-', ' ')
 
     return (
       <div>
         <div id="live">
-          {is_taught ? (
+          {isTaught ? (
             <PopoverTitle
               title={
                 <span>
-                  {course_name} will be taught in <b>{this.props.term}</b>.
+                  {courseName} will be taught in <b>{this.props.term}</b>.
                 </span>
               }
             >
@@ -121,18 +121,18 @@ class Tags extends Component {
             <PopoverTitle
               title={
                 <span>
-                  {course_name} was last taught in <b>{most_recent}</b>.
+                  {courseName} was last taught in <b>{mostRecent}</b>.
                 </span>
               }
             >
-              <span className="badge badge-secondary">{most_recent}</span>
+              <span className="badge badge-secondary">{mostRecent}</span>
             </PopoverTitle>
           )}
-          {is_taught && (
+          {isTaught && (
             <PopoverTitle
               title={
                 <span>
-                  {course_name} is <b>{this.props.credits}</b> credit unit
+                  {courseName} is <b>{this.props.credits}</b> credit unit
                   {this.props.credits === 1 || 's'}.
                 </span>
               }
@@ -155,7 +155,7 @@ class Tags extends Component {
                   <span>
                     <b>{open.length}</b> out of
                     <b>{info.length}</b> {desc.toLowerCase()} sections are open
-                    for {course_name}.
+                    for {courseName}.
                     <ul style={{ marginBottom: 0 }}>
                       {info
                         .sort((x, y) =>
@@ -213,10 +213,10 @@ class Tags extends Component {
             ])}
           </div>
         )}
-        {!!Object.keys(new_instructors).length && (
+        {!!Object.keys(newInstructors).length && (
           <div>
             New Instructors:
-            {Object.values(new_instructors)
+            {Object.values(newInstructors)
               .sort()
               .map((item, i) => (
                 <span key={i}>
