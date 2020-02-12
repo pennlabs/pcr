@@ -55,14 +55,14 @@ class SearchBar extends Component {
           group: i.category,
           category: 'Courses',
         }))
-        const courses_index = [
+        const coursesIndex = [
           courses.map(i => ({
             term: fuzzysort.prepare(expandCombo(i.title)),
             id: i.title,
           })),
         ]
         courses.forEach(i => {
-          courses_index.push(
+          coursesIndex.push(
             i.desc.map(j => ({ term: fuzzysort.prepare(j), id: i.title })),
           )
         })
@@ -85,7 +85,7 @@ class SearchBar extends Component {
               map[obj.title] = obj
               return map
             }, {}),
-            search_index: courses_index.flat(),
+            search_index: coursesIndex.flat(),
           },
           {
             label: 'Instructors',
@@ -151,7 +151,7 @@ class SearchBar extends Component {
         threshold: -2000,
         limit: 25,
       })
-      .then(course_results => [
+      .then(res => [
         {
           label: 'Departments',
           options: fuzzysort
@@ -160,12 +160,12 @@ class SearchBar extends Component {
               threshold: -200,
               limit: 10,
             })
-            .map(a => a.obj),
+            .map(({ obj }) => obj),
         },
         {
           label: 'Courses',
           options: removeDuplicates(
-            course_results.map(a => autocompleteOptions[1].options[a.obj.id]),
+            res.map(a => autocompleteOptions[1].options[a.obj.id]),
           ),
         },
         {
@@ -176,7 +176,7 @@ class SearchBar extends Component {
               threshold: -200,
               limit: 25,
             })
-            .map(a => a.obj),
+            .map(({ obj }) => obj),
         },
       ])
   }
