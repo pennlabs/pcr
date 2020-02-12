@@ -62,37 +62,38 @@ class InfoBox extends Component {
     return () => {
       let content
       if (key === 'average') {
-        const average_reviews = {}
-        const recent_reviews = {}
+        const averageReviews = {}
+        const recentReviews = {}
         Object.values(this.props.data.instructors).forEach(i => {
-          Object.keys(i.recent_reviews).forEach(j => {
-            if (!(j in recent_reviews)) {
-              recent_reviews[j] = []
+          Object.keys(i.recentReviews).forEach(j => {
+            if (!(j in recentReviews)) {
+              recentReviews[j] = []
             }
-            recent_reviews[j].push(i.recent_reviews[j])
+            recentReviews[j].push(i.recentReviews[j])
           })
-          Object.keys(i.average_reviews).forEach(j => {
-            if (!(j in average_reviews)) {
-              average_reviews[j] = []
+          Object.keys(i.averageReviews).forEach(j => {
+            if (!(j in averageReviews)) {
+              averageReviews[j] = []
             }
-            average_reviews[j].push(i.average_reviews[j])
+            averageReviews[j].push(i.averageReviews[j])
           })
         })
-        Object.keys(average_reviews).forEach(i => {
-          average_reviews[i] = (
-            average_reviews[i].reduce((a, b) => a + b) /
-            average_reviews[i].length
+        Object.keys(averageReviews).forEach(i => {
+          averageReviews[i] = (
+            averageReviews[i].reduce((a, b) => a + b) /
+            averageReviews[i].length
           ).toFixed(2)
         })
-        Object.keys(recent_reviews).forEach(i => {
-          recent_reviews[i] = (
-            recent_reviews[i].reduce((a, b) => a + b) / recent_reviews[i].length
+        Object.keys(recentReviews).forEach(i => {
+          recentReviews[i] = (
+            recentReviews[i].reduce((a, b) => a + b) /
+            recentReviews[i].length
           ).toFixed(2)
         })
         content = {
           name: 'Average Professor',
-          average_reviews,
-          recent_reviews,
+          average_reviews: averageReviews,
+          recent_reviews: recentReviews,
         }
       } else {
         content = this.props.data.instructors[key]
