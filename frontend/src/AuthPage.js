@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 
 import NavBar from './NavBar'
@@ -10,51 +10,48 @@ import { redirectForAuth, apiIsAuthenticated } from './api'
 /**
  * A wrapper around a review page that performs Shibboleth authentication.
  */
-class AuthPage extends Component {
-  constructor(props) {
-    super(props)
 
-    this.state = {
-      isAuthed: false,
-      authFailed: false,
-    }
+const AuthPage = props => {
+  const [authed, setAuthed] = useState(false)
+  const [authFailed, setAuthFailed] = useState(false)
 
+  useEffect(() => {
     const tempCookie = 'doing_token_auth'
     apiIsAuthenticated(authed => {
       if (authed) {
         Cookies.remove(tempCookie)
-        this.setState({ isAuthed: true, authFailed: false })
+        setAuthed(true)
+        setAuthFailed(false)
       } else {
         if (typeof Cookies.get(tempCookie) === 'undefined') {
           Cookies.set(tempCookie, 'true', { expires: 1 / 1440 })
           redirectForAuth()
-          this.setState({ isAuthed: false, authFailed: false })
+          setAuthed(false)
+          setAuthFailed(false)
         } else {
           Cookies.remove(tempCookie)
-          this.setState({ isAuthed: false, authFailed: true })
+          setAuthed(false)
+          setAuthFailed(true)
         }
       }
     })
-  }
+  }, [])
 
-  render() {
-    const { authFailed, isAuthed } = this.state
-    if (authFailed) {
-      return (
-        <div>
-          <NavBar />
-          <ErrorBox>
-            Could not perform Platform authentication.
-            <br />
-            Refresh this page to try again.
-          </ErrorBox>
-          <Footer />
-        </div>
-      )
-    }
-    // TODO: Add loading spinner instead of null
-    return isAuthed ? <ReviewPage {...this.props} /> : null
+  if (authFailed) {
+    return (
+      <>
+        <NavBar />
+        <ErrorBox>
+          Could not perform Platform authentication.
+          <br />
+          Refresh this page to try again.
+        </ErrorBox>
+        <Footer />
+      </>
+    )
   }
+  // TODO: Add loading spinner instead of null
+  return authed ? <ReviewPage {...props} /> : null
 }
 
 export default AuthPage
