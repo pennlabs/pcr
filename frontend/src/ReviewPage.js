@@ -14,7 +14,6 @@ import { apiReviewData, apiLive, apiLiveInstructor } from './api'
  */
 const SHOW_RECRUITMENT_BANNER = false
 
-
 /**
  * Represents a course, instructor, or department review page.
  */

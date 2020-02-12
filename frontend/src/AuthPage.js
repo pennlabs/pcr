@@ -18,6 +18,23 @@ class AuthPage extends Component {
       isAuthed: false,
       authFailed: false,
     }
+
+    const tempCookie = 'doing_token_auth'
+    apiIsAuthenticated(authed => {
+      if (authed) {
+        Cookies.remove(tempCookie)
+        this.setState({ isAuthed: true, authFailed: false })
+      } else {
+        if (typeof Cookies.get(tempCookie) === 'undefined') {
+          Cookies.set(tempCookie, 'true', { expires: 1 / 1440 })
+          redirectForAuth()
+          this.setState({ isAuthed: false, authFailed: false })
+        } else {
+          Cookies.remove(tempCookie)
+          this.setState({ isAuthed: false, authFailed: true })
+        }
+      }
+    })
   }
 
   render() {
