@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import ScoreTable from './ScoreTable'
 import ColumnSelector from './ColumnSelector'
-import { api_history } from './api'
+import { apiHistory } from './api'
 import { getColumnName, orderColumns } from './ScoreBox'
 
 // TODO: Move functions like compareSemesters and getColumnName in ScoreBox into a utils file
@@ -45,7 +45,7 @@ class DetailsBox extends Component {
       prevProps.course !== this.props.course
     ) {
       if (this.props.instructor !== null && this.props.course !== null) {
-        api_history(this.props.course, this.props.instructor).then(res => {
+        apiHistory(this.props.course, this.props.instructor).then(res => {
           const list = [
             ...new Set(
               Object.values(res.sections)

@@ -7,7 +7,7 @@ import NavBar from './NavBar'
 import DetailsBox from './DetailsBox'
 import SearchBar from './SearchBar'
 import Footer from './Footer'
-import { api_review_data, api_live, api_live_instructor } from './api'
+import { apiReviewData, apiLive, apiLiveInstructor } from './api'
 
 /**
  * Enable or disable the Penn Labs recruitment banner.
@@ -81,7 +81,7 @@ class ReviewPage extends Component {
   getReviewData() {
     const { type, code } = this.state
     if (type && code) {
-      api_review_data(type, code)
+      apiReviewData(type, code)
         .then(result => {
           if (result.error) {
             this.setState({
@@ -93,7 +93,7 @@ class ReviewPage extends Component {
               data: result,
             })
             if (this.state.type === 'instructor') {
-              api_live_instructor(
+              apiLiveInstructor(
                 result.name.replace(/[^A-Za-z0-9 ]/g, ''),
               ).then(data => {
                 this.setState(state => ({
@@ -112,7 +112,7 @@ class ReviewPage extends Component {
     }
 
     if (type === 'course') {
-      api_live(code)
+      apiLive(code)
         .then(result => {
           this.setState({ live_data: result })
         })
