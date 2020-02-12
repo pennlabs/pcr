@@ -33,6 +33,7 @@ jobs:
           name: Lint
           command: |
             pipenv run flake8
+            cd frontend && yarn lint
       - run:
           name: Run tests
           command: |
