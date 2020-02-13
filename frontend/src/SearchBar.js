@@ -63,7 +63,7 @@ class SearchBar extends Component {
         ]
         courses.forEach(i => {
           coursesIndex.push(
-            i.desc.map(j => ({ term: fuzzysort.prepare(j), id: i.title })),
+            i.desc.map(j => ({ term: fuzzysort.prepare(j), id: i.title }))
           )
         })
 
@@ -106,10 +106,10 @@ class SearchBar extends Component {
           },
           () => {
             this._autocompleteCallback.forEach(x =>
-              x(this.state.autocompleteOptions),
+              x(this.state.autocompleteOptions)
             )
             this._autocompleteCallback = []
-          },
+          }
         )
       })
       .catch(e => {
@@ -120,10 +120,10 @@ class SearchBar extends Component {
           },
           () => {
             this._autocompleteCallback.forEach(x =>
-              x(this.state.autocompleteOptions),
+              x(this.state.autocompleteOptions)
             )
             this._autocompleteCallback = []
-          },
+          }
         )
       })
   }
@@ -165,7 +165,7 @@ class SearchBar extends Component {
         {
           label: 'Courses',
           options: removeDuplicates(
-            res.map(a => autocompleteOptions[1].options[a.obj.id]),
+            res.map(a => autocompleteOptions[1].options[a.obj.id])
           ),
         },
         {
@@ -248,7 +248,7 @@ class SearchBar extends Component {
                       'option--is-focused': isFocused,
                       'option--is-selected': isSelected,
                     },
-                    className,
+                    className
                   )}
                   {...innerProps}
                 >
@@ -276,10 +276,10 @@ class SearchBar extends Component {
             DropdownIndicator: this.props.isTitle
               ? null
               : props => (
-                <components.DropdownIndicator {...props}>
-                  <i className="fa fa-search mr-1" />
-                </components.DropdownIndicator>
-              ),
+                  <components.DropdownIndicator {...props}>
+                    <i className="fa fa-search mr-1" />
+                  </components.DropdownIndicator>
+                ),
           }}
           styles={{
             container: styles => ({
@@ -295,8 +295,8 @@ class SearchBar extends Component {
               boxShadow: !this.props.isTitle
                 ? 'none'
                 : state.isFocused
-                  ? '0px 2px 14px #ddd'
-                  : '0 2px 14px 0 rgba(0, 0, 0, 0.07)',
+                ? '0px 2px 14px #ddd'
+                : '0 2px 14px 0 rgba(0, 0, 0, 0.07)',
               backgroundColor: this.props.isTitle ? 'white' : '#f8f8f8',
               borderColor: 'transparent',
               cursor: 'pointer',

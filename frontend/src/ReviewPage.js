@@ -61,7 +61,7 @@ class ReviewPage extends Component {
           row_code: null,
           error: null,
         },
-        this.getReviewData,
+        this.getReviewData
       )
     }
   }
@@ -97,7 +97,7 @@ class ReviewPage extends Component {
                   this.setState(state => ({
                     live_data: state.data.name === result.name ? data : null,
                   }))
-                },
+                }
               )
             }
           }

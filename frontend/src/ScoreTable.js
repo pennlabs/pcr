@@ -69,8 +69,8 @@ class ScoreTable extends Component {
                   })
                 },
                 className: (this.props.multi
-                  ? rowInfo.index in this.state.selected
-                  : rowInfo.index === this.state.selected)
+                ? rowInfo.index in this.state.selected
+                : rowInfo.index === this.state.selected)
                   ? 'selected'
                   : undefined,
               }

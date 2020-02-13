@@ -8,7 +8,7 @@ module.exports = function(app) {
       target: proxyUrl,
       changeOrigin: true,
       secure: false,
-    }),
+    })
   )
   app.use(
     proxy('/accounts', {
@@ -16,6 +16,6 @@ module.exports = function(app) {
       target: proxyUrl,
       changeOrigin: true,
       secure: false,
-    }),
+    })
   )
 }

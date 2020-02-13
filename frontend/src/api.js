@@ -8,29 +8,29 @@ function apiFetch(url) {
 
 export function redirectForAuth() {
   window.location.href = `${API_DOMAIN}/accounts/login/?next=${encodeURIComponent(
-    window.location.href,
+    window.location.href
   )}`
 }
 
 export function getLogoutUrl() {
   return `${API_DOMAIN}/accounts/logout/?next=${encodeURIComponent(
-    `${window.location.origin}/logout`,
+    `${window.location.origin}/logout`
   )}`
 }
 
 export function apiAutocomplete() {
   return apiFetch(
     `${API_DOMAIN}/api/display/autocomplete?token=${encodeURIComponent(
-      PUBLIC_API_TOKEN,
-    )}`,
+      PUBLIC_API_TOKEN
+    )}`
   )
 }
 
 export function apiIsAuthenticated(func) {
   apiFetch(
     `${API_DOMAIN}/api/display/auth?token=${encodeURIComponent(
-      PUBLIC_API_TOKEN,
-    )}`,
+      PUBLIC_API_TOKEN
+    )}`
   ).then(data => {
     func(data.authed)
   })
@@ -39,30 +39,30 @@ export function apiIsAuthenticated(func) {
 export function apiLive(code) {
   return apiFetch(
     `${API_DOMAIN}/api/display/live/${encodeURIComponent(
-      code,
-    )}?token=${encodeURIComponent(PUBLIC_API_TOKEN)}`,
+      code
+    )}?token=${encodeURIComponent(PUBLIC_API_TOKEN)}`
   )
 }
 
 export function apiLiveInstructor(name) {
   return apiFetch(
     `https://api.pennlabs.org/registrar/search/instructor?q=${encodeURIComponent(
-      name,
-    )}`,
+      name
+    )}`
   )
 }
 
 export function apiReviewData(type, code) {
   return apiFetch(
     `${API_DOMAIN}/api/display/${encodeURIComponent(type)}/${encodeURIComponent(
-      code,
-    )}?token=${encodeURIComponent(API_TOKEN)}`,
+      code
+    )}?token=${encodeURIComponent(API_TOKEN)}`
   )
 }
 
 export function apiContact(name) {
   return apiFetch(
-    `https://api.pennlabs.org/directory/search?name=${encodeURIComponent(name)}`,
+    `https://api.pennlabs.org/directory/search?name=${encodeURIComponent(name)}`
   ).then(res => {
     if (res.result_data.length !== 1) {
       return null
@@ -79,7 +79,7 @@ export function apiContact(name) {
 export function apiHistory(course, instructor) {
   return apiFetch(
     `${API_DOMAIN}/api/display/history/${encodeURIComponent(
-      course,
-    )}/${encodeURIComponent(instructor)}?token=${encodeURIComponent(API_TOKEN)}`,
+      course
+    )}/${encodeURIComponent(instructor)}?token=${encodeURIComponent(API_TOKEN)}`
   )
 }

@@ -51,7 +51,7 @@ class DetailsBox extends Component {
               Object.values(res.sections)
                 .filter(a => a.comments)
                 .sort((a, b) => compareSemesters(a.semester, b.semester))
-                .map(a => a.semester),
+                .map(a => a.semester)
             ),
           ]
           this.setState(state => ({
@@ -113,7 +113,7 @@ class DetailsBox extends Component {
               },
             ].concat(
               orderColumns(
-                Object.keys(Object.values(res.sections)[0].ratings),
+                Object.keys(Object.values(res.sections)[0].ratings)
               ).map(info => ({
                 id: info,
                 width: 150,
@@ -125,7 +125,7 @@ class DetailsBox extends Component {
                   </center>
                 ),
                 show: true,
-              })),
+              }))
             ),
             semesterList: list,
             selectedSemester: list.length
@@ -153,145 +153,145 @@ class DetailsBox extends Component {
         {((type === 'course' && instructor) ||
           (type === 'instructor' && course)) &&
         !this.state.data ? (
-            <div>Loading...</div>
-          ) : !this.state.data ? (
-            <div id="select-row">
-              <div>
-                <h3 id="select-row-text">
-                  {type === 'instructor'
-                    ? 'Select a course to see individual sections, comments, and more details.'
-                    : 'Select an instructor to see individual sections, comments, and more details.'}
-                </h3>
-                {type === 'course' ? (
-                  <object type="image/svg+xml" data="/static/image/prof.svg">
-                    <img alt="Professor Icon" src="/static/image/prof.png" />
-                  </object>
-                ) : (
-                  <object
-                    type="image/svg+xml"
-                    id="select-course-icon"
-                    data="/static/image/books-and-bag.svg"
-                  >
-                    <img alt="Class Icon" src="/static/image/books-and-bag.png" />
-                  </object>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div id="course-details-wrapper">
-              <h3>
-                <Link
-                  style={{ color: '#b2b2b2', textDecoration: 'none' }}
-                  to={
-                    type === 'course'
-                      ? `/instructor/${instructor}`
-                      : `/course/${course}`
-                  }
-                >
-                  {type === 'course' ? this.state.data.instructor.name : course}
-                </Link>
+          <div>Loading...</div>
+        ) : !this.state.data ? (
+          <div id="select-row">
+            <div>
+              <h3 id="select-row-text">
+                {type === 'instructor'
+                  ? 'Select a course to see individual sections, comments, and more details.'
+                  : 'Select an instructor to see individual sections, comments, and more details.'}
               </h3>
-              <div className="clearfix">
-                <div className="btn-group">
-                  <button
-                    onClick={() => {
-                      this.setState({ viewingRatings: true })
-                    }}
-                    id="view_ratings"
-                    className={`btn btn-sm ${
+              {type === 'course' ? (
+                <object type="image/svg+xml" data="/static/image/prof.svg">
+                  <img alt="Professor Icon" src="/static/image/prof.png" />
+                </object>
+              ) : (
+                <object
+                  type="image/svg+xml"
+                  id="select-course-icon"
+                  data="/static/image/books-and-bag.svg"
+                >
+                  <img alt="Class Icon" src="/static/image/books-and-bag.png" />
+                </object>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div id="course-details-wrapper">
+            <h3>
+              <Link
+                style={{ color: '#b2b2b2', textDecoration: 'none' }}
+                to={
+                  type === 'course'
+                    ? `/instructor/${instructor}`
+                    : `/course/${course}`
+                }
+              >
+                {type === 'course' ? this.state.data.instructor.name : course}
+              </Link>
+            </h3>
+            <div className="clearfix">
+              <div className="btn-group">
+                <button
+                  onClick={() => {
+                    this.setState({ viewingRatings: true })
+                  }}
+                  id="view_ratings"
+                  className={`btn btn-sm ${
                     this.state.viewingRatings
                       ? 'btn-sub-primary'
                       : 'btn-sub-secondary'
                   }`}
-                  >
+                >
                   Ratings
-                  </button>
-                  <button
-                    onClick={() => {
-                      this.setState({ viewingRatings: false })
-                    }}
-                    id="view_comments"
-                    className={`btn btn-sm ${
+                </button>
+                <button
+                  onClick={() => {
+                    this.setState({ viewingRatings: false })
+                  }}
+                  id="view_comments"
+                  className={`btn btn-sm ${
                     !this.state.viewingRatings
                       ? 'btn-sub-primary'
                       : 'btn-sub-secondary'
                   }`}
-                  >
+                >
                   Comments
-                  </button>
-                </div>
-                <ColumnSelector
-                  name="details"
-                  onSelect={cols => this.setState({ columns: cols })}
-                  columns={this.state.columns}
-                  buttonStyle="btn-sub"
-                />
-                {this.state.viewingRatings && (
-                  <div className="float-right">
-                    <label className="table-search">
-                      <input
-                        value={this.state.filterAll}
-                        onChange={val =>
-                          this.setState({
-                            filtered: [{ id: 'name', value: val.target.value }],
-                            filterAll: val.target.value,
-                          })
-                        }
-                        type="search"
-                        className="form-control form-control-sm"
-                      />
-                    </label>
-                  </div>
-                )}
+                </button>
               </div>
-              {this.state.viewingRatings ? (
-                <div id="course-details-data">
-                  <ScoreTable
-                    sorted={[{ id: 'semester', desc: false }]}
-                    filtered={this.state.filtered}
-                    data={Object.values(this.state.data.sections).map(i => ({
-                      ...i.ratings,
-                      semester: i.semester,
-                      name: i.course_name,
-                      forms_produced: i.forms_produced,
-                      forms_returned: i.forms_returned,
-                    }))}
-                    columns={this.state.columns}
-                    noun="section"
-                  />
-                </div>
-              ) : (
-                <div id="course-details-comments" className="clearfix mt-2">
-                  <div className="list">
-                    {this.state.semesterList.map((info, i) => (
-                      <div
-                        key={i}
-                        onClick={() => {
-                          this.setState({ selectedSemester: info })
-                        }}
-                        className={
-                          this.state.selectedSemester === info ? 'selected' : ''
-                        }
-                      >
-                        {info}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="comments">
-                    {Object.values(this.state.data.sections)
-                      .filter(
-                        info =>
-                          info.semester === this.state.selectedSemester &&
-                        info.comments,
-                      )
-                      .map(info => info.comments)
-                      .join(', ') ||
-                    'This instructor does not have any comments for this course.'}
-                  </div>
+              <ColumnSelector
+                name="details"
+                onSelect={cols => this.setState({ columns: cols })}
+                columns={this.state.columns}
+                buttonStyle="btn-sub"
+              />
+              {this.state.viewingRatings && (
+                <div className="float-right">
+                  <label className="table-search">
+                    <input
+                      value={this.state.filterAll}
+                      onChange={val =>
+                        this.setState({
+                          filtered: [{ id: 'name', value: val.target.value }],
+                          filterAll: val.target.value,
+                        })
+                      }
+                      type="search"
+                      className="form-control form-control-sm"
+                    />
+                  </label>
                 </div>
               )}
             </div>
-          )}
+            {this.state.viewingRatings ? (
+              <div id="course-details-data">
+                <ScoreTable
+                  sorted={[{ id: 'semester', desc: false }]}
+                  filtered={this.state.filtered}
+                  data={Object.values(this.state.data.sections).map(i => ({
+                    ...i.ratings,
+                    semester: i.semester,
+                    name: i.course_name,
+                    forms_produced: i.forms_produced,
+                    forms_returned: i.forms_returned,
+                  }))}
+                  columns={this.state.columns}
+                  noun="section"
+                />
+              </div>
+            ) : (
+              <div id="course-details-comments" className="clearfix mt-2">
+                <div className="list">
+                  {this.state.semesterList.map((info, i) => (
+                    <div
+                      key={i}
+                      onClick={() => {
+                        this.setState({ selectedSemester: info })
+                      }}
+                      className={
+                        this.state.selectedSemester === info ? 'selected' : ''
+                      }
+                    >
+                      {info}
+                    </div>
+                  ))}
+                </div>
+                <div className="comments">
+                  {Object.values(this.state.data.sections)
+                    .filter(
+                      info =>
+                        info.semester === this.state.selectedSemester &&
+                        info.comments
+                    )
+                    .map(info => info.comments)
+                    .join(', ') ||
+                    'This instructor does not have any comments for this course.'}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     )
   }

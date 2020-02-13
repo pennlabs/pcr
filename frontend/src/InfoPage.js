@@ -64,14 +64,14 @@ class InfoPage extends Component {
           .filter(
             a =>
               typeof a !== 'undefined' &&
-              excludedCourses.indexOf(a.course) === -1,
+              excludedCourses.indexOf(a.course) === -1
           )
           .map(
             a =>
               ((a.info || { type: null })[type] || {
                 average: null,
                 recent: null,
-              })[isAverage ? 'average' : 'recent'],
+              })[isAverage ? 'average' : 'recent']
           )
           .filter(a => a !== null && !isNaN(a))
           .map(a => parseFloat(a))
@@ -220,7 +220,7 @@ class InfoPage extends Component {
               }`}
               onClick={() => {
                 this.setState({ isAverage: true }, () =>
-                  localStorage.setItem('meta-column-type', 'average'),
+                  localStorage.setItem('meta-column-type', 'average')
                 )
                 this.regenerateRatings()
               }}
@@ -233,7 +233,7 @@ class InfoPage extends Component {
               }`}
               onClick={() => {
                 this.setState({ isAverage: false }, () =>
-                  localStorage.setItem('meta-column-type', 'recent'),
+                  localStorage.setItem('meta-column-type', 'recent')
                 )
                 this.regenerateRatings()
               }}

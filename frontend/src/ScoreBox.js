@@ -106,13 +106,13 @@ class ScoreBox extends Component {
                 a =>
                   a.instructors
                     .map(b => convertInstructorName(b.name))
-                    .indexOf(key) !== -1,
+                    .indexOf(key) !== -1
               )
               .filter(a => !a.is_cancelled)
             data.open += coursesByInstructor.filter(a => !a.is_closed).length
             data.all += coursesByInstructor.length
             data.sections = data.sections.concat(
-              coursesByInstructor.map(a => a),
+              coursesByInstructor.map(a => a)
             )
           })
           instructorsThisSemester[key] = data
@@ -222,7 +222,7 @@ class ScoreBox extends Component {
           },
           width: 140,
           show: true,
-        }),
+        })
       )
     }
 
@@ -323,8 +323,8 @@ class ScoreBox extends Component {
                     {props.original.star.sections
                       .sort((x, y) =>
                         x.section_id_normalized.localeCompare(
-                          y.section_id_normalized,
-                        ),
+                          y.section_id_normalized
+                        )
                       )
                       .map((a, i) => (
                         <CourseLine key={i} data={a} />
@@ -357,7 +357,7 @@ class ScoreBox extends Component {
                     {this.state.currentCourses[props.original.code].map(
                       (a, i) => (
                         <CourseLine key={i} data={a} />
-                      ),
+                      )
                     )}
                   </ul>
                 </span>
@@ -366,7 +366,7 @@ class ScoreBox extends Component {
               <i
                 className={`ml-1 fa-star ${
                   this.state.currentCourses[props.original.code].filter(
-                    a => !a.is_closed && !a.is_cancelled,
+                    a => !a.is_closed && !a.is_cancelled
                   ).length
                     ? 'fa'
                     : 'far'

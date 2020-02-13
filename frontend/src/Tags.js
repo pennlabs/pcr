@@ -64,7 +64,7 @@ class Tags extends Component {
           .map(a => {
             const x = a.split(' ')
             return parseInt(x[1]) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[x[0]]
-          }),
+          })
       )
       if (semesterTaught > 0) {
         mostRecent = `${
@@ -84,8 +84,8 @@ class Tags extends Component {
                 .map(c => c.name)
                 .join(', ') || 'Unknown'}`,
             }))
-            .filter(b => b.url),
-        ),
+            .filter(b => b.url)
+        )
       )
       .sort((a, b) => a.name.localeCompare(b.name))
     const prereqString = [].concat
@@ -94,8 +94,8 @@ class Tags extends Component {
         Object.values(this.props.courses).map(a =>
           Object.values(a)
             .map(b => (b.prerequisite_notes || []).join(' '))
-            .filter(b => b),
-        ),
+            .filter(b => b)
+        )
       )
       .join(' ')
     const prereqs = [
@@ -160,8 +160,8 @@ class Tags extends Component {
                       {info
                         .sort((x, y) =>
                           x.section_id_normalized.localeCompare(
-                            y.section_id_normalized,
-                          ),
+                            y.section_id_normalized
+                          )
                         )
                         .map((a, i) => (
                           <CourseLine key={i} data={a} />

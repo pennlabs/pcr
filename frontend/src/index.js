@@ -11,7 +11,7 @@ import GoogleAnalytics from './GoogleAnalytics'
 
 if (window.location.hostname !== 'localhost') {
   window.Raven.config(
-    'https://1eab3b29efe0416fa948c7cd23ed930a@sentry.pennlabs.org/5',
+    'https://1eab3b29efe0416fa948c7cd23ed930a@sentry.pennlabs.org/5'
   ).install()
 }
 
@@ -28,5 +28,5 @@ ReactDOM.render(
     </Switch>
     <GoogleAnalytics />
   </Router>,
-  document.getElementById('root'),
+  document.getElementById('root')
 )

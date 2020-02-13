@@ -52,7 +52,7 @@ class Popover extends Component {
 
   onToggle(val) {
     const buttonElement = ReactDOM.findDOMNode(
-      this.refs.button,
+      this.refs.button
     ).getBoundingClientRect()
     this.setState(state => ({
       isShown: typeof val === 'undefined' ? !state.isShown : val,
@@ -77,7 +77,7 @@ class Popover extends Component {
       ) : (
         undefined
       ),
-      this.dialogElement,
+      this.dialogElement
     )
   }
 

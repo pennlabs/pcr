@@ -15,9 +15,9 @@ class ColumnSelector extends Component {
       const instructorFields =
         type === 'instructor'
           ? {
-            latest_semester: true,
-            num_semesters: true,
-          }
+              latest_semester: true,
+              num_semesters: true,
+            }
           : {}
 
       defaultColumns = {
@@ -35,7 +35,7 @@ class ColumnSelector extends Component {
     this.changeColumns = this.changeColumns.bind(this)
 
     this.changeColumns(
-      columns.map(a => ({ ...a, show: a.required || !!defaultColumns[a.id] })),
+      columns.map(a => ({ ...a, show: a.required || !!defaultColumns[a.id] }))
     )
   }
 

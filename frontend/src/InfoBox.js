@@ -38,7 +38,7 @@ class InfoBox extends Component {
   getChartData() {
     return {
       labels: Object.values(this.props.selected_courses).map(
-        a => a.original.code,
+        a => a.original.code
       ),
       datasets: [
         'rCourseQuality',
@@ -51,7 +51,7 @@ class InfoBox extends Component {
           .split(/(?=[A-Z])/)
           .join(' '),
         data: Object.values(this.props.selected_courses).map(
-          b => (b.original[a] || { average: 0 }).average,
+          b => (b.original[a] || { average: 0 }).average
         ),
         backgroundColor: ['#6274f1', '#ffc107', '#76bf96', '#df5d56'][i],
       })),
@@ -107,7 +107,7 @@ class InfoBox extends Component {
             average: content.average_reviews[a],
             recent: content.recent_reviews[a],
           })),
-        }),
+        })
       )
       this.setState({ inCourseCart: true })
       window.onCartUpdated()
@@ -171,8 +171,8 @@ class InfoBox extends Component {
                             {Object.keys(instructors)
                               .sort((a, b) =>
                                 instructors[a].name.localeCompare(
-                                  instructors[b].name,
-                                ),
+                                  instructors[b].name
+                                )
                               )
                               .map((key, i) => (
                                 <li key={i}>
@@ -223,7 +223,7 @@ class InfoBox extends Component {
                   {...this.props.live_data}
                   data={this.props.data}
                   existing_instructors={Object.values(
-                    this.props.data.instructors,
+                    this.props.data.instructors
                   ).map(a => a.name)}
                 />
               )}
@@ -283,34 +283,34 @@ class InfoBox extends Component {
           <div className="department-content">
             {this.props.selected_courses &&
             Object.keys(this.props.selected_courses).length ? (
-                <div id="row-select-chart-container">
-                  <Bar
-                    data={this.getChartData()}
-                    options={{
-                      scales: {
-                        yAxes: [
-                          {
-                            display: true,
-                            ticks: {
-                              min: 0,
-                              max: 4,
-                            },
+              <div id="row-select-chart-container">
+                <Bar
+                  data={this.getChartData()}
+                  options={{
+                    scales: {
+                      yAxes: [
+                        {
+                          display: true,
+                          ticks: {
+                            min: 0,
+                            max: 4,
                           },
-                        ],
-                      },
-                    }}
-                  />
-                </div>
-              ) : (
-                <div id="row-select-placeholder">
-                  <object type="image/svg+xml" data="/static/image/selectrow.svg">
-                    <img alt="Select Row" src="/static/image/selectrow.svg" />
-                  </object>
-                  <div id="row-select-text">
+                        },
+                      ],
+                    },
+                  }}
+                />
+              </div>
+            ) : (
+              <div id="row-select-placeholder">
+                <object type="image/svg+xml" data="/static/image/selectrow.svg">
+                  <img alt="Select Row" src="/static/image/selectrow.svg" />
+                </object>
+                <div id="row-select-text">
                   Select a few rows to begin comparing courses.
-                  </div>
                 </div>
-              )}
+              </div>
+            )}
           </div>
         )}
 
@@ -323,7 +323,7 @@ class InfoBox extends Component {
                 <Link to={`/course/${m.replace(' ', '-')}`} key={i}>
                   {m}
                 </Link>
-              ),
+              )
             )}
           </p>
         )}
