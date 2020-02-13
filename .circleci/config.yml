@@ -43,7 +43,7 @@ jobs:
             pipenv run coverage run manage.py test
 
 workflows:
-  version: 2:
+  version: 2
   build:
     jobs:
       - react-tools/check:
