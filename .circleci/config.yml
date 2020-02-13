@@ -1,27 +1,6 @@
 version: 2
 jobs:
-  frontend:
-    working_directory: ~/pcr
-    docker:
-      - image: circleci/node:10
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
-      - run:
-          name: Install dependencies
-          command: |
-            cd frontend && npm install
-      - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
-            paths:
-              - frontend/node_modules
-      - run:
-          name: Lint
-          command: |
-            cd frontend
-            npm run lint
-  backend:
+  build:
     working_directory: ~/pcr
     docker:
       - image: circleci/python:3.7
@@ -33,27 +12,37 @@ jobs:
         environment:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: circle_test
+      - image: circleci/node:10
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
       - restore_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      - restore_cache:
+          key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
       - run:
           name: Install dependencies
           command: |
             sudo pip install pipenv
             pipenv install -d
+            cd frontend && npm install
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ".venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.7/site-packages"
+      - save_cache:
+          key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
+          paths:
+            - "frontend/node_modules"
       - run:
           name: Lint
           command: |
             pipenv run flake8
+            cd frontend
+            npm run lint
       - run:
           name: Run tests
           command: |
