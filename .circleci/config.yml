@@ -1,6 +1,27 @@
 version: 2
 jobs:
-  build:
+  frontend:
+    working_directory: ~/pcr
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
+      - run:
+        name: Install dependencies
+        command: |
+          cd frontend && npm install
+      - save_cache:
+        key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
+          paths:
+            - frontend/node_modules
+      - run:
+        name: Lint
+        command: |
+          cd frontend
+          npm run lint
+  backend:
     working_directory: ~/pcr
     docker:
       - image: circleci/python:3.7
@@ -33,7 +54,6 @@ jobs:
           name: Lint
           command: |
             pipenv run flake8
-            cd frontend && yarn lint
       - run:
           name: Run tests
           command: |
