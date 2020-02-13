@@ -9,18 +9,18 @@ jobs:
       - restore_cache:
           key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
       - run:
-        name: Install dependencies
-        command: |
-          cd frontend && npm install
+          name: Install dependencies
+          command: |
+            cd frontend && npm install
       - save_cache:
-        key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
-          paths:
-            - frontend/node_modules
+          key: deps9-{{ .Branch }}-{{ checksum "frontend/package-lock.json" }}
+            paths:
+              - frontend/node_modules
       - run:
-        name: Lint
-        command: |
-          cd frontend
-          npm run lint
+          name: Lint
+          command: |
+            cd frontend
+            npm run lint
   backend:
     working_directory: ~/pcr
     docker:
