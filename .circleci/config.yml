@@ -19,6 +19,7 @@ jobs:
       - run:
           name: Lint
           command: |
+            cd frontend
             yarn lint
   backend:
     working_directory: ~/pcr
