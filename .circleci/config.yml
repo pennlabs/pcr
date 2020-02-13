@@ -33,7 +33,6 @@ jobs:
         environment:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: circle_test
-      - image: circleci/node:10
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
