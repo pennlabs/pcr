@@ -61,22 +61,24 @@ class Popover extends Component {
   }
 
   componentDidUpdate() {
+    const {
+      isShown,
+      position: [top, left],
+    } = this.state
+    const { style, children } = this.props
     ReactDOM.render(
-      this.state.isShown ? (
+      isShown ? (
         <div
           className="msg"
           style={{
-            ...this.props.style,
-            top: this.state.position && this.state.position[1] + window.scrollY,
-            left:
-              this.state.position && this.state.position[0] + window.scrollX,
+            ...style,
+            top: top && top + window.scrollY,
+            left: left && left + window.scrollX,
           }}
         >
-          {this.props.children}
+          {children}
         </div>
-      ) : (
-        undefined
-      ),
+      ) : null,
       this.dialogElement
     )
   }
