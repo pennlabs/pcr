@@ -51,12 +51,12 @@ class Popover extends Component {
   }
 
   onToggle(val) {
-    const buttonElement = ReactDOM.findDOMNode(
+    const { left, bottom } = ReactDOM.findDOMNode(
       this.refs.button
     ).getBoundingClientRect()
-    this.setState(state => ({
-      isShown: typeof val === 'undefined' ? !state.isShown : val,
-      position: [buttonElement.left, buttonElement.bottom],
+    this.setState(({ isShown }) => ({
+      isShown: typeof val === 'undefined' ? !isShown : val,
+      position: [left, bottom],
     }))
   }
 
@@ -84,29 +84,26 @@ class Popover extends Component {
   }
 
   render() {
+    const { hover, button } = this.props
     return (
       <span
         ref="button"
         style={{ cursor: 'pointer' }}
-        onClick={!this.props.hover ? () => this.onToggle() : undefined}
-        onMouseEnter={this.props.hover ? () => this.onToggle(true) : undefined}
-        onMouseLeave={this.props.hover ? () => this.onToggle(false) : undefined}
+        onClick={!hover ? () => this.onToggle() : undefined}
+        onMouseEnter={hover ? () => this.onToggle(true) : undefined}
+        onMouseLeave={hover ? () => this.onToggle(false) : undefined}
       >
-        {this.props.button || <button>Toggle</button>}
+        {button || <button>Toggle</button>}
       </span>
     )
   }
 }
 
-class PopoverTitle extends Component {
-  render() {
-    return (
-      <Popover hover button={this.props.children}>
-        {this.props.title}
-      </Popover>
-    )
-  }
-}
+const PopoverTitle = ({ children, title }) => (
+  <Popover hover button={children}>
+    {title}
+  </Popover>
+)
 
 export { PopoverTitle }
 export default Popover
