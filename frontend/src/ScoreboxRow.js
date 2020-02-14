@@ -1,56 +1,52 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 /**
  * Three colored boxes with numerical rating values, used in the course description box.
  */
-class ScoreboxRow extends Component {
-  render() {
-    function numOrNA(num) {
-      return isNaN(num) ? 'N/A' : num.toFixed(1)
-    }
-
-    function getColor(num) {
-      if (isNaN(num)) {
-        return 'rating-good'
-      }
-      num = num.toFixed(1)
-
-      if (num < 2) {
-        return 'rating-bad'
-      }
-      if (num < 3) {
-        return 'rating-okay'
-      }
+const ScoreboxRow = ({
+  value,
+  num_sections: numSections,
+  course,
+  instructor,
+  difficulty,
+}) => {
+  const numOrNA = num => (isNaN(num) ? 'N/A' : num.toFixed(1))
+  const getColor = num => {
+    if (isNaN(num)) {
       return 'rating-good'
     }
+    num = num.toFixed(1)
+    if (num < 2) {
+      return 'rating-bad'
+    }
+    if (num < 3) {
+      return 'rating-okay'
+    }
+    return 'rating-good'
+  }
 
-    return (
-      <div className="scorebox-desc-row">
-        <div className="scoredesc">
-          <p className="title">{this.props.value}</p>{' '}
-          <p className="subtitle">{this.props.num_sections} Sections</p>
+  return (
+    <div className="scorebox-desc-row">
+      <div className="scoredesc">
+        <p className="title">{value}</p>{' '}
+        <p className="subtitle">{numSections} Sections</p>
+      </div>
+      <div className="scoreboxrow">
+        <div className={`scorebox course ${getColor(course)}`}>
+          <p className="num">{numOrNA(course)}</p>
+          <p className="desc">Course</p>
         </div>
-        <div className="scoreboxrow">
-          <div className={`scorebox course ${getColor(this.props.course)}`}>
-            <p className="num">{numOrNA(this.props.course)}</p>
-            <p className="desc">Course</p>
-          </div>
-          <div
-            className={`scorebox instructor ${getColor(this.props.instructor)}`}
-          >
-            <p className="num">{numOrNA(this.props.instructor)}</p>
-            <p className="desc">Instructor</p>
-          </div>
-          <div
-            className={`scorebox difficulty ${getColor(this.props.difficulty)}`}
-          >
-            <p className="num">{numOrNA(this.props.difficulty)}</p>
-            <p className="desc">Difficulty</p>
-          </div>
+        <div className={`scorebox instructor ${getColor(instructor)}`}>
+          <p className="num">{numOrNA(instructor)}</p>
+          <p className="desc">Instructor</p>
+        </div>
+        <div className={`scorebox difficulty ${getColor(difficulty)}`}>
+          <p className="num">{numOrNA(difficulty)}</p>
+          <p className="desc">Difficulty</p>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default ScoreboxRow
