@@ -43,36 +43,26 @@ class ScoreTable extends Component {
           resizable={false}
           style={{ maxHeight: 400 }}
           getTrProps={(_, rowInfo) => {
-            if (rowInfo && rowInfo.row) {
+            const { selected } = this.state
+            const { multi, onSelect } = this.props
+            const { index, original, row } = rowInfo
+            const noRow = multi ? index in selected : index === selected
+            if (rowInfo && row) {
               return {
                 onClick: () => {
-                  this.setState(state => {
-                    const noRow = this.props.multi
-                      ? rowInfo.index in state.selected
-                      : rowInfo.index === state.selected
-                    if (this.props.multi) {
-                      if (noRow) {
-                        delete state.selected[rowInfo.index]
-                      } else {
-                        state.selected[rowInfo.index] = rowInfo
-                      }
-                      if (this.props.onSelect) {
-                        this.props.onSelect(state.selected)
-                      }
-                      return { selected: { ...state.selected } }
+                  if (multi) {
+                    if (noRow) {
+                      delete selected[index]
+                    } else {
+                      selected[index] = rowInfo
                     }
-
-                    if (this.props.onSelect) {
-                      this.props.onSelect(noRow ? null : rowInfo.original.key)
-                    }
-                    return { selected: noRow ? null : rowInfo.index }
-                  })
+                    onSelect && onSelect(selected)
+                    return this.setState({ selected: { ...selected } })
+                  }
+                  onSelect && onSelect(noRow ? null : original.key)
+                  return this.setState({ selected: noRow ? null : index })
                 },
-                className: (this.props.multi
-                ? rowInfo.index in this.state.selected
-                : rowInfo.index === this.state.selected)
-                  ? 'selected'
-                  : undefined,
+                className: noRow ? 'selected' : '',
               }
             }
             return {}
