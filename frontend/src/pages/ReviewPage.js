@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import Cookies from 'universal-cookie'
-import InfoBox from './InfoBox'
-import ErrorBox from './ErrorBox'
-import ScoreBox from './ScoreBox'
-import NavBar from './NavBar'
-import DetailsBox from './DetailsBox'
-import SearchBar from './SearchBar'
-import Footer from './Footer'
-import { apiReviewData, apiLive, apiLiveInstructor } from './api'
+import InfoBox from '../components/InfoBox'
+import ErrorBox from '../components/ErrorBox'
+import ScoreBox from '../components/ScoreBox'
+import NavBar from '../components/NavBar'
+import DetailsBox from '../components/DetailsBox'
+import SearchBar from '../components/SearchBar'
+import Footer from '../components/Footer'
+import { apiReviewData, apiLive, apiLiveInstructor } from '../api'
 
 /**
  * Enable or disable the Penn Labs recruitment banner.
@@ -17,7 +17,7 @@ const SHOW_RECRUITMENT_BANNER = false
 /**
  * Represents a course, instructor, or department review page.
  */
-class ReviewPage extends Component {
+export class ReviewPage extends Component {
   constructor(props) {
     super(props)
 
@@ -265,5 +265,3 @@ class ReviewPage extends Component {
     )
   }
 }
-
-export default ReviewPage

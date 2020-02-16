@@ -6,7 +6,7 @@ import reactStringReplace from 'react-string-replace'
 import Tags from './Tags'
 import ScoreboxRow from './ScoreboxRow'
 import Popover from './Popover'
-import { apiContact } from './api'
+import { apiContact } from '../api'
 
 /**
  * Information box on the left most side, containing scores and descriptions

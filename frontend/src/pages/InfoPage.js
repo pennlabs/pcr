@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
-import NavBar from './NavBar'
-import ErrorBox from './ErrorBox'
-import Footer from './Footer'
-import Popover from './Popover'
-import { getColumnName } from './ScoreBox'
+import NavBar from '../components/NavBar'
+import ErrorBox from '../components/ErrorBox'
+import Footer from '../components/Footer'
+import Popover from '../components/Popover'
+import { getColumnName } from '../components/ScoreBox'
 
-class InfoPage extends Component {
+export class InfoPage extends Component {
   constructor(props) {
     super(props)
 
@@ -467,5 +467,3 @@ class InfoPage extends Component {
     )
   }
 }
-
-export default InfoPage

@@ -4,7 +4,7 @@ import { components } from 'react-select'
 import { css } from 'emotion'
 import { withRouter } from 'react-router-dom'
 import fuzzysort from 'fuzzysort'
-import { apiAutocomplete } from './api'
+import { apiAutocomplete } from '../api'
 
 // Takes in a course (ex: CIS 160) and returns various formats (ex: CIS-160, CIS 160, CIS160).
 function expandCombo(course) {

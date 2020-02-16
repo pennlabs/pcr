@@ -4,10 +4,8 @@ import 'react-app-polyfill/stable'
 
 import ReactDOM from 'react-dom'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
-import ReviewPage from './ReviewPage'
-import InfoPage from './InfoPage'
-import AuthPage from './AuthPage'
-import GoogleAnalytics from './GoogleAnalytics'
+import { ReviewPage, AuthPage, InfoPage } from './pages'
+import GoogleAnalytics from './components/GoogleAnalytics'
 
 if (window.location.hostname !== 'localhost') {
   window.Raven.config(
