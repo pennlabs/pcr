@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 
-import NavBar from './NavBar'
-import Footer from './Footer'
-import ErrorBox from './ErrorBox'
+import NavBar from '../components/NavBar'
+import Footer from '../components/Footer'
+import ErrorBox from '../components/ErrorBox'
 import ReviewPage from './ReviewPage'
-import { redirectForAuth, apiIsAuthenticated } from './api'
+import { redirectForAuth, apiIsAuthenticated } from '../api'
 
 /**
  * A wrapper around a review page that performs Shibboleth authentication.
  */
 
-const AuthPage = props => {
+export const AuthPage = props => {
   const [authed, setAuthed] = useState(false)
   const [authFailed, setAuthFailed] = useState(false)
 
@@ -53,5 +53,3 @@ const AuthPage = props => {
   // TODO: Add loading spinner instead of null
   return authed ? <ReviewPage {...props} /> : null
 }
-
-export default AuthPage

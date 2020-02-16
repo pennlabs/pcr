@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import ScoreTable from './ScoreTable'
 import ColumnSelector from './ColumnSelector'
-import { apiHistory } from './api'
+import { apiHistory } from '../api'
 import { getColumnName, orderColumns } from './ScoreBox'
 
 // TODO: Move functions like compareSemesters and getColumnName in ScoreBox into a utils file
