@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Popover from './Popover'
+import { Popover } from './common'
 
 /**
  * Used to select the columns that appear in a table.

@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
+import { ErrorBox, Popover } from '../components/common'
 import NavBar from '../components/NavBar'
-import ErrorBox from '../components/ErrorBox'
 import Footer from '../components/Footer'
-import Popover from '../components/Popover'
 import { getColumnName } from '../components/ScoreBox'
 
 export class InfoPage extends Component {

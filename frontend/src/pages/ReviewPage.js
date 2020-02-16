@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import Cookies from 'universal-cookie'
 import InfoBox from '../components/InfoBox'
-import ErrorBox from '../components/ErrorBox'
 import ScoreBox from '../components/ScoreBox'
 import NavBar from '../components/NavBar'
 import DetailsBox from '../components/DetailsBox'
 import SearchBar from '../components/SearchBar'
 import Footer from '../components/Footer'
+import { ErrorBox } from '../components/common'
 import { apiReviewData, apiLive, apiLiveInstructor } from '../api'
 
 /**

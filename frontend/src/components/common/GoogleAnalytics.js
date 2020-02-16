@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 /**
  * Dummy component to make Google Analytics work well with React router.
  */
-const GoogleAnalytics = ({ location, history }) => {
+const Analytics = ({ location, history }) => {
   useEffect(() => {
     if (history.action === 'PUSH') {
       const { pathname, search } = location
@@ -15,4 +15,4 @@ const GoogleAnalytics = ({ location, history }) => {
   return null
 }
 
-export default withRouter(GoogleAnalytics)
+export const GoogleAnalytics = withRouter(Analytics)
