@@ -218,9 +218,9 @@ class InfoBox extends Component {
                 </div>
               ))}
 
-              {this.props.type === 'course' && this.props.live_data && (
+              {this.props.type === 'course' && this.props.liveData && (
                 <Tags
-                  {...this.props.live_data}
+                  {...this.props.liveData}
                   data={this.props.data}
                   existing_instructors={Object.values(
                     this.props.data.instructors

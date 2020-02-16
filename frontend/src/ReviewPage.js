@@ -29,8 +29,8 @@ class ReviewPage extends Component {
       data: null,
       error: null,
       error_detail: null,
-      row_code: null,
-      live_data: null,
+      rowCode: null,
+      liveData: null,
       selected_courses: null,
       showBanner:
         SHOW_RECRUITMENT_BANNER && !this.cookies.get('hide_pcr_banner'),
@@ -58,7 +58,7 @@ class ReviewPage extends Component {
           type: this.props.match.params.type,
           code: this.props.match.params.code,
           data: null,
-          row_code: null,
+          rowCode: null,
           error: null,
         },
         this.getReviewData
@@ -95,7 +95,7 @@ class ReviewPage extends Component {
               apiLiveInstructor(result.name.replace(/[^A-Za-z0-9 ]/g, '')).then(
                 data => {
                   this.setState(state => ({
-                    live_data: state.data.name === result.name ? data : null,
+                    liveData: state.data.name === result.name ? data : null,
                   }))
                 }
               )
@@ -113,13 +113,13 @@ class ReviewPage extends Component {
     if (type === 'course') {
       apiLive(code)
         .then(result => {
-          this.setState({ live_data: result })
+          this.setState({ liveData: result })
         })
         .catch(() => {
-          this.setState({ live_data: null })
+          this.setState({ liveData: null })
         })
     } else {
-      this.setState({ live_data: null })
+      this.setState({ liveData: null })
     }
   }
 
@@ -131,7 +131,7 @@ class ReviewPage extends Component {
   }
 
   showRowHistory(rowCode) {
-    this.setState({ row_code: rowCode })
+    this.setState({ rowCode })
   }
 
   showDepartmentGraph(val) {
@@ -207,8 +207,8 @@ class ReviewPage extends Component {
     const {
       code,
       data,
-      row_code: rowCode,
-      live_data: liveData,
+      rowCode,
+      liveData,
       selected_courses: selectedCourses,
       type,
     } = this.state
@@ -229,7 +229,7 @@ class ReviewPage extends Component {
                 type={type}
                 code={code}
                 data={data}
-                live_data={liveData}
+                liveData={liveData}
                 selected_courses={selectedCourses}
               />
             </div>
@@ -237,7 +237,7 @@ class ReviewPage extends Component {
               <ScoreBox
                 data={data}
                 type={type}
-                live_data={liveData}
+                liveData={liveData}
                 onSelect={handleSelect}
               />
               {type === 'course' && (

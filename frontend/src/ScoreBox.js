@@ -77,7 +77,7 @@ class ScoreBox extends Component {
 
   updateLiveData() {
     const instructorTaught = {}
-    const { data, live_data: liveData, type } = this.props
+    const { data, liveData, type } = this.props
     if (type === 'course') {
       Object.values(data.instructors).forEach(a => {
         const key = convertInstructorName(a.name)
@@ -156,7 +156,7 @@ class ScoreBox extends Component {
   }
 
   componentDidMount() {
-    const { data: results, live_data: liveData, type } = this.props
+    const { data: results, liveData, type } = this.props
 
     const columns = {}
     const isCourse = type === 'course'
