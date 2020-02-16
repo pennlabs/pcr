@@ -61,10 +61,8 @@ class Popover extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      isShown,
-      position: [top, left],
-    } = this.state
+    const { isShown, position = [] } = this.state
+    const [top, left] = position
     const { style, children } = this.props
     ReactDOM.render(
       isShown ? (
