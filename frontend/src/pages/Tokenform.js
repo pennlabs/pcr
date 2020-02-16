@@ -7,7 +7,7 @@ import Footer from '../components/Footer'
 import Popover from '../components/Popover'
 import { getColumnName } from '../components/ScoreBox'
 
-export class InfoPage extends Component {
+export class Tokenform extends Component {
   constructor(props) {
     super(props)
 
