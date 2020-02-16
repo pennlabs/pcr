@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-eqt uiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="description" content="Penn Course Review is a tool for students at the University of Pennsylvania to search for the best professor and classes on campus. ">
+  <link rel="apple-touch-icon-57x57.png" sizes="57x57" href="{% static 'image/apple-touch-icon-57x57-precomposed.png' %}">
+  <link rel="apple-touch-icon-72x72.png" sizes="72x72" href="{% static 'image/apple-touch-icon-72x72-precomposed.png' %}">
+  <link rel="apple-touch-icon-114x114.png" sizes="114x114" href="{% static 'image/apple-touch-icon-114x114-precomposed.png' %}">
+  <link rel="apple-touch-icon-144x144.png" sizes="144x144" href="{% static 'image/apple-touch-icon-144x144-precomposed.png' %}">
+  <link rel="apple-touch-icon-76x76.png" sizes="76x76" href="{% static 'image/apple-touch-icon-76x76-precomposed.png' %}">
+  <link rel="apple-touch-icon-60x60.png" sizes="60x60" href="{% static 'image/apple-touch-icon-60x60-precomposed.png' %}">
+  <link rel="apple-touch-icon-152x152.png" sizes="152x152" href="{% static 'image/apple-touch-icon-152x152-precomposed.png' %}">
+  <link rel="apple-touch-icon-120x120.png" sizes="120x120" href="{% static 'image/apple-touch-icon-120x120-precomposed.png' %}">
+
+  <link rel="shortcut icon" href="{% static "image/favicon.ico" %}">
+
+  <link type="text/css" href="{% static "css/tether.min.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "css/reset.css" %}" rel="stylesheet" />
+
+  <link type="text/css" href="{% static "css/selectize.css" %}" rel="stylesheet" />
+  <link type="text/css" href="{% static "css/base.css" %}" rel="stylesheet" />
+  <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
+
+  <link href='//fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
+  {% block css %}{% endblock %}
+
+  <title>{% block title %}Penn Course Review{% endblock %}</title>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="{% static "js/jquery.cookie.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/selectize.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/searchbox.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/tether.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/base.js" %}"></script>
+
+  {% block js %}{% endblock %}
+
+  <!-- Google Analytics -->
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-21029575-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body>
+  <div id="wrapper">
+    {% block header-div %}
+    <div id="header">
+        <span class="float-left">
+            <a href="/"><div id="logo"></div></a>
+            <form id="search">
+                <input type="text" />
+                <button><i class="fa fa-search"></i></button>
+            </form>
+        </span>
+    </div>
+    {% endblock %}
+
+    <div id="content" class="row">
+    {% block content %}
+        {% block banner-div %}
+            <div class="col-sm-12 col-md-4 box-wrapper sidebar-col">
+                <div class="box">
+                    {% block banner-content %}
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block content-div %}
+            <div class="col-sm-12 col-md-8 main-col">
+                {% block content-content %}
+                {% endblock %}
+            </div>
+        {% endblock %}
+    {% endblock %}
+    </div>
+
+    <div id="footer">
+      <div id="footer-inner" class="container_12">
+        <p id="copyright">
+          <!--[if IE 8]>
+          <span style="color:#CC0000;">Best viewed in Chrome or Firefox. </span>
+          <![endif]-->
+          Copyright &copy; {% now "Y" %}
+          <a href="https://pennlabs.org"><strong>Penn Labs</strong></a>
+          |
+          Hosted by
+          <a href="https://stwing.upenn.edu/"><strong>STWing</strong></a>
+          <!--[if IE 8>]
+          <span style="color:#CC0000;">Best viewed in Chrome or Firefox. </span>
+          <![endif]-->
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <a id="feedback" href="https://docs.google.com/spreadsheet/viewform?formkey=dFNZYW92cFM1YnpKUzlLcXRDZVQ4VGc6MQ" title="Feedback" target="_blank">
+      <i class="far fa-comment"></i>
+  </a>
+
+  {% block non-wrapper %}
+  {% endblock %}
+
+  <div id="hidden">
+    {% block hidden %}
+    {% endblock %}
+  </div>
+</body>
+</html>
