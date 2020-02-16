@@ -3,8 +3,8 @@ import Cookies from 'js-cookie'
 
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
-import ErrorBox from '../components/ErrorBox'
 import ReviewPage from './ReviewPage'
+import { ErrorBox } from '../components/common'
 import { redirectForAuth, apiIsAuthenticated } from '../api'
 
 /**

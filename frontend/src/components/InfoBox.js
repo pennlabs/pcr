@@ -5,7 +5,7 @@ import reactStringReplace from 'react-string-replace'
 
 import Tags from './Tags'
 import ScoreboxRow from './ScoreboxRow'
-import Popover from './Popover'
+import { Popover } from './common'
 import { apiContact } from '../api'
 
 /**

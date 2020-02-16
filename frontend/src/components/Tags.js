@@ -1,7 +1,7 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import Popover, { PopoverTitle } from './Popover'
+import Popover, { PopoverTitle } from './common/Popover'
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
 const nameCache = {}

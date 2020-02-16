@@ -5,7 +5,7 @@ import ScoreTable from './ScoreTable'
 import ColumnSelector from './ColumnSelector'
 import { compareSemesters } from './DetailsBox'
 import { convertInstructorName, CourseLine } from './Tags'
-import { PopoverTitle } from './Popover'
+import { PopoverTitle } from './common/Popover'
 
 import 'react-table/react-table.css'
 
