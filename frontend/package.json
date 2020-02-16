@@ -24,7 +24,8 @@
     "test": "exit 0",
     "eject": "react-scripts eject",
     "lint": "prettier --check \"src/**/*.js\" && eslint \"./src/**/*.js\"",
-    "clean": "prettier --write \"./src/**/*.js\" && eslint \"./src/**/*.js\" --fix"
+    "clean": "prettier --write \"./src/**/*.js\" && eslint \"./src/**/*.js\" --fix",
+    "codecov": "exit 0"
   },
   "eslintConfig": {
     "extends": "react-app"
