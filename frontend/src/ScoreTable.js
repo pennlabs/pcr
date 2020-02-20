@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ReactTable from 'react-table'
 
 const ScoreTable = props => {
-  const { noun, multi, data = [], onSelect } = props
+  const { noun, multi, data = [], onSelect = () => {} } = props
   const [selected, setSelected] = useState(multi ? {} : null)
   const [sorted, setSorted] = useState(props.sorted)
 
@@ -18,18 +18,19 @@ const ScoreTable = props => {
     return rowInfo && row
       ? {
           onClick: () => {
-            if (multi) {
-              if (noRow) {
-                delete selected[index]
-              } else {
-                selected[index] = rowInfo
-              }
-              onSelect && onSelect(selected)
-              setSelected({ ...selected })
-            } else {
-              onSelect && onSelect(noRow ? null : original.key)
+            if (!multi) {
+              const { key } = original
+              onSelect(noRow ? null : key)
               setSelected(noRow ? null : index)
+              return
             }
+            if (noRow) {
+              delete selected[index]
+            } else {
+              selected[index] = rowInfo
+            }
+            onSelect(selected)
+            setSelected({ ...selected })
           },
           className: noRow ? 'selected' : '',
         }
