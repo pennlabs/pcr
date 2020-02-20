@@ -11,6 +11,7 @@ const RatingBoxRow = ({
   difficulty,
 }) => {
   const numOrNA = num => (isNaN(num) ? 'N/A' : num.toFixed(1))
+  // TODO: After switching to styled-components or some other styling solution, refactor this code.
   const getColor = num => {
     if (isNaN(num)) {
       return 'rating-good'
