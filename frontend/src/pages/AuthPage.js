@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { ReviewPage } from './ReviewPage'
 import { ErrorBox } from '../components/common'
-import { redirectForAuth, apiIsAuthenticated } from '../api'
+import { redirectForAuth, apiIsAuthenticated } from '../utils/api'
 
 /**
  * A wrapper around a review page that performs Shibboleth authentication.
