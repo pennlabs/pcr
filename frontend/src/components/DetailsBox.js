@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  compareSemesters,
-  getColumnName,
-  orderColumns,
-} from '../utils/helpers'
+import { compareSemesters, getColumnName, orderColumns } from '../utils/helpers'
 import { ColumnSelector, ScoreTable } from './common'
 import { apiHistory } from '../utils/api'
 

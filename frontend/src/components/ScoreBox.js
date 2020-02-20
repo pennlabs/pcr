@@ -8,7 +8,12 @@ import {
   getColumnName,
   orderColumns,
 } from '../utils/helpers'
-import { ColumnSelector, CourseDetails, PopoverTitle, ScoreTable } from './common'
+import {
+  ColumnSelector,
+  CourseDetails,
+  PopoverTitle,
+  ScoreTable,
+} from './common'
 
 import 'react-table/react-table.css'
 
