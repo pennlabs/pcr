@@ -22,9 +22,9 @@ def form(request):
             user.is_active = False
             user.save()
             mail_subject = 'Activate Your API Consumer Account.'
-            message = render_to_string('api/activate_api_consumer.html', {
+            message = render_to_string('activate_api_consumer.html', {
                 'user': user,
-                'domain': 'http://localhost:8000/',
+                'domain': settings.EMAIL_LINK,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode('utf-8'),
                 'token': account_activation_token.make_token(user),
             })
@@ -48,9 +48,9 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         mail_subject = 'Your API Consumer Account Token'
-        message = render_to_string('api/api_consumer_success.html', {
+        message = render_to_string('api_consumer_success.html', {
             'user': user,
-            'domain': 'http://localhost:8000/',
+            'domain': settings.EMAIL_LINK,
             'token': user.token,
         })
         to_email = user.email
@@ -72,7 +72,7 @@ def reset_token(request):
             except ObjectDoesNotExist:
                 return HttpResponse('Invalid email: APIConsumer user does not exist')
             mail_subject = 'Your API Consumer Account Token (Resent)'
-            message = render_to_string('api/api_consumer_success.html', {
+            message = render_to_string('api_consumer_success.html', {
                 'user': user,
                 'domain': 'http://localhost:8000/',
                 'token': user.token,

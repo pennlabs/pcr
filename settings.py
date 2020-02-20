@@ -225,3 +225,4 @@ SENDGRID_PASSWORD = os.getenv('PENNLABS_SENDGRID_PASSWORD')
 EMAIL_HOST_PASSWORD = SENDGRID_PASSWORD
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_LINK = 'http://localhost:8000/' if DEBUG else 'https://penncoursereview.com/'
