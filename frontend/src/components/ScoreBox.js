@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
-import ScoreTable from './ScoreTable'
-import ColumnSelector from './ColumnSelector'
 import {
   capitalize,
   convertInstructorName,
@@ -10,7 +8,7 @@ import {
   getColumnName,
   orderColumns,
 } from '../utils/helperFunctions'
-import { CourseDetails, PopoverTitle } from './common'
+import { ColumnSelector, CourseDetails, PopoverTitle, ScoreTable } from './common'
 
 import 'react-table/react-table.css'
 
