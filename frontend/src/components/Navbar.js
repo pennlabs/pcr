@@ -5,7 +5,7 @@ import SearchBar from './SearchBar'
 /**
  * The navigation bar at the top of the page, containing the logo, search bar, and cart icon.
  */
-class NavBar extends Component {
+class Navbar extends Component {
   constructor(props) {
     super(props)
 
@@ -56,4 +56,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar
+export default Navbar

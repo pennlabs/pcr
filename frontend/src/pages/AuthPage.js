@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 
-import NavBar from '../components/NavBar'
+import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { ReviewPage } from './ReviewPage'
 import { ErrorBox } from '../components/common'
@@ -40,7 +40,7 @@ export const AuthPage = props => {
   if (authFailed) {
     return (
       <>
-        <NavBar />
+        <Navbar />
         <ErrorBox>
           Could not perform Platform authentication.
           <br />
