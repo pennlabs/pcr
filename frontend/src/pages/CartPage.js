@@ -245,7 +245,7 @@ class Cart extends Component {
           Click a course to exclude it from the average.
         </div>
         <div id="courseBox">
-          {courses.map((a, i) => (
+          {courses.map(({ course, instructor, info }, i) => (
             <Popover
               key={i}
               button={
@@ -253,27 +253,27 @@ class Cart extends Component {
                   onClick={() => {
                     this.setState({
                       excludedCourses:
-                        excludedCourses.indexOf(a.course) !== -1
-                          ? excludedCourses.filter(b => b !== a.course)
-                          : excludedCourses.concat([a.course]),
+                        excludedCourses.indexOf(course) !== -1
+                          ? excludedCourses.filter(b => b !== course)
+                          : excludedCourses.concat([course]),
                     })
                     this.regenerateRatings()
                   }}
                   style={{ display: 'inline-block' }}
                   className={`courseInBox${
-                    excludedCourses.indexOf(a.course) !== -1
+                    excludedCourses.indexOf(course) !== -1
                       ? ' courseInBoxGrayed'
                       : ''
                   }`}
                 >
-                  {a.course}
-                  <Link to={`/course/${a.course}`}>
+                  {course}
+                  <Link to={`/course/${course}`}>
                     <i className="fa fa-link" />
                   </Link>
                   <i
                     className="fa fa-times"
                     onClick={() => {
-                      localStorage.removeItem(a.course)
+                      localStorage.removeItem(course)
                       this.regenerateRatings()
                     }}
                   />
@@ -281,17 +281,17 @@ class Cart extends Component {
               }
               hover
             >
-              <b>{a.course}</b>
+              <b>{course}</b>
               <br />
-              {a.instructor}
+              {instructor}
               <br />
-              {Object.values(a.info)
+              {Object.values(info)
                 .sort((x, y) => x.category.localeCompare(y.category))
-                .map((b, i) => (
+                .map(({ category, average, recent }, i) => (
                   <div key={i}>
-                    {getColumnName(b.category)}{' '}
+                    {getColumnName(category)}{' '}
                     <span className="float-right ml-3">
-                      {isAverage ? b.average : b.recent}
+                      {isAverage ? average : recent}
                     </span>
                   </div>
                 ))}
