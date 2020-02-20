@@ -200,8 +200,7 @@ class InfoBox extends Component {
 
               {!!this.props.data.aliases.length && (
                 <div className="crosslist">
-                  Also:
-                  {" "}
+                  Also:{' '}
                   {this.props.data.aliases.map((cls, i) => [
                     i > 0 && ', ',
                     <Link key={i} to={`/course/${cls}`}>
