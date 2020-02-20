@@ -5,9 +5,7 @@ import {
   getColumnName,
   orderColumns,
 } from '../utils/helperFunctions'
-import ScoreTable from './ScoreTable'
-import ColumnSelector from './ColumnSelector'
-import { apiHistory } from '../api'
+import { apiHistory } from '../utils/api'
 
 /**
  * The box below the course ratings table that contains student comments and semester information.
