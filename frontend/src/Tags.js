@@ -19,21 +19,27 @@ function convertInstructorName(name) {
   return out
 }
 
-export class CourseLine extends Component {
-  render() {
-    const isOpen = !this.props.data.is_closed && !this.props.data.is_cancelled
-    return (
-      <li>
-        {this.props.data.section_id_normalized}
-        <i className={`ml-2 fa fa-fw fa-${isOpen ? 'check' : 'times'}`} />
-        <span className="ml-2" style={{ color: '#aaa' }}>
-          {this.props.data.meetings
-            .map(a => `${a.meeting_days} ${a.start_time} - ${a.end_time}`)
-            .join(', ')}
-        </span>
-      </li>
-    )
-  }
+export const CourseLine = ({ data = {} }) => {
+  const {
+    is_closed: isClosed,
+    is_cancelled: isCanceled,
+    section_id_normalized: sectionId,
+    meetings,
+  } = data
+  const isOpen = !isClosed && !isCanceled
+  const meetingDates = meetings.map(
+    ({ meeting_days: days, start_time: start, end_time: end }) =>
+      `${days} ${start} - ${end}`
+  )
+  return (
+    <li>
+      {sectionId}
+      <i className={`ml-2 fa fa-fw fa-${isOpen ? 'check' : 'times'}`} />
+      <span className="ml-2" style={{ color: '#aaa' }}>
+        {meetingDates.join(', ')}
+      </span>
+    </li>
+  )
 }
 
 /**
