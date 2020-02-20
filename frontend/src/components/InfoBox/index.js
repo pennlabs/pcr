@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { Bar } from 'react-chartjs-2'
 import reactStringReplace from 'react-string-replace'
 
-import Tags from '../Tags'
 import RatingBoxRow from './RatingBoxRow'
-import { Popover, GoogleAnalytics } from '../common'
+import { Popover } from '../common'
+import Tags from '../Tags'
 import { apiContact } from '../../api'
 
 /**
