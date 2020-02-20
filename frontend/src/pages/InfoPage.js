@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { ErrorBox, Popover } from '../components/common'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
-import { getColumnName } from '../utils/helperFunctions'
+import { getColumnName } from '../utils/helpers'
 
 export class InfoPage extends Component {
   constructor(props) {
