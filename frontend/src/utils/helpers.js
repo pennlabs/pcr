@@ -42,6 +42,7 @@ export function compareSemesters(a, b) {
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
 // TODO: Move this to a Redux store or React context
+// Another idea: move to localstorage so cache persists between sessions!
 const nameCache = {}
 
 export function convertInstructorName(name) {
