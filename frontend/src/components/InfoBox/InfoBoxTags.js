@@ -1,24 +1,8 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { CourseDetails, Popover, PopoverTitle } from './common'
-
-// Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
-// TODO: Move this to a Redux store or React context
-const nameCache = {}
-
-function convertInstructorName(name) {
-  if (name in nameCache) {
-    return nameCache[name]
-  }
-  const out = name
-    .toUpperCase()
-    .substr(0, 30)
-    .replace(/[^a-zA-Z\s]/g, '')
-    .replace(/ [A-Z]+ /g, ' ')
-  nameCache[name] = out
-  return out
-}
+import { convertInstructorName } from '../../utils/helperFunctions'
+import { CourseDetails, Popover, PopoverTitle } from '../common'
 
 /**
  * Shows information about course availability, prerequisites, and new instructors.
@@ -223,5 +207,4 @@ class Tags extends Component {
   }
 }
 
-export { Tags, convertInstructorName }
 export default Tags
