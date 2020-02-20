@@ -20,6 +20,7 @@ staticgenerator = "*"
 Django = "*"
 uwsgi = "*"
 django-labs-accounts = "*"
+slackclient = "*"
 
 [requires]
 python_version = "3"
