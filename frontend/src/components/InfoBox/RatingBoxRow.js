@@ -3,7 +3,7 @@ import React from 'react'
 /**
  * Three colored boxes with numerical rating values, used in the course description box.
  */
-const ScoreboxRow = ({
+const RatingBoxRow = ({
   value,
   num_sections: numSections,
   course,
@@ -49,4 +49,4 @@ const ScoreboxRow = ({
   )
 }
 
-export default ScoreboxRow
+export default RatingBoxRow

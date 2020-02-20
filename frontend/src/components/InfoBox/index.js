@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { Bar } from 'react-chartjs-2'
 import reactStringReplace from 'react-string-replace'
 
-import Tags from './Tags'
-import ScoreboxRow from './ScoreboxRow'
-import { Popover } from './common'
-import { apiContact } from '../api'
+import Tags from '../Tags'
+import RatingBoxRow from './RatingBoxRow'
+import { Popover, GoogleAnalytics } from '../common'
+import { apiContact } from '../../api'
 
 /**
  * Information box on the left most side, containing scores and descriptions
@@ -261,7 +261,7 @@ class InfoBox extends Component {
 
         {pageType !== 'department' && (
           <div id="banner-score">
-            <ScoreboxRow
+            <RatingBoxRow
               value="Average"
               instructor={this.props.data.average_ratings.rInstructorQuality}
               course={this.props.data.average_ratings.rCourseQuality}
@@ -269,7 +269,7 @@ class InfoBox extends Component {
               num_sections={this.props.data.num_sections}
             />
 
-            <ScoreboxRow
+            <RatingBoxRow
               value="Recent"
               instructor={this.props.data.recent_ratings.rInstructorQuality}
               course={this.props.data.recent_ratings.rCourseQuality}
