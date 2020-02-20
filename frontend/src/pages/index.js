@@ -1,5 +1,6 @@
 export * from './AboutPage'
 export * from './AuthPage'
+export * from './ErrorPage'
 export * from './InfoPage'
 export * from './ReviewPage'
 export * from './Tokenform'

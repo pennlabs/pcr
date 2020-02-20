@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable'
 
 import ReactDOM from 'react-dom'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
-import { AboutPage, AuthPage, InfoPage, ReviewPage,  } from './pages'
+import { AboutPage, AuthPage, ErrorPage, InfoPage, ReviewPage } from './pages'
 import { GoogleAnalytics } from './components/common'
 
 if (window.location.hostname !== 'localhost') {
@@ -23,7 +23,7 @@ ReactDOM.render(
         component={AuthPage}
       />
       <Route path="/:page(faq|cart)" component={InfoPage} />
-      <Route component={InfoPage} />
+      <Route component={ErrorPage} />
     </Switch>
     <GoogleAnalytics />
   </Router>,
