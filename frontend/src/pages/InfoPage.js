@@ -458,11 +458,11 @@ export class InfoPage extends Component {
     }
 
     return (
-      <div>
+      <>
         <NavBar />
         {content}
         <Footer />
-      </div>
+      </>
     )
   }
 }
