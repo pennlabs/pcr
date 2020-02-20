@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import ScoreTable from './ScoreTable'
 import ColumnSelector from './ColumnSelector'
 import { compareSemesters } from './DetailsBox'
-import { convertInstructorName, CourseLine } from './Tags'
-import { PopoverTitle } from './common/Popover'
+import { convertInstructorName } from './Tags'
+import { CourseDetails, PopoverTitle } from './common'
 
 import 'react-table/react-table.css'
 
@@ -326,8 +326,8 @@ class ScoreBox extends Component {
                           y.section_id_normalized
                         )
                       )
-                      .map((a, i) => (
-                        <CourseLine key={i} data={a} />
+                      .map((data, i) => (
+                        <CourseDetails key={i} data={data} />
                       ))}
                   </ul>
                 </span>
@@ -355,8 +355,8 @@ class ScoreBox extends Component {
                   .
                   <ul>
                     {this.state.currentCourses[props.original.code].map(
-                      (a, i) => (
-                        <CourseLine key={i} data={a} />
+                      (data, i) => (
+                        <CourseDetails key={i} data={data} />
                       )
                     )}
                   </ul>
