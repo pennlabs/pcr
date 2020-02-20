@@ -7,7 +7,7 @@ import {
   compareSemesters,
   getColumnName,
   orderColumns,
-} from '../utils/helperFunctions'
+} from '../utils/helpers'
 import { ColumnSelector, CourseDetails, PopoverTitle, ScoreTable } from './common'
 
 import 'react-table/react-table.css'

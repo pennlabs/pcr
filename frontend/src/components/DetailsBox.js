@@ -4,7 +4,7 @@ import {
   compareSemesters,
   getColumnName,
   orderColumns,
-} from '../utils/helperFunctions'
+} from '../utils/helpers'
 import { ColumnSelector, ScoreTable } from './common'
 import { apiHistory } from '../utils/api'
 
