@@ -1,9 +1,10 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Popover, PopoverTitle } from './common'
+import { CourseDetails, Popover, PopoverTitle } from './common'
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
+// TODO: Move this to a Redux store or React context
 const nameCache = {}
 
 function convertInstructorName(name) {
@@ -17,29 +18,6 @@ function convertInstructorName(name) {
     .replace(/ [A-Z]+ /g, ' ')
   nameCache[name] = out
   return out
-}
-
-export const CourseLine = ({ data = {} }) => {
-  const {
-    is_closed: isClosed,
-    is_cancelled: isCanceled,
-    section_id_normalized: sectionId,
-    meetings,
-  } = data
-  const isOpen = !isClosed && !isCanceled
-  const meetingDates = meetings.map(
-    ({ meeting_days: days, start_time: start, end_time: end }) =>
-      `${days} ${start} - ${end}`
-  )
-  return (
-    <li>
-      {sectionId}
-      <i className={`ml-2 fa fa-fw fa-${isOpen ? 'check' : 'times'}`} />
-      <span className="ml-2" style={{ color: '#aaa' }}>
-        {meetingDates.join(', ')}
-      </span>
-    </li>
-  )
 }
 
 /**
@@ -139,7 +117,7 @@ class Tags extends Component {
               title={
                 <span>
                   {courseName} is <b>{this.props.credits}</b> credit unit
-                  {this.props.credits === 1 || 's'}.
+                  {this.props.credits === 1 || 's'}
                 </span>
               }
             >
@@ -169,8 +147,8 @@ class Tags extends Component {
                             y.section_id_normalized
                           )
                         )
-                        .map((a, i) => (
-                          <CourseLine key={i} data={a} />
+                        .map((data, i) => (
+                          <CourseDetails key={i} data={data} />
                         ))}
                     </ul>
                   </span>
