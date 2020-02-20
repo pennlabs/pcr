@@ -1,3 +1,4 @@
+export * from './AboutPage'
 export * from './AuthPage'
 export * from './InfoPage'
 export * from './ReviewPage'
