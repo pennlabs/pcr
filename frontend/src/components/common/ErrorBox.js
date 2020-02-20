@@ -16,3 +16,5 @@ export const ErrorBox = ({ children, detail }) => (
     </small>
   </div>
 )
+
+export default ErrorBox
