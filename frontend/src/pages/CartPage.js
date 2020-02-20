@@ -129,6 +129,15 @@ class Cart extends Component {
       rRecommendNonMajor: 'Non-Major',
     }
 
+    const {
+      boxLabels,
+      boxValues,
+      courses,
+      excludedCourses,
+      showChooseCols,
+      isAverage,
+    } = this.state
+
     return (
       <center className="box" style={{ margin: '30px auto', maxWidth: 720 }}>
         <p className="courseCartHeader title">My Course Cart</p>
@@ -139,14 +148,14 @@ class Cart extends Component {
         </p>
         <div id="bannerScore">
           <div className="scoreboxrow courseCartRow">
-            {this.state.boxLabels.map((a, i) => (
+            {boxLabels.map((a, i) => (
               <div
                 key={i}
                 className={`mb-2 scorebox ${
                   ['course', 'instructor', 'difficulty', 'workload'][i % 4]
                 }`}
               >
-                <p className="num">{this.state.boxValues[i]}</p>
+                <p className="num">{boxValues[i]}</p>
                 <p className="desc">{propertyShortNames[a]}</p>
               </div>
             ))}
@@ -154,7 +163,7 @@ class Cart extends Component {
         </div>
         <div className="clear" />
         <div className="fillerBox" />
-        {this.state.showChooseCols && (
+        {showChooseCols && (
           <div className="box">
             <h3 style={{ fontSize: '1.5em' }}>Choose columns to display</h3>
             <div className="clearfix" style={{ textAlign: 'left' }}>
@@ -163,7 +172,7 @@ class Cart extends Component {
                   <input
                     type="checkbox"
                     onChange={e => {
-                      const pos = this.state.boxLabels.indexOf(a)
+                      const pos = boxLabels.indexOf(a)
                       if (pos === -1) {
                         this.setState(state => {
                           state.boxValues.push('N/A')
@@ -185,7 +194,7 @@ class Cart extends Component {
                       }
                       this.regenerateRatings()
                     }}
-                    checked={this.state.boxLabels.indexOf(a) !== -1}
+                    checked={boxLabels.indexOf(a) !== -1}
                     value={a}
                     id={`checkbox_${a}`}
                     name={a}
@@ -209,9 +218,7 @@ class Cart extends Component {
         </button>
         <div className="btn-group">
           <span
-            className={`btn ${
-              this.state.isAverage ? 'btn-primary' : 'btn-secondary'
-            }`}
+            className={`btn ${isAverage ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => {
               this.setState({ isAverage: true }, () =>
                 localStorage.setItem('meta-column-type', 'average')
@@ -222,9 +229,7 @@ class Cart extends Component {
             Average
           </span>
           <span
-            className={`btn ${
-              this.state.isAverage ? 'btn-secondary' : 'btn-primary'
-            }`}
+            className={`btn ${isAverage ? 'btn-secondary' : 'btn-primary'}`}
             onClick={() => {
               this.setState({ isAverage: false }, () =>
                 localStorage.setItem('meta-column-type', 'recent')
@@ -240,23 +245,23 @@ class Cart extends Component {
           Click a course to exclude it from the average.
         </div>
         <div id="courseBox">
-          {this.state.courses.map((a, i) => (
+          {courses.map((a, i) => (
             <Popover
               key={i}
               button={
                 <div
                   onClick={() => {
-                    this.setState(state => ({
+                    this.setState({
                       excludedCourses:
-                        state.excludedCourses.indexOf(a.course) !== -1
-                          ? state.excludedCourses.filter(b => b !== a.course)
-                          : state.excludedCourses.concat([a.course]),
-                    }))
+                        excludedCourses.indexOf(a.course) !== -1
+                          ? excludedCourses.filter(b => b !== a.course)
+                          : excludedCourses.concat([a.course]),
+                    })
                     this.regenerateRatings()
                   }}
                   style={{ display: 'inline-block' }}
                   className={`courseInBox${
-                    this.state.excludedCourses.indexOf(a.course) !== -1
+                    excludedCourses.indexOf(a.course) !== -1
                       ? ' courseInBoxGrayed'
                       : ''
                   }`}
@@ -286,7 +291,7 @@ class Cart extends Component {
                   <div key={i}>
                     {getColumnName(b.category)}{' '}
                     <span className="float-right ml-3">
-                      {this.state.isAverage ? b.average : b.recent}
+                      {isAverage ? b.average : b.recent}
                     </span>
                   </div>
                 ))}
