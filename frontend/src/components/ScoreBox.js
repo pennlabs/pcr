@@ -3,36 +3,16 @@ import { Link } from 'react-router-dom'
 
 import ScoreTable from './ScoreTable'
 import ColumnSelector from './ColumnSelector'
-import { compareSemesters } from './DetailsBox'
-import { convertInstructorName } from './Tags'
+import {
+  capitalize,
+  convertInstructorName,
+  compareSemesters,
+  getColumnName,
+  orderColumns,
+} from '../utils/helperFunctions'
 import { CourseDetails, PopoverTitle } from './common'
 
 import 'react-table/react-table.css'
-
-export function getColumnName(key) {
-  return key
-    .substring(1)
-    .split(/(?=[A-Z])/)
-    .join(' ')
-    .replace('T A', 'TA')
-    .replace(/Recommend/g, 'Rec.')
-}
-
-const capitalize = str => str.replace(/(?:^|\s)\S/g, e => e.toUpperCase())
-
-export function orderColumns(cols) {
-  const colSet = new Set(cols)
-  const fixedCols = [
-    'latest_semester',
-    'num_semesters',
-    'rCourseQuality',
-    'rInstructorQuality',
-    'rDifficulty',
-    'rAmountLearned',
-  ].filter(a => colSet.has(a))
-  const fixedColsSet = new Set(fixedCols)
-  return fixedCols.concat(cols.filter(a => !fixedColsSet.has(a)).sort())
-}
 
 /*
  * Setting this to true colors all other cells depending on its value when compared to the selected row.
