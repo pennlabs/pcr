@@ -4,7 +4,7 @@ import ReactTable from 'react-table'
 /**
  * A wrapper for the react table with common table functionality and styling.
  */
-class ScoreTable extends Component {
+export class ScoreTable extends Component {
   constructor(props) {
     super(props)
 
@@ -83,5 +83,3 @@ class ScoreTable extends Component {
     )
   }
 }
-
-export default ScoreTable
