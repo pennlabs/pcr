@@ -5,6 +5,7 @@ import {
   getColumnName,
   orderColumns,
 } from '../utils/helperFunctions'
+import { ColumnSelector, ScoreTable } from './common'
 import { apiHistory } from '../utils/api'
 
 /**
