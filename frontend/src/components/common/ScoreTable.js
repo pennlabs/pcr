@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactTable from 'react-table'
 
-const ScoreTable = props => {
+export const ScoreTable = props => {
   const { noun, multi, data = [], onSelect = () => {} } = props
   const [selected, setSelected] = useState(multi ? {} : null)
   const [sorted, setSorted] = useState(props.sorted)
@@ -57,5 +57,3 @@ const ScoreTable = props => {
     </div>
   )
 }
-
-export default ScoreTable
