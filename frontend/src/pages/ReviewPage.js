@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Cookies from 'universal-cookie'
 import InfoBox from '../components/InfoBox'
 import ScoreBox from '../components/ScoreBox'
-import NavBar from '../components/NavBar'
+import Navbar from '../components/Navbar'
 import DetailsBox from '../components/DetailsBox'
 import SearchBar from '../components/SearchBar'
 import Footer from '../components/Footer'
@@ -148,7 +148,7 @@ export class ReviewPage extends Component {
     if (this.state.error) {
       return (
         <div>
-          <NavBar />
+          <Navbar />
           <ErrorBox detail={this.state.error_detail}>
             {this.state.error}
           </ErrorBox>
@@ -221,7 +221,7 @@ export class ReviewPage extends Component {
 
     return (
       <div>
-        <NavBar />
+        <Navbar />
         {this.state.data ? (
           <div id="content" className="row">
             <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">

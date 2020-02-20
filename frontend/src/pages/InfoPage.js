@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ErrorBox, Popover } from '../components/common'
-import NavBar from '../components/NavBar'
+import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { getColumnName } from '../utils/helpers'
 
@@ -459,7 +459,7 @@ export class InfoPage extends Component {
 
     return (
       <>
-        <NavBar />
+        <Navbar />
         {content}
         <Footer />
       </>
