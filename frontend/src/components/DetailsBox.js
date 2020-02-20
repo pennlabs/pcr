@@ -1,25 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import {
+  compareSemesters,
+  getColumnName,
+  orderColumns,
+} from '../utils/helperFunctions'
 import ScoreTable from './ScoreTable'
 import ColumnSelector from './ColumnSelector'
 import { apiHistory } from '../api'
-import { getColumnName, orderColumns } from './ScoreBox'
-
-// TODO: Move functions like compareSemesters and getColumnName in ScoreBox into a utils file
-export function compareSemesters(a, b) {
-  const ay = parseInt(a.split(' ')[1])
-  const by = parseInt(b.split(' ')[1])
-  const as = a.split(' ')[0]
-  const bs = b.split(' ')[0]
-
-  if (ay !== by) {
-    return by - ay
-  }
-
-  const mapping = { Fall: 'A', Summer: 'B', Spring: 'C' }
-
-  return mapping[as].localeCompare(mapping[bs])
-}
 
 /**
  * The box below the course ratings table that contains student comments and semester information.
