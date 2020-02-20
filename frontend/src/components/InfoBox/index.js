@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { Bar } from 'react-chartjs-2'
 import reactStringReplace from 'react-string-replace'
 
-import RatingBoxRow from './RatingBoxRow'
 import { Popover } from '../common'
-import Tags from '../Tags'
+import Tags from './InfoBoxTags'
+import Ratings from './InfoBoxRatings'
 import { apiContact } from '../../api'
 
 /**
@@ -261,7 +261,7 @@ class InfoBox extends Component {
 
         {pageType !== 'department' && (
           <div id="banner-score">
-            <RatingBoxRow
+            <Ratings
               value="Average"
               instructor={this.props.data.average_ratings.rInstructorQuality}
               course={this.props.data.average_ratings.rCourseQuality}
@@ -269,7 +269,7 @@ class InfoBox extends Component {
               num_sections={this.props.data.num_sections}
             />
 
-            <RatingBoxRow
+            <Ratings
               value="Recent"
               instructor={this.props.data.recent_ratings.rInstructorQuality}
               course={this.props.data.recent_ratings.rCourseQuality}
