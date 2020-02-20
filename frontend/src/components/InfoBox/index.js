@@ -6,7 +6,7 @@ import reactStringReplace from 'react-string-replace'
 import { Popover } from '../common'
 import Tags from './InfoBoxTags'
 import Ratings from './InfoBoxRatings'
-import { apiContact } from '../../api'
+import { apiContact } from '../../utils/api'
 
 /**
  * Information box on the left most side, containing scores and descriptions
@@ -201,6 +201,7 @@ class InfoBox extends Component {
               {!!this.props.data.aliases.length && (
                 <div className="crosslist">
                   Also:
+                  {" "}
                   {this.props.data.aliases.map((cls, i) => [
                     i > 0 && ', ',
                     <Link key={i} to={`/course/${cls}`}>

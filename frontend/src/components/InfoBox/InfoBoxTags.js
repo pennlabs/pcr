@@ -1,7 +1,7 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { convertInstructorName } from '../../utils/helperFunctions'
+import { convertInstructorName } from '../../utils/helpers'
 import { CourseDetails, Popover, PopoverTitle } from '../common'
 
 /**

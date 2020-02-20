@@ -7,7 +7,7 @@ import DetailsBox from '../components/DetailsBox'
 import SearchBar from '../components/SearchBar'
 import Footer from '../components/Footer'
 import { ErrorBox } from '../components/common'
-import { apiReviewData, apiLive, apiLiveInstructor } from '../api'
+import { apiReviewData, apiLive, apiLiveInstructor } from '../utils/api'
 
 /**
  * Enable or disable the Penn Labs recruitment banner.
