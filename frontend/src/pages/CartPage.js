@@ -23,6 +23,7 @@ class Cart extends Component {
       ],
     }
 
+    // TODO: Move regeneration logic into Redux or React Context
     this.regenerateRatings = this.regenerateRatings.bind(this)
   }
 
@@ -83,6 +84,7 @@ class Cart extends Component {
   }
 
   render() {
+    // TODO: Move these values into a constants file
     const checkboxValues = [
       'rCourseQuality',
       'rInstructorQuality',
