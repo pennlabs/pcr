@@ -318,7 +318,9 @@ class ScoreBox extends Component {
                   <b>{props.value}</b> is teaching during
                   <b>{liveData.term}</b> and
                   <b>{props.original.star.open}</b> out of
-                  <b>{props.original.star.all}</b> section(s) are open.
+                  <b>{props.original.star.all}</b> 
+                  {props.original.star.all == 1 ? 'section' : 'sections'}
+                  {props.original.star.open == 1 ? 'is' : 'are'} open.
                   <ul>
                     {props.original.star.sections
                       .sort((x, y) =>
