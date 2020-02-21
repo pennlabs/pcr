@@ -20,6 +20,7 @@ const SHOW_RECRUITMENT_BANNER = false
 class ReviewPage extends Component {
   constructor(props) {
     super(props)
+    this.myRef = React.createRef()
 
     this.cookies = new Cookies()
 
@@ -40,6 +41,7 @@ class ReviewPage extends Component {
     this.getReviewData = this.getReviewData.bind(this)
     this.showRowHistory = this.showRowHistory.bind(this)
     this.showDepartmentGraph = this.showDepartmentGraph.bind(this)
+    this.scrollToMyRef = this.scrollToMyRef.bind(this)
   }
 
   componentDidMount() {
@@ -132,6 +134,7 @@ class ReviewPage extends Component {
 
   showRowHistory(rowCode) {
     this.setState({ rowCode })
+    this.scrollToMyRef()
   }
 
   showDepartmentGraph(val) {
@@ -143,6 +146,8 @@ class ReviewPage extends Component {
   static getDerivedStateFromError() {
     return { error: 'An unknown error occured.' }
   }
+
+  scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop)   
 
   render() {
     if (this.state.error) {
@@ -241,10 +246,10 @@ class ReviewPage extends Component {
                 onSelect={handleSelect}
               />
               {type === 'course' && (
-                <DetailsBox type={type} course={code} instructor={rowCode} />
+                <DetailsBox type={type} course={code} instructor={rowCode} ref={this.myRef} scrollToMyRef={this.scrollToMyRef}/>
               )}
               {type === 'instructor' && (
-                <DetailsBox type={type} course={rowCode} instructor={code} />
+                <DetailsBox type={type} course={rowCode} instructor={code} ref={this.myRef} scrollToMyRef={this.scrollToMyRef}/>
               )}
             </div>
           </div>

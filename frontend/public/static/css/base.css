@@ -175,6 +175,7 @@ body {
     color: white;
 }
 
+
 .btn-secondary:focus {
     color: #84B8BA;
 }
@@ -841,4 +842,8 @@ hr {
 .note .fa
 {
     margin-right: 4px;
+}
+
+html {
+    scroll-behavior: smooth;
 }

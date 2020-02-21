@@ -149,7 +149,7 @@ class DetailsBox extends Component {
   render() {
     const { course, instructor, type } = this.props
     return (
-      <div id="course-details" className="box">
+      <div id="course-details" className="box" ref={this.props.innerRef} >
         {((type === 'course' && instructor) ||
           (type === 'instructor' && course)) &&
         !this.state.data ? (
@@ -178,7 +178,7 @@ class DetailsBox extends Component {
             </div>
           </div>
         ) : (
-          <div id="course-details-wrapper">
+          <div id="course-details-wrapper" >
             <h3>
               <Link
                 style={{ color: '#b2b2b2', textDecoration: 'none' }}
@@ -297,4 +297,5 @@ class DetailsBox extends Component {
   }
 }
 
-export default DetailsBox
+export default React.forwardRef((props, ref) => 
+  <DetailsBox innerRef={ref} {...props}/>);
