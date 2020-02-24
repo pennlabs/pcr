@@ -6,35 +6,34 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.views.decorators.http import require_POST
 
 from .forms import ResetTokenForm, TokenForm
 from .models import APIConsumer
 from .tokens import account_activation_token
 
 
-def form(request):
-    if request.method == 'POST':
-        form = TokenForm(request.POST)
-        if form.is_valid():
-            if not form.cleaned_data.get('email').endswith('upenn.edu'):
-                return HttpResponse('Invalid upenn.edu username')
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-            mail_subject = 'Activate Your API Consumer Account.'
-            message = render_to_string('activate_api_consumer.html', {
-                'user': user,
-                'domain': settings.EMAIL_LINK,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode('utf-8'),
-                'token': account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            from_email = settings.EMAIL_HOST_USER
-            send_mail(mail_subject, message, from_email, [to_email], fail_silently=False)
-            return HttpResponse('Please confirm your email address to complete the registration')
-    else:
-        form = TokenForm()
-    return render(request, 'api/form.html', {'form': form})
+@require_POST
+def get_token(request):
+    form = TokenForm(request.POST)
+    if form.is_valid():
+        if not form.cleaned_data.get('email').endswith('upenn.edu'):
+            return HttpResponse('Invalid upenn.edu username')
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+        mail_subject = 'Activate Your API Consumer Account.'
+        message = render_to_string('activate_api_consumer.html', {
+            'user': user,
+            'domain': settings.EMAIL_LINK,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode('utf-8'),
+            'token': account_activation_token.make_token(user),
+        })
+        to_email = form.cleaned_data.get('email')
+        from_email = settings.EMAIL_HOST_USER
+        send_mail(mail_subject, message, from_email, [to_email], fail_silently=False)
+        return HttpResponse('Please confirm your email address to complete the registration')
+    return 
 
 
 def activate(request, uidb64, token):
