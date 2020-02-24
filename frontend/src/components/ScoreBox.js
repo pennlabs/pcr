@@ -49,7 +49,6 @@ class ScoreBox extends Component {
     return () => {
       localStorage.setItem('meta-column-type', val ? 'average' : 'recent')
       this.setState({ isAverage: val })
-      this.refs.table.resort()
     }
   }
 
