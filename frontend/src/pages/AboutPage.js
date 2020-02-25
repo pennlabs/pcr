@@ -144,7 +144,7 @@ const About = () => (
 
     <h1>Questions</h1>
     <p>
-      If you have any questions, take a look at ourAboutPage
+      If you have any questions, take a look at our
       <Link to="faq">FAQs</Link> section.
     </p>
   </div>
