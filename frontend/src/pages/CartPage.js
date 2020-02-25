@@ -148,9 +148,9 @@ class Cart extends Component {
         </p>
         <div id="bannerScore">
           <div className="scoreboxrow courseCartRow">
-            {boxLabels.map((a, i) => (
+            {boxLabels.map(a => (
               <div
-                key={i}
+                key={a}
                 className={`mb-2 scorebox ${
                   ['course', 'instructor', 'difficulty', 'workload'][i % 4]
                 }`}
