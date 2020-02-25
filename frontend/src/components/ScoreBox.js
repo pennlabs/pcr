@@ -308,8 +308,8 @@ class ScoreBox extends Component {
                           y.section_id_normalized
                         )
                       )
-                      .map((data, i) => (
-                        <CourseDetails key={i} data={data} />
+                      .map(({ section_id_normalized: sectionId }) => (
+                        <CourseDetails key={sectionId} data={data} />
                       ))}
                   </ul>
                 </span>
@@ -337,8 +337,8 @@ class ScoreBox extends Component {
                   .
                   <ul>
                     {this.state.currentCourses[props.original.code].map(
-                      (data, i) => (
-                        <CourseDetails key={i} data={data} />
+                      ({ section_id_normalized: sectionId }) => (
+                        <CourseDetails key={sectionId} data={data} />
                       )
                     )}
                   </ul>
