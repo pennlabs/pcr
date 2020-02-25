@@ -21,8 +21,7 @@ const About = () => (
       .
     </p>
     <p>
-      Want easy access to Penn Course Review? Get the
-      {" "}
+      Want easy access to Penn Course Review? Get the{' '}
       <a href="https://pennlabs.org/mobile/">Penn Mobile App</a>!
     </p>
 
@@ -30,8 +29,8 @@ const About = () => (
     <p>
       Penn Course Review is a student-run service that provides numerical
       ratings for undergraduate courses and professors at the University of
-      Pennsylvania. PCR has a long history of being a valuable and
-      influential guide for course selection.
+      Pennsylvania. PCR has a long history of being a valuable and influential
+      guide for course selection.
     </p>
     <p>
       PCR is developed and managed by
