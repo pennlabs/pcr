@@ -24,9 +24,9 @@ ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/" component={ReviewPage} />
-      <Route path="/about" component={AboutPage} />
-      <Route path="/faq" component={FAQPage} />
-      <Route path="/cart" component={CartPage} />
+      <Route exact path="/about" component={AboutPage} />
+      <Route exact path="/faq" component={FAQPage} />
+      <Route exact path="/cart" component={CartPage} />
       <Route
         path="/:type(course|department|instructor)/:code"
         component={AuthPage}
