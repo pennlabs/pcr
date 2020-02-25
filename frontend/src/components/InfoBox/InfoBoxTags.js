@@ -114,7 +114,7 @@ class Tags extends Component {
             if (!info.length) {
               return null
             }
-            const desc = info[0].activity_description
+            const [{ activity_description: desc }] = info
             const open = info.filter(a => !a.is_closed && !a.is_cancelled)
             return (
               <PopoverTitle
@@ -131,8 +131,8 @@ class Tags extends Component {
                             y.section_id_normalized
                           )
                         )
-                        .map((data, i) => (
-                          <CourseDetails key={i} data={data} />
+                        .map(({ section_id_normalized: sectionId }) => (
+                          <CourseDetails key={sectionId} data={data} />
                         ))}
                     </ul>
                   </span>
