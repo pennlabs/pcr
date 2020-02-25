@@ -17,10 +17,12 @@ import { apiContact } from '../../utils/api'
 class InfoBox extends Component {
   constructor(props) {
     super(props)
-
+    const {
+      data: { code },
+    } = props
     this.state = {
       contact: null,
-      inCourseCart: !!localStorage.getItem(this.props.data.code),
+      inCourseCart: Boolean(localStorage.getItem(code)),
     }
 
     this.handleAdd = this.handleAdd.bind(this)
@@ -121,12 +123,37 @@ class InfoBox extends Component {
   }
 
   render() {
-    const pageType = this.props.type
-    const { instructors } = this.props.data
+    const {
+      type: pageType,
+      data,
+      liveData,
+      selected_courses: selectedCourses,
+    } = this.props
 
-    if (!this.props.data) {
+    if (!data) {
       return <h1>Loading data...</h1>
     }
+
+    const {
+      instructors,
+      code,
+      description,
+      aliases,
+      name,
+      notes,
+      num_sections: numSections,
+      num_sections_recent: numSectionsRecent,
+      average_ratings: {
+        rInstructorQuality: avgInstructorQuality,
+        rCourseQuality: avgCourseQuality,
+        rDifficulty: avgDifficulty,
+      },
+      recent_ratings: {
+        rInstructorQuality: rcntInstructorQuality,
+        rCourseQuality: rcntCourseQuality,
+        rDifficulty: rcntDifficulty,
+      },
+    } = data
 
     return (
       <div className="box">
@@ -134,7 +161,7 @@ class InfoBox extends Component {
           {pageType === 'course' && (
             <div className="course">
               <div className="title">
-                {(this.props.data.code || '').replace('-', ' ')}
+                {(code || '').replace('-', ' ')}
 
                 <span className="float-right">
                   {this.state.inCourseCart ? (
@@ -197,11 +224,10 @@ class InfoBox extends Component {
                   </a>
                 </span>
               </div>
-
-              {!!this.props.data.aliases.length && (
+              {Boolean(aliases.length) && (
                 <div className="crosslist">
                   Also:{' '}
-                  {this.props.data.aliases.map((cls, i) => [
+                  {aliases.map((cls, i) => [
                     i > 0 && ', ',
                     <Link key={i} to={`/course/${cls}`}>
                       {cls}
@@ -209,22 +235,19 @@ class InfoBox extends Component {
                   ])}
                 </div>
               )}
-
-              <p className="subtitle">{this.props.data.name}</p>
-
-              {this.props.data.notes.map((note, i) => (
+              <p className="subtitle">{name}</p>
+              {notes.map((note, i) => (
                 <div key={i} className="note">
                   <i className="fa fa-thumbtack" /> {note}
                 </div>
               ))}
-
-              {this.props.type === 'course' && this.props.liveData && (
+              {pageType === 'course' && liveData && (
                 <Tags
-                  {...this.props.liveData}
-                  data={this.props.data}
-                  existing_instructors={Object.values(
-                    this.props.data.instructors
-                  ).map(a => a.name)}
+                  {...liveData}
+                  data={data}
+                  existing_instructors={Object.values(instructors).map(
+                    a => a.name
+                  )}
                 />
               )}
             </div>
@@ -232,7 +255,7 @@ class InfoBox extends Component {
 
           {pageType === 'instructor' && (
             <div className="instructor">
-              <div className="title">{this.props.data.name}</div>
+              <div className="title">{name}</div>
               {this.state.contact && (
                 <div>
                   <p className="desc">
@@ -243,7 +266,7 @@ class InfoBox extends Component {
                   </p>
                 </div>
               )}
-              {this.props.data.notes.map((note, i) => (
+              {notes.map((note, i) => (
                 <div key={i} className="note">
                   <i className="fa fa-thumbtack" /> {note}
                 </div>
@@ -253,8 +276,8 @@ class InfoBox extends Component {
 
           {pageType === 'department' && (
             <div className="department">
-              <div className="title">{this.props.data.name}</div>
-              <p className="subtitle">{this.props.data.code}</p>
+              <div className="title">{name}</div>
+              <p className="subtitle">{code}</p>
             </div>
           )}
         </div>
@@ -263,26 +286,25 @@ class InfoBox extends Component {
           <div id="banner-score">
             <Ratings
               value="Average"
-              instructor={this.props.data.average_ratings.rInstructorQuality}
-              course={this.props.data.average_ratings.rCourseQuality}
-              difficulty={this.props.data.average_ratings.rDifficulty}
-              num_sections={this.props.data.num_sections}
+              instructor={avgInstructorQuality}
+              course={avgCourseQuality}
+              difficulty={avgDifficulty}
+              num_sections={numSections}
             />
 
             <Ratings
               value="Recent"
-              instructor={this.props.data.recent_ratings.rInstructorQuality}
-              course={this.props.data.recent_ratings.rCourseQuality}
-              difficulty={this.props.data.recent_ratings.rDifficulty}
-              num_sections={this.props.data.num_sections_recent}
+              instructor={rcntInstructorQuality}
+              course={rcntCourseQuality}
+              difficulty={rcntDifficulty}
+              num_sections={numSectionsRecent}
             />
           </div>
         )}
 
         {pageType === 'department' && (
           <div className="department-content">
-            {this.props.selected_courses &&
-            Object.keys(this.props.selected_courses).length ? (
+            {selectedCourses && Object.keys(selectedCourses).length ? (
               <div id="row-select-chart-container">
                 <Bar
                   data={this.getChartData()}
@@ -317,7 +339,7 @@ class InfoBox extends Component {
         {pageType === 'course' && (
           <p className="desc">
             {reactStringReplace(
-              this.props.data.description,
+              description,
               /([A-Z]{2,4}[ -]\d{3})/g,
               (m, i) => (
                 <Link to={`/course/${m.replace(' ', '-')}`} key={i}>
