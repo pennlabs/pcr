@@ -22,7 +22,8 @@ const About = () => (
     </p>
     <p>
       Want easy access to Penn Course Review? Get the
-      <a href="https://pennlabs.org/mobile/"> Penn Mobile App</a>!
+      {" "}
+      <a href="https://pennlabs.org/mobile/">Penn Mobile App</a>!
     </p>
 
     <h1>About</h1>
