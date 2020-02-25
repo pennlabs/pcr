@@ -132,7 +132,10 @@ class Tags extends Component {
                           )
                         )
                         .map(({ section_id_normalized: sectionId }) => (
-                          <CourseDetails key={sectionId} data={data} />
+                          <CourseDetails
+                            key={sectionId}
+                            data={this.props.data}
+                          />
                         ))}
                     </ul>
                   </span>
@@ -151,7 +154,7 @@ class Tags extends Component {
               </PopoverTitle>
             )
           })}
-          {!!syllabi.length && (
+          {Boolean(syllabi.length) && (
             <Popover
               button={
                 <span className="badge badge-secondary">
@@ -170,7 +173,7 @@ class Tags extends Component {
             </Popover>
           )}
         </div>
-        {!!prereqs.length && (
+        {Boolean(prereqs.length) && (
           <div className="prereqs">
             Prerequisites:
             {prereqs.map((a, i) => [
@@ -181,7 +184,7 @@ class Tags extends Component {
             ])}
           </div>
         )}
-        {!!Object.keys(newInstructors).length && (
+        {Boolean(Object.keys(newInstructors).length) && (
           <div>
             New Instructors:
             {Object.values(newInstructors)
