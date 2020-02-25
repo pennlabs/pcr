@@ -101,7 +101,7 @@ class Tags extends Component {
               title={
                 <span>
                   {courseName} is <b>{this.props.credits}</b> credit unit
-                  {this.props.credits === 1 || 's'}
+                  {this.props.credits === 1 ? '' : 's'}
                 </span>
               }
             >
