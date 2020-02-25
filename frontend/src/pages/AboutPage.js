@@ -4,7 +4,7 @@ import withLayout from './withLayout'
 
 const About = () => (
   <div className="center-narrow">
-    <h1>Welcome</h1>
+    <h1>Hey there!</h1>
     <p>Welcome to the new Penn Course Review!</p>
     <p>
       The student-run Penn Course Review has served as a valuable guide for
