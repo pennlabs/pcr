@@ -144,7 +144,7 @@ class InfoBox extends Component {
       num_sections: numSections,
       num_sections_recent: numSectionsRecent,
       average_ratings: averageRatings = {},
-      recent_ratings: recentRatings = {}
+      recent_ratings: recentRatings = {},
     } = data
 
     const {
