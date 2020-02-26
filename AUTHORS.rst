@@ -15,6 +15,10 @@ Active
 
 - Kevin Sun
 
+- Laurel Lee
+
+- Tessa Fan
+
 Inactive
 ########
 
