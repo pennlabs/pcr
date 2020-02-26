@@ -143,17 +143,21 @@ class InfoBox extends Component {
       notes,
       num_sections: numSections,
       num_sections_recent: numSectionsRecent,
-      average_ratings: {
-        rInstructorQuality: avgInstructorQuality,
-        rCourseQuality: avgCourseQuality,
-        rDifficulty: avgDifficulty,
-      },
-      recent_ratings: {
-        rInstructorQuality: rcntInstructorQuality,
-        rCourseQuality: rcntCourseQuality,
-        rDifficulty: rcntDifficulty,
-      },
+      average_ratings: averageRatings = {},
+      recent_ratings: recentRatings = {}
     } = data
+
+    const {
+      rInstructorQuality: avgInstructorQuality,
+      rCourseQuality: avgCourseQuality,
+      rDifficulty: avgDifficulty,
+    } = averageRatings
+
+    const {
+      rInstructorQuality: rcntInstructorQuality,
+      rCourseQuality: rcntCourseQuality,
+      rDifficulty: rcntDifficulty,
+    } = recentRatings
 
     return (
       <div className="box">
