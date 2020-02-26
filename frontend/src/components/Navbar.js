@@ -10,9 +10,9 @@ const Navbar = () => {
   const getCourseCount = () =>
     Object.keys(localStorage).filter(a => !a.startsWith('meta-')).length
   const [courseCount, setCourseCount] = useState(getCourseCount())
-  const onStorageChange = () => setCourseCount(getCourseCount())
 
   useEffect(() => {
+    const onStorageChange = () => setCourseCount(getCourseCount())
     window.addEventListener('storage', onStorageChange)
     window.onCartUpdated = onStorageChange
     return () => {
