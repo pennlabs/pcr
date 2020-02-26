@@ -9,6 +9,7 @@ workflows:
     jobs:
       - django-tools/check:
           project-name: pcr
+          black: false
       - react-tools/check:
           project-location: frontend
           image: pennlabs/frontend-test:latest
