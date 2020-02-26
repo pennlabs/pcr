@@ -10,7 +10,7 @@ const ScoreTable = props => {
     const selected = multi ? {} : null
     setSelected(selected)
     onSelect && onSelect(selected)
-  }, [data])
+  }, [data, multi, onSelect])
 
   const getTrProps = (_, rowInfo) => {
     const { index, original, row } = rowInfo
