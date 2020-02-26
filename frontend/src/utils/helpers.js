@@ -57,3 +57,23 @@ export function convertInstructorName(name) {
   nameCache[name] = out
   return out
 }
+
+export const getCartCourses = () =>
+  Object.keys(localStorage)
+    .filter(k => !k.startsWith('meta-'))
+    .map(k => {
+      const out = JSON.parse(localStorage.getItem(k))
+      if (typeof out !== 'object') {
+        return null
+      }
+      const typeDict = {}
+      if (typeof out.info !== 'undefined') {
+        out.info.forEach(v => {
+          typeDict[v.category] = v
+        })
+        out.info = typeDict
+      }
+      out.course = k
+      return out
+    })
+    .filter(a => a !== null)

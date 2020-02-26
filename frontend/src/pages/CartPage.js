@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import withLayout from './withLayout'
 import { Popover } from '../components/common'
-import { getColumnName } from '../utils/helpers'
+import { getColumnName, getCartCourses } from '../utils/helpers'
 
 class Cart extends Component {
   constructor(props) {
@@ -37,25 +37,7 @@ class Cart extends Component {
   }
 
   regenerateRatings() {
-    const courses = Object.keys(localStorage)
-      .filter(k => !k.startsWith('meta-'))
-      .map(k => {
-        const out = JSON.parse(localStorage.getItem(k))
-        if (typeof out !== 'object') {
-          return null
-        }
-        const typeDict = {}
-        if (typeof out.info !== 'undefined') {
-          out.info.forEach(v => {
-            typeDict[v.category] = v
-          })
-          out.info = typeDict
-        }
-        out.course = k
-        return out
-      })
-      .filter(a => a !== null)
-
+    const courses = getCartCourses()
     this.setState(({ boxLabels, excludedCourses, isAverage }) => ({
       courses,
       boxValues: boxLabels.map(type => {
