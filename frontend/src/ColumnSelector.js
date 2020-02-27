@@ -71,7 +71,7 @@ class ColumnSelector extends Component {
   render() {
     let x = 0
     const { buttonStyle = 'btn', columns } = this.props
-    const defaultButton = (
+    const button = (
       <button
         aria-label="Choose Columns"
         className={`btn btn-sm ml-2 ${buttonStyle}-secondary`}
@@ -84,10 +84,9 @@ class ColumnSelector extends Component {
         />
       </button>
     )
-    const { button = defaultButton } = this.props
 
     return (
-      <Popover style={{ width: 340 }} button={button || defaultButton}>
+      <Popover style={{ width: 340 }} button={button}>
         <span
           onClick={this.setAllColumns(true)}
           className={`btn mb-2 mr-2 btn-sm ${buttonStyle}-secondary`}
