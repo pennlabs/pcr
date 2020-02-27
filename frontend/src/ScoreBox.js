@@ -202,7 +202,7 @@ class ScoreBox extends Component {
               : (a, b) => (a > b ? 1 : -1),
           Cell: ({ value }) => {
             const classes = []
-            const val = value ? value : 'N/A'
+            const val = value || 'N/A'
 
             if (!value) {
               classes.push('empty')
@@ -243,12 +243,13 @@ class ScoreBox extends Component {
             }
             return a ? 1 : -1
           },
-          Cell: ({ column, original: key, value }) => {
+          Cell: ({ column, original: { key }, value = {} }) => {
             const classes = []
+            const { average, recent } = Object.keys(value).length
             const val = value
               ? this.state.isAverage
-                ? value.average
-                : value.recent
+                ? average
+                : recent
               : 'N/A'
 
             if (!value) {
