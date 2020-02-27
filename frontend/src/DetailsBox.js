@@ -225,6 +225,7 @@ class DetailsBox extends Component {
                 onSelect={cols => this.setState({ columns: cols })}
                 columns={this.state.columns}
                 buttonStyle="btn-sub"
+                buttonColor="purple"
               />
               {this.state.viewingRatings && (
                 <div className="float-right">

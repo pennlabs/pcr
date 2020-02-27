@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import Popover from './Popover'
 
+const colorMap = {
+  green: '#84B8BA',
+  purple: '#ABAAF1',
+}
+
 /**
  * Used to select the columns that appear in a table.
  */
@@ -70,15 +75,27 @@ class ColumnSelector extends Component {
 
   render() {
     let x = 0
-    const { button, buttonStyle = 'btn', columns } = this.props
+    const { buttonColor = 'green', buttonStyle = 'btn', columns } = this.props
+    const { [buttonColor]: color = '#000000' } = colorMap
     const defaultButton = (
       <button
+        key={color}
         aria-label="Choose Columns"
-        className={`btn btn-sm ml-2 ${buttonStyle}-primary`}
+        className="btn btn-sm ml-2"
+        style={{
+          color,
+          border: `1px solid ${color}`,
+        }}
       >
-        <i className="fa fa-plus" />
+        Edit Columns
+        <img
+          alt=""
+          className="ml-2"
+          src={`/static/image/selectcol-${buttonColor}.svg`}
+        />
       </button>
     )
+    const { button = defaultButton } = this.props
 
     return (
       <Popover style={{ width: 340 }} button={button || defaultButton}>
