@@ -78,7 +78,7 @@ class ColumnSelector extends Component {
       >
         Edit Columns
         <img
-          alt=""
+          alt="Edit Icon"
           className="btn-image ml-2"
           src={`/static/image/selectcol-${buttonStyle}.svg`}
         />
