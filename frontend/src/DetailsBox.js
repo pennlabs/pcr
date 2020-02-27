@@ -274,6 +274,3 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
 )
 
 export default DetailsBox
-
-// export default React.forwardRef((props, ref) => 
-//   <DetailsBox innerRef={ref} {...props}/>);
