@@ -105,14 +105,16 @@ class ColumnSelector extends Component {
         {columns.map(({ required, show, Header: header }, i) => {
           if (required) return false
           x += 1
+          const marginClass = x % 2 === 1 ? 'mr-2' : ''
+          const buttonClass = `${buttonStyle}${
+            show ? '-primary' : '-secondary'
+          }`
           return (
             <span
               key={i}
               onClick={this.handleToggleGenerator(i)}
               style={{ width: 150, textAlign: 'center' }}
-              className={`btn mt-2 btn-sm ${
-                x % 2 === 1 ? 'mr-2 ' : ''
-              }${buttonStyle}${show ? '-primary' : '-secondary'}`}
+              className={`btn mt-2 btn-sm ${marginClass} ${buttonClass}`}
             >
               {header}
             </span>
