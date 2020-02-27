@@ -317,7 +317,7 @@ class ScoreBox extends Component {
                   <b>{value}</b> is teaching during
                   <b>{liveData.term}</b> and
                   <b>{original.star.open}</b> out of
-                  <b>{original.star.all}</b> 
+                  <b>{original.star.all}</b>
                   {original.star.all === 1 ? 'section' : 'sections'}
                   {original.star.open === 1 ? 'is' : 'are'} open.
                   <ul>
@@ -335,9 +335,7 @@ class ScoreBox extends Component {
               }
             >
               <i
-                className={`fa-star ml-1 ${
-                  original.star.open ? 'fa' : 'far'
-                }`}
+                className={`fa-star ml-1 ${original.star.open ? 'fa' : 'far'}`}
               />
             </PopoverTitle>
           )}
@@ -355,11 +353,9 @@ class ScoreBox extends Component {
                   </b>
                   .
                   <ul>
-                    {this.state.currentCourses[original.code].map(
-                      (a, i) => (
-                        <CourseLine key={i} data={a} />
-                      )
-                    )}
+                    {this.state.currentCourses[original.code].map((a, i) => (
+                      <CourseLine key={i} data={a} />
+                    ))}
                   </ul>
                 </span>
               }

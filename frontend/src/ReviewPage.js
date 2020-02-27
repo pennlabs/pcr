@@ -136,7 +136,7 @@ class ReviewPage extends Component {
     window.scrollTo({
       behavior: 'smooth',
       left: 0,
-      top: this.myRef.current.offsetTop
+      top: this.myRef.current.offsetTop,
     })
   }
 
@@ -247,10 +247,20 @@ class ReviewPage extends Component {
                 onSelect={handleSelect}
               />
               {type === 'course' && (
-                <DetailsBox type={type} course={code} instructor={rowCode} ref={this.myRef}/>
+                <DetailsBox
+                  type={type}
+                  course={code}
+                  instructor={rowCode}
+                  ref={this.myRef}
+                />
               )}
               {type === 'instructor' && (
-                <DetailsBox type={type} course={rowCode} instructor={code} ref={this.myRef}/>
+                <DetailsBox
+                  type={type}
+                  course={rowCode}
+                  instructor={code}
+                  ref={this.myRef}
+                />
               )}
             </div>
           </div>
