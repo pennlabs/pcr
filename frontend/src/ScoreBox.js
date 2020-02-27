@@ -156,7 +156,7 @@ class ScoreBox extends Component {
   }
 
   componentDidMount() {
-    const { data: results, liveData, type } = this.props
+    const { original, data: results, liveData, type } = this.props
 
     const columns = {}
     const isCourse = type === 'course'
@@ -190,7 +190,6 @@ class ScoreBox extends Component {
     })
 
     const cols = []
-
     if (isInstructor) {
       EXTRA_KEYS.forEach(colName =>
         cols.push({
@@ -265,7 +264,7 @@ class ScoreBox extends Component {
             if (
               ENABLE_RELATIVE_COLORS &&
               this.state.selected in infoMap &&
-              props.original.key !== this.state.selected
+              original.key !== this.state.selected
             ) {
               const other =
                 infoMap[this.state.selected][
@@ -298,31 +297,31 @@ class ScoreBox extends Component {
       width: 270,
       show: true,
       required: true,
-      Cell: props => (
+      Cell: ({ original, value }) => (
         <span>
           {isCourse && (
             <Link
-              to={`/instructor/${props.original.key}`}
-              title={`Go to ${props.value}`}
+              to={`/instructor/${original.key}`}
+              title={`Go to ${value}`}
               className="mr-1"
               style={{ color: 'rgb(102, 146, 161)' }}
             >
               <i className="instructor-link far fa-user" />
             </Link>
           )}
-          {props.value}
-          {props.original.star && liveData && (
+          {value}
+          {original.star && liveData && (
             <PopoverTitle
               title={
                 <span>
-                  <b>{props.value}</b> is teaching during
+                  <b>{value}</b> is teaching during
                   <b>{liveData.term}</b> and
-                  <b>{props.original.star.open}</b> out of
-                  <b>{props.original.star.all}</b> 
-                  {props.original.star.all == 1 ? 'section' : 'sections'}
-                  {props.original.star.open == 1 ? 'is' : 'are'} open.
+                  <b>{original.star.open}</b> out of
+                  <b>{original.star.all}</b> 
+                  {original.star.all === 1 ? 'section' : 'sections'}
+                  {original.star.open === 1 ? 'is' : 'are'} open.
                   <ul>
-                    {props.original.star.sections
+                    {original.star.sections
                       .sort((x, y) =>
                         x.section_id_normalized.localeCompare(
                           y.section_id_normalized
@@ -337,26 +336,26 @@ class ScoreBox extends Component {
             >
               <i
                 className={`fa-star ml-1 ${
-                  props.original.star.open ? 'fa' : 'far'
+                  original.star.open ? 'fa' : 'far'
                 }`}
               />
             </PopoverTitle>
           )}
-          {isInstructor && !!this.state.currentCourses[props.original.code] && (
+          {isInstructor && !!this.state.currentCourses[original.code] && (
             <PopoverTitle
               title={
                 <span>
                   <b>{results.name}</b> will teach
-                  <b>{props.original.code.replace('-', ' ')}</b> in
+                  <b>{original.code.replace('-', ' ')}</b> in
                   <b>
                     {
-                      this.state.currentCourses[props.original.code][0]
+                      this.state.currentCourses[original.code][0]
                         .term_normalized
                     }
                   </b>
                   .
                   <ul>
-                    {this.state.currentCourses[props.original.code].map(
+                    {this.state.currentCourses[original.code].map(
                       (a, i) => (
                         <CourseLine key={i} data={a} />
                       )
@@ -367,7 +366,7 @@ class ScoreBox extends Component {
             >
               <i
                 className={`ml-1 fa-star ${
-                  this.state.currentCourses[props.original.code].filter(
+                  this.state.currentCourses[original.code].filter(
                     a => !a.is_closed && !a.is_cancelled
                   ).length
                     ? 'fa'

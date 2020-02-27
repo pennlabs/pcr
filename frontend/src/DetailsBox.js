@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState, forwardRef } from 'react'
 import { Link } from 'react-router-dom'
+
 import ScoreTable from './ScoreTable'
 import ColumnSelector from './ColumnSelector'
 import { apiHistory } from './api'
@@ -24,137 +25,114 @@ export function compareSemesters(a, b) {
 /**
  * The box below the course ratings table that contains student comments and semester information.
  */
-class DetailsBox extends Component {
-  constructor(props) {
-    super(props)
+export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
+  const [data, setData] = useState(null)
+  const [viewingRatings, setViewingRatings] = useState(true)
+  const [selectedSemester, setSelectedSemester] = useState(null)
+  const [semesterList, setSemesterList] = useState([])
+  const [columns, setColumns] = useState([])
+  const [filtered, setFiltered] = useState([])
+  const [filterAll, setFilterAll] = useState('')
 
-    this.state = {
-      data: null,
-      viewingRatings: true,
-      selectedSemester: null,
-      semesterList: [],
-      columns: [],
-      filtered: [],
-      filterAll: '',
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.instructor !== this.props.instructor ||
-      prevProps.course !== this.props.course
-    ) {
-      if (this.props.instructor !== null && this.props.course !== null) {
-        apiHistory(this.props.course, this.props.instructor).then(res => {
-          const list = [
-            ...new Set(
-              Object.values(res.sections)
-                .filter(a => a.comments)
-                .sort((a, b) => compareSemesters(a.semester, b.semester))
-                .map(a => a.semester)
+  useEffect(() => { 
+    if (instructor !== null && course !== null) {
+      apiHistory(course, instructor).then(res => {
+        const list = [
+          ...new Set(
+            Object.values(res.sections)
+              .filter(a => a.comments)
+              .sort((a, b) => compareSemesters(a.semester, b.semester))
+              .map(a => a.semester)
+          ),
+        ]
+        setData(res)
+        setColumns([
+          {
+            id: 'semester',
+            width: 150,
+            Header: 'Semester',
+            accessor: 'semester',
+            sortMethod: compareSemesters,
+            show: true,
+            required: true,
+          },
+          {
+            id: 'name',
+            width: 300,
+            Header: 'Name',
+            accessor: 'name',
+            show: true,
+            required: true,
+            filterMethod: (filter, rows) => {
+              if (filter.value === '') {
+                return true
+              }
+              return (
+                rows.name
+                  .toLowerCase()
+                  .includes(filter.value.toLowerCase()) ||
+                rows.semester
+                  .toLowerCase()
+                  .includes(filter.value.toLowerCase())
+              )
+            },
+          },
+          {
+            id: 'forms',
+            width: 150,
+            Header: 'Forms',
+            accessor: 'forms_returned',
+            show: true,
+            required: true,
+            Cell: props =>
+              typeof props.value === 'undefined' ? (
+                <center className="empty">N/A</center>
+              ) : (
+                <center>
+                  {props.value} / {props.original.forms_produced}{' '}
+                  <small style={{ color: '#aaa', fontSize: '0.8em' }}>
+                    (
+                    {(
+                      (props.value / props.original.forms_produced) *
+                      100
+                    ).toFixed(1)}
+                    %)
+                  </small>
+                </center>
+              ),
+          },
+        ].concat(
+          orderColumns(
+            Object.keys(Object.values(res.sections)[0].ratings)
+          ).map(info => ({
+            id: info,
+            width: 150,
+            Header: getColumnName(info),
+            accessor: info,
+            Cell: props => (
+              <center className={!props.value ? 'empty' : ''}>
+                {isNaN(props.value) ? 'N/A' : props.value.toFixed(2)}
+              </center>
             ),
-          ]
-          this.setState(state => ({
-            data: res,
-            columns: [
-              {
-                id: 'semester',
-                width: 150,
-                Header: 'Semester',
-                accessor: 'semester',
-                sortMethod: compareSemesters,
-                show: true,
-                required: true,
-              },
-              {
-                id: 'name',
-                width: 300,
-                Header: 'Name',
-                accessor: 'name',
-                show: true,
-                required: true,
-                filterMethod: (filter, rows) => {
-                  if (filter.value === '') {
-                    return true
-                  }
-                  return (
-                    rows.name
-                      .toLowerCase()
-                      .includes(filter.value.toLowerCase()) ||
-                    rows.semester
-                      .toLowerCase()
-                      .includes(filter.value.toLowerCase())
-                  )
-                },
-              },
-              {
-                id: 'forms',
-                width: 150,
-                Header: 'Forms',
-                accessor: 'forms_returned',
-                show: true,
-                required: true,
-                Cell: props =>
-                  typeof props.value === 'undefined' ? (
-                    <center className="empty">N/A</center>
-                  ) : (
-                    <center>
-                      {props.value} / {props.original.forms_produced}{' '}
-                      <small style={{ color: '#aaa', fontSize: '0.8em' }}>
-                        (
-                        {(
-                          (props.value / props.original.forms_produced) *
-                          100
-                        ).toFixed(1)}
-                        %)
-                      </small>
-                    </center>
-                  ),
-              },
-            ].concat(
-              orderColumns(
-                Object.keys(Object.values(res.sections)[0].ratings)
-              ).map(info => ({
-                id: info,
-                width: 150,
-                Header: getColumnName(info),
-                accessor: info,
-                Cell: props => (
-                  <center className={!props.value ? 'empty' : ''}>
-                    {isNaN(props.value) ? 'N/A' : props.value.toFixed(2)}
-                  </center>
-                ),
-                show: true,
-              }))
-            ),
-            semesterList: list,
-            selectedSemester: list.length
-              ? list.indexOf(state.selectedSemester) !== -1
-                ? state.selectedSemester
-                : list[0]
-              : null,
+            show: true,
           }))
-        })
-      } else {
-        // TODO: Switch to functional component and use useEffect(() => {...}, [])
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          data: null,
-          semesterList: [],
-        })
-      }
-    }
-  }
+        ))
+        setSemesterList(list)
+        setSelectedSemester(list.length
+          ? list.indexOf(selectedSemester) !== -1
+            ? selectedSemester
+            : list[0]
+          : null)
+      })
+    }}, [course, instructor])
 
-  render() {
-    const { course, instructor, type } = this.props
     return (
-      <div id="course-details" className="box" ref={this.props.innerRef} >
+      <div id="course-details" className="box" ref={ref} >
         {((type === 'course' && instructor) ||
           (type === 'instructor' && course)) &&
-        !this.state.data ? (
+        !data ? (
           <div>Loading...</div>
-        ) : !this.state.data ? (
+        ) : !data ? (
           <div id="select-row">
             <div>
               <h3 id="select-row-text">
@@ -188,18 +166,18 @@ class DetailsBox extends Component {
                     : `/course/${course}`
                 }
               >
-                {type === 'course' ? this.state.data.instructor.name : course}
+                {type === 'course' ? data.instructor.name : course}
               </Link>
             </h3>
             <div className="clearfix">
               <div className="btn-group">
                 <button
                   onClick={() => {
-                    this.setState({ viewingRatings: true })
+                    setViewingRatings(true)
                   }}
                   id="view_ratings"
                   className={`btn btn-sm ${
-                    this.state.viewingRatings
+                    viewingRatings
                       ? 'btn-sub-primary'
                       : 'btn-sub-secondary'
                   }`}
@@ -208,11 +186,11 @@ class DetailsBox extends Component {
                 </button>
                 <button
                   onClick={() => {
-                    this.setState({ viewingRatings: false })
+                    setViewingRatings(false)
                   }}
                   id="view_comments"
                   className={`btn btn-sm ${
-                    !this.state.viewingRatings
+                    !viewingRatings
                       ? 'btn-sub-primary'
                       : 'btn-sub-secondary'
                   }`}
@@ -222,20 +200,18 @@ class DetailsBox extends Component {
               </div>
               <ColumnSelector
                 name="details"
-                onSelect={cols => this.setState({ columns: cols })}
-                columns={this.state.columns}
+                onSelect={cols => setColumns(cols)}
+                columns={columns}
                 buttonStyle="btn-sub"
               />
-              {this.state.viewingRatings && (
+              {viewingRatings && (
                 <div className="float-right">
                   <label className="table-search">
                     <input
-                      value={this.state.filterAll}
+                      value={filterAll}
                       onChange={val =>
-                        this.setState({
-                          filtered: [{ id: 'name', value: val.target.value }],
-                          filterAll: val.target.value,
-                        })
+                        setFiltered([{ id: 'name', value: val.target.value }]) &&
+                        setFilterAll(val.target.value)
                       }
                       type="search"
                       className="form-control form-control-sm"
@@ -244,33 +220,33 @@ class DetailsBox extends Component {
                 </div>
               )}
             </div>
-            {this.state.viewingRatings ? (
+            {viewingRatings ? (
               <div id="course-details-data">
                 <ScoreTable
                   sorted={[{ id: 'semester', desc: false }]}
-                  filtered={this.state.filtered}
-                  data={Object.values(this.state.data.sections).map(i => ({
+                  filtered={filtered}
+                  data={Object.values(data.sections).map(i => ({
                     ...i.ratings,
                     semester: i.semester,
                     name: i.course_name,
                     forms_produced: i.forms_produced,
                     forms_returned: i.forms_returned,
                   }))}
-                  columns={this.state.columns}
+                  columns={columns}
                   noun="section"
                 />
               </div>
             ) : (
               <div id="course-details-comments" className="clearfix mt-2">
                 <div className="list">
-                  {this.state.semesterList.map((info, i) => (
+                  {semesterList.map((info, i) => (
                     <div
                       key={i}
                       onClick={() => {
-                        this.setState({ selectedSemester: info })
+                        setSelectedSemester(info)
                       }}
                       className={
-                        this.state.selectedSemester === info ? 'selected' : ''
+                        selectedSemester === info ? 'selected' : ''
                       }
                     >
                       {info}
@@ -278,10 +254,10 @@ class DetailsBox extends Component {
                   ))}
                 </div>
                 <div className="comments">
-                  {Object.values(this.state.data.sections)
+                  {Object.values(data.sections)
                     .filter(
                       info =>
-                        info.semester === this.state.selectedSemester &&
+                        info.semester === selectedSemester &&
                         info.comments
                     )
                     .map(info => info.comments)
@@ -295,7 +271,9 @@ class DetailsBox extends Component {
       </div>
     )
   }
-}
+)
 
-export default React.forwardRef((props, ref) => 
-  <DetailsBox innerRef={ref} {...props}/>);
+export default DetailsBox
+
+// export default React.forwardRef((props, ref) => 
+//   <DetailsBox innerRef={ref} {...props}/>);

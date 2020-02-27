@@ -24,12 +24,14 @@ const ScoreboxRow = ({
     }
     return 'rating-good'
   }
+  
+  const hasSingleSection = numSections === 1;
 
   return (
     <div className="scorebox-desc-row">
       <div className="scoredesc">
         <p className="title">{value}</p>{' '}
-        <p className="subtitle">{numSections} {numSections == 1 ? 'Section' : 'Sections'}</p>
+        <p className="subtitle">{numSections} {hasSingleSection ? 'Section' : 'Sections'}</p>
       </div>
       <div className="scoreboxrow">
         <div className={`scorebox course ${getColor(course)}`}>

@@ -41,7 +41,6 @@ class ReviewPage extends Component {
     this.getReviewData = this.getReviewData.bind(this)
     this.showRowHistory = this.showRowHistory.bind(this)
     this.showDepartmentGraph = this.showDepartmentGraph.bind(this)
-    this.scrollToMyRef = this.scrollToMyRef.bind(this)
   }
 
   componentDidMount() {
@@ -134,7 +133,11 @@ class ReviewPage extends Component {
 
   showRowHistory(rowCode) {
     this.setState({ rowCode })
-    this.scrollToMyRef()
+    window.scrollTo({
+      behavior: 'smooth',
+      left: 0,
+      top: this.myRef.current.offsetTop
+    })
   }
 
   showDepartmentGraph(val) {
@@ -146,8 +149,6 @@ class ReviewPage extends Component {
   static getDerivedStateFromError() {
     return { error: 'An unknown error occured.' }
   }
-
-  scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop)   
 
   render() {
     if (this.state.error) {
@@ -246,10 +247,10 @@ class ReviewPage extends Component {
                 onSelect={handleSelect}
               />
               {type === 'course' && (
-                <DetailsBox type={type} course={code} instructor={rowCode} ref={this.myRef} scrollToMyRef={this.scrollToMyRef}/>
+                <DetailsBox type={type} course={code} instructor={rowCode} ref={this.myRef}/>
               )}
               {type === 'instructor' && (
-                <DetailsBox type={type} course={rowCode} instructor={code} ref={this.myRef} scrollToMyRef={this.scrollToMyRef}/>
+                <DetailsBox type={type} course={rowCode} instructor={code} ref={this.myRef}/>
               )}
             </div>
           </div>
