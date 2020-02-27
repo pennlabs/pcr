@@ -156,7 +156,7 @@ class ScoreBox extends Component {
   }
 
   componentDidMount() {
-    const { original, data: results, liveData, type } = this.props
+    const { data: results, liveData, type } = this.props
 
     const columns = {}
     const isCourse = type === 'course'
@@ -200,11 +200,11 @@ class ScoreBox extends Component {
             SEM_SORT_KEY === colName
               ? compareSemesters
               : (a, b) => (a > b ? 1 : -1),
-          Cell: props => {
+          Cell: ({ value }) => {
             const classes = []
-            const value = props.value ? props.value : 'N/A'
+            const val = value ? value : 'N/A'
 
-            if (!props.value) {
+            if (!value) {
               classes.push('empty')
             }
 
@@ -215,7 +215,7 @@ class ScoreBox extends Component {
             }
             return (
               <center>
-                <span className={classes.join(' ')}>{value}</span>
+                <span className={classes.join(' ')}>{val}</span>
               </center>
             )
           },
@@ -243,15 +243,15 @@ class ScoreBox extends Component {
             }
             return a ? 1 : -1
           },
-          Cell: props => {
+          Cell: ({ column, original: key, value }) => {
             const classes = []
-            const value = props.value
+            const val = value
               ? this.state.isAverage
-                ? props.value.average
-                : props.value.recent
+                ? value.average
+                : value.recent
               : 'N/A'
 
-            if (!props.value) {
+            if (!value) {
               classes.push('empty')
             }
 
@@ -264,14 +264,14 @@ class ScoreBox extends Component {
             if (
               ENABLE_RELATIVE_COLORS &&
               this.state.selected in infoMap &&
-              original.key !== this.state.selected
+              key !== this.state.selected
             ) {
               const other =
                 infoMap[this.state.selected][
                   this.state.isAverage ? 'average_reviews' : 'recent_reviews'
-                ][props.column.id]
-              if (Math.abs(value - other) > 0.01) {
-                if (value > other) {
+                ][column.id]
+              if (Math.abs(val - other) > 0.01) {
+                if (val > other) {
                   classes.push('lower')
                 } else {
                   classes.push('higher')
@@ -281,7 +281,7 @@ class ScoreBox extends Component {
 
             return (
               <center>
-                <span className={classes.join(' ')}>{value}</span>
+                <span className={classes.join(' ')}>{val}</span>
               </center>
             )
           },
@@ -297,11 +297,11 @@ class ScoreBox extends Component {
       width: 270,
       show: true,
       required: true,
-      Cell: ({ original, value }) => (
+      Cell: ({ original: { code, key, star }, value }) => (
         <span>
           {isCourse && (
             <Link
-              to={`/instructor/${original.key}`}
+              to={`/instructor/${key}`}
               title={`Go to ${value}`}
               className="mr-1"
               style={{ color: 'rgb(102, 146, 161)' }}
@@ -310,18 +310,18 @@ class ScoreBox extends Component {
             </Link>
           )}
           {value}
-          {original.star && liveData && (
+          {star && liveData && (
             <PopoverTitle
               title={
                 <span>
                   <b>{value}</b> is teaching during
                   <b>{liveData.term}</b> and
-                  <b>{original.star.open}</b> out of
-                  <b>{original.star.all}</b>
-                  {original.star.all === 1 ? 'section' : 'sections'}
-                  {original.star.open === 1 ? 'is' : 'are'} open.
+                  <b>{star.open}</b> out of
+                  <b>{star.all}</b>
+                  {star.all === 1 ? 'section' : 'sections'}
+                  {star.open === 1 ? 'is' : 'are'} open.
                   <ul>
-                    {original.star.sections
+                    {star.sections
                       .sort((x, y) =>
                         x.section_id_normalized.localeCompare(
                           y.section_id_normalized
@@ -334,26 +334,18 @@ class ScoreBox extends Component {
                 </span>
               }
             >
-              <i
-                className={`fa-star ml-1 ${original.star.open ? 'fa' : 'far'}`}
-              />
+              <i className={`fa-star ml-1 ${star.open ? 'fa' : 'far'}`} />
             </PopoverTitle>
           )}
-          {isInstructor && !!this.state.currentCourses[original.code] && (
+          {isInstructor && !!this.state.currentCourses[code] && (
             <PopoverTitle
               title={
                 <span>
                   <b>{results.name}</b> will teach
-                  <b>{original.code.replace('-', ' ')}</b> in
-                  <b>
-                    {
-                      this.state.currentCourses[original.code][0]
-                        .term_normalized
-                    }
-                  </b>
-                  .
+                  <b>{code.replace('-', ' ')}</b> in
+                  <b>{this.state.currentCourses[code][0].term_normalized}</b>.
                   <ul>
-                    {this.state.currentCourses[original.code].map((a, i) => (
+                    {this.state.currentCourses[code].map((a, i) => (
                       <CourseLine key={i} data={a} />
                     ))}
                   </ul>
@@ -362,7 +354,7 @@ class ScoreBox extends Component {
             >
               <i
                 className={`ml-1 fa-star ${
-                  this.state.currentCourses[original.code].filter(
+                  this.state.currentCourses[code].filter(
                     a => !a.is_closed && !a.is_cancelled
                   ).length
                     ? 'fa'
@@ -406,10 +398,10 @@ class ScoreBox extends Component {
         width: 100,
         show: true,
         required: true,
-        Cell: props => (
+        Cell: ({ value }) => (
           <center>
-            <Link to={`/course/${props.value}`} title={`Go to ${props.value}`}>
-              {props.value}
+            <Link to={`/course/${value}`} title={`Go to ${value}`}>
+              {value}
             </Link>
           </center>
         ),
