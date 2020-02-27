@@ -243,10 +243,10 @@ class ScoreBox extends Component {
             }
             return a ? 1 : -1
           },
-          Cell: ({ column, original: { key }, value = {} }) => {
+          Cell: ({ column: { id }, original: { key }, value = {} }) => {
             const classes = []
-            const { average, recent } = Object.keys(value).length
-            const val = value
+            const { average, recent } = value
+            const val = Object.keys(value).length
               ? this.state.isAverage
                 ? average
                 : recent
@@ -270,7 +270,7 @@ class ScoreBox extends Component {
               const other =
                 infoMap[this.state.selected][
                   this.state.isAverage ? 'average_reviews' : 'recent_reviews'
-                ][column.id]
+                ][id]
               if (Math.abs(val - other) > 0.01) {
                 if (val > other) {
                   classes.push('lower')
