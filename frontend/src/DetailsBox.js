@@ -98,7 +98,9 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
     if (instructor !== null && course !== null) {
       apiHistory(course, instructor).then(res => {
         const [firstSection, ...sections] = Object.values(res.sections)
-        const ratingCols = orderColumns(Object.keys(firstSection.ratings)).map(generateCol)
+        const ratingCols = orderColumns(Object.keys(firstSection.ratings)).map(
+          generateCol
+        )
         const semesterSet = new Set(
           [firstSection, ...sections]
             .filter(a => a.comments)
@@ -111,7 +113,9 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
         setSemesterList(semesters)
         setSelectedSemester(() => {
           if (!semesters.length) return null
-          return semesterSet.has(selectedSemester) ? selectedSemester : semesters[0]
+          return semesterSet.has(selectedSemester)
+            ? selectedSemester
+            : semesters[0]
         })
       })
     }
