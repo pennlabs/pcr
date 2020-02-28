@@ -22,6 +22,66 @@ export function compareSemesters(a, b) {
   return mapping[as].localeCompare(mapping[bs])
 }
 
+/*
+ * Settings objects/object generators for the columns of the DetailsBox
+ */
+
+const semesterCol = {
+  id: 'semester',
+  width: 150,
+  Header: 'Semester',
+  accessor: 'semester',
+  sortMethod: compareSemesters,
+  show: true,
+  required: true,
+}
+
+const nameCol = {
+  id: 'name',
+  width: 300,
+  Header: 'Name',
+  accessor: 'name',
+  show: true,
+  required: true,
+  filterMethod: ({ value }, { name, semester }) =>
+    value === '' || // If the filter value is blank, all
+    name.toLowerCase().includes(value.toLowerCase()) ||
+    semester.toLowerCase().includes(value.toLowerCase()),
+}
+
+const formsCol = {
+  id: 'forms',
+  width: 150,
+  Header: 'Forms',
+  accessor: 'forms_returned',
+  show: true,
+  required: true,
+  Cell: ({ value, original }) =>
+    typeof value === 'undefined' ? (
+      <center className="empty">N/A</center>
+    ) : (
+      <center>
+        {value} / {original.forms_produced}{' '}
+        <small style={{ color: '#aaa', fontSize: '0.8em' }}>
+          ({((value / original.forms_produced) * 100).toFixed(1)}%)
+        </small>
+      </center>
+    ),
+}
+
+const generateCol = info => ({
+  id: info,
+  width: 150,
+  Header: getColumnName(info),
+  accessor: info,
+  show: true,
+  Cell: ({ value }) => (
+    <center className={!value ? 'empty' : ''}>
+      {isNaN(value) ? 'N/A' : value.toFixed(2)}
+    </center>
+  ),
+})
+
 /**
  * The box below the course ratings table that contains student comments and semester information.
  */
@@ -37,96 +97,22 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
   useEffect(() => {
     if (instructor !== null && course !== null) {
       apiHistory(course, instructor).then(res => {
-        const list = [
-          ...new Set(
-            Object.values(res.sections)
-              .filter(a => a.comments)
-              .sort((a, b) => compareSemesters(a.semester, b.semester))
-              .map(a => a.semester)
-          ),
-        ]
+        const [firstSection, ...sections] = Object.values(res.sections)
+        const ratingCols = orderColumns(Object.keys(firstSection.ratings)).map(generateCol)
+        const semesterSet = new Set(
+          [firstSection, ...sections]
+            .filter(a => a.comments)
+            .map(a => a.semester)
+            .sort(compareSemesters)
+        )
+        const semesters = [...semesterSet]
         setData(res)
-        setColumns(
-          [
-            {
-              id: 'semester',
-              width: 150,
-              Header: 'Semester',
-              accessor: 'semester',
-              sortMethod: compareSemesters,
-              show: true,
-              required: true,
-            },
-            {
-              id: 'name',
-              width: 300,
-              Header: 'Name',
-              accessor: 'name',
-              show: true,
-              required: true,
-              filterMethod: (filter, rows) => {
-                if (filter.value === '') {
-                  return true
-                }
-                return (
-                  rows.name
-                    .toLowerCase()
-                    .includes(filter.value.toLowerCase()) ||
-                  rows.semester
-                    .toLowerCase()
-                    .includes(filter.value.toLowerCase())
-                )
-              },
-            },
-            {
-              id: 'forms',
-              width: 150,
-              Header: 'Forms',
-              accessor: 'forms_returned',
-              show: true,
-              required: true,
-              Cell: props =>
-                typeof props.value === 'undefined' ? (
-                  <center className="empty">N/A</center>
-                ) : (
-                  <center>
-                    {props.value} / {props.original.forms_produced}{' '}
-                    <small style={{ color: '#aaa', fontSize: '0.8em' }}>
-                      (
-                      {(
-                        (props.value / props.original.forms_produced) *
-                        100
-                      ).toFixed(1)}
-                      %)
-                    </small>
-                  </center>
-                ),
-            },
-          ].concat(
-            orderColumns(
-              Object.keys(Object.values(res.sections)[0].ratings)
-            ).map(info => ({
-              id: info,
-              width: 150,
-              Header: getColumnName(info),
-              accessor: info,
-              Cell: props => (
-                <center className={!props.value ? 'empty' : ''}>
-                  {isNaN(props.value) ? 'N/A' : props.value.toFixed(2)}
-                </center>
-              ),
-              show: true,
-            }))
-          )
-        )
-        setSemesterList(list)
-        setSelectedSemester(
-          list.length
-            ? list.indexOf(selectedSemester) !== -1
-              ? selectedSemester
-              : list[0]
-            : null
-        )
+        setColumns([semesterCol, nameCol, formsCol, ...ratingCols])
+        setSemesterList(semesters)
+        setSelectedSemester(() => {
+          if (!semesters.length) return null
+          return semesterSet.has(selectedSemester) ? selectedSemester : semesters[0]
+        })
       })
     }
   }, [course, instructor, selectedSemester])
@@ -177,9 +163,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
           <div className="clearfix">
             <div className="btn-group">
               <button
-                onClick={() => {
-                  setViewingRatings(true)
-                }}
+                onClick={() => setViewingRatings(true)}
                 id="view_ratings"
                 className={`btn btn-sm ${
                   viewingRatings ? 'btn-sub-primary' : 'btn-sub-secondary'
@@ -188,9 +172,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
                 Ratings
               </button>
               <button
-                onClick={() => {
-                  setViewingRatings(false)
-                }}
+                onClick={() => setViewingRatings(false)}
                 id="view_comments"
                 className={`btn btn-sm ${
                   !viewingRatings ? 'btn-sub-primary' : 'btn-sub-secondary'
