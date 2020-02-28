@@ -86,7 +86,7 @@ const generateCol = info => ({
  * The box below the course ratings table that contains student comments and semester information.
  */
 export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState({})
   const [viewingRatings, setViewingRatings] = useState(true)
   const [selectedSemester, setSelectedSemester] = useState(null)
   const [semesterList, setSemesterList] = useState([])
@@ -121,21 +121,31 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
     }
   }, [course, instructor, selectedSemester])
 
-  return (
-    <div id="course-details" className="box" ref={ref}>
-      {((type === 'course' && instructor) ||
-        (type === 'instructor' && course)) &&
-      !data ? (
+  const hasData = Boolean(Object.keys(data).length)
+  const hasSelection =
+    (type === 'course' && instructor) || (type === 'instructor' && course)
+  const isCourse = type === 'course'
+
+  // Return loading component. TODO: Add spinner/ghost loader.
+  if (!hasData && hasSelection)
+    return (
+      <div id="course-details" className="box" ref={ref}>
         <div>Loading...</div>
-      ) : !data ? (
+      </div>
+    )
+
+  // Return placeholder image.
+  if (!hasData)
+    return (
+      <div id="course-details" className="box" ref={ref}>
         <div id="select-row">
           <div>
             <h3 id="select-row-text">
-              {type === 'instructor'
-                ? 'Select a course to see individual sections, comments, and more details.'
-                : 'Select an instructor to see individual sections, comments, and more details.'}
+              {isCourse
+                ? 'Select an instructor to see individual sections, comments, and more details.'
+                : 'Select a course to see individual sections, comments, and more details.'}
             </h3>
-            {type === 'course' ? (
+            {isCourse ? (
               <object type="image/svg+xml" data="/static/image/prof.svg">
                 <img alt="Professor Icon" src="/static/image/prof.png" />
               </object>
@@ -150,11 +160,8 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
             )}
           </div>
         </div>
-      ) : (
-        <div id="course-details-wrapper">
-          <h3>
-            <Link
-              style={{ color: '#b2b2b2', textDecoration: 'none' }}
+      </div>
+    )
               to={
                 type === 'course'
                   ? `/instructor/${instructor}`
