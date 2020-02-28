@@ -310,8 +310,8 @@ class ScoreBox extends Component {
                           y.section_id_normalized
                         )
                       )
-                      .map(({ section_id_normalized: sectionId }) => (
-                        <CourseDetails key={sectionId} data={data} />
+                      .map(data => (
+                        <CourseDetails key={data.section_id_normalized} data={data} />
                       ))}
                   </ul>
                 </span>

@@ -131,10 +131,10 @@ class Tags extends Component {
                             y.section_id_normalized
                           )
                         )
-                        .map(({ section_id_normalized: sectionId }) => (
+                        .map(data => (
                           <CourseDetails
-                            key={sectionId}
-                            data={this.props.data}
+                            key={data.section_id_normalized}
+                            data={data}
                           />
                         ))}
                     </ul>
