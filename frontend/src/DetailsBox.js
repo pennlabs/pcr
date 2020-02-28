@@ -129,7 +129,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
         )
       })
     }
-  }, [course, instructor])
+  }, [course, instructor, selectedSemester])
 
   return (
     <div id="course-details" className="box" ref={ref}>
