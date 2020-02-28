@@ -9,7 +9,7 @@ import { CourseDetails, Popover, PopoverTitle } from '../common'
  */
 class Tags extends Component {
   render() {
-    const existing = this.props.existing_instructors.map(convertInstructorName)
+    const existing = this.props.existingInstructors.map(convertInstructorName)
     const newInstructors = {}
     if (this.props.instructors) {
       this.props.instructors.forEach(i => {

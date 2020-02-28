@@ -249,7 +249,7 @@ class InfoBox extends Component {
                 <Tags
                   {...liveData}
                   data={data}
-                  existing_instructors={Object.values(instructors).map(
+                  existingInstructors={Object.values(instructors).map(
                     a => a.name
                   )}
                 />
