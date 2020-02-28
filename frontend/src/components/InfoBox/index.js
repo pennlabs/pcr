@@ -154,9 +154,9 @@ class InfoBox extends Component {
     } = averageRatings
 
     const {
-      rInstructorQuality: rcntInstructorQuality,
-      rCourseQuality: rcntCourseQuality,
-      rDifficulty: rcntDifficulty,
+      rInstructorQuality: recentInstructorQuality,
+      rCourseQuality: recentCourseQuality,
+      rDifficulty: recentDifficulty,
     } = recentRatings
 
     return (
@@ -298,9 +298,9 @@ class InfoBox extends Component {
 
             <Ratings
               value="Recent"
-              instructor={rcntInstructorQuality}
-              course={rcntCourseQuality}
-              difficulty={rcntDifficulty}
+              instructor={recentInstructorQuality}
+              course={recentCourseQuality}
+              difficulty={recentDifficulty}
               num_sections={numSectionsRecent}
             />
           </div>
