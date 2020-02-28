@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react'
 import ReactTable from 'react-table'
 
 const ScoreTable = props => {
-  const { noun, multi, data = [], onSelect = () => {} } = props
+  const {
+    alternating = false,
+    noun,
+    multi,
+    data = [],
+    onSelect = () => {},
+  } = props
   const [selected, setSelected] = useState(multi ? {} : null)
   const [sorted, setSorted] = useState(props.sorted)
 
@@ -17,6 +23,9 @@ const ScoreTable = props => {
     const noRow = multi ? index in selected : index === selected
     return rowInfo && row
       ? {
+          style: alternating
+            ? { backgroundColor: row._viewIndex % 2 ? '#F5F8F8' : 'white' }
+            : {},
           onClick: () => {
             if (!multi) {
               const { key } = original
