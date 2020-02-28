@@ -20,10 +20,8 @@ const SHOW_RECRUITMENT_BANNER = false
 class ReviewPage extends Component {
   constructor(props) {
     super(props)
-    this.myRef = React.createRef()
-
+    this.tableRef = React.createRef()
     this.cookies = new Cookies()
-
     this.state = {
       type: this.props.match.params.type,
       code: this.props.match.params.code,
@@ -133,11 +131,12 @@ class ReviewPage extends Component {
 
   showRowHistory(rowCode) {
     this.setState({ rowCode }, () => {
-      if (rowCode)
+      if (rowCode) {
         window.scrollTo({
           behavior: 'smooth',
-          top: this.myRef.current.offsetTop,
+          top: this.tableRef.current.offsetTop,
         })
+      }
     })
   }
 
@@ -252,7 +251,7 @@ class ReviewPage extends Component {
                   type={type}
                   course={code}
                   instructor={rowCode}
-                  ref={this.myRef}
+                  ref={this.tableRef}
                 />
               )}
               {type === 'instructor' && (
@@ -260,7 +259,7 @@ class ReviewPage extends Component {
                   type={type}
                   course={rowCode}
                   instructor={code}
-                  ref={this.myRef}
+                  ref={this.tableRef}
                 />
               )}
             </div>
