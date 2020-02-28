@@ -132,12 +132,13 @@ class ReviewPage extends Component {
   }
 
   showRowHistory(rowCode) {
-    this.setState({ rowCode }, () =>
-      window.scrollTo({
-        behavior: 'smooth',
-        top: this.myRef.current.offsetTop,
-      })
-    )
+    this.setState({ rowCode }, () => {
+      if (rowCode)
+        window.scrollTo({
+          behavior: 'smooth',
+          top: this.myRef.current.offsetTop,
+        })
+    })
   }
 
   showDepartmentGraph(val) {
