@@ -129,8 +129,17 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
   // Return loading component. TODO: Add spinner/ghost loader.
   if (!hasData && hasSelection)
     return (
-      <div id="course-details" className="box" ref={ref}>
-        <div>Loading...</div>
+      <div
+        id="course-details"
+        className="box"
+        style={{ textAlign: 'center', padding: 45 }}
+        ref={ref}
+      >
+        <i
+          className="fa fa-spin fa-cog fa-fw"
+          style={{ fontSize: '150px', color: '#aaa' }}
+        />
+        <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading...</h1>
       </div>
     )
 
