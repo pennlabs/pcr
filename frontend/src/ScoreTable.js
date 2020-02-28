@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react'
 import ReactTable from 'react-table'
 
 const ScoreTable = props => {
-  const { alternating = false, noun, multi, data = [], onSelect = () => {} } = props
+  const {
+    alternating = false,
+    noun,
+    multi,
+    data = [],
+    onSelect = () => {},
+  } = props
   const [selected, setSelected] = useState(multi ? {} : null)
   const [sorted, setSorted] = useState(props.sorted)
 
