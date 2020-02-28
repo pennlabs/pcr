@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import Cookies from 'universal-cookie'
 import InfoBox from './InfoBox'
 import ErrorBox from './ErrorBox'
-import ScoreBox from './ScoreBox'
 import NavBar from './NavBar'
+import ScoreBox from './ScoreBox'
 import DetailsBox from './DetailsBox'
 import SearchBar from './SearchBar'
 import Footer from './Footer'
@@ -32,12 +32,14 @@ class ReviewPage extends Component {
       rowCode: null,
       liveData: null,
       selected_courses: null,
+      isAverage: localStorage.getItem('meta-column-type') !== 'recent',
       showBanner:
         SHOW_RECRUITMENT_BANNER && !this.cookies.get('hide_pcr_banner'),
     }
 
     this.navigateToPage = this.navigateToPage.bind(this)
     this.getReviewData = this.getReviewData.bind(this)
+    this.setIsAverage = this.setIsAverage.bind(this)
     this.showRowHistory = this.showRowHistory.bind(this)
     this.showDepartmentGraph = this.showDepartmentGraph.bind(this)
   }
@@ -64,6 +66,12 @@ class ReviewPage extends Component {
         this.getReviewData
       )
     }
+  }
+
+  setIsAverage(isAverage) {
+    this.setState({ isAverage }, () =>
+      localStorage.setItem('meta-column-type', isAverage ? 'average' : 'recent')
+    )
   }
 
   getPageInfo() {
@@ -209,6 +217,7 @@ class ReviewPage extends Component {
       data,
       rowCode,
       liveData,
+      isAverage,
       selected_courses: selectedCourses,
       type,
     } = this.state
@@ -239,6 +248,8 @@ class ReviewPage extends Component {
                 type={type}
                 liveData={liveData}
                 onSelect={handleSelect}
+                isAverage={isAverage}
+                setIsAverage={this.setIsAverage}
               />
               {type === 'course' && (
                 <DetailsBox type={type} course={code} instructor={rowCode} />
