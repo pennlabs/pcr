@@ -20,6 +20,7 @@ const SHOW_RECRUITMENT_BANNER = false
 class ReviewPage extends Component {
   constructor(props) {
     super(props)
+    this.myRef = React.createRef()
 
     this.cookies = new Cookies()
 
@@ -139,7 +140,12 @@ class ReviewPage extends Component {
   }
 
   showRowHistory(rowCode) {
-    this.setState({ rowCode })
+    this.setState({ rowCode }, () =>
+      window.scrollTo({
+        behavior: 'smooth',
+        top: this.myRef.current.offsetTop,
+      })
+    )
   }
 
   showDepartmentGraph(val) {
@@ -252,10 +258,20 @@ class ReviewPage extends Component {
                 setIsAverage={this.setIsAverage}
               />
               {type === 'course' && (
-                <DetailsBox type={type} course={code} instructor={rowCode} />
+                <DetailsBox
+                  type={type}
+                  course={code}
+                  instructor={rowCode}
+                  ref={this.myRef}
+                />
               )}
               {type === 'instructor' && (
-                <DetailsBox type={type} course={rowCode} instructor={code} />
+                <DetailsBox
+                  type={type}
+                  course={rowCode}
+                  instructor={code}
+                  ref={this.myRef}
+                />
               )}
             </div>
           </div>
