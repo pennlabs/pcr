@@ -260,13 +260,20 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
                 </div>
               ))}
             </div>
-              <div className="comments">
-                {Object.values(data.sections)
-                  .filter(
-                    info => info.semester === selectedSemester && info.comments
-                  )
-                  .map(info => info.comments)
-                  .join(', ') ||
+            <div
+              className="comments"
+              dangerouslySetInnerHTML={{
+                __html:
+                  sectionsList
+                    .filter(
+                      ({ semester, comments }) =>
+                        semester === selectedSemester && comments
+                    )
+                    .map(info => info.comments)
+                    .join(', ') ||
+                  'This instructor does not have any comments for this course.',
+              }}
+            />
           </div>
         )}
       </div>
