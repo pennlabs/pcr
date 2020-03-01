@@ -62,7 +62,7 @@ class Cart extends Component {
       }),
     }))
 
-    window.onCartUpdated()
+    if (window.onCartUpdated) window.onCartUpdated()
   }
 
   render() {
