@@ -110,7 +110,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
   const hasSelection =
     (type === 'course' && instructor) || (type === 'instructor' && course)
   const isCourse = type === 'course'
-  
+
   // Return loading component. TODO: Add spinner/ghost loader.
   if (!hasData && hasSelection)
     return (
