@@ -446,7 +446,6 @@ class ScoreBox extends Component {
         <ScoreTable
           multi={type === 'department'}
           sorted={[{ id: isCourse ? 'name' : 'code', desc: false }]}
-          ref="table"
           filtered={filtered}
           data={data}
           columns={columns}
