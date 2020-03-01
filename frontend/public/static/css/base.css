@@ -179,6 +179,10 @@ body {
     color: #84B8BA;
 }
 
+.btn:hover img, .btn:focus img {
+    opacity: 70%;
+}
+
 #header {
     background-color: white;
     min-height: 80px;

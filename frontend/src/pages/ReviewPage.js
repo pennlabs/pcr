@@ -20,10 +20,8 @@ const SHOW_RECRUITMENT_BANNER = false
 export class ReviewPage extends Component {
   constructor(props) {
     super(props)
-    this.myRef = React.createRef()
-
+    this.tableRef = React.createRef()
     this.cookies = new Cookies()
-
     this.state = {
       type: this.props.match.params.type,
       code: this.props.match.params.code,
@@ -33,12 +31,14 @@ export class ReviewPage extends Component {
       rowCode: null,
       liveData: null,
       selected_courses: null,
+      isAverage: localStorage.getItem('meta-column-type') !== 'recent',
       showBanner:
         SHOW_RECRUITMENT_BANNER && !this.cookies.get('hide_pcr_banner'),
     }
 
     this.navigateToPage = this.navigateToPage.bind(this)
     this.getReviewData = this.getReviewData.bind(this)
+    this.setIsAverage = this.setIsAverage.bind(this)
     this.showRowHistory = this.showRowHistory.bind(this)
     this.showDepartmentGraph = this.showDepartmentGraph.bind(this)
   }
@@ -65,6 +65,12 @@ export class ReviewPage extends Component {
         this.getReviewData
       )
     }
+  }
+
+  setIsAverage(isAverage) {
+    this.setState({ isAverage }, () =>
+      localStorage.setItem('meta-column-type', isAverage ? 'average' : 'recent')
+    )
   }
 
   getPageInfo() {
@@ -132,12 +138,14 @@ export class ReviewPage extends Component {
   }
 
   showRowHistory(rowCode) {
-    this.setState({ rowCode }, () =>
-      window.scrollTo({
-        behavior: 'smooth',
-        top: this.myRef.current.offsetTop,
-      })
-    )
+    this.setState({ rowCode }, () => {
+      if (rowCode) {
+        window.scrollTo({
+          behavior: 'smooth',
+          top: this.tableRef.current.offsetTop,
+        })
+      }
+    })
   }
 
   showDepartmentGraph(val) {
@@ -215,6 +223,7 @@ export class ReviewPage extends Component {
       data,
       rowCode,
       liveData,
+      isAverage,
       selected_courses: selectedCourses,
       type,
     } = this.state
@@ -245,13 +254,15 @@ export class ReviewPage extends Component {
                 type={type}
                 liveData={liveData}
                 onSelect={handleSelect}
+                isAverage={isAverage}
+                setIsAverage={this.setIsAverage}
               />
               {type === 'course' && (
                 <DetailsBox
                   type={type}
                   course={code}
                   instructor={rowCode}
-                  ref={this.myRef}
+                  ref={this.tableRef}
                 />
               )}
               {type === 'instructor' && (
@@ -259,7 +270,7 @@ export class ReviewPage extends Component {
                   type={type}
                   course={rowCode}
                   instructor={code}
-                  ref={this.myRef}
+                  ref={this.tableRef}
                 />
               )}
             </div>

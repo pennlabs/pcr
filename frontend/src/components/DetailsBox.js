@@ -4,11 +4,71 @@ import { compareSemesters, getColumnName, orderColumns } from '../utils/helpers'
 import { ColumnSelector, ScoreTable } from './common'
 import { apiHistory } from '../utils/api'
 
+/*
+ * Settings objects/object generators for the columns of the DetailsBox
+ */
+
+const semesterCol = {
+  id: 'semester',
+  width: 150,
+  Header: 'Semester',
+  accessor: 'semester',
+  sortMethod: compareSemesters,
+  show: true,
+  required: true,
+}
+
+const nameCol = {
+  id: 'name',
+  width: 300,
+  Header: 'Name',
+  accessor: 'name',
+  show: true,
+  required: true,
+  filterMethod: ({ value }, { name, semester }) =>
+    value === '' || // If the filter value is blank, all
+    name.toLowerCase().includes(value.toLowerCase()) ||
+    semester.toLowerCase().includes(value.toLowerCase()),
+}
+
+const formsCol = {
+  id: 'forms',
+  width: 150,
+  Header: 'Forms',
+  accessor: 'forms_returned',
+  show: true,
+  required: true,
+  Cell: ({ value, original }) =>
+    typeof value === 'undefined' ? (
+      <center className="empty">N/A</center>
+    ) : (
+      <center>
+        {value} / {original.forms_produced}{' '}
+        <small style={{ color: '#aaa', fontSize: '0.8em' }}>
+          ({((value / original.forms_produced) * 100).toFixed(1)}%)
+        </small>
+      </center>
+    ),
+}
+
+const generateCol = info => ({
+  id: info,
+  width: 150,
+  Header: getColumnName(info),
+  accessor: info,
+  show: true,
+  Cell: ({ value }) => (
+    <center className={!value ? 'empty' : ''}>
+      {isNaN(value) ? 'N/A' : value.toFixed(2)}
+    </center>
+  ),
+})
+
 /**
  * The box below the course ratings table that contains student comments and semester information.
  */
 export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState({})
   const [viewingRatings, setViewingRatings] = useState(true)
   const [selectedSemester, setSelectedSemester] = useState(null)
   const [semesterList, setSemesterList] = useState([])
@@ -19,115 +79,64 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
   useEffect(() => {
     if (instructor !== null && course !== null) {
       apiHistory(course, instructor).then(res => {
-        const list = [
-          ...new Set(
-            Object.values(res.sections)
-              .filter(a => a.comments)
-              .sort((a, b) => compareSemesters(a.semester, b.semester))
-              .map(a => a.semester)
-          ),
-        ]
+        const [firstSection, ...sections] = Object.values(res.sections)
+        const ratingCols = orderColumns(Object.keys(firstSection.ratings)).map(
+          generateCol
+        )
+        const semesterSet = new Set(
+          [firstSection, ...sections]
+            .filter(a => a.comments)
+            .map(a => a.semester)
+            .sort(compareSemesters)
+        )
+        const semesters = [...semesterSet]
         setData(res)
-        setColumns(
-          [
-            {
-              id: 'semester',
-              width: 150,
-              Header: 'Semester',
-              accessor: 'semester',
-              sortMethod: compareSemesters,
-              show: true,
-              required: true,
-            },
-            {
-              id: 'name',
-              width: 300,
-              Header: 'Name',
-              accessor: 'name',
-              show: true,
-              required: true,
-              filterMethod: (filter, rows) => {
-                if (filter.value === '') {
-                  return true
-                }
-                return (
-                  rows.name
-                    .toLowerCase()
-                    .includes(filter.value.toLowerCase()) ||
-                  rows.semester
-                    .toLowerCase()
-                    .includes(filter.value.toLowerCase())
-                )
-              },
-            },
-            {
-              id: 'forms',
-              width: 150,
-              Header: 'Forms',
-              accessor: 'forms_returned',
-              show: true,
-              required: true,
-              Cell: props =>
-                typeof props.value === 'undefined' ? (
-                  <center className="empty">N/A</center>
-                ) : (
-                  <center>
-                    {props.value} / {props.original.forms_produced}{' '}
-                    <small style={{ color: '#aaa', fontSize: '0.8em' }}>
-                      (
-                      {(
-                        (props.value / props.original.forms_produced) *
-                        100
-                      ).toFixed(1)}
-                      %)
-                    </small>
-                  </center>
-                ),
-            },
-          ].concat(
-            orderColumns(
-              Object.keys(Object.values(res.sections)[0].ratings)
-            ).map(info => ({
-              id: info,
-              width: 150,
-              Header: getColumnName(info),
-              accessor: info,
-              Cell: props => (
-                <center className={!props.value ? 'empty' : ''}>
-                  {isNaN(props.value) ? 'N/A' : props.value.toFixed(2)}
-                </center>
-              ),
-              show: true,
-            }))
-          )
-        )
-        setSemesterList(list)
-        setSelectedSemester(
-          list.length
-            ? list.indexOf(selectedSemester) !== -1
-              ? selectedSemester
-              : list[0]
-            : null
-        )
+        setColumns([semesterCol, nameCol, formsCol, ...ratingCols])
+        setSemesterList(semesters)
+        setSelectedSemester(() => {
+          if (!semesters.length) return null
+          return semesterSet.has(selectedSemester)
+            ? selectedSemester
+            : semesters[0]
+        })
       })
     }
-  }, [course, instructor])
+  }, [course, instructor, selectedSemester])
 
-  return (
-    <div id="course-details" className="box" ref={ref}>
-      {((type === 'course' && instructor) ||
-        (type === 'instructor' && course)) &&
-      !data ? (
-        <div>Loading...</div>
-      ) : !data ? (
+  const hasData = Boolean(Object.keys(data).length)
+  const hasSelection =
+    (type === 'course' && instructor) || (type === 'instructor' && course)
+  const isCourse = type === 'course'
+
+  // Return loading component. TODO: Add spinner/ghost loader.
+  if (!hasData && hasSelection)
+    return (
+      <div
+        id="course-details"
+        className="box"
+        style={{ textAlign: 'center', padding: 45 }}
+        ref={ref}
+      >
+        <i
+          className="fa fa-spin fa-cog fa-fw"
+          style={{ fontSize: '150px', color: '#aaa' }}
+        />
+        <h1 style={{ fontSize: '2em', marginTop: 15 }}>Loading...</h1>
+      </div>
+    )
+
+  // Return placeholder image.
+  if (!hasData)
+    return (
+      <div id="course-details" className="box" ref={ref}>
         <div id="select-row">
           <div>
             <h3 id="select-row-text">
-              {type === 'instructor'
-                ? 'Select a course to see individual sections, comments, and more details.'
-                : 'Select an instructor to see individual sections, comments, and more details.'}
+              {isCourse
+                ? 'Select an instructor to see individual sections, comments, and more details.'
+                : 'Select a course to see individual sections, comments, and more details.'}
             </h3>
-            {type === 'course' ? (
+            {isCourse ? (
               <object type="image/svg+xml" data="/static/image/prof.svg">
                 <img alt="Professor Icon" src="/static/image/prof.png" />
               </object>
@@ -142,111 +151,124 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
             )}
           </div>
         </div>
-      ) : (
-        <div id="course-details-wrapper">
-          <h3>
-            <Link
-              style={{ color: '#b2b2b2', textDecoration: 'none' }}
-              to={
-                type === 'course'
-                  ? `/instructor/${instructor}`
-                  : `/course/${course}`
-              }
+      </div>
+    )
+
+  const {
+    instructor: { name },
+    sections,
+  } = data
+  const sectionsList = Object.values(sections)
+
+  return (
+    <div id="course-details" className="box" ref={ref}>
+      <div id="course-details-wrapper">
+        <h3>
+          <Link
+            style={{ color: '#b2b2b2', textDecoration: 'none' }}
+            to={isCourse ? `/instructor/${instructor}` : `/course/${course}`}
+          >
+            {isCourse ? name : course}
+          </Link>
+        </h3>
+        <div className="clearfix">
+          <div className="btn-group">
+            <button
+              onClick={() => setViewingRatings(true)}
+              id="view_ratings"
+              className={`btn btn-sm ${
+                viewingRatings ? 'btn-sub-primary' : 'btn-sub-secondary'
+              }`}
             >
-              {type === 'course' ? data.instructor.name : course}
-            </Link>
-          </h3>
-          <div className="clearfix">
-            <div className="btn-group">
-              <button
-                onClick={() => {
-                  setViewingRatings(true)
-                }}
-                id="view_ratings"
-                className={`btn btn-sm ${
-                  viewingRatings ? 'btn-sub-primary' : 'btn-sub-secondary'
-                }`}
-              >
-                Ratings
-              </button>
-              <button
-                onClick={() => {
-                  setViewingRatings(false)
-                }}
-                id="view_comments"
-                className={`btn btn-sm ${
-                  !viewingRatings ? 'btn-sub-primary' : 'btn-sub-secondary'
-                }`}
-              >
-                Comments
-              </button>
-            </div>
-            <ColumnSelector
-              name="details"
-              onSelect={cols => setColumns(cols)}
-              columns={columns}
-              buttonStyle="btn-sub"
-            />
-            {viewingRatings && (
-              <div className="float-right">
-                <label className="table-search">
-                  <input
-                    value={filterAll}
-                    onChange={val =>
-                      setFiltered([{ id: 'name', value: val.target.value }]) &&
-                      setFilterAll(val.target.value)
-                    }
-                    type="search"
-                    className="form-control form-control-sm"
-                  />
-                </label>
-              </div>
-            )}
+              Ratings
+            </button>
+            <button
+              onClick={() => setViewingRatings(false)}
+              id="view_comments"
+              className={`btn btn-sm ${
+                viewingRatings ? 'btn-sub-secondary' : 'btn-sub-primary'
+              }`}
+            >
+              Comments
+            </button>
           </div>
-          {viewingRatings ? (
-            <div id="course-details-data">
-              <ScoreTable
-                sorted={[{ id: 'semester', desc: false }]}
-                filtered={filtered}
-                data={Object.values(data.sections).map(i => ({
-                  ...i.ratings,
-                  semester: i.semester,
-                  name: i.course_name,
-                  forms_produced: i.forms_produced,
-                  forms_returned: i.forms_returned,
-                }))}
-                columns={columns}
-                noun="section"
-              />
-            </div>
-          ) : (
-            <div id="course-details-comments" className="clearfix mt-2">
-              <div className="list">
-                {semesterList.map((info, i) => (
-                  <div
-                    key={i}
-                    onClick={() => {
-                      setSelectedSemester(info)
-                    }}
-                    className={selectedSemester === info ? 'selected' : ''}
-                  >
-                    {info}
-                  </div>
-                ))}
-              </div>
-              <div className="comments">
-                {Object.values(data.sections)
-                  .filter(
-                    info => info.semester === selectedSemester && info.comments
-                  )
-                  .map(info => info.comments)
-                  .join(', ') ||
-                  'This instructor does not have any comments for this course.'}
-              </div>
+          <ColumnSelector
+            name="details"
+            onSelect={setColumns}
+            columns={columns}
+            buttonStyle="btn-sub"
+          />
+          {viewingRatings && (
+            <div className="float-right">
+              <label className="table-search">
+                <input
+                  type="search"
+                  className="form-control form-control-sm"
+                  value={filterAll}
+                  onChange={({ target: { value } }) => {
+                    setFiltered([{ id: 'name', value }])
+                    setFilterAll(value)
+                  }}
+                />
+              </label>
             </div>
           )}
         </div>
-      )}
+        {viewingRatings ? (
+          <div id="course-details-data">
+            <ScoreTable
+              alternating
+              sorted={[{ id: 'semester', desc: false }]}
+              filtered={filtered}
+              data={sectionsList.map(
+                ({
+                  ratings,
+                  semester,
+                  course_name: name,
+                  forms_produced: produced,
+                  forms_returned: returned,
+                }) => ({
+                  ...ratings,
+                  semester,
+                  name,
+                  forms_produced: produced,
+                  forms_returned: returned,
+                })
+              )}
+              columns={columns}
+              noun="section"
+            />
+          </div>
+        ) : (
+          <div id="course-details-comments" className="clearfix mt-2">
+            <div className="list">
+              {semesterList.map(sem => (
+                <div
+                  key={sem}
+                  onClick={() => setSelectedSemester(sem)}
+                  className={selectedSemester === sem ? 'selected' : ''}
+                >
+                  {sem}
+                </div>
+              ))}
+            </div>
+            <div
+              className="comments"
+              dangerouslySetInnerHTML={{
+                __html:
+                  sectionsList
+                    .filter(
+                      ({ semester, comments }) =>
+                        semester === selectedSemester && comments
+                    )
+                    .map(info => info.comments)
+                    .join(', ') ||
+                  'This instructor does not have any comments for this course.',
+              }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   )
 })

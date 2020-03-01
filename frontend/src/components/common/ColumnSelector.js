@@ -70,53 +70,53 @@ export class ColumnSelector extends Component {
 
   render() {
     let x = 0
+    const { buttonStyle = 'btn', columns } = this.props
+    const button = (
+      <button
+        aria-label="Choose Columns"
+        className={`btn btn-sm ml-2 ${buttonStyle}-secondary`}
+      >
+        Edit Columns
+        <img
+          alt="Edit Icon"
+          className="btn-image ml-2"
+          src={`/static/image/selectcol-${buttonStyle}.svg`}
+        />
+      </button>
+    )
 
     return (
-      <Popover
-        style={{ width: 340 }}
-        button={
-          <button
-            aria-label="Choose Columns"
-            className={`btn btn-sm ml-2 ${this.props.buttonStyle ||
-              'btn'}-primary`}
-          >
-            <i className="fa fa-plus" />
-          </button>
-        }
-      >
+      <Popover style={{ width: 340 }} button={button}>
         <span
           onClick={this.setAllColumns(true)}
-          className={`btn mb-2 mr-2 btn-sm ${this.props.buttonStyle ||
-            'btn'}-secondary`}
+          className={`btn mb-2 mr-2 btn-sm ${buttonStyle}-secondary`}
           style={{ width: 150, textAlign: 'center' }}
         >
           Select all
         </span>
         <span
           onClick={this.setAllColumns(false)}
-          className={`btn mb-2 btn-sm ${this.props.buttonStyle ||
-            'btn'}-secondary`}
+          className={`btn mb-2 btn-sm ${buttonStyle}-secondary`}
           style={{ width: 150, textAlign: 'center' }}
         >
           Clear
         </span>
         <hr />
-        {this.props.columns.map((item, i) => {
-          if (item.required) {
-            return false
-          }
+        {columns.map(({ required, show, Header: header }, i) => {
+          if (required) return false
           x += 1
+          const marginClass = x % 2 === 1 ? 'mr-2' : ''
+          const buttonClass = `${buttonStyle}${
+            show ? '-primary' : '-secondary'
+          }`
           return (
             <span
               key={i}
               onClick={this.handleToggleGenerator(i)}
               style={{ width: 150, textAlign: 'center' }}
-              className={`btn mt-2 btn-sm ${x % 2 === 1 ? 'mr-2 ' : ''}${this
-                .props.buttonStyle || 'btn'}${
-                item.show ? '-primary' : '-secondary'
-              }`}
+              className={`btn mt-2 btn-sm ${marginClass} ${buttonClass}`}
             >
-              {item.Header}
+              {header}
             </span>
           )
         })}

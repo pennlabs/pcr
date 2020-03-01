@@ -2,10 +2,20 @@ import React, { useEffect, useState } from 'react'
 import ReactTable from 'react-table'
 
 export const ScoreTable = props => {
-  const { noun, multi, data = [], onSelect = () => {} } = props
+  const {
+    alternating = false,
+    noun,
+    multi,
+    data = [],
+    onSelect = () => {},
+    isAverage = null,
+  } = props
   const [selected, setSelected] = useState(multi ? {} : null)
   const [sorted, setSorted] = useState(props.sorted)
 
+  // Force rerender of table content when isAverage changes
+  // TODO: Move isAverage into localstorage or redux store
+  useEffect(() => setSorted([...sorted]), [isAverage])
   useEffect(() => {
     const selected = multi ? {} : null
     setSelected(selected)
@@ -17,6 +27,9 @@ export const ScoreTable = props => {
     const noRow = multi ? index in selected : index === selected
     return rowInfo && row
       ? {
+          style: alternating
+            ? { backgroundColor: row._viewIndex % 2 ? '#F5F8F8' : 'white' }
+            : {},
           onClick: () => {
             if (!multi) {
               const { key } = original
