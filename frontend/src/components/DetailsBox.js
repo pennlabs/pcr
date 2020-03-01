@@ -75,6 +75,8 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
   const [columns, setColumns] = useState([])
   const [filtered, setFiltered] = useState([])
   const [filterAll, setFilterAll] = useState('')
+  const [image, setImage] = useState('')
+  const imageNum = parseInt(Math.random() * 6 + 1)
 
   useEffect(() => {
     if (instructor !== null && course !== null) {
@@ -101,13 +103,14 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
         })
       })
     }
-  }, [course, instructor, selectedSemester])
+    setImage(`/static/image/prof${imageNum}.svg`)
+  }, [course, imageNum, instructor, selectedSemester])
 
   const hasData = Boolean(Object.keys(data).length)
   const hasSelection =
     (type === 'course' && instructor) || (type === 'instructor' && course)
   const isCourse = type === 'course'
-
+  
   // Return loading component. TODO: Add spinner/ghost loader.
   if (!hasData && hasSelection)
     return (
@@ -137,8 +140,8 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
                 : 'Select a course to see individual sections, comments, and more details.'}
             </h3>
             {isCourse ? (
-              <object type="image/svg+xml" data="/static/image/prof.svg">
-                <img alt="Professor Icon" src="/static/image/prof.png" />
+              <object type="image/svg+xml" data={image}>
+                <img alt="Professor Icon" src={image} />
               </object>
             ) : (
               <object
