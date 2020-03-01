@@ -135,14 +135,14 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
   // Return placeholder image.
   if (!hasData)
     return (
-      <div id="course-details" className="box" ref={ref}>
-        <div id="select-row">
+      <div
+        id="course-details"
+        className="box"
+        ref={ref}
+        style={{ textAlign: 'center' }}
+      >
+        <div>
           <div>
-            <h3 id="select-row-text">
-              {isCourse
-                ? 'Select an instructor to see individual sections, comments, and more details.'
-                : 'Select a course to see individual sections, comments, and more details.'}
-            </h3>
             {isCourse ? (
               <object type="image/svg+xml" data={emptyStateImg} width="200">
                 <img alt="Professor Icon" src={emptyStateImg} />
@@ -158,6 +158,11 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
             )}
           </div>
         </div>
+        <h3 style={{ margin: '1.5em' }}>
+          {isCourse
+            ? 'Select an instructor to see individual sections, comments, and more details.'
+            : 'Select a course to see individual sections, comments, and more details.'}
+        </h3>
       </div>
     )
 
