@@ -1,53 +1,15 @@
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import Popover, { PopoverTitle } from './Popover'
-
-// Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
-const nameCache = {}
-
-function convertInstructorName(name) {
-  if (name in nameCache) {
-    return nameCache[name]
-  }
-  const out = name
-    .toUpperCase()
-    .substr(0, 30)
-    .replace(/[^a-zA-Z\s]/g, '')
-    .replace(/ [A-Z]+ /g, ' ')
-  nameCache[name] = out
-  return out
-}
-
-export const CourseLine = ({ data = {} }) => {
-  const {
-    is_closed: isClosed,
-    is_cancelled: isCanceled,
-    section_id_normalized: sectionId,
-    meetings,
-  } = data
-  const isOpen = !isClosed && !isCanceled
-  const meetingDates = meetings.map(
-    ({ meeting_days: days, start_time: start, end_time: end }) =>
-      `${days} ${start} - ${end}`
-  )
-  return (
-    <li>
-      {sectionId}
-      <i className={`ml-2 fa fa-fw fa-${isOpen ? 'check' : 'times'}`} />
-      <span className="ml-2" style={{ color: '#aaa' }}>
-        {meetingDates.join(', ')}
-      </span>
-    </li>
-  )
-}
+import { convertInstructorName } from '../../utils/helpers'
+import { CourseDetails, Popover, PopoverTitle } from '../common'
 
 /**
  * Shows information about course availability, prerequisites, and new instructors.
  */
 class Tags extends Component {
   render() {
-    const existing = this.props.existing_instructors.map(convertInstructorName)
+    const existing = this.props.existingInstructors.map(convertInstructorName)
     const newInstructors = {}
     if (this.props.instructors) {
       this.props.instructors.forEach(i => {
@@ -139,7 +101,7 @@ class Tags extends Component {
               title={
                 <span>
                   {courseName} is <b>{this.props.credits}</b> credit unit
-                  {this.props.credits === 1 || 's'}.
+                  {this.props.credits === 1 ? '' : 's'}
                 </span>
               }
             >
@@ -152,7 +114,7 @@ class Tags extends Component {
             if (!info.length) {
               return null
             }
-            const desc = info[0].activity_description
+            const [{ activity_description: desc }] = info
             const open = info.filter(a => !a.is_closed && !a.is_cancelled)
             return (
               <PopoverTitle
@@ -169,8 +131,11 @@ class Tags extends Component {
                             y.section_id_normalized
                           )
                         )
-                        .map((a, i) => (
-                          <CourseLine key={i} data={a} />
+                        .map(data => (
+                          <CourseDetails
+                            key={data.section_id_normalized}
+                            data={data}
+                          />
                         ))}
                     </ul>
                   </span>
@@ -189,7 +154,7 @@ class Tags extends Component {
               </PopoverTitle>
             )
           })}
-          {!!syllabi.length && (
+          {Boolean(syllabi.length) && (
             <Popover
               button={
                 <span className="badge badge-secondary">
@@ -208,7 +173,7 @@ class Tags extends Component {
             </Popover>
           )}
         </div>
-        {!!prereqs.length && (
+        {Boolean(prereqs.length) && (
           <div className="prereqs">
             Prerequisites:
             {prereqs.map((a, i) => [
@@ -219,7 +184,7 @@ class Tags extends Component {
             ])}
           </div>
         )}
-        {!!Object.keys(newInstructors).length && (
+        {Boolean(Object.keys(newInstructors).length) && (
           <div>
             New Instructors:
             {Object.values(newInstructors)
@@ -245,5 +210,4 @@ class Tags extends Component {
   }
 }
 
-export { Tags, convertInstructorName }
 export default Tags

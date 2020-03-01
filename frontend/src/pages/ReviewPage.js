@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import Cookies from 'universal-cookie'
-import InfoBox from './InfoBox'
-import ErrorBox from './ErrorBox'
-import NavBar from './NavBar'
-import ScoreBox from './ScoreBox'
-import DetailsBox from './DetailsBox'
-import SearchBar from './SearchBar'
-import Footer from './Footer'
-import { apiReviewData, apiLive, apiLiveInstructor } from './api'
+import InfoBox from '../components/InfoBox'
+import ScoreBox from '../components/ScoreBox'
+import Navbar from '../components/Navbar'
+import DetailsBox from '../components/DetailsBox'
+import SearchBar from '../components/SearchBar'
+import Footer from '../components/Footer'
+import { ErrorBox } from '../components/common'
+import { apiReviewData, apiLive, apiLiveInstructor } from '../utils/api'
 
 /**
  * Enable or disable the Penn Labs recruitment banner.
@@ -17,7 +17,7 @@ const SHOW_RECRUITMENT_BANNER = false
 /**
  * Represents a course, instructor, or department review page.
  */
-class ReviewPage extends Component {
+export class ReviewPage extends Component {
   constructor(props) {
     super(props)
     this.tableRef = React.createRef()
@@ -162,7 +162,7 @@ class ReviewPage extends Component {
     if (this.state.error) {
       return (
         <div>
-          <NavBar />
+          <Navbar />
           <ErrorBox detail={this.state.error_detail}>
             {this.state.error}
           </ErrorBox>
@@ -236,7 +236,7 @@ class ReviewPage extends Component {
 
     return (
       <div>
-        <NavBar />
+        <Navbar />
         {this.state.data ? (
           <div id="content" className="row">
             <div className="col-sm-12 col-md-4 sidebar-col box-wrapper">
@@ -292,5 +292,3 @@ class ReviewPage extends Component {
     )
   }
 }
-
-export default ReviewPage

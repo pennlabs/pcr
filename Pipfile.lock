@@ -71,18 +71,18 @@
         },
         "django-labs-accounts": {
             "hashes": [
-                "sha256:1f065c09db776b4442222aed42dc71ea113bde208fde6608d46c95a8ae8b41ca",
-                "sha256:f76dd44f8fc5a0d6f0e2976b3631e0291db0fed6b0d58b8a47f2a07767373cf1"
+                "sha256:a4497bfe39490d40b1624cfe279dda5e76ec53c4fe448099e490a4fec9532c63",
+                "sha256:cff4570d5681ef44d49f94c340e0057379e790360fd416fb994691e9e85c257c"
             ],
             "index": "pypi",
-            "version": "==0.6.0"
+            "version": "==0.6.1"
         },
         "idna": {
             "hashes": [
-                "sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407",
-                "sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"
+                "sha256:7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb",
+                "sha256:a068a21ceac8a4d63dbfd964670474107f541babbd2250d61922f029858365fa"
             ],
-            "version": "==2.8"
+            "version": "==2.9"
         },
         "mysqlclient": {
             "hashes": [
@@ -118,11 +118,11 @@
         },
         "requests": {
             "hashes": [
-                "sha256:11e007a8a2aa0323f5a921e9e6a2d7e4e67d9877e85773fba9ba6419025cbeb4",
-                "sha256:9cf5292fcd0f598c671cfc1e0d7d1a7f13bb8085e9a590f48c010551dc6c4b31"
+                "sha256:43999036bfa82904b6af1d99e4882b560e5e2c68e5c4b0aa03b655f3d7d73fee",
+                "sha256:b3f43d496c6daba4493e7c431722aeb7dbc6288f52a6e04e7b6023b0247817e6"
             ],
             "index": "pypi",
-            "version": "==2.22.0"
+            "version": "==2.23.0"
         },
         "requests-oauthlib": {
             "hashes": [
@@ -268,10 +268,10 @@
         },
         "testfixtures": {
             "hashes": [
-                "sha256:76eef0c048d6c1ad28bb74ae2b28fa9e3ea3a2f42a56715a4102480b8188e588",
-                "sha256:c352760016f0e5579a3e5565387e6d582ccad4db9791b6a293fdfc59d4591b97"
+                "sha256:6edef5d0d39b4a11ada53307379c07c38d69db4a684d40d4e3e08ec7ba66187e",
+                "sha256:ed7f36c5d426a4271368569d3b2d35590eeaf340ee9653cc3dd06ba2e21c6ba8"
             ],
-            "version": "==6.12.0"
+            "version": "==6.13.1"
         },
         "toml": {
             "hashes": [

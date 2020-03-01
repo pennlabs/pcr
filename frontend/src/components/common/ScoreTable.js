@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactTable from 'react-table'
 
-const ScoreTable = props => {
+export const ScoreTable = props => {
   const {
     alternating = false,
     noun,
@@ -15,6 +15,7 @@ const ScoreTable = props => {
 
   // Force rerender of table content when isAverage changes
   // TODO: Move isAverage into localstorage or redux store
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setSorted([...sorted]), [isAverage])
   useEffect(() => {
     const selected = multi ? {} : null
@@ -70,5 +71,3 @@ const ScoreTable = props => {
     </div>
   )
 }
-
-export default ScoreTable

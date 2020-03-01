@@ -1,26 +1,8 @@
 import React, { forwardRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-
-import ScoreTable from './ScoreTable'
-import ColumnSelector from './ColumnSelector'
-import { apiHistory } from './api'
-import { getColumnName, orderColumns } from './ScoreBox'
-
-// TODO: Move functions like compareSemesters and getColumnName in ScoreBox into a utils file
-export function compareSemesters(a, b) {
-  const ay = parseInt(a.split(' ')[1])
-  const by = parseInt(b.split(' ')[1])
-  const as = a.split(' ')[0]
-  const bs = b.split(' ')[0]
-
-  if (ay !== by) {
-    return by - ay
-  }
-
-  const mapping = { Fall: 'A', Summer: 'B', Spring: 'C' }
-
-  return mapping[as].localeCompare(mapping[bs])
-}
+import { compareSemesters, getColumnName, orderColumns } from '../utils/helpers'
+import { ColumnSelector, ScoreTable } from './common'
+import { apiHistory } from '../utils/api'
 
 /*
  * Settings objects/object generators for the columns of the DetailsBox

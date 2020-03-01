@@ -4,10 +4,15 @@ import 'react-app-polyfill/stable'
 
 import ReactDOM from 'react-dom'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
-import ReviewPage from './ReviewPage'
-import InfoPage from './InfoPage'
-import AuthPage from './AuthPage'
-import GoogleAnalytics from './GoogleAnalytics'
+import {
+  AboutPage,
+  AuthPage,
+  CartPage,
+  ErrorPage,
+  FAQPage,
+  ReviewPage,
+} from './pages'
+import { GoogleAnalytics } from './components/common'
 
 if (window.location.hostname !== 'localhost') {
   window.Raven.config(
@@ -19,12 +24,14 @@ ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/" component={ReviewPage} />
+      <Route exact path="/about" component={AboutPage} />
+      <Route exact path="/faq" component={FAQPage} />
+      <Route exact path="/cart" component={CartPage} />
       <Route
         path="/:type(course|department|instructor)/:code"
         component={AuthPage}
       />
-      <Route path="/:page(about|faq|cart)" component={InfoPage} />
-      <Route component={InfoPage} />
+      <Route component={ErrorPage} />
     </Switch>
     <GoogleAnalytics />
   </Router>,

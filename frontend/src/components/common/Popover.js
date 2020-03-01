@@ -110,5 +110,4 @@ const PopoverTitle = ({ children, title }) => (
   </Popover>
 )
 
-export { PopoverTitle }
-export default Popover
+export { PopoverTitle, Popover }

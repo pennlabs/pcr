@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Popover from './Popover'
+import { Popover } from './Popover'
 
 /**
  * Used to select the columns that appear in a table.
  */
-class ColumnSelector extends Component {
+export class ColumnSelector extends Component {
   constructor(props) {
     super(props)
     const { columns, type, name } = props
@@ -124,5 +124,3 @@ class ColumnSelector extends Component {
     )
   }
 }
-
-export default ColumnSelector

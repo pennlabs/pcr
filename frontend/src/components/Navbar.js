@@ -6,7 +6,7 @@ import SearchBar from './SearchBar'
  * The navigation bar at the top of the page, containing the logo, search bar, and cart icon.
  */
 
-export const NavBar = () => {
+const Navbar = () => {
   const getCourseCount = () =>
     Object.keys(localStorage).filter(a => !a.startsWith('meta-')).length
   const [courseCount, setCourseCount] = useState(getCourseCount())
@@ -39,4 +39,4 @@ export const NavBar = () => {
   )
 }
 
-export default NavBar
+export default Navbar

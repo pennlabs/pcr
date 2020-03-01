@@ -1,38 +1,21 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
-import ScoreTable from './ScoreTable'
-import ColumnSelector from './ColumnSelector'
-import { compareSemesters } from './DetailsBox'
-import { convertInstructorName, CourseLine } from './Tags'
-import { PopoverTitle } from './Popover'
+import {
+  capitalize,
+  convertInstructorName,
+  compareSemesters,
+  getColumnName,
+  orderColumns,
+} from '../utils/helpers'
+import {
+  ColumnSelector,
+  CourseDetails,
+  PopoverTitle,
+  ScoreTable,
+} from './common'
 
 import 'react-table/react-table.css'
-
-export function getColumnName(key) {
-  return key
-    .substring(1)
-    .split(/(?=[A-Z])/)
-    .join(' ')
-    .replace('T A', 'TA')
-    .replace(/Recommend/g, 'Rec.')
-}
-
-const capitalize = str => str.replace(/(?:^|\s)\S/g, e => e.toUpperCase())
-
-export function orderColumns(cols) {
-  const colSet = new Set(cols)
-  const fixedCols = [
-    'latest_semester',
-    'num_semesters',
-    'rCourseQuality',
-    'rInstructorQuality',
-    'rDifficulty',
-    'rAmountLearned',
-  ].filter(a => colSet.has(a))
-  const fixedColsSet = new Set(fixedCols)
-  return fixedCols.concat(cols.filter(a => !fixedColsSet.has(a)).sort())
-}
 
 /*
  * Setting this to true colors all other cells depending on its value when compared to the selected row.
@@ -315,8 +298,11 @@ class ScoreBox extends Component {
                           y.section_id_normalized
                         )
                       )
-                      .map((a, i) => (
-                        <CourseLine key={i} data={a} />
+                      .map(data => (
+                        <CourseDetails
+                          key={data.section_id_normalized}
+                          data={data}
+                        />
                       ))}
                   </ul>
                 </span>
@@ -333,8 +319,11 @@ class ScoreBox extends Component {
                   <b>{code.replace('-', ' ')}</b> in
                   <b>{this.state.currentCourses[code][0].term_normalized}</b>.
                   <ul>
-                    {this.state.currentCourses[code].map((a, i) => (
-                      <CourseLine key={i} data={a} />
+                    {this.state.currentCourses[code].map(data => (
+                      <CourseDetails
+                        key={data.section_id_normalized}
+                        data={data}
+                      />
                     ))}
                   </ul>
                 </span>

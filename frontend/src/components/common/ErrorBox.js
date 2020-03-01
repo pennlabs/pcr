@@ -3,7 +3,7 @@ import React from 'react'
 /**
  * A component that appears if an error occurs in the page.
  */
-const ErrorBox = ({ children, detail }) => (
+export const ErrorBox = ({ children, detail }) => (
   <div style={{ textAlign: 'center', padding: 45 }}>
     <i
       className="fa fa-exclamation-circle"
@@ -16,5 +16,3 @@ const ErrorBox = ({ children, detail }) => (
     </small>
   </div>
 )
-
-export default ErrorBox
