@@ -15,7 +15,8 @@ export const ScoreTable = props => {
 
   // Force rerender of table content when isAverage changes
   // TODO: Move isAverage into localstorage or redux store
-  useEffect(() => setSorted([...sorted]), [isAverage, sorted])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => setSorted([...sorted]), [isAverage])
   useEffect(() => {
     const selected = multi ? {} : null
     setSelected(selected)
