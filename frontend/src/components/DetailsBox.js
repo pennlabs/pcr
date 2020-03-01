@@ -1,8 +1,10 @@
 import React, { forwardRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { compareSemesters, getColumnName, orderColumns } from '../utils/helpers'
+
 import { ColumnSelector, ScoreTable } from './common'
+import { compareSemesters, getColumnName, orderColumns } from '../utils/helpers'
 import { apiHistory } from '../utils/api'
+import { PROF_IMAGE_URL } from '../constants/routes'
 
 /*
  * Settings objects/object generators for the columns of the DetailsBox
@@ -140,8 +142,8 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
                 : 'Select a course to see individual sections, comments, and more details.'}
             </h3>
             {isCourse ? (
-              <object type="image/svg+xml" data={image}>
-                <img alt="Professor Icon" src={image} />
+              <object type="image/svg+xml" data={emptyStateImg} width="200">
+                <img alt="Professor Icon" src={emptyStateImg} />
               </object>
             ) : (
               <object
