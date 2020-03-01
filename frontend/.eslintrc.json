@@ -17,7 +17,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "react-hooks"],
   "rules": {
     "space-before-function-paren": [
       "error",
@@ -32,6 +32,8 @@
     "react/jsx-uses-vars": [2],
     "react/jsx-uses-react": "warn",
     "react/prop-types": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "no-console": ["warn"]
   }
 }
