@@ -26,6 +26,8 @@ class InfoBox extends Component {
     }
 
     this.handleAdd = this.handleAdd.bind(this)
+    this.handleAddAverage = this.handleAddAverage.bind(this)
+    this.handleAddInstructor = this.handleAddInstructor.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.getChartData = this.getChartData.bind(this)
   }
@@ -60,59 +62,75 @@ class InfoBox extends Component {
     }
   }
 
+  handleAddAverage() {
+    const { instructors, code: course } = this.props.data
+    const aggregateReviews = key => {
+      const aggregated = {}
+      Object.values(instructors).forEach(
+        ({ [key]: instructorReviews = {} }) => {
+          Object.keys(instructorReviews).forEach(columnName => {
+            if (!(columnName in aggregated)) aggregated[columnName] = []
+            aggregated[columnName].push(instructorReviews[columnName])
+          })
+        }
+      )
+      Object.keys(aggregated).forEach(columnName => {
+        const { [columnName]: column } = aggregated
+        const sum = column.reduce((a, b) => a + b)
+        aggregated[columnName] = (sum / column.length).toFixed(2)
+      })
+      return aggregated
+    }
+    const averageReviews = aggregateReviews('average_reviews')
+    const recentReviews = aggregateReviews('recent_reviews')
+    const info = Object.keys(averageReviews).map(category => ({
+      category,
+      average: averageReviews[category],
+      recent: recentReviews[category],
+    }))
+    localStorage.setItem(
+      course,
+      JSON.stringify({
+        version: 1,
+        course,
+        instructor: 'Average Professor',
+        info,
+      })
+    )
+  }
+
+  handleAddInstructor(key) {
+    const {
+      instructors: { [key]: content = {} },
+      code: course,
+    } = this.props.data
+    const {
+      name: instructor,
+      average_reviews: average,
+      recent_reviews: recent,
+    } = content
+    const info = Object.keys(average).map(category => ({
+      category,
+      average: average[category],
+      recent: recent[category],
+    }))
+    localStorage.setItem(
+      course,
+      JSON.stringify({
+        version: 1,
+        course,
+        instructor,
+        info,
+      })
+    )
+  }
+
   handleAdd(key) {
     return () => {
-      let content
-      if (key === 'average') {
-        const averageReviews = {}
-        const recentReviews = {}
-        Object.values(this.props.data.instructors).forEach(i => {
-          Object.keys(i.recentReviews).forEach(j => {
-            if (!(j in recentReviews)) {
-              recentReviews[j] = []
-            }
-            recentReviews[j].push(i.recentReviews[j])
-          })
-          Object.keys(i.averageReviews).forEach(j => {
-            if (!(j in averageReviews)) {
-              averageReviews[j] = []
-            }
-            averageReviews[j].push(i.averageReviews[j])
-          })
-        })
-        Object.keys(averageReviews).forEach(i => {
-          averageReviews[i] = (
-            averageReviews[i].reduce((a, b) => a + b) / averageReviews[i].length
-          ).toFixed(2)
-        })
-        Object.keys(recentReviews).forEach(i => {
-          recentReviews[i] = (
-            recentReviews[i].reduce((a, b) => a + b) / recentReviews[i].length
-          ).toFixed(2)
-        })
-        content = {
-          name: 'Average Professor',
-          average_reviews: averageReviews,
-          recent_reviews: recentReviews,
-        }
-      } else {
-        content = this.props.data.instructors[key]
-      }
-      localStorage.setItem(
-        this.props.data.code,
-        JSON.stringify({
-          version: 1,
-          course: this.props.data.code,
-          instructor: content.name,
-          info: Object.keys(content.average_reviews).map(a => ({
-            category: a,
-            average: content.average_reviews[a],
-            recent: content.recent_reviews[a],
-          })),
-        })
-      )
+      if (key === 'average') this.handleAddAverage()
+      else this.handleAddInstructor(key)
+      if (window.onCartUpdated) window.onCartUpdated()
       this.setState({ inCourseCart: true })
-      window.onCartUpdated()
     }
   }
 
