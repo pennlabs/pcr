@@ -235,6 +235,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
         {viewingRatings ? (
           <div id="course-details-data">
             <ScoreTable
+              alternating
               sorted={[{ id: 'semester', desc: false }]}
               filtered={filtered}
               data={sectionsList.map(
