@@ -332,7 +332,7 @@ class ScoreBox extends Component {
                   <b>{this.state.currentCourses[code][0].term_normalized}</b>.
                   <ul>
                     {this.state.currentCourses[code].map(data => (
-                      <CourseLine
+                      <CourseDetails
                         key={data.section_id_normalized}
                         data={data}
                       />
