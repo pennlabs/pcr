@@ -77,9 +77,12 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
   const [columns, setColumns] = useState([])
   const [filtered, setFiltered] = useState([])
   const [filterAll, setFilterAll] = useState('')
-  const [image, setImage] = useState('')
-  const imageNum = parseInt(Math.random() * 6 + 1)
+  const [emptyStateImg, setEmptyStateImg] = useState('')
 
+  useEffect(() => {
+    const num = Math.floor(Math.random() * 5 + 1)
+    setEmptyStateImg(PROF_IMAGE_URL(num))
+  }, [])
   useEffect(() => {
     if (instructor !== null && course !== null) {
       apiHistory(course, instructor).then(res => {
@@ -105,8 +108,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
         })
       })
     }
-    setImage(`/static/image/prof${imageNum}.svg`)
-  }, [course, imageNum, instructor, selectedSemester])
+  }, [course, instructor, selectedSemester])
 
   const hasData = Boolean(Object.keys(data).length)
   const hasSelection =
