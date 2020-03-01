@@ -8,10 +8,14 @@ const ScoreTable = props => {
     multi,
     data = [],
     onSelect = () => {},
+    isAverage = null,
   } = props
   const [selected, setSelected] = useState(multi ? {} : null)
   const [sorted, setSorted] = useState(props.sorted)
 
+  // Force rerender of table content when isAverage changes
+  // TODO: Move isAverage into localstorage or redux store
+  useEffect(() => setSorted([...sorted]), [isAverage])
   useEffect(() => {
     const selected = multi ? {} : null
     setSelected(selected)

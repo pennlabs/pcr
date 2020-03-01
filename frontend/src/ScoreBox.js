@@ -49,7 +49,6 @@ class ScoreBox extends Component {
     this.state = {
       data: null,
       columns: null,
-      isAverage: localStorage.getItem('meta-column-type') !== 'recent',
       filtered: [],
       currentInstructors: {},
       currentCourses: {},
@@ -57,17 +56,8 @@ class ScoreBox extends Component {
       selected: null,
     }
 
-    this.handleClick = this.handleClick.bind(this)
     this.updateLiveData = this.updateLiveData.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
-  }
-
-  handleClick(val) {
-    return () => {
-      localStorage.setItem('meta-column-type', val ? 'average' : 'recent')
-      this.setState({ isAverage: val })
-      this.refs.table.resort()
-    }
   }
 
   handleSelect(selected) {
@@ -208,11 +198,8 @@ class ScoreBox extends Component {
               classes.push('empty')
             }
 
-            if (this.state.isAverage) {
-              classes.push('cell_average')
-            } else {
-              classes.push('cell_recent')
-            }
+            classes.push(this.props.isAverage ? 'cell_average' : 'cell_recent')
+
             return (
               <center>
                 <span className={classes.join(' ')}>{val}</span>
@@ -237,8 +224,8 @@ class ScoreBox extends Component {
           accessor: key,
           sortMethod: (a, b) => {
             if (a && b) {
-              a = this.state.isAverage ? a.average : a.recent
-              b = this.state.isAverage ? b.average : b.recent
+              a = this.props.isAverage ? a.average : a.recent
+              b = this.props.isAverage ? b.average : b.recent
               return a > b ? 1 : -1
             }
             return a ? 1 : -1
@@ -247,7 +234,7 @@ class ScoreBox extends Component {
             const classes = []
             const { average, recent } = value
             const val = Object.keys(value).length
-              ? this.state.isAverage
+              ? this.props.isAverage
                 ? average
                 : recent
               : 'N/A'
@@ -256,7 +243,7 @@ class ScoreBox extends Component {
               classes.push('empty')
             }
 
-            if (this.state.isAverage) {
+            if (this.props.isAverage) {
               classes.push('cell_average')
             } else {
               classes.push('cell_recent')
@@ -269,7 +256,7 @@ class ScoreBox extends Component {
             ) {
               const other =
                 infoMap[this.state.selected][
-                  this.state.isAverage ? 'average_reviews' : 'recent_reviews'
+                  this.props.isAverage ? 'average_reviews' : 'recent_reviews'
                 ][id]
               if (Math.abs(val - other) > 0.01) {
                 if (val > other) {
@@ -417,7 +404,7 @@ class ScoreBox extends Component {
 
   render() {
     const { data, columns, filterAll, filtered } = this.state
-    const { type } = this.props
+    const { type, isAverage, setIsAverage } = this.props
     const isCourse = type === 'course'
 
     if (!data) {
@@ -429,17 +416,17 @@ class ScoreBox extends Component {
         <div className="clearfix">
           <div className="btn-group">
             <button
-              onClick={this.handleClick(true)}
+              onClick={() => setIsAverage(true)}
               className={`btn btn-sm ${
-                this.state.isAverage ? 'btn-primary' : 'btn-secondary'
+                this.props.isAverage ? 'btn-primary' : 'btn-secondary'
               }`}
             >
               Average
             </button>
             <button
-              onClick={this.handleClick(false)}
+              onClick={() => setIsAverage(false)}
               className={`btn btn-sm ${
-                this.state.isAverage ? 'btn-secondary' : 'btn-primary'
+                this.props.isAverage ? 'btn-secondary' : 'btn-primary'
               }`}
             >
               Most Recent
@@ -476,6 +463,7 @@ class ScoreBox extends Component {
           columns={columns}
           onSelect={this.handleSelect}
           noun={isCourse ? 'instructor' : 'course'}
+          isAverage={isAverage}
         />
       </div>
     )
