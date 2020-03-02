@@ -63,30 +63,17 @@ class InfoBox extends Component {
   }
 
   handleAddAverage() {
-    const { instructors, code: course } = this.props.data
-    const aggregateReviews = key => {
-      const aggregated = {}
-      Object.values(instructors).forEach(
-        ({ [key]: instructorReviews = {} }) => {
-          Object.keys(instructorReviews).forEach(columnName => {
-            if (!(columnName in aggregated)) aggregated[columnName] = []
-            aggregated[columnName].push(instructorReviews[columnName])
-          })
-        }
-      )
-      Object.keys(aggregated).forEach(columnName => {
-        const { [columnName]: column } = aggregated
-        const sum = column.reduce((a, b) => a + b)
-        aggregated[columnName] = (sum / column.length).toFixed(2)
-      })
-      return aggregated
-    }
-    const averageReviews = aggregateReviews('average_reviews')
-    const recentReviews = aggregateReviews('recent_reviews')
-    const info = Object.keys(averageReviews).map(category => ({
+    const {
+      data: {
+        code: course,
+        average_ratings: average,
+        recent_ratings: recent,
+      },
+    } = this.props
+    const info = Object.keys(average).map(category => ({
       category,
-      average: averageReviews[category],
-      recent: recentReviews[category],
+      average: average[category],
+      recent: recent[category],
     }))
     localStorage.setItem(
       course,
