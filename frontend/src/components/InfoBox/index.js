@@ -64,11 +64,7 @@ class InfoBox extends Component {
 
   handleAddAverage() {
     const {
-      data: {
-        code: course,
-        average_ratings: average,
-        recent_ratings: recent,
-      },
+      data: { code: course, average_ratings: average, recent_ratings: recent },
     } = this.props
     const info = Object.keys(average).map(category => ({
       category,
