@@ -64,6 +64,7 @@ class ScoreBox extends Component {
       })
 
       if (liveData) {
+        console.log('livedata exists')
         const instructorsThisSemester = {}
         const { instructors = [], courses } = liveData
         instructors.forEach(a => {
@@ -76,8 +77,8 @@ class ScoreBox extends Component {
           Object.values(courses).forEach(cat => {
             const coursesByInstructor = cat
               .filter(
-                a =>
-                  a.instructors
+                ({ instructors }) =>
+                  instructors
                     .map(b => convertInstructorName(b.name))
                     .indexOf(key) !== -1
               )
@@ -91,18 +92,19 @@ class ScoreBox extends Component {
           instructorsThisSemester[key] = data
           instructorTaught[key] = Infinity
         })
-
-        this.setState(state => ({
+        console.log('A', instructorTaught, data)
+        this.setState(({ data }) => ({
           currentInstructors: instructorTaught,
-          data: state.data.map(a => ({
+          data: data.map(a => ({
             ...a,
             star: instructorsThisSemester[convertInstructorName(a.name)],
           })),
         }))
       } else {
-        this.setState(state => ({
+        console.log('B')
+        this.setState(({ data }) => ({
           currentInstructors: instructorTaught,
-          data: state.data.map(a => ({ ...a, star: null })),
+          data: data.map(a => ({ ...a, star: null })),
         }))
       }
     } else if (type === 'instructor') {
