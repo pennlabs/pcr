@@ -40,6 +40,7 @@ class ScoreBox extends Component {
     }
 
     this.updateLiveData = this.updateLiveData.bind(this)
+    this.generateColumns = this.generateColumns.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
   }
 
@@ -121,13 +122,7 @@ class ScoreBox extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.liveData !== this.props.liveData) {
-      this.updateLiveData()
-    }
-  }
-
-  componentDidMount() {
+  generateColumns() {
     const { data: results, liveData, type } = this.props
 
     const columns = {}
@@ -386,6 +381,16 @@ class ScoreBox extends Component {
     if (liveData) {
       this.updateLiveData()
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.liveData !== this.props.liveData) {
+      this.generateColumns()
+    }
+  }
+
+  componentDidMount() {
+    this.generateColumns()
   }
 
   render() {
