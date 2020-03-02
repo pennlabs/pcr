@@ -64,7 +64,6 @@ class ScoreBox extends Component {
       })
 
       if (liveData) {
-        console.log('livedata exists')
         const instructorsThisSemester = {}
         const { instructors = [], courses } = liveData
         instructors.forEach(a => {
@@ -92,7 +91,6 @@ class ScoreBox extends Component {
           instructorsThisSemester[key] = data
           instructorTaught[key] = Infinity
         })
-        console.log('A', instructorTaught, data)
         this.setState(({ data }) => ({
           currentInstructors: instructorTaught,
           data: data.map(a => ({
@@ -101,7 +99,6 @@ class ScoreBox extends Component {
           })),
         }))
       } else {
-        console.log('B')
         this.setState(({ data }) => ({
           currentInstructors: instructorTaught,
           data: data.map(a => ({ ...a, star: null })),
