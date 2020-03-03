@@ -50,7 +50,7 @@ const InfoBox = ({
 
   useEffect(() => {
     if (isInstructor) apiContact(name).then(setContact)
-  }, [name, type])
+  }, [name, isInstructor])
 
   const handleCartAdd = key => {
     let instructor = 'Average Professor'
