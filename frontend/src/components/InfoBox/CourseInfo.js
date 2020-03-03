@@ -8,6 +8,44 @@ import {
   convertSemesterToInt,
 } from '../../utils/helpers'
 
+const getSyllabusData = courses =>
+  Object.values(courses)
+    .map(course =>
+      Object.values(course)
+        .filter(({ syllabus_url: url }) => url)
+        .map(
+          ({
+            syllabus_url: url,
+            section_id_normalized: sectionId,
+            instructors = [],
+          }) => {
+            const instructedBy =
+              instructors.map(c => c.name).join(', ') || 'Unknown'
+            return {
+              url,
+              name: `${sectionId} - ${instructedBy}`,
+            }
+          }
+        )
+    )
+    .flat()
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+const getPrereqData = courses => {
+  const prereqString = Object.values(courses)
+    .map(a =>
+      Object.values(a)
+        .map(({ prerequisite_notes: notes = [] }) => notes.join(' '))
+        .filter(b => b)
+    )
+    .flat()
+    .join(' ')
+  const prereqs = [
+    ...new Set(prereqString.match(/[A-Z]{2,4}[ -]\d{3}/g)),
+  ].map(a => a.replace(' ', '-'))
+  return prereqs
+}
+
 const Tags = ({
   data = {},
   credits,
@@ -19,6 +57,10 @@ const Tags = ({
 }) => {
   const { instructors: instructorData = {}, code = '' } = data
   const courseName = code.replace('-', ' ')
+  const [syllabi, prereqs] = useMemo(
+    () => [getSyllabusData(courses), getPrereqData(courses)],
+    [courses]
+  )
   const newInstructors = useMemo(() => {
     const existingFilter = existingInstructors.map(convertInstructorName)
     const newInstructors = {}
@@ -51,35 +93,6 @@ const Tags = ({
     }
     return null
   }, [isTaught, instructorData])
-
-  const syllabi = [].concat
-    .apply(
-      [],
-      Object.values(courses).map(a =>
-        Object.values(a)
-          .map(b => ({
-            url: b.syllabus_url,
-            name: `${b.section_id_normalized} - ${(b.instructors || [])
-              .map(c => c.name)
-              .join(', ') || 'Unknown'}`,
-          }))
-          .filter(b => b.url)
-      )
-    )
-    .sort((a, b) => a.name.localeCompare(b.name))
-  const prereqString = [].concat
-    .apply(
-      [],
-      Object.values(courses).map(a =>
-        Object.values(a)
-          .map(b => (b.prerequisite_notes || []).join(' '))
-          .filter(b => b)
-      )
-    )
-    .join(' ')
-  const prereqs = [
-    ...new Set(prereqString.match(/[A-Z]{2,4}[ -]\d{3}/g)),
-  ].map(a => a.replace(' ', '-'))
 
   return (
     <div>
