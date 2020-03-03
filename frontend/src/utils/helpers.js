@@ -24,14 +24,14 @@ export function getColumnName(key) {
 }
 
 // Monotonically maps semesters to integer values - later semesters have higher numbers.
-export function semesterToInt(sem) {
-  const [season = 'Spring', year] = sem.split(' ')
+export function convertSemesterToInt(sem) {
+  const [season = 'Spring', year = "0"] = sem.split(' ')
   return parseInt(year) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[season]
 }
 
 // Compares PCR semester codes, sorting the most recent semester first.
 export function compareSemesters(a, b) {
-  return semesterToInt(b) - semesterToInt(a)
+  return convertSemesterToInt(b) - convertSemesterToInt(a)
 }
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.

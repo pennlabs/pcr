@@ -3,7 +3,7 @@ import reactStringReplace from 'react-string-replace'
 import { Link } from 'react-router-dom'
 
 import { CourseDetails, Popover, PopoverTitle } from '../common'
-import { convertInstructorName } from '../../utils/helpers'
+import { convertInstructorName, convertSemesterToInt } from '../../utils/helpers'
 
 const Tags = ({
   data = {},
@@ -38,10 +38,7 @@ const Tags = ({
         ...Object.values(instructorData)
           .map(a => a.most_recent_semester)
           .filter(a => typeof a !== 'undefined')
-          .map(a => {
-            const x = a.split(' ')
-            return parseInt(x[1]) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[x[0]]
-          })
+          .map(convertSemesterToInt)
       )
       if (semesterTaught > 0) {
         return `${

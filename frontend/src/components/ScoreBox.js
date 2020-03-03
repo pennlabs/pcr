@@ -7,6 +7,7 @@ import {
   compareSemesters,
   getColumnName,
   orderColumns,
+  convertSemesterToInt,
 } from '../utils/helpers'
 import {
   ColumnSelector,
@@ -54,13 +55,7 @@ class ScoreBox extends Component {
     if (type === 'course') {
       Object.values(data.instructors).forEach(a => {
         const key = convertInstructorName(a.name)
-        if (a.most_recent_semester) {
-          const parts = a.most_recent_semester.split(' ')
-          instructorTaught[key] =
-            parseInt(parts[1]) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[parts[0]]
-        } else {
-          instructorTaught[key] = 0
-        }
+        instructorTaught[key] = convertSemesterToInt(a.most_recent_semester)
       })
 
       if (liveData) {
