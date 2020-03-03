@@ -4,6 +4,13 @@ import { Bar } from 'react-chartjs-2'
 import { DEFAULT_COLUMNS } from '../../constants'
 import { getColumnName } from '../../utils/helpers'
 
+export const DepartmentHeader = ({ name, code }) => (
+  <div className="department">
+    <div className="title">{name}</div>
+    <p className="subtitle">{code}</p>
+  </div>
+)
+
 const chartColorMap = {
   rCourseQuality: '#6274f1',
   rInstructorQuality: '#ffc107',
@@ -42,7 +49,7 @@ const chartOptions = {
   },
 }
 
-export default ({ courses }) => {
+export const DepartmentGraphs = ({ courses }) => {
   const chartData =
     courses && Object.keys(courses).length && generateChartData(courses)
   return (
