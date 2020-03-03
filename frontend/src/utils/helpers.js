@@ -23,20 +23,15 @@ export function getColumnName(key) {
     .replace(/Recommend/g, 'Rec.')
 }
 
-// Compares PCR semester codes.
+// Monotonically maps semesters to integer values - later semesters have higher numbers.
+export function semesterToInt(sem) {
+  const [season = 'Spring', year] = sem.split(' ')
+  return parseInt(year) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[season]
+}
+
+// Compares PCR semester codes, sorting the most recent semester first.
 export function compareSemesters(a, b) {
-  const ay = parseInt(a.split(' ')[1])
-  const by = parseInt(b.split(' ')[1])
-  const as = a.split(' ')[0]
-  const bs = b.split(' ')[0]
-
-  if (ay !== by) {
-    return by - ay
-  }
-
-  const mapping = { Fall: 'A', Summer: 'B', Spring: 'C' }
-
-  return mapping[as].localeCompare(mapping[bs])
+  return semesterToInt(b) - semesterToInt(a)
 }
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.
