@@ -93,6 +93,7 @@ const InfoBox = ({
           <CourseHeader
             aliases={aliases}
             code={code}
+            data={data}
             name={name}
             notes={notes}
             instructors={instructors}
