@@ -1,3 +1,5 @@
+import { DEFAULT_COLUMNS } from '../constants'
+
 export const capitalize = str =>
   str.replace(/(?:^|\s)\S/g, e => e.toUpperCase())
 
@@ -6,10 +8,7 @@ export function orderColumns(cols) {
   const fixedCols = [
     'latest_semester',
     'num_semesters',
-    'rCourseQuality',
-    'rInstructorQuality',
-    'rDifficulty',
-    'rAmountLearned',
+    ...DEFAULT_COLUMNS
   ].filter(a => colSet.has(a))
   const fixedColsSet = new Set(fixedCols)
   return fixedCols.concat(cols.filter(a => !fixedColsSet.has(a)).sort())
