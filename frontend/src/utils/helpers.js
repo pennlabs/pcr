@@ -8,7 +8,7 @@ export function orderColumns(cols) {
   const fixedCols = [
     'latest_semester',
     'num_semesters',
-    ...DEFAULT_COLUMNS
+    ...DEFAULT_COLUMNS,
   ].filter(a => colSet.has(a))
   const fixedColsSet = new Set(fixedCols)
   return fixedCols.concat(cols.filter(a => !fixedColsSet.has(a)).sort())
