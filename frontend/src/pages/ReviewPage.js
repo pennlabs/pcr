@@ -7,7 +7,13 @@ import DetailsBox from '../components/DetailsBox'
 import SearchBar from '../components/SearchBar'
 import Footer from '../components/Footer'
 import { ErrorBox } from '../components/common'
-import { apiReviewData, apiLive, apiLiveInstructor } from '../utils/api'
+import {
+  apiReviewData,
+  apiLive,
+  apiLiveInstructor,
+  apiPCPLive,
+  apiPCPLiveInstructor,
+} from '../utils/api'
 
 /**
  * Enable or disable the Penn Labs recruitment banner.
@@ -30,6 +36,7 @@ export class ReviewPage extends Component {
       error_detail: null,
       rowCode: null,
       liveData: null,
+      pcpLiveData: null,
       selectedCourses: {},
       isAverage: localStorage.getItem('meta-column-type') !== 'recent',
       showBanner:
@@ -97,10 +104,15 @@ export class ReviewPage extends Component {
             })
           } else {
             this.setState({ data }, () => {
-              if (type === 'instructor')
-                apiLiveInstructor(
-                  name.replace(/[^A-Za-z0-9 ]/g, '')
-                ).then(liveData => this.setState({ liveData }))
+              if (type === 'instructor') {
+                const cleaned = name.replace(/[^A-Za-z0-9 ]/g, '')
+                apiLiveInstructor(cleaned).then(liveData =>
+                  this.setState({ liveData })
+                )
+                apiPCPLiveInstructor(cleaned).then(pcpLiveData =>
+                  this.setState({ pcpLiveData })
+                )
+              }
             })
           }
         })
@@ -114,14 +126,13 @@ export class ReviewPage extends Component {
 
     if (type === 'course') {
       apiLive(code)
-        .then(result => {
-          this.setState({ liveData: result })
-        })
-        .catch(() => {
-          this.setState({ liveData: null })
-        })
+        .then(result => this.setState({ liveData: result }))
+        .catch(() => this.setState({ liveData: null }))
+      apiPCPLive(code)
+        .then(result => this.setState({ pcpLiveData: result }))
+        .catch(() => this.setState({ pcpLiveData: null }))
     } else {
-      this.setState({ liveData: null })
+      this.setState({ liveData: null, pcpLiveData: null })
     }
   }
 
@@ -216,6 +227,7 @@ export class ReviewPage extends Component {
       data,
       rowCode,
       liveData,
+      pcpLiveData,
       isAverage,
       selectedCourses,
       type,
@@ -246,6 +258,7 @@ export class ReviewPage extends Component {
                 data={data}
                 type={type}
                 liveData={liveData}
+                pcpLiveData={pcpLiveData}
                 onSelect={handleSelect}
                 isAverage={isAverage}
                 setIsAverage={this.setIsAverage}
