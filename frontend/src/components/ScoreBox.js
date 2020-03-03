@@ -274,9 +274,9 @@ class ScoreBox extends Component {
             <PopoverTitle
               title={
                 <span>
-                  <b>{value}</b> is teaching during
-                  <b>{liveData.term}</b> and <b>{star.open}</b> out of{' '}
-                  <b>{star.all}</b> {star.all === 1 ? 'section' : 'sections'}{' '}
+                  <b>{value}</b> is teaching during <b>{liveData.term}</b> and{' '}
+                  <b>{star.open}</b> out of <b>{star.all}</b>{' '}
+                  {star.all === 1 ? 'section' : 'sections'}{' '}
                   {star.open === 1 ? 'is' : 'are'} open.
                   <ul>
                     {star.sections
