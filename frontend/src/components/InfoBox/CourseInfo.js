@@ -3,7 +3,10 @@ import reactStringReplace from 'react-string-replace'
 import { Link } from 'react-router-dom'
 
 import { CourseDetails, Popover, PopoverTitle } from '../common'
-import { convertInstructorName, convertSemesterToInt } from '../../utils/helpers'
+import {
+  convertInstructorName,
+  convertSemesterToInt,
+} from '../../utils/helpers'
 
 const Tags = ({
   data = {},
