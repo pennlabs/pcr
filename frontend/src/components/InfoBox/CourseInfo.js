@@ -8,7 +8,7 @@ import { convertInstructorName } from '../../utils/helpers'
 /**
  * Shows information about course availability, prerequisites, and new instructors.
  */
-export class Tags extends Component {
+class Tags extends Component {
   render() {
     const existing = this.props.existingInstructors.map(convertInstructorName)
     const newInstructors = {}
