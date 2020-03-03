@@ -48,8 +48,8 @@ const getPrereqData = courses => {
 
 const Tags = ({
   data = {},
+  courses = {},
   credits,
-  courses,
   existingInstructors,
   instructors,
   instructor_links: links,
