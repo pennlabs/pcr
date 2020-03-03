@@ -52,6 +52,26 @@ export function apiLiveInstructor(name) {
   )
 }
 
+export function apiPCPLiveInstructor(name) {
+  const last = (tokens => (tokens.length ? tokens[tokens.length - 1] : ''))(
+    name.split(/\W/)
+  )
+  return apiFetch(
+    `https://cors-anywhere.herokuapp.com/https://penncourseplan.com/api/plan/courses/?search=${encodeURIComponent(
+      last
+    )}`
+  )
+}
+
+export function apiPCPLive(code) {
+  console.log(code)
+  return apiFetch(
+    `https://cors-anywhere.herokuapp.com/https://penncourseplan.com/api/plan/courses/${encodeURIComponent(
+      code
+    )}`
+  )
+}
+
 export function apiReviewData(type, code) {
   return apiFetch(
     `${API_DOMAIN}/api/display/${encodeURIComponent(type)}/${encodeURIComponent(
