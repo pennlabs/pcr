@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import reactStringReplace from 'react-string-replace'
 
-import { Popover } from '../common'
-import Tags from './InfoBoxTags'
-import Ratings from './InfoBoxRatings'
-import DepartmentInfo from './DepartmentInfo'
+import Ratings from './InfoRatings'
+import { CourseDescription, CourseHeader } from './CourseInfo'
 import { apiContact } from '../../utils/api'
 
 /**
