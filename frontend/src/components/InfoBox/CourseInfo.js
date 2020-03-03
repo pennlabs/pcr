@@ -193,7 +193,7 @@ const Tags = ({
       </div>
       {Boolean(prereqs.length) && (
         <div className="prereqs">
-          Prerequisites:
+          Prerequisites:{' '}
           {prereqs.map((a, i) => [
             i > 0 && ', ',
             <span key={i}>
