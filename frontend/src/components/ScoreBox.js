@@ -52,7 +52,7 @@ class ScoreBox extends Component {
 
   updateLiveData() {
     const instructorTaught = {}
-    const { data, liveData, type } = this.props
+    const { data, type, liveData } = this.props
     if (type === 'course') {
       Object.values(data.instructors).forEach(a => {
         const key = convertInstructorName(a.name)
@@ -118,7 +118,7 @@ class ScoreBox extends Component {
   }
 
   generateColumns() {
-    const { data: results, liveData, type } = this.props
+    const { data: results, liveData, pcpLiveData, type } = this.props
 
     const columns = {}
     const isCourse = type === 'course'
@@ -274,9 +274,9 @@ class ScoreBox extends Component {
             <PopoverTitle
               title={
                 <span>
-                  <b>{value}</b> is teaching during
-                  <b>{liveData.term}</b> and <b>{star.open}</b> out of{' '}
-                  <b>{star.all}</b> {star.all === 1 ? 'section' : 'sections'}{' '}
+                  <b>{value}</b> is teaching during <b>{liveData.term}</b> and{' '}
+                  <b>{star.open}</b> out of <b>{star.all}</b>{' '}
+                  {star.all === 1 ? 'section' : 'sections'}{' '}
                   {star.open === 1 ? 'is' : 'are'} open.
                   <ul>
                     {star.sections
@@ -373,7 +373,7 @@ class ScoreBox extends Component {
     }
     this.setState({ data, columns: cols })
 
-    if (liveData) {
+    if (liveData || pcpLiveData) {
       this.updateLiveData()
     }
   }
