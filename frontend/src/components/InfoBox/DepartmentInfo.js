@@ -1,6 +1,7 @@
 import React from 'react'
 import { Bar } from 'react-chartjs-2'
 
+import { DEFAULT_COLUMNS } from '../../constants'
 import { getColumnName } from '../../utils/helpers'
 
 const chartColorMap = {
@@ -10,17 +11,10 @@ const chartColorMap = {
   rWorkRequired: '#df5d56',
 }
 
-const CHART_COLUMNS = [
-  'rCourseQuality',
-  'rInstructorQuality',
-  'rDifficulty',
-  'rWorkRequired',
-]
-
 const generateChartData = courses => {
   return {
     labels: Object.values(courses).map(({ original: { code } }) => code),
-    datasets: CHART_COLUMNS.map(column => ({
+    datasets: DEFAULT_COLUMNS.map(column => ({
       label: getColumnName(column),
       data: Object.values(courses).map(
         ({
