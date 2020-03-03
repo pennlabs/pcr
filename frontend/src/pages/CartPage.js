@@ -5,6 +5,13 @@ import withLayout from './withLayout'
 import { Popover } from '../components/common'
 import { getColumnName, getCartCourses } from '../utils/helpers'
 
+import {
+  DEFAULT_COLUMNS,
+  ALL_DATA_COLUMNS,
+  COLUMN_FULLNAMES,
+  COLUMN_SHORTNAMES,
+} from '../constants'
+
 class Cart extends Component {
   constructor(props) {
     super(props)
@@ -15,12 +22,7 @@ class Cart extends Component {
       courses: [],
       excludedCourses: [],
       boxValues: ['N/A', 'N/A', 'N/A', 'N/A'],
-      boxLabels: [
-        'rCourseQuality',
-        'rInstructorQuality',
-        'rDifficulty',
-        'rWorkRequired',
-      ],
+      boxLabels: DEFAULT_COLUMNS,
     }
 
     // TODO: Move regeneration logic into Redux or React Context
@@ -66,51 +68,6 @@ class Cart extends Component {
   }
 
   render() {
-    // TODO: Move these values into a constants file
-    const checkboxValues = [
-      'rCourseQuality',
-      'rInstructorQuality',
-      'rDifficulty',
-      'rAmountLearned',
-      'rWorkRequired',
-      'rReadingsValue',
-      'rCommAbility',
-      'rInstructorAccess',
-      'rStimulateInterest',
-      'rTAQuality',
-      'rRecommendMajor',
-      'rRecommendNonMajor',
-    ]
-    const checkboxLabels = [
-      'Course Quality',
-      'Instructor Quality',
-      'Difficulty',
-      'Amount Learned',
-      'Amount of Work',
-      'Value of Readings',
-      'Instructor Communication',
-      'Instructor Accessibility',
-      'Ability to Stimulate Interest',
-      'TA Quality',
-      'Recommend for Majors',
-      'Recommend for Non-Majors',
-    ]
-
-    const propertyShortNames = {
-      rCourseQuality: 'Course',
-      rInstructorQuality: 'Instructor',
-      rDifficulty: 'Difficulty',
-      rAmountLearned: 'Learned',
-      rWorkRequired: 'Workload',
-      rReadingsValue: 'Reading',
-      rCommAbility: 'Instr Comm',
-      rInstructorAccess: 'Access',
-      rStimulateInterest: 'Interest',
-      rTAQuality: 'TA Quality',
-      rRecommendMajor: 'Major',
-      rRecommendNonMajor: 'Non-Major',
-    }
-
     const {
       boxLabels,
       boxValues,
@@ -138,7 +95,7 @@ class Cart extends Component {
                 }`}
               >
                 <p className="num">{boxValues[i]}</p>
-                <p className="desc">{propertyShortNames[a]}</p>
+                <p className="desc">{COLUMN_SHORTNAMES[a]}</p>
               </div>
             ))}
           </div>
@@ -149,11 +106,11 @@ class Cart extends Component {
           <div className="box">
             <h3 style={{ fontSize: '1.5em' }}>Choose columns to display</h3>
             <div className="clearfix" style={{ textAlign: 'left' }}>
-              {checkboxValues.map((a, i) => (
-                <div style={{ width: '50%', display: 'inline-block' }} key={i}>
+              {ALL_DATA_COLUMNS.map(a => (
+                <div style={{ width: '50%', display: 'inline-block' }} key={a}>
                   <input
                     type="checkbox"
-                    onChange={e => {
+                    onChange={() => {
                       const pos = boxLabels.indexOf(a)
                       if (pos === -1) {
                         this.setState(state => {
@@ -182,7 +139,7 @@ class Cart extends Component {
                     name={a}
                     className="mr-1"
                   />
-                  <label htmlFor={`checkbox_${a}`}>{checkboxLabels[i]}</label>
+                  <label htmlFor={`checkbox_${a}`}>{COLUMN_FULLNAMES[a]}</label>
                 </div>
               ))}
             </div>
