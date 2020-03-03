@@ -1,13 +1,14 @@
-/* eslint react/prop-types: 0 */
 import React, { Component } from 'react'
+import reactStringReplace from 'react-string-replace'
 import { Link } from 'react-router-dom'
-import { convertInstructorName } from '../../utils/helpers'
+
 import { CourseDetails, Popover, PopoverTitle } from '../common'
+import { convertInstructorName } from '../../utils/helpers'
 
 /**
  * Shows information about course availability, prerequisites, and new instructors.
  */
-class Tags extends Component {
+export class Tags extends Component {
   render() {
     const existing = this.props.existingInstructors.map(convertInstructorName)
     const newInstructors = {}
@@ -210,4 +211,115 @@ class Tags extends Component {
   }
 }
 
-export default Tags
+export const CourseHeader = ({
+  aliases,
+  code,
+  inCourseCart,
+  instructors,
+  name,
+  notes,
+  type,
+  handleAdd,
+  handleRemove,
+  liveData,
+  data,
+}) => (
+  <div className="course">
+    <div className="title">
+      {code.replace('-', ' ')}
+
+      <span className="float-right">
+        {inCourseCart ? (
+          <span
+            onClick={handleRemove}
+            className="courseCart btn btn-action"
+            title="Remove from Cart"
+          >
+            <i className="fa fa-fw fa-trash-alt" />
+          </span>
+        ) : (
+          <Popover
+            button={
+              <span className="courseCart btn btn-action" title="Add to Cart">
+                <i className="fa fa-fw fa-cart-plus" />
+              </span>
+            }
+          >
+            <div className="popover-title">Add to Cart</div>
+            <div
+              className="popover-content"
+              style={{ maxHeight: 400, overflowY: 'auto' }}
+            >
+              <div id="divList">
+                <ul className="professorList">
+                  <li>
+                    <button onClick={() => handleAdd('average')}>
+                      Average Professor
+                    </button>
+                  </li>
+                  {Object.keys(instructors)
+                    .sort((a, b) =>
+                      instructors[a].name.localeCompare(instructors[b].name)
+                    )
+                    .map(key => (
+                      <li key={key}>
+                        <button onClick={() => handleAdd(key)}>
+                          {instructors[key].name}
+                        </button>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </div>
+          </Popover>
+        )}{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Get Alerted"
+          href={`https://penncoursealert.com/?course=${code}&source=pcr`}
+          className="btn btn-action"
+        >
+          <i className="fas fa-fw fa-bell" />
+        </a>
+      </span>
+    </div>
+    {Boolean(aliases.length) && (
+      <div className="crosslist">
+        Also:{' '}
+        {aliases.map((cls, i) => [
+          i > 0 && ', ',
+          <Link key={cls} to={`/course/${cls}`}>
+            {cls}
+          </Link>,
+        ])}
+      </div>
+    )}
+    <p className="subtitle">{name}</p>
+    {notes.map(note => (
+      <div key={note} className="note">
+        <i className="fa fa-thumbtack" /> {note}
+      </div>
+    ))}
+    {type === 'course' && data && liveData && (
+      <Tags
+        {...liveData}
+        data={data}
+        existingInstructors={Object.values(instructors).map(a => a.name)}
+      />
+    )}
+  </div>
+)
+
+export const CourseDescription = ({ description }) => {
+  const content = reactStringReplace(
+    description,
+    /([A-Z]{2,4}[ -]\d{3})/g,
+    (m, i) => (
+      <Link to={`/course/${m.replace(' ', '-')}`} key={m + i}>
+        {m}
+      </Link>
+    )
+  )
+  return <p className="desc">{content}</p>
+}
