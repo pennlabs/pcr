@@ -41,6 +41,7 @@ class ScoreBox extends Component {
     }
 
     this.updateLiveData = this.updateLiveData.bind(this)
+    this.generateColumns = this.generateColumns.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
   }
 
@@ -71,8 +72,8 @@ class ScoreBox extends Component {
           Object.values(courses).forEach(cat => {
             const coursesByInstructor = cat
               .filter(
-                a =>
-                  a.instructors
+                ({ instructors }) =>
+                  instructors
                     .map(b => convertInstructorName(b.name))
                     .indexOf(key) !== -1
               )
@@ -86,18 +87,17 @@ class ScoreBox extends Component {
           instructorsThisSemester[key] = data
           instructorTaught[key] = Infinity
         })
-
-        this.setState(state => ({
+        this.setState(({ data }) => ({
           currentInstructors: instructorTaught,
-          data: state.data.map(a => ({
+          data: data.map(a => ({
             ...a,
             star: instructorsThisSemester[convertInstructorName(a.name)],
           })),
         }))
       } else {
-        this.setState(state => ({
+        this.setState(({ data }) => ({
           currentInstructors: instructorTaught,
-          data: state.data.map(a => ({ ...a, star: null })),
+          data: data.map(a => ({ ...a, star: null })),
         }))
       }
     } else if (type === 'instructor') {
@@ -117,13 +117,7 @@ class ScoreBox extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.liveData !== this.props.liveData) {
-      this.updateLiveData()
-    }
-  }
-
-  componentDidMount() {
+  generateColumns() {
     const { data: results, liveData, type } = this.props
 
     const columns = {}
@@ -304,7 +298,7 @@ class ScoreBox extends Component {
               <i className={`fa-star ml-1 ${star.open ? 'fa' : 'far'}`} />
             </PopoverTitle>
           )}
-          {isInstructor && !!this.state.currentCourses[code] && (
+          {isInstructor && Boolean(this.state.currentCourses[code]) && (
             <PopoverTitle
               title={
                 <span>
@@ -382,6 +376,17 @@ class ScoreBox extends Component {
     if (liveData) {
       this.updateLiveData()
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { data, liveData } = this.props
+    if (prevProps.data !== data || prevProps.liveData !== liveData) {
+      this.generateColumns()
+    }
+  }
+
+  componentDidMount() {
+    this.generateColumns()
   }
 
   render() {
