@@ -286,10 +286,8 @@ class ScoreBox extends Component {
               title={
                 <span>
                   <b>{value}</b> is teaching during
-                  <b>{liveData.term}</b> and
-                  <b>{star.open}</b> out of
-                  <b>{star.all}</b>
-                  {star.all === 1 ? 'section' : 'sections'}
+                  <b>{liveData.term}</b> and <b>{star.open}</b> out of{' '}
+                  <b>{star.all}</b> {star.all === 1 ? 'section' : 'sections'}{' '}
                   {star.open === 1 ? 'is' : 'are'} open.
                   <ul>
                     {star.sections
@@ -315,8 +313,8 @@ class ScoreBox extends Component {
             <PopoverTitle
               title={
                 <span>
-                  <b>{results.name}</b> will teach
-                  <b>{code.replace('-', ' ')}</b> in
+                  <b>{results.name}</b> will teach{' '}
+                  <b>{code.replace('-', ' ')}</b> in{' '}
                   <b>{this.state.currentCourses[code][0].term_normalized}</b>.
                   <ul>
                     {this.state.currentCourses[code].map(data => (
