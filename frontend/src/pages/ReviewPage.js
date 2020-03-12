@@ -132,9 +132,14 @@ export class ReviewPage extends Component {
     this.props.history.push(value)
   }
 
-  showRowHistory(rowCode) {
-    this.setState({ rowCode }, () => {
-      if (rowCode) {
+  showRowHistory(nextCode) {
+    const { rowCode } = this.state
+    if (nextCode === rowCode) {
+      this.setState({ rowCode: null })
+      return
+    }
+    this.setState({ rowCode: nextCode }, () => {
+      if (nextCode) {
         window.scrollTo({
           behavior: 'smooth',
           top: this.tableRef.current.offsetTop,
