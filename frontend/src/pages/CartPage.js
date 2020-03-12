@@ -224,7 +224,7 @@ class Cart extends Component {
               <br />
               {instructor}
               <br />
-              {Object.values(info)
+              {info && Object.values(info)
                 .sort((x, y) => x.category.localeCompare(y.category))
                 .map(({ category, average, recent }, i) => (
                   <div key={i}>
