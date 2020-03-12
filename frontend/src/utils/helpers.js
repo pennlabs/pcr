@@ -25,6 +25,7 @@ export function getColumnName(key) {
 
 // Monotonically maps semesters to integer values - later semesters have higher numbers.
 export function convertSemesterToInt(sem) {
+  if (!(typeof sem === 'string' || sem)) return 0
   const [season = 'Spring', year = '0'] = sem.split(' ')
   return parseInt(year) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[season]
 }
