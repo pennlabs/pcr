@@ -133,7 +133,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
     )
 
   // Return placeholder image.
-  if (!hasData)
+  if (!hasData || !hasSelection)
     return (
       <div
         id="course-details"
