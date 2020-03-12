@@ -224,16 +224,17 @@ class Cart extends Component {
               <br />
               {instructor}
               <br />
-              {info && Object.values(info)
-                .sort((x, y) => x.category.localeCompare(y.category))
-                .map(({ category, average, recent }, i) => (
-                  <div key={i}>
-                    {getColumnName(category)}{' '}
-                    <span className="float-right ml-3">
-                      {isAverage ? average : recent}
-                    </span>
-                  </div>
-                ))}
+              {info &&
+                Object.values(info)
+                  .sort((x, y) => x.category.localeCompare(y.category))
+                  .map(({ category, average, recent }, i) => (
+                    <div key={i}>
+                      {getColumnName(category)}{' '}
+                      <span className="float-right ml-3">
+                        {isAverage ? average : recent}
+                      </span>
+                    </div>
+                  ))}
             </Popover>
           ))}
         </div>
