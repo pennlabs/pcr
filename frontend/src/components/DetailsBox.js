@@ -144,7 +144,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
         <div>
           <div>
             {isCourse ? (
-              <object type="image/svg+xml" data={emptyStateImg} width="200">
+              <object type="image/svg+xml" data={emptyStateImg} width="175">
                 <img alt="Professor Icon" src={emptyStateImg} />
               </object>
             ) : (
@@ -152,13 +152,14 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
                 type="image/svg+xml"
                 id="select-course-icon"
                 data="/static/image/books-and-bag.svg"
+                width="250"
               >
                 <img alt="Class Icon" src="/static/image/books-and-bag.png" />
               </object>
             )}
           </div>
         </div>
-        <h3 style={{ margin: '1.5em' }}>
+        <h3 style={{ color:'#b2b2b2', margin: '1.5em', marginBottom:'.5em' }}>
           {isCourse
             ? 'Select an instructor to see individual sections, comments, and more details.'
             : 'Select a course to see individual sections, comments, and more details.'}
