@@ -32,6 +32,8 @@ export const ScoreTable = props => {
             ? { backgroundColor: row._viewIndex % 2 ? '#F5F8F8' : 'white' }
             : {},
           onClick: () => {
+            // Recalculate value every time onClick is called
+            const noRow = multi ? index in selected : index === selected
             if (!multi) {
               const { key } = original
               onSelect(noRow ? null : key)
