@@ -1,8 +1,10 @@
 import React, { forwardRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { compareSemesters, getColumnName, orderColumns } from '../utils/helpers'
+
 import { ColumnSelector, ScoreTable } from './common'
+import { compareSemesters, getColumnName, orderColumns } from '../utils/helpers'
 import { apiHistory } from '../utils/api'
+import { PROF_IMAGE_URL } from '../constants/routes'
 
 /*
  * Settings objects/object generators for the columns of the DetailsBox
@@ -75,7 +77,12 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
   const [columns, setColumns] = useState([])
   const [filtered, setFiltered] = useState([])
   const [filterAll, setFilterAll] = useState('')
+  const [emptyStateImg, setEmptyStateImg] = useState('')
 
+  useEffect(() => {
+    const num = Math.floor(Math.random() * 5 + 1)
+    setEmptyStateImg(PROF_IMAGE_URL(num))
+  }, [])
   useEffect(() => {
     if (instructor !== null && course !== null) {
       apiHistory(course, instructor).then(res => {
@@ -126,31 +133,37 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
     )
 
   // Return placeholder image.
-  if (!hasData)
+  if (!hasData || !hasSelection)
     return (
-      <div id="course-details" className="box" ref={ref}>
-        <div id="select-row">
+      <div
+        id="course-details"
+        className="box"
+        ref={ref}
+        style={{ textAlign: 'center' }}
+      >
+        <div>
           <div>
-            <h3 id="select-row-text">
-              {isCourse
-                ? 'Select an instructor to see individual sections, comments, and more details.'
-                : 'Select a course to see individual sections, comments, and more details.'}
-            </h3>
             {isCourse ? (
-              <object type="image/svg+xml" data="/static/image/prof.svg">
-                <img alt="Professor Icon" src="/static/image/prof.png" />
+              <object type="image/svg+xml" data={emptyStateImg} width="175">
+                <img alt="Professor Icon" src={emptyStateImg} />
               </object>
             ) : (
               <object
                 type="image/svg+xml"
                 id="select-course-icon"
                 data="/static/image/books-and-bag.svg"
+                width="250"
               >
                 <img alt="Class Icon" src="/static/image/books-and-bag.png" />
               </object>
             )}
           </div>
         </div>
+        <h3 style={{ color: '#b2b2b2', margin: '1.5em', marginBottom: '.5em' }}>
+          {isCourse
+            ? 'Select an instructor to see individual sections, comments, and more details.'
+            : 'Select a course to see individual sections, comments, and more details.'}
+        </h3>
       </div>
     )
 
