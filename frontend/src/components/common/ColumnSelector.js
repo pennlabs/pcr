@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+
+import { DEFAULT_COLUMNS } from '../../constants'
 import { Popover } from './Popover'
 
 /**
@@ -20,12 +22,14 @@ export class ColumnSelector extends Component {
             }
           : {}
 
+      const defaultFields = {}
+      DEFAULT_COLUMNS.forEach(col => {
+        defaultFields[col] = true
+      })
+
       defaultColumns = {
         ...instructorFields,
-        rInstructorQuality: true,
-        rCourseQuality: true,
-        rDifficulty: true,
-        rAmountLearned: true,
+        ...defaultFields,
       }
     }
     this.defaultColumns = defaultColumns

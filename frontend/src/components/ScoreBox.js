@@ -7,6 +7,7 @@ import {
   compareSemesters,
   getColumnName,
   orderColumns,
+  convertSemesterToInt,
 } from '../utils/helpers'
 import {
   ColumnSelector,
@@ -40,6 +41,7 @@ class ScoreBox extends Component {
     }
 
     this.updateLiveData = this.updateLiveData.bind(this)
+    this.generateColumns = this.generateColumns.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
   }
 
@@ -54,13 +56,7 @@ class ScoreBox extends Component {
     if (type === 'course') {
       Object.values(data.instructors).forEach(a => {
         const key = convertInstructorName(a.name)
-        if (a.most_recent_semester) {
-          const parts = a.most_recent_semester.split(' ')
-          instructorTaught[key] =
-            parseInt(parts[1]) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[parts[0]]
-        } else {
-          instructorTaught[key] = 0
-        }
+        instructorTaught[key] = convertSemesterToInt(a.most_recent_semester)
       })
 
       if (liveData) {
@@ -76,8 +72,8 @@ class ScoreBox extends Component {
           Object.values(courses).forEach(cat => {
             const coursesByInstructor = cat
               .filter(
-                a =>
-                  a.instructors
+                ({ instructors }) =>
+                  instructors
                     .map(b => convertInstructorName(b.name))
                     .indexOf(key) !== -1
               )
@@ -91,18 +87,17 @@ class ScoreBox extends Component {
           instructorsThisSemester[key] = data
           instructorTaught[key] = Infinity
         })
-
-        this.setState(state => ({
+        this.setState(({ data }) => ({
           currentInstructors: instructorTaught,
-          data: state.data.map(a => ({
+          data: data.map(a => ({
             ...a,
             star: instructorsThisSemester[convertInstructorName(a.name)],
           })),
         }))
       } else {
-        this.setState(state => ({
+        this.setState(({ data }) => ({
           currentInstructors: instructorTaught,
-          data: state.data.map(a => ({ ...a, star: null })),
+          data: data.map(a => ({ ...a, star: null })),
         }))
       }
     } else if (type === 'instructor') {
@@ -122,13 +117,7 @@ class ScoreBox extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.liveData !== this.props.liveData) {
-      this.updateLiveData()
-    }
-  }
-
-  componentDidMount() {
+  generateColumns() {
     const { data: results, liveData, type } = this.props
 
     const columns = {}
@@ -285,11 +274,9 @@ class ScoreBox extends Component {
             <PopoverTitle
               title={
                 <span>
-                  <b>{value}</b> is teaching during
-                  <b>{liveData.term}</b> and
-                  <b>{star.open}</b> out of
-                  <b>{star.all}</b>
-                  {star.all === 1 ? 'section' : 'sections'}
+                  <b>{value}</b> is teaching during <b>{liveData.term}</b> and{' '}
+                  <b>{star.open}</b> out of <b>{star.all}</b>{' '}
+                  {star.all === 1 ? 'section' : 'sections'}{' '}
                   {star.open === 1 ? 'is' : 'are'} open.
                   <ul>
                     {star.sections
@@ -311,12 +298,12 @@ class ScoreBox extends Component {
               <i className={`fa-star ml-1 ${star.open ? 'fa' : 'far'}`} />
             </PopoverTitle>
           )}
-          {isInstructor && !!this.state.currentCourses[code] && (
+          {isInstructor && Boolean(this.state.currentCourses[code]) && (
             <PopoverTitle
               title={
                 <span>
-                  <b>{results.name}</b> will teach
-                  <b>{code.replace('-', ' ')}</b> in
+                  <b>{results.name}</b> will teach{' '}
+                  <b>{code.replace('-', ' ')}</b> in{' '}
                   <b>{this.state.currentCourses[code][0].term_normalized}</b>.
                   <ul>
                     {this.state.currentCourses[code].map(data => (
@@ -389,6 +376,17 @@ class ScoreBox extends Component {
     if (liveData) {
       this.updateLiveData()
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { data, liveData } = this.props
+    if (prevProps.data !== data || prevProps.liveData !== liveData) {
+      this.generateColumns()
+    }
+  }
+
+  componentDidMount() {
+    this.generateColumns()
   }
 
   render() {
