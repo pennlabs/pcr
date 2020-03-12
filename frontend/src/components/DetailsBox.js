@@ -159,7 +159,7 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
             )}
           </div>
         </div>
-        <h3 style={{ color:'#b2b2b2', margin: '1.5em', marginBottom:'.5em' }}>
+        <h3 style={{ color: '#b2b2b2', margin: '1.5em', marginBottom: '.5em' }}>
           {isCourse
             ? 'Select an instructor to see individual sections, comments, and more details.'
             : 'Select a course to see individual sections, comments, and more details.'}
