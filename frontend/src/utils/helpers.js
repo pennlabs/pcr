@@ -1,3 +1,5 @@
+import { DEFAULT_COLUMNS } from '../constants'
+
 export const capitalize = str =>
   str.replace(/(?:^|\s)\S/g, e => e.toUpperCase())
 
@@ -6,10 +8,7 @@ export function orderColumns(cols) {
   const fixedCols = [
     'latest_semester',
     'num_semesters',
-    'rCourseQuality',
-    'rInstructorQuality',
-    'rDifficulty',
-    'rAmountLearned',
+    ...DEFAULT_COLUMNS,
   ].filter(a => colSet.has(a))
   const fixedColsSet = new Set(fixedCols)
   return fixedCols.concat(cols.filter(a => !fixedColsSet.has(a)).sort())
@@ -24,20 +23,16 @@ export function getColumnName(key) {
     .replace(/Recommend/g, 'Rec.')
 }
 
-// Compares PCR semester codes.
+// Monotonically maps semesters to integer values - later semesters have higher numbers.
+export function convertSemesterToInt(sem) {
+  if (!(typeof sem === 'string' || sem)) return 0
+  const [season = 'Spring', year = '0'] = sem.split(' ')
+  return parseInt(year) * 3 + { Spring: 0, Summer: 1, Fall: 2 }[season]
+}
+
+// Compares PCR semester codes, sorting the most recent semester first.
 export function compareSemesters(a, b) {
-  const ay = parseInt(a.split(' ')[1])
-  const by = parseInt(b.split(' ')[1])
-  const as = a.split(' ')[0]
-  const bs = b.split(' ')[0]
-
-  if (ay !== by) {
-    return by - ay
-  }
-
-  const mapping = { Fall: 'A', Summer: 'B', Spring: 'C' }
-
-  return mapping[as].localeCompare(mapping[bs])
+  return convertSemesterToInt(b) - convertSemesterToInt(a)
 }
 
 // Converts an instructor name into a unique key that should be the same for historical data and the Penn directory.

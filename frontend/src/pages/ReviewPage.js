@@ -30,7 +30,7 @@ export class ReviewPage extends Component {
       error_detail: null,
       rowCode: null,
       liveData: null,
-      selected_courses: null,
+      selectedCourses: {},
       isAverage: localStorage.getItem('meta-column-type') !== 'recent',
       showBanner:
         SHOW_RECRUITMENT_BANNER && !this.cookies.get('hide_pcr_banner'),
@@ -88,33 +88,28 @@ export class ReviewPage extends Component {
     const { type, code } = this.state
     if (type && code) {
       apiReviewData(type, code)
-        .then(result => {
-          if (result.error) {
+        .then(data => {
+          const { error, detail, name } = data
+          if (error) {
             this.setState({
-              error: result.error,
-              error_detail: result.detail,
+              error,
+              error_detail: detail,
             })
           } else {
-            this.setState({
-              data: result,
+            this.setState({ data }, () => {
+              if (type === 'instructor')
+                apiLiveInstructor(
+                  name.replace(/[^A-Za-z0-9 ]/g, '')
+                ).then(liveData => this.setState({ liveData }))
             })
-            if (this.state.type === 'instructor') {
-              apiLiveInstructor(result.name.replace(/[^A-Za-z0-9 ]/g, '')).then(
-                data => {
-                  this.setState(state => ({
-                    liveData: state.data.name === result.name ? data : null,
-                  }))
-                }
-              )
-            }
           }
         })
-        .catch(() => {
+        .catch(() =>
           this.setState({
             error:
               'Could not retrieve review information at this time. Please try again later!',
           })
-        })
+        )
     }
 
     if (type === 'course') {
@@ -148,10 +143,8 @@ export class ReviewPage extends Component {
     })
   }
 
-  showDepartmentGraph(val) {
-    this.setState({
-      selected_courses: val,
-    })
+  showDepartmentGraph(selectedCourses) {
+    this.setState({ selectedCourses })
   }
 
   static getDerivedStateFromError() {
@@ -224,7 +217,7 @@ export class ReviewPage extends Component {
       rowCode,
       liveData,
       isAverage,
-      selected_courses: selectedCourses,
+      selectedCourses,
       type,
     } = this.state
 
@@ -245,7 +238,7 @@ export class ReviewPage extends Component {
                 code={code}
                 data={data}
                 liveData={liveData}
-                selected_courses={selectedCourses}
+                selectedCourses={selectedCourses}
               />
             </div>
             <div className="col-sm-12 col-md-8 main-col">
