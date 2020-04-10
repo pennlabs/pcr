@@ -23,17 +23,19 @@ export const AuthPage = props => {
         setAuthed(true)
         setAuthFailed(false)
       } else {
+        const timestamp = new Date().getTime().toString()
         if (typeof Cookies.get(tempCookie) === 'undefined') {
-          Cookies.set(tempCookie, 'true', { expires: 1 / 1440 })
+          Cookies.set(tempCookie, timestamp, { expires: 1 / 1440 })
           redirectForAuth()
           setAuthed(false)
           setAuthFailed(false)
         } else {
+          const oldTimestamp = Cookies.get(tempCookie)
           Cookies.remove(tempCookie)
           setAuthed(false)
           setAuthFailed(true)
           window.Raven.captureMessage(
-            `Could not perform Platform authentication: ${authed}`,
+            `Could not perform Platform authentication: status ${authed} old ${oldTimestamp} current ${timestamp}`,
             { level: 'error' }
           )
         }
