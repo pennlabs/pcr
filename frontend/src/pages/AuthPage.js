@@ -32,6 +32,10 @@ export const AuthPage = props => {
           Cookies.remove(tempCookie)
           setAuthed(false)
           setAuthFailed(true)
+          window.Raven.captureMessage(
+            `Could not perform Platform authentication: ${authed}`,
+            { level: 'error' }
+          )
         }
       }
     })
