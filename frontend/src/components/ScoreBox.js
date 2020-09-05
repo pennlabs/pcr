@@ -15,7 +15,7 @@ import {
   PopoverTitle,
   ScoreTable,
 } from './common'
-
+import { PATH_TO_INSTRUCTOR, PATH_TO_COURSE } from '../constants/routes'
 import 'react-table/react-table.css'
 
 /*
@@ -261,7 +261,7 @@ class ScoreBox extends Component {
         <span>
           {isCourse && (
             <Link
-              to={`/instructor/${key}`}
+              to={PATH_TO_INSTRUCTOR(key)}
               title={`Go to ${value}`}
               className="mr-1"
               style={{ color: 'rgb(102, 146, 161)' }}
@@ -364,7 +364,7 @@ class ScoreBox extends Component {
         required: true,
         Cell: ({ value }) => (
           <center>
-            <Link to={`/course/${value}`} title={`Go to ${value}`}>
+            <Link to={PATH_TO_COURSE(value)} title={`Go to ${value}`}>
               {value}
             </Link>
           </center>

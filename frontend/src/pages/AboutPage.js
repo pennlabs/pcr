@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import withLayout from './withLayout'
 
+import { LABS_PHOTO, WEBSITE, PENN_MOBILE, API_KEY_REQUEST_FORM } from '../constants/routes'
+
 const About = () => (
   <div className="center-narrow">
     <h1>Hey there!</h1>
@@ -14,15 +16,15 @@ const About = () => (
       therefore updated this experience.
     </p>
     <p>
-      Interested in building something on the Penn Course Review API?
-      <a href="https://docs.google.com/spreadsheet/viewform?hl=en_US&formkey=dGZOZkJDaVkxdmc5QURUejAteFdBZGc6MQ#gid=0">
+      Interested in building something on the Penn Course Review API?{' '}
+      <a href={API_KEY_REQUEST_FORM}>
         Request API access
       </a>
       .
     </p>
     <p>
       Want easy access to Penn Course Review? Get the{' '}
-      <a href="https://pennlabs.org/mobile/">Penn Mobile App</a>!
+      <a href={PENN_MOBILE}>Penn Mobile App</a>!
     </p>
 
     <h1>About</h1>
@@ -33,8 +35,8 @@ const About = () => (
       guide for course selection.
     </p>
     <p>
-      PCR is developed and managed by
-      <a href="https://pennlabs.org/">Penn Labs</a>, a student developer
+      PCR is developed and managed by {' '}
+      <a href={WEBSITE}>Penn Labs</a>, a student developer
       organization on Penn’s campus.
     </p>
 
@@ -50,8 +52,8 @@ const About = () => (
     </p>
 
     <p>
-      If you want to look at courses on the go,
-      <a href="https://pennlabs.org/mobile/">PennMobile</a> is available for
+      If you want to look at courses on the go, {' '}
+      <a href={PENN_MOBILE}>PennMobile</a> is available for
       download! In the courses section, you are able to view course descriptions
       and ratings!
     </p>
@@ -65,11 +67,11 @@ const About = () => (
       <strong>Penn Labs</strong>
     </p>
 
-    <img alt="Penn Labs" src="/static/image/labs.png" style={{ width: 100 }} />
+    <img alt="Penn Labs" src={LABS_PHOTO} style={{ width: 100 }} />
 
     <h1>Questions</h1>
     <p>
-      If you have any questions, take a look at our
+      If you have any questions, take a look at our {' '}
       <Link to="faq">FAQs</Link> section.
     </p>
   </div>

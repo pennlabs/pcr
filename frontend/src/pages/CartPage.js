@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import withLayout from './withLayout'
 import { Popover } from '../components/common'
 import { getColumnName, getCartCourses } from '../utils/helpers'
+import { PATH_TO_COURSE } from '../constants/routes'
 
 import {
   DEFAULT_COLUMNS,
@@ -206,7 +207,7 @@ class Cart extends Component {
                   }`}
                 >
                   {course}
-                  <Link to={`/course/${course}`}>
+                  <Link to={PATH_TO_COURSE(course)}>
                     <i className="fa fa-link" />
                   </Link>
                   <i

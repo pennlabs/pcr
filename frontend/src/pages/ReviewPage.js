@@ -8,6 +8,7 @@ import SearchBar from '../components/SearchBar'
 import Footer from '../components/Footer'
 import { ErrorBox } from '../components/common'
 import { apiReviewData, apiLive, apiLiveInstructor } from '../utils/api'
+import { PCR_LOGO } from '../constants/routes'
 
 /**
  * Enable or disable the Penn Labs recruitment banner.
@@ -206,7 +207,7 @@ export class ReviewPage extends Component {
           )}
           <div className="col-md-12">
             <div id="title">
-              <img src="/static/image/logo.png" alt="Penn Course Review" />{' '}
+              <img src={PCR_LOGO} alt="Penn Course Review" />{' '}
               <span className="title-text">Penn Course Review</span>
             </div>
           </div>

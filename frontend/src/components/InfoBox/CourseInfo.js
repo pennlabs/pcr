@@ -3,6 +3,8 @@ import reactStringReplace from 'react-string-replace'
 import { Link } from 'react-router-dom'
 
 import { CourseDetails, Popover, PopoverTitle } from '../common'
+import { PATH_TO_COURSE, PATH_TO_INSTRUCTOR, PENN_COURSE_ALERT } from '../../constants/routes'
+
 import {
   convertInstructorName,
   convertSemesterToInt,
@@ -197,7 +199,7 @@ const Tags = ({
           {prereqs.map((a, i) => [
             i > 0 && ', ',
             <span key={i}>
-              <Link to={`/course/${a}`}>{a.replace('-', ' ')}</Link>
+              <Link to={PATH_TO_COURSE(a)}>{a.replace('-', ' ')}</Link>
             </span>,
           ])}
         </div>
@@ -211,7 +213,7 @@ const Tags = ({
               <span key={i}>
                 {i > 0 && ', '}
                 {links[item] ? (
-                  <Link to={`/instructor/${links[item]}`}>{item}</Link>
+                  <Link to={PATH_TO_INSTRUCTOR(links[item])}>{item}</Link>
                 ) : (
                   item
                 )}
@@ -288,7 +290,7 @@ export const CourseHeader = ({
           target="_blank"
           rel="noopener noreferrer"
           title="Get Alerted"
-          href={`https://penncoursealert.com/?course=${code}&source=pcr`}
+          href={`${PENN_COURSE_ALERT(code)}`}
           className="btn btn-action"
         >
           <i className="fas fa-fw fa-bell" />
@@ -300,7 +302,7 @@ export const CourseHeader = ({
         Also:{' '}
         {aliases.map((cls, i) => [
           i > 0 && ', ',
-          <Link key={cls} to={`/course/${cls}`}>
+          <Link key={cls} to={PATH_TO_COURSE(cls)}>
             {cls}
           </Link>,
         ])}
@@ -327,7 +329,7 @@ export const CourseDescription = ({ description }) => {
     description,
     /([A-Z]{2,4}[ -]\d{3})/g,
     (m, i) => (
-      <Link to={`/course/${m.replace(' ', '-')}`} key={m + i}>
+      <Link to={PATH_TO_COURSE(m.replace(' ', '-'))} key={m + i}>
         {m}
       </Link>
     )
