@@ -2,7 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import withLayout from './withLayout'
 
-import { API_KEY_REQUEST_FORM, LABS_PHOTO, WEBSITE, PENN_MOBILE } from '../constants/routes'
+import {
+  API_KEY_REQUEST_FORM,
+  LABS_PHOTO,
+  WEBSITE,
+  PENN_MOBILE,
+} from '../constants/routes'
 
 const About = () => (
   <div className="center-narrow">
@@ -17,10 +22,7 @@ const About = () => (
     </p>
     <p>
       Interested in building something on the Penn Course Review API?{' '}
-      <a href={API_KEY_REQUEST_FORM}>
-        Request API access
-      </a>
-      .
+      <a href={API_KEY_REQUEST_FORM}>Request API access</a>.
     </p>
     <p>
       Want easy access to Penn Course Review? Get the{' '}
@@ -35,9 +37,8 @@ const About = () => (
       guide for course selection.
     </p>
     <p>
-      PCR is developed and managed by {' '}
-      <a href={WEBSITE}>Penn Labs</a>, a student developer
-      organization on Penn’s campus.
+      PCR is developed and managed by <a href={WEBSITE}>Penn Labs</a>, a student
+      developer organization on Penn’s campus.
     </p>
 
     <p>
@@ -52,10 +53,9 @@ const About = () => (
     </p>
 
     <p>
-      If you want to look at courses on the go, {' '}
-      <a href={PENN_MOBILE}>PennMobile</a> is available for
-      download! In the courses section, you are able to view course descriptions
-      and ratings!
+      If you want to look at courses on the go,{' '}
+      <a href={PENN_MOBILE}>PennMobile</a> is available for download! In the
+      courses section, you are able to view course descriptions and ratings!
     </p>
     <p>
       Version 2.0 was built by Eric Wang, Cassandra Li, Rohan Menezes, Vinai
@@ -71,8 +71,8 @@ const About = () => (
 
     <h1>Questions</h1>
     <p>
-      If you have any questions, take a look at our {' '}
-      <Link to="faq">FAQs</Link> section.
+      If you have any questions, take a look at our <Link to="faq">FAQs</Link>{' '}
+      section.
     </p>
   </div>
 )

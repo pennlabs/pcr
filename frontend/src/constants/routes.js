@@ -2,7 +2,8 @@ export const EDIT_COLUMN_ICON = i => `/static/image/selectcol-${i}.svg`
 export const MAIL_TO = i => `mailto:${i}`
 export const PATH_TO_COURSE = i => `/course/${i}`
 export const PATH_TO_INSTRUCTOR = i => `/instructor/${i}`
-export const PENN_COURSE_ALERT = i => `https://penncoursealert.com/?course=${i}&source=pcr`
+export const PENN_COURSE_ALERT = i =>
+  `https://penncoursealert.com/?course=${i}&source=pcr`
 export const PROF_IMAGE_URL = i => `/static/image/prof-${i}.svg`
 
 export const API_KEY_REQUEST_FORM = `https://docs.google.com/spreadsheet/viewform?hl=en_US&formkey=dGZOZkJDaVkxdmc5QURUejAteFdBZGc6MQ#gid=0`

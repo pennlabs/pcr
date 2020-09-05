@@ -3,7 +3,11 @@ import reactStringReplace from 'react-string-replace'
 import { Link } from 'react-router-dom'
 
 import { CourseDetails, Popover, PopoverTitle } from '../common'
-import { PATH_TO_COURSE, PATH_TO_INSTRUCTOR, PENN_COURSE_ALERT } from '../../constants/routes'
+import {
+  PATH_TO_COURSE,
+  PATH_TO_INSTRUCTOR,
+  PENN_COURSE_ALERT,
+} from '../../constants/routes'
 
 import {
   convertInstructorName,

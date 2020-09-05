@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom'
 import { ColumnSelector, ScoreTable } from './common'
 import { compareSemesters, getColumnName, orderColumns } from '../utils/helpers'
 import { apiHistory } from '../utils/api'
-import { CLASS_ICON, PATH_TO_COURSE, PATH_TO_INSTRUCTOR, PROF_IMAGE_URL } from '../constants/routes'
+import {
+  CLASS_ICON,
+  PATH_TO_COURSE,
+  PATH_TO_INSTRUCTOR,
+  PROF_IMAGE_URL,
+} from '../constants/routes'
 
 /*
  * Settings objects/object generators for the columns of the DetailsBox
@@ -179,7 +184,9 @@ export const DetailsBox = forwardRef(({ course, instructor, type }, ref) => {
         <h3>
           <Link
             style={{ color: '#b2b2b2', textDecoration: 'none' }}
-            to={isCourse ? PATH_TO_INSTRUCTOR(instructor) : PATH_TO_COURSE(course)}
+            to={
+              isCourse ? PATH_TO_INSTRUCTOR(instructor) : PATH_TO_COURSE(course)
+            }
           >
             {isCourse ? name : course}
           </Link>

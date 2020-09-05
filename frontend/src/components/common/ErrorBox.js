@@ -13,7 +13,7 @@ export const ErrorBox = ({ children, detail }) => (
     <h1 style={{ fontSize: '1.5em', marginTop: 15 }}>{children}</h1>
     <small>
       {detail} If this problem persists, contact Penn Labs at{' '}
-      <a href={MAIL_TO("contact@pennlabs.org")}>contact@pennlabs.org</a>.
+      <a href={MAIL_TO('contact@pennlabs.org')}>contact@pennlabs.org</a>.
     </small>
   </div>
 )

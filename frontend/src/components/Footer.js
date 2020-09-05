@@ -10,11 +10,7 @@ const Footer = ({ style }) => (
   <div style={style} id="footer">
     <div id="footer-inner">
       <Link to="/about">About</Link> | <Link to="/faq">FAQs</Link> |{' '}
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href={FEEDBACK_AIRTABLE}
-      >
+      <a target="_blank" rel="noopener noreferrer" href={FEEDBACK_AIRTABLE}>
         Feedback
       </a>{' '}
       | <a href={getLogoutUrl()}>Logout</a>
