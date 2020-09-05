@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { getLogoutUrl } from '../utils/api'
+import { FEEDBACK_AIRTABLE, STWING_WEBSITE, WEBSITE } from '../constants/routes'
 
 /**
  * The footer of every page.
@@ -12,18 +13,18 @@ const Footer = ({ style }) => (
       <a
         target="_blank"
         rel="noopener noreferrer"
-        href="https://airtable.com/shrVygSaHDL6BswfT"
+        href={FEEDBACK_AIRTABLE}
       >
         Feedback
       </a>{' '}
       | <a href={getLogoutUrl()}>Logout</a>
       <p id="copyright">
         Made with <i style={{ color: '#F56F71' }} className="fa fa-heart" /> by{' '}
-        <a href="https://pennlabs.org">
+        <a href={WEBSITE}>
           <strong>Penn Labs</strong>
         </a>{' '}
         | Hosted by{' '}
-        <a href="https://stwing.upenn.edu/">
+        <a href={STWING_WEBSITE}>
           <strong>STWing</strong>
         </a>
       </p>

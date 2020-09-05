@@ -1,4 +1,5 @@
 import React from 'react'
+import { MAIL_TO } from '../../constants/routes'
 
 export default ({ name, contact, notes }) => (
   <div className="instructor">
@@ -7,7 +8,7 @@ export default ({ name, contact, notes }) => (
       <div>
         <p className="desc">
           Email:{' '}
-          <a href={`mailto:${contact.email}`}> {contact.email.toLowerCase()}</a>
+          <a href={MAIL_TO(contact.email)}> {contact.email.toLowerCase()}</a>
         </p>
       </div>
     )}

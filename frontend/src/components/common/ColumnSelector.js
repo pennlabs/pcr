@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
 import { DEFAULT_COLUMNS } from '../../constants'
+import { EDIT_COLUMN_ICON } from '../../constants/routes'
 import { Popover } from './Popover'
-
 /**
  * Used to select the columns that appear in a table.
  */
@@ -84,7 +84,7 @@ export class ColumnSelector extends Component {
         <img
           alt="Edit Icon"
           className="btn-image ml-2"
-          src={`/static/image/selectcol-${buttonStyle}.svg`}
+          src={EDIT_COLUMN_ICON(buttonStyle)}
         />
       </button>
     )

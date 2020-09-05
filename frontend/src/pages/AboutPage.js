@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import withLayout from './withLayout'
 
-import { LABS_PHOTO, WEBSITE, PENN_MOBILE, API_KEY_REQUEST_FORM } from '../constants/routes'
+import { API_KEY_REQUEST_FORM, LABS_PHOTO, WEBSITE, PENN_MOBILE } from '../constants/routes'
 
 const About = () => (
   <div className="center-narrow">

@@ -1,4 +1,5 @@
 import React from 'react'
+import { MAIL_TO } from '../../constants/routes'
 
 /**
  * A component that appears if an error occurs in the page.
@@ -12,7 +13,7 @@ export const ErrorBox = ({ children, detail }) => (
     <h1 style={{ fontSize: '1.5em', marginTop: 15 }}>{children}</h1>
     <small>
       {detail} If this problem persists, contact Penn Labs at{' '}
-      <a href="mailto:contact@pennlabs.org">contact@pennlabs.org</a>.
+      <a href={MAIL_TO("contact@pennlabs.org")}>contact@pennlabs.org</a>.
     </small>
   </div>
 )
