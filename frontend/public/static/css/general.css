@@ -221,17 +221,17 @@ h3 {
 }
 
 #banner {
+    z-index: 999;
     padding: 15px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     background-color: #FFC107;
-    color: white;
+    color: black;
     text-align: center;
 }
 #banner a {
-    color: white;
     font-weight: bold;
 }
 #banner .close {
