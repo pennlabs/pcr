@@ -10,9 +10,67 @@ import { ErrorBox } from '../components/common'
 import { apiReviewData, apiLive, apiLiveInstructor } from '../utils/api'
 
 /**
- * Enable or disable the Penn Labs recruitment banner.
+ * Enable or disable different banners.
  */
 const SHOW_RECRUITMENT_BANNER = false
+const SHOW_SURVEY_BANNER = true
+const SURVEY_LINK = 'https://airtable.com/shrTGx0iFbAYDfdES'
+
+const RecruitmentBanner = ({ hideBanner }) => (
+  <div id="banner">
+    <span role="img" aria-label="Party Popper Emoji">
+      🎉
+    </span>{' '}
+    <b>Want to build impactful products like Penn Course Review?</b> Join Penn
+    Labs this fall! Apply{' '}
+    <a
+      href="https://pennlabs.org/apply"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      here
+    </a>
+    !{' '}
+    <span role="img" aria-label="Party Popper Emoji">
+      🎉
+    </span>
+    <span
+      className="close"
+      onClick={e => {
+        hideBanner()
+        e.preventDefault()
+      }}
+    >
+      <i className="fa fa-times" />
+    </span>
+  </div>
+)
+
+const SurveyBanner = ({ hideSurvey }) => (
+  <div id="banner" style={{ backgroundColor: '#84B8BA' }}>
+    <span
+      className="close"
+      onClick={e => {
+        hideSurvey()
+        e.preventDefault()
+      }}
+    >
+      <i className="fa fa-times" />
+    </span>
+    <h3>
+      {' '}
+      <span role="img" aria-label="Waving Hand Emoji">
+        👋
+      </span>{' '}
+      <b>Hello there!</b> Do you have a moment?
+    </h3>
+    Please fill out a short survey to help us improve Penn Course Review{' '}
+    <a href={SURVEY_LINK} target="_blank" rel="noopener noreferrer">
+      here
+    </a>
+    !{' '}
+  </div>
+)
 
 /**
  * Represents a course, instructor, or department review page.
@@ -34,6 +92,7 @@ export class ReviewPage extends Component {
       isAverage: localStorage.getItem('meta-column-type') !== 'recent',
       showBanner:
         SHOW_RECRUITMENT_BANNER && !this.cookies.get('hide_pcr_banner'),
+      showSurvey: SHOW_SURVEY_BANNER && !this.cookies.get('hide_survey_banner'),
     }
 
     this.navigateToPage = this.navigateToPage.bind(this)
@@ -41,6 +100,8 @@ export class ReviewPage extends Component {
     this.setIsAverage = this.setIsAverage.bind(this)
     this.showRowHistory = this.showRowHistory.bind(this)
     this.showDepartmentGraph = this.showDepartmentGraph.bind(this)
+    this.hideBanner = this.hideBanner.bind(this)
+    this.hideSurvey = this.hideSurvey.bind(this)
   }
 
   componentDidMount() {
@@ -152,6 +213,20 @@ export class ReviewPage extends Component {
     this.setState({ selectedCourses })
   }
 
+  hideBanner() {
+    this.setState({ showBanner: false })
+    this.cookies.set('hide_pcr_banner', true, {
+      expires: new Date(Date.now() + 12096e5),
+    })
+  }
+
+  hideSurvey() {
+    this.setState({ showSurvey: false })
+    this.cookies.set('hide_survey_banner', true, {
+      expires: new Date(Date.now() + 12096e5),
+    })
+  }
+
   static getDerivedStateFromError() {
     return { error: 'An unknown error occured.' }
   }
@@ -173,36 +248,10 @@ export class ReviewPage extends Component {
       return (
         <div id="content" className="row">
           {this.state.showBanner && (
-            <div id="banner">
-              <span role="img" aria-label="Party Popper Emoji">
-                🎉
-              </span>{' '}
-              <b>Want to build impactful products like Penn Course Review?</b>{' '}
-              Join Penn Labs this fall! Apply{' '}
-              <a
-                href="https://pennlabs.org/apply"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                here
-              </a>
-              !{' '}
-              <span role="img" aria-label="Party Popper Emoji">
-                🎉
-              </span>
-              <span
-                className="close"
-                onClick={e => {
-                  this.setState({ showBanner: false })
-                  this.cookies.set('hide_pcr_banner', true, {
-                    expires: new Date(Date.now() + 12096e5),
-                  })
-                  e.preventDefault()
-                }}
-              >
-                <i className="fa fa-times" />
-              </span>
-            </div>
+            <RecruitmentBanner hideBanner={this.hideBanner} />
+          )}
+          {this.state.showSurvey && (
+            <SurveyBanner hideSurvey={this.hideSurvey} />
           )}
           <div className="col-md-12">
             <div id="title">
