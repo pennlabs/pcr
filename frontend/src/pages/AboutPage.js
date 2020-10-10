@@ -14,7 +14,7 @@ const About = () => (
       therefore updated this experience.
     </p>
     <p>
-      Interested in building something on the Penn Course Review API?
+      Interested in building something on the Penn Course Review API?{" "}
       <a href="https://docs.google.com/spreadsheet/viewform?hl=en_US&formkey=dGZOZkJDaVkxdmc5QURUejAteFdBZGc6MQ#gid=0">
         Request API access
       </a>
@@ -33,7 +33,7 @@ const About = () => (
       guide for course selection.
     </p>
     <p>
-      PCR is developed and managed by
+      PCR is developed and managed by{" "}
       <a href="https://pennlabs.org/">Penn Labs</a>, a student developer
       organization on Penn’s campus.
     </p>
@@ -50,7 +50,7 @@ const About = () => (
     </p>
 
     <p>
-      If you want to look at courses on the go,
+      If you want to look at courses on the go,{" "}
       <a href="https://pennlabs.org/mobile/">PennMobile</a> is available for
       download! In the courses section, you are able to view course descriptions
       and ratings!
