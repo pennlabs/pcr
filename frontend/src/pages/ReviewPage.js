@@ -64,7 +64,7 @@ const SurveyBanner = ({ hideSurvey }) => (
       </span>{' '}
       <b>Hello there!</b> Do you have a moment?
     </h3>
-    Please fill out a short survey to help us improve Penn Course Review{' '}
+    How would you describe the courses you've taken? Fill out this short survey to help us improve Penn Course Review{' '}
     <a href={SURVEY_LINK} target="_blank" rel="noopener noreferrer">
       here
     </a>
