@@ -12,8 +12,8 @@ import { apiReviewData, apiLive, apiLiveInstructor } from '../utils/api'
 /**
  * Enable or disable different banners.
  */
-const SHOW_RECRUITMENT_BANNER = false
-const SHOW_SURVEY_BANNER = true
+const SHOW_RECRUITMENT_BANNER = true
+const SHOW_SURVEY_BANNER = false
 const SURVEY_LINK = 'https://airtable.com/shrTGx0iFbAYDfdES'
 
 const RecruitmentBanner = ({ hideBanner }) => (
