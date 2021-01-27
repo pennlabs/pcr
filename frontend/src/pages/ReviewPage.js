@@ -22,7 +22,7 @@ const RecruitmentBanner = ({ hideBanner }) => (
       🎉
     </span>{' '}
     <b>Want to build impactful products like Penn Course Review?</b> Join Penn
-    Labs this fall! Apply{' '}
+    Labs this spring! Apply{' '}
     <a
       href="https://pennlabs.org/apply"
       target="_blank"
