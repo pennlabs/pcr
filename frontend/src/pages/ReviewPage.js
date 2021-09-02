@@ -12,7 +12,7 @@ import { apiReviewData, apiLive, apiLiveInstructor } from '../utils/api'
 /**
  * Enable or disable different banners.
  */
-const SHOW_RECRUITMENT_BANNER = false
+const SHOW_RECRUITMENT_BANNER = true
 const SHOW_SURVEY_BANNER = false
 const SURVEY_LINK = 'https://airtable.com/shrTGx0iFbAYDfdES'
 
@@ -22,7 +22,7 @@ const RecruitmentBanner = ({ hideBanner }) => (
       🎉
     </span>{' '}
     <b>Want to build impactful products like Penn Course Review?</b> Join Penn
-    Labs this spring! Apply{' '}
+    Labs this semester! Apply{' '}
     <a
       href="https://pennlabs.org/apply"
       target="_blank"
